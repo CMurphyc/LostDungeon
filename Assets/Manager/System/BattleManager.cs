@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class BattleManager
@@ -17,7 +19,6 @@ public class BattleManager
         local_frame = 0;
         sys = system;
     }
-
     void UpdateFrame()
     {
         UpdateLogicByFrame();
@@ -46,6 +47,25 @@ public class BattleManager
 
         //技能碰撞检测
 
+
+      
+
+        //动画帧事件检测
+
+        if (!sys._animation._AnimationController.ContainsKey(local_frame))
+        {
+            List<AnimationEventPack> temp = sys._animation._AnimationController[local_frame];
+            for (int i = 0; i <temp.Count;i++)
+            {
+                Type Func = typeof(AnimationManager);
+
+                MethodInfo method = Func.GetMethod(temp[i].EventName);
+                if (method!=null)
+                {
+                    method.Invoke(null, null);
+                }
+            }
+        }
 
         local_frame++;
     }

@@ -65,6 +65,7 @@
     <Compile Include="Assets\Components\Player\View\PlayerView.cs" />
     <Compile Include="Assets\EventHandler\EventListener.cs" />
     <Compile Include="Assets\GameMain.cs" />
+    <Compile Include="Assets\Manager\System\AnimationManager.cs" />
     <Compile Include="Assets\Manager\System\AudioManager.cs" />
     <Compile Include="Assets\Manager\System\BattleManager.cs" />
     <Compile Include="Assets\Manager\System\MapManager.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Assets\UI\TeamUp\RoomModel.cs" />
     <Compile Include="Assets\UI\TeamUp\TeamUpEvent.cs" />
     <Compile Include="Assets\UI\TeamUp\TeamUpUIEvent.cs" />
+    <Compile Include="Assets\Utils\AnimationEventType.cs" />
     <Compile Include="Assets\Utils\EventDispatcher.cs" />
     <Compile Include="Assets\Utils\Fix64.cs" />
     <Compile Include="Assets\Utils\ObjectType.cs" />

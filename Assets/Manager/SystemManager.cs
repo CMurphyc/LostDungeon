@@ -11,7 +11,7 @@ public class SystemManager
     public BattleManager _battle;
     public MapManager _map;
     public ModelManager _model;
-
+    public AnimationManager _animation;
     public SystemManager()
     {
         _battle = new BattleManager(this);
@@ -19,6 +19,7 @@ public class SystemManager
         _audio = new AudioManager();
         _map = new MapManager();
         _model = new ModelManager();
+        _animation = new AnimationManager();
     }
     
 }
