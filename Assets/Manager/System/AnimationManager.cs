@@ -6,9 +6,17 @@ using System.Collections.Generic;
 
 public class AnimationManager 
 {
+    SystemManager sys;
+    public AnimationManager(SystemManager system)
+    {
+
+        sys = system;
+    }
 
     // 触发帧号  ---- 对应List <Obj 和触发函数名>
     public Dictionary<int, List<AnimationEventPack>> _AnimationController = new Dictionary<int, List<AnimationEventPack>>();
+
+    
 
     public void  Add_AnimationEvent(int Exit_Frame,GameObject obj, string EventName)
     {

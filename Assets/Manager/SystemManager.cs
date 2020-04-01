@@ -19,7 +19,7 @@ public class SystemManager
         _audio = new AudioManager();
         _map = new MapManager();
         _model = new ModelManager();
-        _animation = new AnimationManager();
+        _animation = new AnimationManager(this);
     }
     
 }

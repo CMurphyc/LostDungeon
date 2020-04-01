@@ -60,9 +60,12 @@ public class BattleManager
                 Type Func = typeof(AnimationManager);
 
                 MethodInfo method = Func.GetMethod(temp[i].EventName);
+               
+           
                 if (method!=null)
                 {
-                    method.Invoke(null, null);
+                    string ret = (string)method.Invoke(null, new object[]{ temp[i].obj});
+                    Debug.Log("事件触发结果： " + ret);
                 }
             }
         }
