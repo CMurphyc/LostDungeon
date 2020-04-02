@@ -27,7 +27,7 @@ public class BattleManager
     }
     void UpdateLogicByFrame()
     {
-        //to do (更新显示Model层)
+        //to do (更新Model层)
 
         //人物碰撞检测
 
@@ -76,26 +76,27 @@ public class BattleManager
     void UpdateView()
     {
         HashSet<GameObject> hash = sys._pool._poolStorage[ObjectType.Player];
-        foreach (var item in hash)
+        foreach (GameObject item in hash)
         {
-            item.GetComponent<PlayerView>().RefreshView();
+  
+            item.GetComponent<PlayerView_Component>().RefreshView();
         }
 
-        hash = sys._pool._poolStorage[ObjectType.NPC];
-        foreach (var item in hash)
-        {
-            item.GetComponent<PlayerView>().RefreshView();
-        }
-        hash = sys._pool._poolStorage[ObjectType.Portol];
-        foreach (var item in hash)
-        {
-            item.GetComponent<PlayerView>().RefreshView();
-        }
-        hash = sys._pool._poolStorage[ObjectType.Projectile];
-        foreach (var item in hash)
-        {
-            item.GetComponent<PlayerView>().RefreshView();
-        }
+        //hash = sys._pool._poolStorage[ObjectType.NPC];
+        //foreach (var item in hash)
+        //{
+        //    item.GetComponent<View_Component>().RefreshView();
+        //}
+        //hash = sys._pool._poolStorage[ObjectType.Portol];
+        //foreach (var item in hash)
+        //{
+        //    item.GetComponent<View_Component>().RefreshView();
+        //}
+        //hash = sys._pool._poolStorage[ObjectType.Projectile];
+        //foreach (var item in hash)
+        //{
+        //    item.GetComponent<View_Component>().RefreshView();
+        //}
 
     }
 

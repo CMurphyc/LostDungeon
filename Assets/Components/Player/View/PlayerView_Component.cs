@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerView : MonoBehaviour
+public class PlayerView_Component : Component
 {
     public void RefreshView()
     {

@@ -62,7 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Components\Player\View\PlayerView.cs" />
+    <Compile Include="Assets\Components\Player\Model\PlayerModel_Component.cs" />
+    <Compile Include="Assets\Components\Player\View\PlayerView_Component.cs" />
     <Compile Include="Assets\EventHandler\EventListener.cs" />
     <Compile Include="Assets\GameMain.cs" />
     <Compile Include="Assets\Manager\System\AnimationManager.cs" />
