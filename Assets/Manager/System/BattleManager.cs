@@ -50,9 +50,9 @@ public class BattleManager
 
       
 
-        //动画帧事件检测
+        //动画帧事件检测触发
 
-        if (!sys._animation._AnimationController.ContainsKey(local_frame))
+        if (sys._animation._AnimationController.ContainsKey(local_frame))
         {
             List<AnimationEventPack> temp = sys._animation._AnimationController[local_frame];
             for (int i = 0; i <temp.Count;i++)

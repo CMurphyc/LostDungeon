@@ -17,7 +17,7 @@ public class SystemManager
         _battle = new BattleManager(this);
         _pool = new PoolManager();
         _audio = new AudioManager();
-        _map = new MapManager();
+        _map = new MapManager(this);
         _model = new ModelManager();
         _animation = new AnimationManager(this);
     }
