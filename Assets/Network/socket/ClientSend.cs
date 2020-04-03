@@ -46,7 +46,7 @@ public class ClientSend
             NetworkStream ns = remoteServer.GetStream();
             if (ns.CanWrite)
             {
-                ns.Write(data, 0, data.Length);
+                ns.Write(final, 0, final.Length);
             }
         }
 
