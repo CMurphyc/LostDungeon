@@ -12,6 +12,9 @@ public class EventListener : MonoBehaviour
     void Start()
     {
         main = GameObject.FindWithTag("GameEntry");
+     
+
+        EventDispatcher.Instance().RegistEventListener(EventType.UserLogin, Login);
         //EventDispatcher.Instance().RegistEventListener("Login", Login);
         //EventDispatcher.Instance().RegistEventListener("Register", Register);
         //EventDispatcher.Instance().RegistEventListener("CreateGame", CreateGame);
@@ -60,8 +63,8 @@ public class EventListener : MonoBehaviour
 
     //    main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("TeamUpUI");
 
-       
-      
+
+
     //    //for (int i = 0; i < synPack.Player.Count; i++)
     //    //{
     //    //    string username = synPack.Player[i].Playerid;
@@ -75,7 +78,7 @@ public class EventListener : MonoBehaviour
 
     //    main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
 
-       
+
     //    main.GetComponent<GameMain>().WorldSystem._model.RoomModel.RoomInfo = temp;
 
 
@@ -111,7 +114,7 @@ public class EventListener : MonoBehaviour
     //            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("TeamUpUI");
 
     //        }
-         
+
     //        //GameObject.Find("GameObject").GetComponent<TeamUpEvent>().AddItem(username,StateType.Not_Ready);
     //        print("创建房间成功");
     //    }
@@ -133,18 +136,18 @@ public class EventListener : MonoBehaviour
     //    }
     //}
 
-    //void Login(EventBase eb)
-    //{
-    //    if (bool.Parse(eb.eventValue.ToString()))
-    //    {
-    //        if (main.GetComponent<GameMain>().WorldSystem._map.GetCurrentIndex() == 0)
-    //        {
-    //            string UserName = GameObject.Find("Canvas/username").GetComponent<InputField>().text;
-    //            main.GetComponent<GameMain>().WorldSystem._model.PlayerModel.username = UserName;
-    //            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main");
+    void Login(EventBase eb)
+    {
+        //if (bool.Parse(eb.eventValue.ToString()))
+        //{
+        //    if (main.GetComponent<GameMain>().WorldSystem._map.GetCurrentIndex() == 0)
+        //    {
+        //        string UserName = GameObject.Find("Canvas/username").GetComponent<InputField>().text;
+        //        main.GetComponent<GameMain>().WorldSystem._model.PlayerModel.username = UserName;
+        //        main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main");
 
-    //        }
-    //    }
-    //}
+        //    }
+        //}
+    }
 
 }

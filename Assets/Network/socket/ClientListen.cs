@@ -163,7 +163,8 @@ public class ClientListen : MonoBehaviour
             synPack = (Login.LoginS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
             if (synPack.Succeed)
             {
-                EventDispatcher.Instance().DispatchEvent("Login", true);
+                //EventDispatcher.Instance().DispatchEvent("Login", true);
+                EventDispatcher.Instance().DispatchEvent(EventType.UserLogin, true);
             }
             else
             {
