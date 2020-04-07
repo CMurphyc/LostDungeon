@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EventType 
+public class EventMessageType
 {
     public static string UserLogin = "Login";
 

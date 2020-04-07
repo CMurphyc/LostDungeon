@@ -14,7 +14,7 @@ public class EventListener : MonoBehaviour
         main = GameObject.FindWithTag("GameEntry");
      
 
-        EventDispatcher.Instance().RegistEventListener(EventType.UserLogin, Login);
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.UserLogin, Login);
         //EventDispatcher.Instance().RegistEventListener("Login", Login);
         //EventDispatcher.Instance().RegistEventListener("Register", Register);
         //EventDispatcher.Instance().RegistEventListener("CreateGame", CreateGame);
@@ -39,8 +39,6 @@ public class EventListener : MonoBehaviour
     //void PlayerReady(EventBase eb)
     //{
     //    PlayerReadyS2C synPack = (PlayerReadyS2C)eb.eventValue;
-
-
     //    EnterRoomS2C temp = main.GetComponent<GameMain>().WorldSystem._model.RoomInfoModel.RoomInfo;
 
     //    for (int i = 0; i < temp.Player.Count;i++)

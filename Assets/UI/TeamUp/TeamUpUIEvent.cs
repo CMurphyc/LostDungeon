@@ -19,7 +19,7 @@ public class TeamUpUIEvent : MonoBehaviour
     public void OnBtnBack()
     {
         //main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
-        main.GetComponent<GameMain>().socket.sock_c2s.GetRoomListC2S();
+        //main.GetComponent<GameMain>().socket.sock_c2s.GetRoomListC2S();
         print("GetRoomList Request Send");
     }
 }

@@ -164,7 +164,7 @@ public class ClientListen : MonoBehaviour
             if (synPack.Succeed)
             {
                 //EventDispatcher.Instance().DispatchEvent("Login", true);
-                EventDispatcher.Instance().DispatchEvent(EventType.UserLogin, true);
+                EventDispatcher.Instance().DispatchEvent(EventMessageType.UserLogin, true);
             }
             else
             {
