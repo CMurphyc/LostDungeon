@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{50FFA192-B126-8894-F6A1-9F5E0FDAF63C}</ProjectGuid>
+    <ProjectGuid>{75111EBB-1E02-3377-77A1-CD86FB6D10B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -84,38 +84,51 @@
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\Editor\ETCJoystickInspector.cs" />
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\Editor\ETCMenu.cs" />
     <Compile Include="Assets\EasyTouchBundle\EasyTouchControls\Plugins\Editor\ETCTouchPadInspector.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\CustomTiledImporterAttribute.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\ICustomTiledImporter.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\ImportTiled2Unity.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\ImportTiled2Unity.Material.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\ImportTiled2Unity.Mesh.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\ImportTiled2Unity.Prefab.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\ImportTiled2Unity.Texture.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\ImportTiled2Unity.Xml.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\ImportUtils.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\SortingLayerExposedEditor.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\SpriteDepthInMapEditor.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\Tiled2UnityMenuItems.cs" />
+    <Compile Include="Assets\Tiled2Unity\Scripts\Editor\TiledAssetPostProcessor.cs" />
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/WorkSpace/Dungeon/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -307,10 +320,10 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>D:/WorkSpace/Dungeon/Assets/Network/proto/Google.Protobuf.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Assets/Network/proto/Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>D:/WorkSpace/Dungeon/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>D:/WorkSpace/Dunguon2/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -669,7 +682,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{601AD460-7921-7182-8F78-1F3B28419D18}</Project>
+      <Project>{FED5A34D-5FC3-254D-3AE2-8F65F4738848}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
   </ItemGroup>
