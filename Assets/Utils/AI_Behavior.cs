@@ -19,11 +19,12 @@ class AI_Behavior
 
     int CurrentState = 0;
     int TempState = 0;
+   
     // 配置
     public int Idle_FrameInterval = 0;
     public int Run_FrameInterval = 0;
     public int Attack_FrameInterval = 0;
-
+    public int AttackSpeedInterval = 0;
     // 需初始化
     int NextChangeStateFrame = 0;
     GameObject Boss;
@@ -58,8 +59,19 @@ class AI_Behavior
         {
             if (CurrentState != (int)AI_BehaviorType.Idle)
             {
+                //if (AttackCounter < 2)
                 CurrentState = 0;
-                NextChangeStateFrame = frame + Idle_FrameInterval;
+               
+                //if (AttackCounter < 2)
+                //{
+                 NextChangeStateFrame = frame + Idle_FrameInterval;
+               // }
+               // else
+                //{
+                //    CurrentState = (int)AI_BehaviorType.Attack;
+                //    NextChangeStateFrame = frame + AttackSpeedInterval;
+
+                //}
             }
             else
             {
@@ -70,8 +82,17 @@ class AI_Behavior
                 }
                 else
                 {
-                    CurrentState = (int)AI_BehaviorType.Run;
-                    TempState = CurrentState;
+                    //if (AttackCounter < 2)
+                    //{
+                    //    CurrentState = (int)AI_BehaviorType.Attack;
+                    //    TempState = CurrentState;
+                    //}
+                    //else
+                    {
+                       
+                        CurrentState = (int)AI_BehaviorType.Run;
+                        TempState = CurrentState;
+                    }
                 }
 
                 if (CurrentState == (int)AI_BehaviorType.Run)
@@ -83,8 +104,17 @@ class AI_Behavior
                 else if (CurrentState == (int)AI_BehaviorType.Attack)
                 {
                     Debug.Log("Attack");
+
+               
                     BossAttackLogic(frame);
+                 
                     NextChangeStateFrame = frame + Attack_FrameInterval;
+                 
+                    //else
+                    //{
+                    //    NextChangeStateFrame = frame + AttackSpeedInterval;
+
+                    //}
                 }
             }
         }

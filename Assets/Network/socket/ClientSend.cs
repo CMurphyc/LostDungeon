@@ -4,8 +4,7 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using Google.Protobuf;
-using Login;
-using Room;
+
 public class ClientSend 
 {
     TcpClient remoteServer;
@@ -30,9 +29,9 @@ public class ClientSend
     {
         byte[] init = PackConverter.intToBytes(ProtoType);
         byte[] databytes = data;
-        byte[] length_pack = PackConverter.intToBytes(databytes.Length);
+        byte[] length_pack = PackConverter.intToBytes(data.Length);
 
-
+        Debug.Log("Send Length: " +data.Length);
         byte[] final = new byte[databytes.Length + init.Length + length_pack.Length];
         //pack.CalculateSize()
 
@@ -55,19 +54,20 @@ public class ClientSend
     {
 
         LoginC2S pack = new LoginC2S();
-        pack.Username = UserName;
+       
+        pack.UserName = UserName;
         pack.Password = Passward;
-        pack.Nickname = NickName;
-        Send(pack.ToByteArray(), GeneralType.UserLogin);
+        //pack.Nickname = NickName;
+        Send(pack.ToByteArray(), GeneralType.UserRegister);
 
     }
     public void LoginC2S(string UserName, string Passward)
     {
         LoginC2S pack = new LoginC2S();
-        pack.Username = UserName;
+        pack.UserName = UserName;
         pack.Password = Passward;
-        Send(pack.ToByteArray(), GeneralType.UserRegister);
+        Send(pack.ToByteArray(), GeneralType.UserLogin);
     }
-  
+
 
 }

@@ -35,11 +35,13 @@ public class GhostAI : MonoBehaviour
 
 class Ghost_AI : AI_Behavior
 {
+    GameObject Boss;
     public Ghost_AI(GameObject obj) : base(obj)
     {
         base.Idle_FrameInterval = 120;
         base.Run_FrameInterval = 120;
         base.Attack_FrameInterval = 120;
+        Boss = obj;
     }
     public override void BossAttackLogic(int frame)
     {

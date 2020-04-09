@@ -6,3 +6,4 @@ public class Global
 
     static int FrameRate = 50;
 }
+
