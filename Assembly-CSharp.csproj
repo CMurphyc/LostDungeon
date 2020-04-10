@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Components\Boss\Boss_Rabit\AI\RabitAI.cs" />
     <Compile Include="Assets\Components\Player\Model\PlayerModel_Component.cs" />
     <Compile Include="Assets\Components\Player\View\PlayerView_Component.cs" />
     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\AdvancedExamples\AutoSelect\MultiLayerTouch.cs" />
@@ -165,7 +166,6 @@
     <Compile Include="Assets\Network\socket\ClientSend.cs" />
     <Compile Include="Assets\Network\socket\GeneralType.cs" />
     <Compile Include="Assets\Resources\Model\Boss\Boss_Ghost\GhostAI.cs" />
-    <Compile Include="Assets\Resources\Model\Boss\Boss_Rabit\RabitAI.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\CircleObject.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\GameObjectExtensions.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\GPUInstancing.cs" />
@@ -195,13 +195,11 @@
     <Compile Include="Assets\Utils\AI_Behavior.cs" />
     <Compile Include="Assets\Utils\AnimationEventType.cs" />
     <Compile Include="Assets\Utils\EventDispatcher.cs" />
-    <Compile Include="Assets\Utils\EventType.cs" />
     <Compile Include="Assets\Utils\Fix64.cs" />
+    <Compile Include="Assets\Utils\GameType.cs" />
     <Compile Include="Assets\Utils\Global.cs" />
-    <Compile Include="Assets\Utils\ObjectType.cs" />
     <Compile Include="Assets\Utils\PackConverter.cs" />
     <Compile Include="Assets\Utils\RoundBulletSystem.cs" />
-    <Compile Include="Assets\Utils\StateType.cs" />
     <None Include="Assets\Tiled2Unity\Shaders\shaDiffuseDepth-Instanced.shader" />
     <None Include="Assets\Tiled2Unity\Shaders\shaDefault.shader" />
     <None Include="Assets\Tiled2Unity\Shaders\shaDepth-Instanced.shader" />
@@ -434,6 +432,9 @@
     </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>D:/WorkSpace/Dunguon2/Assets/Network/proto/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Pathfinding.Ionic.Zip.Reduced">
+      <HintPath>D:/WorkSpace/Dunguon2/Assets/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -789,6 +790,20 @@
     <Reference Include="Boo.Lang">
       <HintPath>D:/Unity/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="AstarPathfindingProject.csproj">
+      <Project>{10A232BF-9ED8-E23C-E9E1-E76C3F81273C}</Project>
+      <Name>AstarPathfindingProject</Name>
+    </ProjectReference>
+    <ProjectReference Include="PackageToolsEditor.csproj">
+      <Project>{003AE1B7-65E6-46A7-DEB6-D94AF0420CAD}</Project>
+      <Name>PackageToolsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="AstarPathfindingProjectEditor.csproj">
+      <Project>{F54CD9F4-9A68-A16B-3FE5-DC355FEF44D9}</Project>
+      <Name>AstarPathfindingProjectEditor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

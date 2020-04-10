@@ -322,6 +322,9 @@
     <Reference Include="Google.Protobuf">
       <HintPath>D:/WorkSpace/Dunguon2/Assets/Network/proto/Google.Protobuf.dll</HintPath>
     </Reference>
+    <Reference Include="Pathfinding.Ionic.Zip.Reduced">
+      <HintPath>D:/WorkSpace/Dunguon2/Assets/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/WorkSpace/Dunguon2/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
@@ -684,6 +687,18 @@
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{FED5A34D-5FC3-254D-3AE2-8F65F4738848}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="AstarPathfindingProject.csproj">
+      <Project>{10A232BF-9ED8-E23C-E9E1-E76C3F81273C}</Project>
+      <Name>AstarPathfindingProject</Name>
+    </ProjectReference>
+    <ProjectReference Include="PackageToolsEditor.csproj">
+      <Project>{003AE1B7-65E6-46A7-DEB6-D94AF0420CAD}</Project>
+      <Name>PackageToolsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="AstarPathfindingProjectEditor.csproj">
+      <Project>{F54CD9F4-9A68-A16B-3FE5-DC355FEF44D9}</Project>
+      <Name>AstarPathfindingProjectEditor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
