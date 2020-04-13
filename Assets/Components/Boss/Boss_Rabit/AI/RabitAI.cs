@@ -67,22 +67,16 @@ public class RabitAI : MonoBehaviour
             AniList.Add(t2.AniInfo[Counter]);
         }
 
-        foreach (var item in AniList)
+        for  (int i = -0; i< AniList.Count;i++ )
         {
 
-            AnimationInfo temp = item;
-            if (temp.AnimationInterval>0)
+
+
+            AnimationInfo item = AniList[i];
+            if (item.AnimationInterval>0)
             {
-
-                //move
-
                 //初始化寻路
-                // Vector2 BossPostion
-                // Vector2 Rotation
-                // Vector2 TargetPosition
-                // float speed 
-
-                Debug.Log("Pos:  " + item.obj.transform.position);
+                //Debug.Log("Pos:  " + item.obj.transform.position);
                 item.obj.GetComponent<AIPath>().InitConfig(item.obj.transform.position, item.obj.transform.rotation, new Vector3(1.5f, 1.5f, 1.5f));
 
 
@@ -92,12 +86,16 @@ public class RabitAI : MonoBehaviour
                 Quaternion Rot;
                 item.obj.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
 
-
-
                 item.obj.transform.position = Pos;
 
 
-                temp.AnimationInterval--;
+                item.AnimationInterval--;
+
+                AniList[i] = item;
+
+
+
+                Debug.Log("Left Frame: " + item.AnimationInterval);
             }
             
 
@@ -171,7 +169,7 @@ class AI_Rabit:AI_Behavior
         AnimationInfo temp = new AnimationInfo();
         temp.obj = Boss;
         temp.AnimationInterval = Run_FrameInterval;
-        AniInfo.Add(frame, temp);
+        AniInfo.Add(frame+1, temp);
 
 
     }

@@ -491,7 +491,7 @@ namespace Pathfinding {
 			float x = position.x;
 			float y = position.y;
             string nowPos = $"Now position is {x} {y}";
-			Debug.Log(nowPos);
+			//Debug.Log(nowPos);
 			return position;
 		}
 
