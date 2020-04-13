@@ -168,6 +168,8 @@ namespace Pathfinding {
 
         protected Vector3 LocalScale;
 
+        protected float FrameRate;
+
 		/// <summary>Cached Rigidbody component</summary>
 		protected Rigidbody rigid;
 
@@ -304,11 +306,12 @@ namespace Pathfinding {
 			destination = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
 		}
 
-        public void InitConfig(Vector3 pos, Quaternion Rot, Vector3 scale)
+        public void InitConfig(Vector3 pos, Quaternion Rot, Vector3 scale, float rate)
         {
             Position = pos;
             Rotation = Rot;
             LocalScale = scale;
+            FrameRate = rate;
         }
         public  virtual void GetFramePosAndRotation(out Vector3 NextPosition, out Quaternion NextRotation)
         {
@@ -324,11 +327,22 @@ namespace Pathfinding {
             Quaternion nextRotation = new Quaternion();
             if (rigid == null && rigid2D == null && canMove)
             {
-                MovementUpdate(Time.deltaTime, out nextPosition, out nextRotation);
+                MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
             }
-
+           
             NextPosition = nextPosition;
             NextRotation = nextRotation;
+
+            if (NextPosition.x < Position.x)
+            {
+                NextRotation.y = 180;
+            }
+            else
+            {
+                NextRotation.y = 0;
+
+            }
+                  
 
         }
         /// <summary>
@@ -416,7 +430,7 @@ namespace Pathfinding {
 			if (rigid == null && rigid2D == null && canMove) {
 				Vector3 nextPosition;
 				Quaternion nextRotation;
-				MovementUpdate(Time.deltaTime, out nextPosition, out nextRotation);
+				MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
 				//FinalizeMovement(nextPosition, nextRotation);
 			}
 		}

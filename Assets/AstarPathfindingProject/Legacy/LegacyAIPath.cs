@@ -235,8 +235,8 @@ namespace Pathfinding.Legacy {
 			Debug.DrawRay(GetFeetPosition(), forward*sp, Color.cyan);
 #endif
 
-			if (Time.deltaTime > 0) {
-				sp = Mathf.Clamp(sp, 0, targetDist/(Time.deltaTime*2));
+			if ( FrameRate/1000f > 0) {
+				sp = Mathf.Clamp(sp, 0, targetDist/(FrameRate/1000f * 2));
 			}
 
 			return forward*sp;
@@ -253,7 +253,7 @@ namespace Pathfinding.Legacy {
 			Quaternion rot = Rotation;
 			Quaternion toTarget = Quaternion.LookRotation(dir);
 
-			rot = Quaternion.Slerp(rot, toTarget, turningSpeed*Time.deltaTime);
+			rot = Quaternion.Slerp(rot, toTarget, turningSpeed*  FrameRate/1000f);
 			Vector3 euler = rot.eulerAngles;
 			euler.z = 0;
 			euler.x = 0;

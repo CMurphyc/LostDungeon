@@ -3,6 +3,6 @@ using System.Collections;
 
 public class Global
 {
-    static int FrameRate = 50;
+    public static int FrameRate = 50;
 }
 

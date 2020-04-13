@@ -59,19 +59,9 @@ class AI_Behavior
         {
             if (CurrentState != (int)AI_BehaviorType.Idle)
             {
-                //if (AttackCounter < 2)
                 CurrentState = 0;
-               
-                //if (AttackCounter < 2)
-                //{
-                 NextChangeStateFrame = frame + Idle_FrameInterval;
-               // }
-               // else
-                //{
-                //    CurrentState = (int)AI_BehaviorType.Attack;
-                //    NextChangeStateFrame = frame + AttackSpeedInterval;
+                NextChangeStateFrame = frame + Idle_FrameInterval;
 
-                //}
             }
             else
             {
@@ -82,39 +72,21 @@ class AI_Behavior
                 }
                 else
                 {
-                    //if (AttackCounter < 2)
-                    //{
-                    //    CurrentState = (int)AI_BehaviorType.Attack;
-                    //    TempState = CurrentState;
-                    //}
-                    //else
-                    {
-                       
-                        CurrentState = (int)AI_BehaviorType.Run;
-                        TempState = CurrentState;
-                    }
+                    CurrentState = (int)AI_BehaviorType.Run;
+                    TempState = CurrentState;
                 }
 
                 if (CurrentState == (int)AI_BehaviorType.Run)
                 {
-                    Debug.Log("Run");
+                    //Debug.Log("Run");
                     BossRunLogic(frame);
                     NextChangeStateFrame = frame + Run_FrameInterval;
                 }
                 else if (CurrentState == (int)AI_BehaviorType.Attack)
                 {
-                    Debug.Log("Attack");
-
-               
+                    //Debug.Log("Attack");
                     BossAttackLogic(frame);
-                 
                     NextChangeStateFrame = frame + Attack_FrameInterval;
-                 
-                    //else
-                    //{
-                    //    NextChangeStateFrame = frame + AttackSpeedInterval;
-
-                    //}
                 }
             }
         }

@@ -35,7 +35,7 @@ class RoundBulletSystem
 
     // SpwanLocation 怪物中心店
     // BulletNumber 一次攻击发射的子弹数量
-    public List<BulletInfo> InitBullet(Vector2 SpwanLocation, int BulletNumber, int BulletTypeNumber, BossType BossType)
+    public List<BulletInfo> InitBullet(Vector2 SpwanLocation, int BulletNumber, int BulletTypeNumber, BossType BossType , int InitAngle)
     {
 
         List<BulletInfo> SpwanedBullet = new List<BulletInfo>();
@@ -44,7 +44,6 @@ class RoundBulletSystem
 
         float angle = 360 / BulletNumber;
 
-        int InitAngle  =Random.Range(1, 30);
 
         for (int i = 0; i < BulletNumber; i++)
         {
@@ -100,6 +99,7 @@ class RoundBulletSystem
                     }
                     break;
                 }
+
             default:
                 {
                     break;
