@@ -43,9 +43,12 @@ class RoundBulletSystem
         int BulletType = Random.Range(0, BulletTypeNumber);
 
         float angle = 360 / BulletNumber;
+
+        int InitAngle  =Random.Range(1, 30);
+
         for (int i = 0; i < BulletNumber; i++)
         {
-            float CurrentAngle = angle * i;
+            float CurrentAngle = InitAngle+ angle * i;
             //Fix64 rad = ((Fix64)CurrentAngle * Fix64.Deg2Rad);
             //float x = (float)SpwanLocation.x + (float)Fix64.Cos(rad);
             //float y = (float)SpwanLocation.y + (float)Fix64.Sin(rad);

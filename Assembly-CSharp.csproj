@@ -166,6 +166,18 @@
     <Compile Include="Assets\Network\socket\ClientSend.cs" />
     <Compile Include="Assets\Network\socket\GeneralType.cs" />
     <Compile Include="Assets\Resources\Model\Boss\Boss_Ghost\GhostAI.cs" />
+    <Compile Include="Assets\Scripts\AttackJoystick.cs" />
+    <Compile Include="Assets\Scripts\BulletModel_Component.cs" />
+    <Compile Include="Assets\Scripts\BulletType.cs" />
+    <Compile Include="Assets\Scripts\BulletView_Component.cs" />
+    <Compile Include="Assets\Scripts\CameraManager.cs" />
+    <Compile Include="Assets\Scripts\CancleJoystick.cs" />
+    <Compile Include="Assets\Scripts\MoveJoystick.cs" />
+    <Compile Include="Assets\Scripts\Skill_Config.cs" />
+    <Compile Include="Assets\Scripts\SkillArea.cs" />
+    <Compile Include="Assets\Scripts\SkillIndiactor.cs" />
+    <Compile Include="Assets\Scripts\SkillJoystick.cs" />
+    <Compile Include="Assets\Scripts\Weapons.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\CircleObject.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\GameObjectExtensions.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\GPUInstancing.cs" />
@@ -229,6 +241,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="com.unity.multiplayer-hlapi.Editor">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
@@ -244,14 +259,41 @@
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="com.unity.multiplayer-weaver.Editor">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Analytics.DataPrivacy">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.multiplayer-hlapi.Runtime">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -435,6 +477,15 @@
     </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>D:/WorkSpace/Dunguon2/Assets/Network/proto/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Editor">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.StandardEvents">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Tracker">
+      <HintPath>D:/WorkSpace/Dunguon2/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

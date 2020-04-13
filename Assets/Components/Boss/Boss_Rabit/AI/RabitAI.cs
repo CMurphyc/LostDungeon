@@ -95,7 +95,7 @@ public class RabitAI : MonoBehaviour
 
 
 
-                Debug.Log("Left Frame: " + item.AnimationInterval);
+                //Debug.Log("Left Frame: " + item.AnimationInterval);
             }
             
 
@@ -125,40 +125,62 @@ class AI_Rabit:AI_Behavior
     //子弹类型数量
     int BulletTypeNumber = 4;
 
+    
     public AI_Rabit(GameObject obj):base(obj)
     {
-        base.Idle_FrameInterval = 120;
-        base.Run_FrameInterval = 120;
-        base.Attack_FrameInterval = 60;
+        base.Idle_FrameInterval = 60;
+        base.Run_FrameInterval = 240;
+        base.Attack_FrameInterval = 150;
         Boss = obj;
     }
     public override void BossAttackLogic(int frame)
     {
-        Transform T = null;
-        int AttackInitFrame = frame + 20;
-        int AttackInitFrame2 = frame + 50;
+        int AttackRate = 30;
+        int AttackNumber = base.Attack_FrameInterval / AttackRate;
         RoundBulletSystem sys = new RoundBulletSystem();
-        List<BulletInfo>  temp=sys.InitBullet(Boss.transform.position, 12, BulletTypeNumber, BossType.BossRaibit);
-        foreach( BulletInfo item in temp)
+      
+        for (int i = 0; i < AttackNumber;i++)
         {
-            if (!bullet.ContainsKey(AttackInitFrame))
+            int AttackInitFrame = frame+i * 30 + 20;
+            Debug.Log("AttackFrame: " + AttackInitFrame);
+            List<BulletInfo> temp = sys.InitBullet(Boss.transform.position, 12, BulletTypeNumber, BossType.BossRaibit);
+            foreach (BulletInfo item in temp)
             {
-                bullet.Add(AttackInitFrame, new List<BulletInfo> { item });
-            }
-            else
-            {
-                bullet[AttackInitFrame].Add(item);
-            }
-
-            if (!bullet.ContainsKey(AttackInitFrame2))
-            {
-                bullet.Add(AttackInitFrame2, new List<BulletInfo> { item });
-            }
-            else
-            {
-                bullet[AttackInitFrame2].Add(item);
+                if (!bullet.ContainsKey(AttackInitFrame))
+                {
+                    bullet.Add(AttackInitFrame, new List<BulletInfo> { item });
+                }
+                else
+                {
+                    bullet[AttackInitFrame].Add(item);
+                }
             }
         }
+
+        //int AttackInitFrame = frame + 20;
+        //int AttackInitFrame2 = frame + 50;
+        //RoundBulletSystem sys = new RoundBulletSystem();
+        //List<BulletInfo>  temp=sys.InitBullet(Boss.transform.position, 12, BulletTypeNumber, BossType.BossRaibit);
+        //foreach( BulletInfo item in temp)
+        //{
+        //    if (!bullet.ContainsKey(AttackInitFrame))
+        //    {
+        //        bullet.Add(AttackInitFrame, new List<BulletInfo> { item });
+        //    }
+        //    else
+        //    {
+        //        bullet[AttackInitFrame].Add(item);
+        //    }
+
+        //    if (!bullet.ContainsKey(AttackInitFrame2))
+        //    {
+        //        bullet.Add(AttackInitFrame2, new List<BulletInfo> { item });
+        //    }
+        //    else
+        //    {
+        //        bullet[AttackInitFrame2].Add(item);
+        //    }
+        //}
     }
     public override void BossRunLogic(int frame)
     {
