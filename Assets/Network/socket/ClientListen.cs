@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System;
 using Google.Protobuf;
-using Room;
+
 public class ClientListen : MonoBehaviour
 {
     GameObject main;
@@ -156,15 +156,17 @@ public class ClientListen : MonoBehaviour
 
     void HandleMsg(int tag, byte[] pack , int pack_size)
     {
-        if (tag == GeneralType.UserLogin+100)
+        if (tag == GeneralType.UserLogin + 100)
         {
-            IMessage IMPlayersPack = new Login.LoginS2C();
-            Login.LoginS2C synPack = new Login.LoginS2C();
-            synPack = (Login.LoginS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            if (synPack.Succeed)
+            IMessage IMPlayersPack = new LoginS2C();
+            LoginS2C synPack = new LoginS2C();
+            synPack = (LoginS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            Debug.Log("成功");
+            if (synPack.Error==ErrorType.NullError)
             {
+                Debug.Log("成功");
                 //EventDispatcher.Instance().DispatchEvent("Login", true);
-                EventDispatcher.Instance().DispatchEvent(EventMessageType.UserLogin, true);
+               // EventDispatcher.Instance().DispatchEvent(EventMessageType.UserLogin, true);
             }
             else
             {
@@ -172,82 +174,82 @@ public class ClientListen : MonoBehaviour
                 EventDispatcher.Instance().DispatchEvent("Login", false);
             }
         }
-        else if (tag == GeneralType.UserRegister+ 100)
-        {
-            IMessage IMPlayersPack = new Login.LoginS2C();
-            Login.LoginS2C synPack = new Login.LoginS2C();
-            synPack = (Login.LoginS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            if (synPack.Succeed)
-            {
-                EventDispatcher.Instance().DispatchEvent("Register", true);
-            }
-            else
-            {
-                EventDispatcher.Instance().DispatchEvent("Register", false);
-            }
-        }
-        else if (tag == GeneralType.CreateGame + 100)
-        {
-            IMessage IMPlayersPack = new CreateRoomS2C();
-            CreateRoomS2C synPack = new CreateRoomS2C();
-            synPack = (CreateRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            
-            if (synPack.Succeed)
-            {
-                EventDispatcher.Instance().DispatchEvent("CreateGame", true);
-            }
-            else
-            {
-                EventDispatcher.Instance().DispatchEvent("CreateGame", false);
-            }
-        }
-        else if (tag == GeneralType.GetRoomList + 100)
-        {
-            IMessage IMPlayersPack = new GetRoomListS2C();
-            GetRoomListS2C synPack = new GetRoomListS2C();
-            synPack = (GetRoomListS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+        //else if (tag == GeneralType.UserRegister+ 100)
+        //{
+        //    IMessage IMPlayersPack = new Login.LoginS2C();
+        //    Login.LoginS2C synPack = new Login.LoginS2C();
+        //    synPack = (Login.LoginS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+        //    if (synPack.Succeed)
+        //    {
+        //        EventDispatcher.Instance().DispatchEvent("Register", true);
+        //    }
+        //    else
+        //    {
+        //        EventDispatcher.Instance().DispatchEvent("Register", false);
+        //    }
+        //}
+        //else if (tag == GeneralType.CreateGame + 100)
+        //{
+        //    IMessage IMPlayersPack = new CreateRoomS2C();
+        //    CreateRoomS2C synPack = new CreateRoomS2C();
+        //    synPack = (CreateRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+
+        //    if (synPack.Succeed)
+        //    {
+        //        EventDispatcher.Instance().DispatchEvent("CreateGame", true);
+        //    }
+        //    else
+        //    {
+        //        EventDispatcher.Instance().DispatchEvent("CreateGame", false);
+        //    }
+        //}
+        //else if (tag == GeneralType.GetRoomList + 100)
+        //{
+        //    IMessage IMPlayersPack = new GetRoomListS2C();
+        //    GetRoomListS2C synPack = new GetRoomListS2C();
+        //    synPack = (GetRoomListS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
 
 
-            List<RoomModel> ret_list = new List<RoomModel>();
-            for (int i = 0; i < synPack.Room.Count; i++)
-            {
-                RoomModel modelData = new RoomModel();
-                modelData.Currentsize = synPack.Room[i].Currentsize;
-                modelData.Maxsize = synPack.Room[i].Maxsize;
-                modelData.roomID = synPack.Room[i].Roomid;
-                ret_list.Add(modelData);
+        //    List<RoomModel> ret_list = new List<RoomModel>();
+        //    for (int i = 0; i < synPack.Room.Count; i++)
+        //    {
+        //        RoomModel modelData = new RoomModel();
+        //        modelData.Currentsize = synPack.Room[i].Currentsize;
+        //        modelData.Maxsize = synPack.Room[i].Maxsize;
+        //        modelData.roomID = synPack.Room[i].Roomid;
+        //        ret_list.Add(modelData);
 
-            }
-            EventDispatcher.Instance().DispatchEvent("GetRoomList", ret_list);
-        }
-        else if (tag == GeneralType.EnterRoom + 100)
-        {
+        //    }
+        //    EventDispatcher.Instance().DispatchEvent("GetRoomList", ret_list);
+        //}
+        //else if (tag == GeneralType.EnterRoom + 100)
+        //{
 
-            IMessage IMPlayersPack = new EnterRoomS2C();
-            EnterRoomS2C synPack = new EnterRoomS2C();
-            synPack = (EnterRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            //to do
+        //    IMessage IMPlayersPack = new EnterRoomS2C();
+        //    EnterRoomS2C synPack = new EnterRoomS2C();
+        //    synPack = (EnterRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+        //    //to do
 
-            
-            EventDispatcher.Instance().DispatchEvent("EnterRoom", synPack);
 
-            EventDispatcher.Instance().DispatchEvent("Enter", 0);
-        }
-        else if (tag == GeneralType.PlayerReady + 100)
-        {
-            IMessage IMPlayersPack = new PlayerReadyS2C();
-            PlayerReadyS2C synPack = new PlayerReadyS2C();
-            synPack = (PlayerReadyS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            EventDispatcher.Instance().DispatchEvent("PlayerReady", synPack);
-        }
-        else if (tag == GeneralType.RoomOwnerStart + 100)
-        {
-            IMessage IMPlayersPack = new RoomOwnerStartS2C();
-            RoomOwnerStartS2C synPack = new RoomOwnerStartS2C();
-            synPack = (RoomOwnerStartS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            EventDispatcher.Instance().DispatchEvent("RoomStart", synPack);
+        //    EventDispatcher.Instance().DispatchEvent("EnterRoom", synPack);
 
-        }
+        //    EventDispatcher.Instance().DispatchEvent("Enter", 0);
+        //}
+        //else if (tag == GeneralType.PlayerReady + 100)
+        //{
+        //    IMessage IMPlayersPack = new PlayerReadyS2C();
+        //    PlayerReadyS2C synPack = new PlayerReadyS2C();
+        //    synPack = (PlayerReadyS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+        //    EventDispatcher.Instance().DispatchEvent("PlayerReady", synPack);
+        //}
+        //else if (tag == GeneralType.RoomOwnerStart + 100)
+        //{
+        //    IMessage IMPlayersPack = new RoomOwnerStartS2C();
+        //    RoomOwnerStartS2C synPack = new RoomOwnerStartS2C();
+        //    synPack = (RoomOwnerStartS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+        //    EventDispatcher.Instance().DispatchEvent("RoomStart", synPack);
+
+        //}
 
     }
 

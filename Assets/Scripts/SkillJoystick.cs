@@ -6,6 +6,7 @@ using System;
 
 public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    private GameMain Main;
     private GameObject Cancle_Joystick;
     private GameObject Attack_Joystick;
     private Vector2 JoyStickCenter;
@@ -17,6 +18,7 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     void Start()
     {
+        //Main = GameObject.FindWithTag("GameEntry").GetComponent<GameMain>();
         Cancle_Joystick = transform.parent.Find("CancleJoystick").gameObject;
         Attack_Joystick = transform.parent.Find("AttackJoystick").gameObject;
         JoyStickCenter = transform.position;

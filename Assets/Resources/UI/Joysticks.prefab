@@ -398,7 +398,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &9052283026441773958
 MonoBehaviour:
@@ -816,6 +816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackSpeed: 0.4
+  Weapon: {fileID: 0}
   maxRadius: 50
 --- !u!1 &9052283027778939455
 GameObject:
@@ -904,3 +905,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRadius: 50
+  Player: {fileID: 0}

@@ -8,7 +8,6 @@ public class PlayerView_Component : MonoBehaviour
     void Start()
     {
         ani =GetComponent<Animator>();
-        //main = GameObject.FindWithTag("GameEntry");
     }
     void Update()
     {
@@ -17,14 +16,17 @@ public class PlayerView_Component : MonoBehaviour
     public void RefreshView()
     {
         UpdatePosition();
+        UpdateRotation();
     }
     private void UpdatePosition()
     {
-        FixVector3 FixPos=gameObject.GetComponent<PlayerModel_Component>().GetPosition();
-        Vector3 FloatPos = new Vector3((float)FixPos.x, (float)FixPos.y, (float)FixPos.z);
-        //FloatPos= main.GetComponent<GameMain>().WorldSystem._model.
+        Vector3 FloatPos = GetComponent<PlayerModel_Component>().GetPosition();
         transform.position = FloatPos;
-        CameraManager.instance.transform.position = new Vector3(FloatPos.x, FloatPos.y, -2);
+        
+    }
+    private void UpdateRotation()
+    {
+        GetComponent<SpriteRenderer>().flipX = GetComponent<PlayerModel_Component>().GetRotation();
     }
     public void Play(string animation)
     {

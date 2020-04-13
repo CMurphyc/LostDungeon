@@ -12,11 +12,13 @@ public enum SkillAreaType
 }
 public class SkillIndiactor : MonoBehaviour
 {
+    private GameMain Main;
     private Dictionary<SkillAreaType,Transform> indiactor;
     private SkillJoystick Skill_Joystick;
     private SkillAreaType areaType;
     void Start()
     {
+        //Main = GameObject.FindWithTag("GameEntry").GetComponent<GameMain>();
         indiactor = new Dictionary<SkillAreaType, Transform>();
         Skill_Joystick = transform.GetComponent<SkillJoystick>();
         Skill_Joystick.OnSkillJoystickDownEvent += OnSkillJoystickDownEvent;
@@ -48,7 +50,7 @@ public class SkillIndiactor : MonoBehaviour
         switch(areaType)
         {
             case SkillAreaType.OuterCircle_InnerCircle:
-                indiactor[areaType].position = transform.root.position;
+                indiactor[areaType].position =transform.parent.Find("MoveJoystick").GetComponent<MoveJoystick>().Player.position; 
                 break;
             default:
                 break;
@@ -78,18 +80,19 @@ public class SkillIndiactor : MonoBehaviour
             case SkillAreaType.OuterCircle_InnerCircle:
                 if (indiactor.ContainsKey(areaType))
                 {
-                    indiactor[areaType].localScale= new Vector2(0.4f, 0.4f);
-                    indiactor[areaType].GetChild(0).localScale = new Vector2(0.15f / 0.4f, 0.15f / 0.4f);
+                    indiactor[areaType].localScale= new Vector2(1,1);
+                    indiactor[areaType].GetChild(0).localScale = new Vector2(0.25f, 0.25f);
+                    indiactor[areaType].GetChild(0).localPosition = new Vector2(0,0);
                     indiactor[areaType].gameObject.SetActive(true);
                 }
                 else
                 {
-                    GameObject it = Instantiate(Resources.Load("Joysticks/Circle")) as GameObject;
-                    it.transform.localScale = new Vector2(0.4f, 0.4f);
+                    GameObject it = Instantiate(Resources.Load("Model/Player/Circle")) as GameObject;
+                    it.transform.localScale = new Vector2(1f, 1f);
                     indiactor.Add(areaType, it.transform);
-                    it = Instantiate(Resources.Load("Joysticks/Circle")) as GameObject;
+                    it = Instantiate(Resources.Load("Model/Player/Circle")) as GameObject;
                     it.transform.SetParent(indiactor[areaType]);
-                    it.transform.localScale = new Vector2(0.15f/0.4f, 0.15f/0.4f);
+                    it.transform.localScale = new Vector2(0.25f, 0.25f);
                 }
                 break;
             default:
