@@ -15,6 +15,9 @@ public class EventListener : MonoBehaviour
      
 
         EventDispatcher.Instance().RegistEventListener(EventMessageType.UserLogin, Login);
+
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.CreateGame, CreateRoom);
+      
         //EventDispatcher.Instance().RegistEventListener("Login", Login);
         //EventDispatcher.Instance().RegistEventListener("Register", Register);
         //EventDispatcher.Instance().RegistEventListener("CreateGame", CreateGame);
@@ -23,6 +26,46 @@ public class EventListener : MonoBehaviour
         //EventDispatcher.Instance().RegistEventListener("PlayerReady", PlayerReady);
         //EventDispatcher.Instance().RegistEventListener("RoomStart", RoomStart);
     }
+    void Login(EventBase eb)
+    {
+        LoginS2C temp = (LoginS2C)eb.eventValue;
+
+     
+        if (temp.LoginRet == (int)LoginS2C.Types.LoginRet.LoginSuccess)
+        {
+            string UserName = GameObject.Find("Canvas/username").GetComponent<InputField>().text;
+            main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.uid = temp.Uid;
+            main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.nickname = temp.UserName;
+            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main");
+        }
+
+
+
+    }
+
+    void CreateRoom(EventBase eb)
+    {
+        CreateRoomS2C synPack = (CreateRoomS2C)eb.eventValue;
+
+        if (synPack.Error == 0 )
+        {
+            if (synPack.Succeed)
+            {
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomid = synPack.RoomId;
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomOwnerID = 0;
+
+              
+                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect");
+
+
+                main.GetComponent<GameMain>().WorldSystem._map.InitRoomInfo();
+                
+            }
+        }
+
+    }
+
+
     //void RoomStart(EventBase eb)
     //{
     //    RoomOwnerStartS2C synPack = (RoomOwnerStartS2C)eb.eventValue;
@@ -134,18 +177,6 @@ public class EventListener : MonoBehaviour
     //    }
     //}
 
-    void Login(EventBase eb)
-    {
-        //if (bool.Parse(eb.eventValue.ToString()))
-        //{
-        //    if (main.GetComponent<GameMain>().WorldSystem._map.GetCurrentIndex() == 0)
-        //    {
-        //        string UserName = GameObject.Find("Canvas/username").GetComponent<InputField>().text;
-        //        main.GetComponent<GameMain>().WorldSystem._model.PlayerModel.username = UserName;
-        //        main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main");
 
-        //    }
-        //}
-    }
 
 }

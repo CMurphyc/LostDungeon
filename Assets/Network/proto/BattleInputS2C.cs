@@ -22,12 +22,12 @@ public static partial class BattleInputS2CReflection {
   static BattleInputS2CReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChRCYXR0bGVJbnB1dFMyQy5wcm90byIQCg5CYXR0bGVJbnB1dFMyQ2IGcHJv",
-          "dG8z"));
+          "ChRCYXR0bGVJbnB1dFMyQy5wcm90byIfCg5CYXR0bGVJbnB1dFMyQxINCgVl",
+          "cnJvchgBIAEoBWIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::BattleInputS2C), global::BattleInputS2C.Parser, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::BattleInputS2C), global::BattleInputS2C.Parser, new[]{ "Error" }, null, null, null)
         }));
   }
   #endregion
@@ -59,12 +59,24 @@ public sealed partial class BattleInputS2C : pb::IMessage<BattleInputS2C> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public BattleInputS2C(BattleInputS2C other) : this() {
+    error_ = other.error_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public BattleInputS2C Clone() {
     return new BattleInputS2C(this);
+  }
+
+  /// <summary>Field number for the "error" field.</summary>
+  public const int ErrorFieldNumber = 1;
+  private int error_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Error {
+    get { return error_; }
+    set {
+      error_ = value;
+    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -80,12 +92,14 @@ public sealed partial class BattleInputS2C : pb::IMessage<BattleInputS2C> {
     if (ReferenceEquals(other, this)) {
       return true;
     }
+    if (Error != other.Error) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
+    if (Error != 0) hash ^= Error.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -99,6 +113,10 @@ public sealed partial class BattleInputS2C : pb::IMessage<BattleInputS2C> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
+    if (Error != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(Error);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -107,6 +125,9 @@ public sealed partial class BattleInputS2C : pb::IMessage<BattleInputS2C> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
+    if (Error != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Error);
+    }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -117,6 +138,9 @@ public sealed partial class BattleInputS2C : pb::IMessage<BattleInputS2C> {
   public void MergeFrom(BattleInputS2C other) {
     if (other == null) {
       return;
+    }
+    if (other.Error != 0) {
+      Error = other.Error;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -129,6 +153,10 @@ public sealed partial class BattleInputS2C : pb::IMessage<BattleInputS2C> {
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
+        case 8: {
+          Error = input.ReadInt32();
+          break;
+        }
       }
     }
   }

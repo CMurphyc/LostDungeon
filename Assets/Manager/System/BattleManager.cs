@@ -32,7 +32,7 @@ public class BattleManager
         //人物碰撞检测
 
         //技能抛射物碰撞检测
-
+        
         //人物移动位置更新
 
         //技能抛射物移动

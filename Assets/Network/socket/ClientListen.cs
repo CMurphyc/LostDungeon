@@ -152,7 +152,6 @@ public class ClientListen : MonoBehaviour
             }
         }
     }
-   
 
     void HandleMsg(int tag, byte[] pack , int pack_size)
     {
@@ -161,19 +160,32 @@ public class ClientListen : MonoBehaviour
             IMessage IMPlayersPack = new LoginS2C();
             LoginS2C synPack = new LoginS2C();
             synPack = (LoginS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            Debug.Log("成功");
-            if (synPack.Error==ErrorType.NullError)
-            {
-                Debug.Log("成功");
-                //EventDispatcher.Instance().DispatchEvent("Login", true);
-               // EventDispatcher.Instance().DispatchEvent(EventMessageType.UserLogin, true);
-            }
-            else
-            {
-
-                EventDispatcher.Instance().DispatchEvent("Login", false);
-            }
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.UserLogin, synPack);
         }
+
+        else if (tag == GeneralType.CreateGame + 100)
+        {
+            //IMessage IMPlayersPack = new CreateRoomS2C();
+            //CreateRoomS2C synPack = new CreateRoomS2C();
+            //synPack = (CreateRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            //EventDispatcher.Instance().DispatchEvent(EventMessageType.CreateGame, synPack);
+            Debug.Log("房间数量超出限制");
+        }
+        else if (tag == 113)
+        {
+            
+            IMessage IMPlayersPack = new GetRoomInfoS2C();
+            GetRoomInfoS2C synPack = new GetRoomInfoS2C();
+            synPack = (GetRoomInfoS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.CreateGame, synPack);
+
+
+
+        }
+        
+
+
+
         //else if (tag == GeneralType.UserRegister+ 100)
         //{
         //    IMessage IMPlayersPack = new Login.LoginS2C();

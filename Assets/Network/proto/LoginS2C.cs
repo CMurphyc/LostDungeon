@@ -22,12 +22,16 @@ public static partial class LoginS2CReflection {
   static LoginS2CReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "Cg5Mb2dpblMyQy5wcm90bxoPRXJyb3JUeXBlLnByb3RvIiUKCExvZ2luUzJD",
-          "EhkKBWVycm9yGAEgASgOMgouRXJyb3JUeXBlYgZwcm90bzM="));
+          "Cg5Mb2dpblMyQy5wcm90byLJAQoITG9naW5TMkMSDQoFZXJyb3IYASABKAUS",
+          "JAoIbG9naW5SZXQYAiABKA4yEi5Mb2dpblMyQy5Mb2dpblJldBILCgN1aWQY",
+          "AyABKAUSEAoIdXNlck5hbWUYBCABKAkiaQoITG9naW5SZXQSEQoNTE9HSU5f",
+          "U1VDQ0VTUxAAEhIKDldST05HX1BBU1NXT1JEEAESEQoNTk9ORV9VU0VSTkFN",
+          "RRACEhIKDkFMUkVBRFlfT05MSU5FEAMSDwoLU0VSVkVSX0ZVTEwQBGIGcHJv",
+          "dG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { global::ErrorTypeReflection.Descriptor, },
+        new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::LoginS2C), global::LoginS2C.Parser, new[]{ "Error" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::LoginS2C), global::LoginS2C.Parser, new[]{ "Error", "LoginRet", "Uid", "UserName" }, null, new[]{ typeof(global::LoginS2C.Types.LoginRet) }, null)
         }));
   }
   #endregion
@@ -60,6 +64,9 @@ public sealed partial class LoginS2C : pb::IMessage<LoginS2C> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public LoginS2C(LoginS2C other) : this() {
     error_ = other.error_;
+    loginRet_ = other.loginRet_;
+    uid_ = other.uid_;
+    userName_ = other.userName_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -70,12 +77,45 @@ public sealed partial class LoginS2C : pb::IMessage<LoginS2C> {
 
   /// <summary>Field number for the "error" field.</summary>
   public const int ErrorFieldNumber = 1;
-  private global::ErrorType error_ = 0;
+  private int error_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public global::ErrorType Error {
+  public int Error {
     get { return error_; }
     set {
       error_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "loginRet" field.</summary>
+  public const int LoginRetFieldNumber = 2;
+  private global::LoginS2C.Types.LoginRet loginRet_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::LoginS2C.Types.LoginRet LoginRet {
+    get { return loginRet_; }
+    set {
+      loginRet_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "uid" field.</summary>
+  public const int UidFieldNumber = 3;
+  private int uid_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Uid {
+    get { return uid_; }
+    set {
+      uid_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "userName" field.</summary>
+  public const int UserNameFieldNumber = 4;
+  private string userName_ = "";
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public string UserName {
+    get { return userName_; }
+    set {
+      userName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
@@ -93,6 +133,9 @@ public sealed partial class LoginS2C : pb::IMessage<LoginS2C> {
       return true;
     }
     if (Error != other.Error) return false;
+    if (LoginRet != other.LoginRet) return false;
+    if (Uid != other.Uid) return false;
+    if (UserName != other.UserName) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -100,6 +143,9 @@ public sealed partial class LoginS2C : pb::IMessage<LoginS2C> {
   public override int GetHashCode() {
     int hash = 1;
     if (Error != 0) hash ^= Error.GetHashCode();
+    if (LoginRet != 0) hash ^= LoginRet.GetHashCode();
+    if (Uid != 0) hash ^= Uid.GetHashCode();
+    if (UserName.Length != 0) hash ^= UserName.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -115,7 +161,19 @@ public sealed partial class LoginS2C : pb::IMessage<LoginS2C> {
   public void WriteTo(pb::CodedOutputStream output) {
     if (Error != 0) {
       output.WriteRawTag(8);
-      output.WriteEnum((int) Error);
+      output.WriteInt32(Error);
+    }
+    if (LoginRet != 0) {
+      output.WriteRawTag(16);
+      output.WriteEnum((int) LoginRet);
+    }
+    if (Uid != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(Uid);
+    }
+    if (UserName.Length != 0) {
+      output.WriteRawTag(34);
+      output.WriteString(UserName);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
@@ -126,7 +184,16 @@ public sealed partial class LoginS2C : pb::IMessage<LoginS2C> {
   public int CalculateSize() {
     int size = 0;
     if (Error != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Error);
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Error);
+    }
+    if (LoginRet != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) LoginRet);
+    }
+    if (Uid != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Uid);
+    }
+    if (UserName.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(UserName);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -142,6 +209,15 @@ public sealed partial class LoginS2C : pb::IMessage<LoginS2C> {
     if (other.Error != 0) {
       Error = other.Error;
     }
+    if (other.LoginRet != 0) {
+      LoginRet = other.LoginRet;
+    }
+    if (other.Uid != 0) {
+      Uid = other.Uid;
+    }
+    if (other.UserName.Length != 0) {
+      UserName = other.UserName;
+    }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -154,12 +230,54 @@ public sealed partial class LoginS2C : pb::IMessage<LoginS2C> {
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
         case 8: {
-          error_ = (global::ErrorType) input.ReadEnum();
+          Error = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          loginRet_ = (global::LoginS2C.Types.LoginRet) input.ReadEnum();
+          break;
+        }
+        case 24: {
+          Uid = input.ReadInt32();
+          break;
+        }
+        case 34: {
+          UserName = input.ReadString();
           break;
         }
       }
     }
   }
+
+  #region Nested types
+  /// <summary>Container for nested types declared in the LoginS2C message type.</summary>
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static partial class Types {
+    public enum LoginRet {
+      /// <summary>
+      ///登录成功
+      /// </summary>
+      [pbr::OriginalName("LOGIN_SUCCESS")] LoginSuccess = 0,
+      /// <summary>
+      ///密码错误
+      /// </summary>
+      [pbr::OriginalName("WRONG_PASSWORD")] WrongPassword = 1,
+      /// <summary>
+      ///用户名不存在
+      /// </summary>
+      [pbr::OriginalName("NONE_USERNAME")] NoneUsername = 2,
+      /// <summary>
+      ///登录的账号已经在线
+      /// </summary>
+      [pbr::OriginalName("ALREADY_ONLINE")] AlreadyOnline = 3,
+      /// <summary>
+      ///服务器玩家已满
+      /// </summary>
+      [pbr::OriginalName("SERVER_FULL")] ServerFull = 4,
+    }
+
+  }
+  #endregion
 
 }
 

@@ -22,12 +22,14 @@ public static partial class RegisterS2CReflection {
   static RegisterS2CReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChFSZWdpc3RlclMyQy5wcm90bxoPRXJyb3JUeXBlLnByb3RvIigKC1JlZ2lz",
-          "dGVyUzJDEhkKBWVycm9yGAEgASgOMgouRXJyb3JUeXBlYgZwcm90bzM="));
+          "ChFSZWdpc3RlclMyQy5wcm90byKEAQoLUmVnaXN0ZXJTMkMSDQoFZXJyb3IY",
+          "ASABKAUSLQoLcmVnaXN0ZXJSZXQYAiABKA4yGC5SZWdpc3RlclMyQy5SZWdp",
+          "c3RlclJldCI3CgtSZWdpc3RlclJldBIUChBSRUdJU1RFUl9TVUNDRVNTEAAS",
+          "EgoORVhJU1RfVVNFUk5BTUUQAWIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { global::ErrorTypeReflection.Descriptor, },
+        new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::RegisterS2C), global::RegisterS2C.Parser, new[]{ "Error" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::RegisterS2C), global::RegisterS2C.Parser, new[]{ "Error", "RegisterRet" }, null, new[]{ typeof(global::RegisterS2C.Types.RegisterRet) }, null)
         }));
   }
   #endregion
@@ -60,6 +62,7 @@ public sealed partial class RegisterS2C : pb::IMessage<RegisterS2C> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public RegisterS2C(RegisterS2C other) : this() {
     error_ = other.error_;
+    registerRet_ = other.registerRet_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -70,12 +73,23 @@ public sealed partial class RegisterS2C : pb::IMessage<RegisterS2C> {
 
   /// <summary>Field number for the "error" field.</summary>
   public const int ErrorFieldNumber = 1;
-  private global::ErrorType error_ = 0;
+  private int error_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public global::ErrorType Error {
+  public int Error {
     get { return error_; }
     set {
       error_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "registerRet" field.</summary>
+  public const int RegisterRetFieldNumber = 2;
+  private global::RegisterS2C.Types.RegisterRet registerRet_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::RegisterS2C.Types.RegisterRet RegisterRet {
+    get { return registerRet_; }
+    set {
+      registerRet_ = value;
     }
   }
 
@@ -93,6 +107,7 @@ public sealed partial class RegisterS2C : pb::IMessage<RegisterS2C> {
       return true;
     }
     if (Error != other.Error) return false;
+    if (RegisterRet != other.RegisterRet) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -100,6 +115,7 @@ public sealed partial class RegisterS2C : pb::IMessage<RegisterS2C> {
   public override int GetHashCode() {
     int hash = 1;
     if (Error != 0) hash ^= Error.GetHashCode();
+    if (RegisterRet != 0) hash ^= RegisterRet.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -115,7 +131,11 @@ public sealed partial class RegisterS2C : pb::IMessage<RegisterS2C> {
   public void WriteTo(pb::CodedOutputStream output) {
     if (Error != 0) {
       output.WriteRawTag(8);
-      output.WriteEnum((int) Error);
+      output.WriteInt32(Error);
+    }
+    if (RegisterRet != 0) {
+      output.WriteRawTag(16);
+      output.WriteEnum((int) RegisterRet);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
@@ -126,7 +146,10 @@ public sealed partial class RegisterS2C : pb::IMessage<RegisterS2C> {
   public int CalculateSize() {
     int size = 0;
     if (Error != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Error);
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Error);
+    }
+    if (RegisterRet != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) RegisterRet);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -142,6 +165,9 @@ public sealed partial class RegisterS2C : pb::IMessage<RegisterS2C> {
     if (other.Error != 0) {
       Error = other.Error;
     }
+    if (other.RegisterRet != 0) {
+      RegisterRet = other.RegisterRet;
+    }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -154,12 +180,34 @@ public sealed partial class RegisterS2C : pb::IMessage<RegisterS2C> {
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
         case 8: {
-          error_ = (global::ErrorType) input.ReadEnum();
+          Error = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          registerRet_ = (global::RegisterS2C.Types.RegisterRet) input.ReadEnum();
           break;
         }
       }
     }
   }
+
+  #region Nested types
+  /// <summary>Container for nested types declared in the RegisterS2C message type.</summary>
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public static partial class Types {
+    public enum RegisterRet {
+      /// <summary>
+      ///注册成功
+      /// </summary>
+      [pbr::OriginalName("REGISTER_SUCCESS")] RegisterSuccess = 0,
+      /// <summary>
+      ///用户名已存在
+      /// </summary>
+      [pbr::OriginalName("EXIST_USERNAME")] ExistUsername = 1,
+    }
+
+  }
+  #endregion
 
 }
 

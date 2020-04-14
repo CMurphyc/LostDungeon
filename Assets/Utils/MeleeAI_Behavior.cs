@@ -85,13 +85,13 @@ class MeleeAI_Behavior
 
             if (CurrentState == (int)AI_BehaviorType.Run)
             {
-                Debug.Log("Run");
+                //Debug.Log("Run");
                 BossRunLogic(frame);
                 NextChangeStateFrame = frame + Run_FrameInterval;
             }
             else if (CurrentState == (int)AI_BehaviorType.Attack)
             {
-                Debug.Log("Attack");
+                //Debug.Log("Attack");
                 BossAttackLogic(frame);
                 NextChangeStateFrame = frame + Attack_FrameInterval;
             }

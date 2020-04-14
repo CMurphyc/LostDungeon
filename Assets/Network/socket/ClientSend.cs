@@ -69,5 +69,18 @@ public class ClientSend
         Send(pack.ToByteArray(), GeneralType.UserLogin);
     }
 
+    public void CreateRoomC2S()
+    {
+        CreateRoomC2S pack = new CreateRoomC2S();
+        Send(pack.ToByteArray(), GeneralType.CreateGame);
+    }
+
+    public void ChangeCharacter( CharacterType Type)
+    {
+        Debug.Log("Chagne Charcter");
+        //Change
+
+
+    }
 
 }

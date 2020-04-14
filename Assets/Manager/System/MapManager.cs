@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class MapManager : SceneManager
 {
@@ -20,6 +21,7 @@ public class MapManager : SceneManager
         SceneList.Add("Scenes/TeamUpUI");
         SceneList.Add("Scenes/Battle");
         SceneList.Add("Scenes/RoomList");
+        SceneList.Add("Scenes/HeroSelect");
     }
     public MapManager(SystemManager system)
     {
@@ -30,6 +32,7 @@ public class MapManager : SceneManager
         SceneList.Add("Scenes/TeamUpUI");
         SceneList.Add("Scenes/Battle");
         SceneList.Add("Scenes/RoomList");
+        SceneList.Add("Scenes/HeroSelect");
     }
 
     public void SwitchScene(string targetScene)
@@ -51,6 +54,22 @@ public class MapManager : SceneManager
     public void InitBattleScene()
     {
         
+
+
+    }
+
+
+
+    public void InitRoomInfo()
+    {
+       
+    
+
+        
+
+
+        //sys._model._RoomModule.Add_Player(1);
+
 
 
     }

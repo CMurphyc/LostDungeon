@@ -52,11 +52,11 @@ class AI_DeathKnight : MeleeAI_Behavior
     public override void BossAttackLogic(int frame)
     {
 
-        Debug.Log("Strat Attack");
+        //Debug.Log("DeathKnight Attack");
     }
     public override void BossRunLogic(int frame)
     {
-        Debug.Log("Start Run");
+        //Debug.Log("DeathKnight Run");
 
 
         Boss.GetComponent<AIPath>().InitConfig(Boss.transform.position, Boss.transform.rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);

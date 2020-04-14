@@ -29,5 +29,17 @@ public enum ObjectType
 public class EventMessageType
 {
     public static string UserLogin = "Login";
+    public static string CreateGame = "CreateGame";
+
+}
+
+public enum CharacterType
+{
+    Enginner,
+    Warrior,
+    Magician,
+
+    None
+
 
 }

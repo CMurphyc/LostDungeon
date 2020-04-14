@@ -36,13 +36,12 @@ public class RabitAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Counter += 1;
-
-        //if (Counter == 120)
-        //{
-        //    t2.Start(Counter);
-        //}
-        //t2.Update(Counter);
+        Counter += 1;
+        if (Counter == 120)
+        {
+            t2.Start(Counter);
+        }
+        t2.Update(Counter);
 
         //生成子弹
         if (t2.bullet.ContainsKey(Counter))
@@ -50,7 +49,6 @@ public class RabitAI : MonoBehaviour
             for (int i = 0; i < t2.bullet[Counter].Count;i++ )
             {
                 GameObject Bullet_Instance = Object.Instantiate(t2.bullet[Counter][i].BulletObject, t2.bullet[Counter][i].Position, t2.bullet[Counter][i].BulletObject.transform.rotation);
-
                 BulletInfo Bullet_InstanceInfo = t2.bullet[Counter][i];
                 Bullet_InstanceInfo.BulletObject = Bullet_Instance;
                 arrow.Add(Bullet_InstanceInfo);
@@ -67,7 +65,7 @@ public class RabitAI : MonoBehaviour
             AniList.Add(t2.AniInfo[Counter]);
         }
 
-        for  (int i = -0; i< AniList.Count;i++ )
+        for  (int i = 0; i< AniList.Count;i++ )
         {
 
 

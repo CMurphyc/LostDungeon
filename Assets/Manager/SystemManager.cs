@@ -18,7 +18,7 @@ public class SystemManager
         _pool = new PoolManager();
         _audio = new AudioManager();
         _map = new MapManager(this);
-        _model = new ModelManager();
+        _model = new ModelManager(this);
         _animation = new AnimationManager(this);
     }
     
