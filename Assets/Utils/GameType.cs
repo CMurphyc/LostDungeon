@@ -1,6 +1,16 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
+
+enum AI_BehaviorType
+{
+    Idle,
+    Run,
+    Attack,
+    Dead
+
+}
+
 public enum StateType
 {
     Not_Ready,

@@ -36,13 +36,13 @@ public class RabitAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Counter += 1;
+        //Counter += 1;
 
-        if (Counter == 120)
-        {
-            t2.Start(Counter);
-        }
-        t2.Update(Counter);
+        //if (Counter == 120)
+        //{
+        //    t2.Start(Counter);
+        //}
+        //t2.Update(Counter);
 
         //生成子弹
         if (t2.bullet.ContainsKey(Counter))
@@ -112,7 +112,7 @@ class AI_Rabit:AI_Behavior
 {
     //int帧数 -> 对应的所有子弹
     public Dictionary<int, List<BulletInfo>> bullet = new Dictionary<int, List<BulletInfo>>();
-
+    //人物移动帧数
     public Dictionary<int, AnimationInfo>  AniInfo= new Dictionary<int, AnimationInfo>();
     GameObject Boss;
     //子弹类型数量
@@ -198,6 +198,9 @@ class AI_Rabit:AI_Behavior
 
     }
 }
+
+
+
 
 
 enum RabitBulletEffectType

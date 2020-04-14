@@ -331,6 +331,7 @@ namespace Pathfinding {
             }
            
             NextPosition = nextPosition;
+            NextPosition.z = 0;
             NextRotation = nextRotation;
 
             if (NextPosition.x < Position.x)

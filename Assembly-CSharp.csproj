@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Components\Boss\Boss_Rabit\AI\RabitAI.cs" />
+    <Compile Include="Assets\Components\NPC\NPC_DeathKnight\AI\DeathKnightAI.cs" />
     <Compile Include="Assets\Components\Player\Model\PlayerModel_Component.cs" />
     <Compile Include="Assets\Components\Player\View\PlayerView_Component.cs" />
     <Compile Include="Assets\EasyTouchBundle\EasyTouch\Examples\4.X\AdvancedExamples\AutoSelect\MultiLayerTouch.cs" />
@@ -196,6 +197,9 @@
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TileLayer.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TileObject.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TmxObject.cs" />
+    <Compile Include="Assets\UGUIKit Flat\Content\Scripts\bl_ProgressBar.cs" />
+    <Compile Include="Assets\UGUIKit Flat\Content\Scripts\bl_ToggleSwitcher.cs" />
+    <Compile Include="Assets\UI\HeroSelect\HeroSelectUIEvent.cs" />
     <Compile Include="Assets\UI\Login\LoginEvent.cs" />
     <Compile Include="Assets\UI\Main\MainUIEvent.cs" />
     <Compile Include="Assets\UI\RoomList\RoomListEvent.cs" />
@@ -210,6 +214,7 @@
     <Compile Include="Assets\Utils\Fix64.cs" />
     <Compile Include="Assets\Utils\GameType.cs" />
     <Compile Include="Assets\Utils\Global.cs" />
+    <Compile Include="Assets\Utils\MeleeAI_Behavior.cs" />
     <Compile Include="Assets\Utils\PackConverter.cs" />
     <Compile Include="Assets\Utils\RoundBulletSystem.cs" />
     <None Include="Assets\Tiled2Unity\Shaders\shaDiffuseDepth-Instanced.shader" />
@@ -235,6 +240,7 @@
     <None Include="Assets\Tiled2Unity\Shaders\shaDepthColorKey-Instanced.shader" />
     <None Include="Assets\EasyTouchBundle\EasyTouch\RealseNotes.txt" />
     <None Include="Assets\Tiled2Unity\License.txt" />
+    <None Include="Assets\UGUIKit Flat\ReadMe.txt" />
     <None Include="Assets\EasyTouchBundle\EasyTouch\How to migrate from EasyTouch 4.X.txt" />
     <None Include="Assets\Tiled2Unity\Imported\_ReadMe.txt" />
     <None Include="Assets\Tiled2Unity\Meshes\_ReadMe.txt" />
