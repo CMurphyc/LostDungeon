@@ -37,7 +37,6 @@ public class RabitAI : MonoBehaviour
     void Update()
     {
         Counter += 1;
-
         if (Counter == 120)
         {
             t2.Start(Counter);
@@ -50,7 +49,6 @@ public class RabitAI : MonoBehaviour
             for (int i = 0; i < t2.bullet[Counter].Count;i++ )
             {
                 GameObject Bullet_Instance = Object.Instantiate(t2.bullet[Counter][i].BulletObject, t2.bullet[Counter][i].Position, t2.bullet[Counter][i].BulletObject.transform.rotation);
-
                 BulletInfo Bullet_InstanceInfo = t2.bullet[Counter][i];
                 Bullet_InstanceInfo.BulletObject = Bullet_Instance;
                 arrow.Add(Bullet_InstanceInfo);
@@ -67,7 +65,7 @@ public class RabitAI : MonoBehaviour
             AniList.Add(t2.AniInfo[Counter]);
         }
 
-        for  (int i = -0; i< AniList.Count;i++ )
+        for  (int i = 0; i< AniList.Count;i++ )
         {
 
 
@@ -112,7 +110,7 @@ class AI_Rabit:AI_Behavior
 {
     //int帧数 -> 对应的所有子弹
     public Dictionary<int, List<BulletInfo>> bullet = new Dictionary<int, List<BulletInfo>>();
-
+    //人物移动帧数
     public Dictionary<int, AnimationInfo>  AniInfo= new Dictionary<int, AnimationInfo>();
     GameObject Boss;
     //子弹类型数量
@@ -198,6 +196,9 @@ class AI_Rabit:AI_Behavior
 
     }
 }
+
+
+
 
 
 enum RabitBulletEffectType

@@ -14,59 +14,79 @@ public class RoomListEvent : MonoBehaviour
     Vector2 contentSize;
     float itemHeight;
     GameObject main;
-    void Start()
+
+    int Counter = 0;
+    private void Awake()
     {
         main = GameObject.FindWithTag("GameEntry");
+    }
+
+    void Start()
+    {
+     
         parent = GameObject.Find("Canvas/content");
         contentSize = parent.GetComponent<RectTransform>().sizeDelta;
 
         itemHeight = item.GetComponent<RectTransform>().rect.height;
         itemLocalPos = item.transform.localPosition;
 
-        //RefreshList();
-    }
-    // void RefreshList()
-    //{
-    //    List<RoomModel> temp = main.GetComponent<GameMain>().WorldSystem._model.RoomModel.RoomInfo;
      
-      
-    //    for (int i = 0; i < temp.Count; i++)
-    //    {
-    //        RoomModel item = temp[i];
-    //        string size_Str = item.Currentsize.ToString() + "/" + item.Maxsize.ToString();
-    //        AddItem(item.roomID.ToString(), size_Str);
-    //    }
-    //}
+    }
+
+    void Update()
+    {
+
+        Counter++;
+
+        if (Counter > 2 && main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.NeedUpdate)
+        {
+            RefreshWindow();
+
+        }
+
+    }
+    void RefreshWindow()
+    {
+        main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.NeedUpdate = false;
+        GetRoomListS2C temp = main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.RoomListPack;
+        for (int i = 0; i < temp.RoomsInfo.Count; i++)
+        {
+            RoomInfo item = temp.RoomsInfo[i];
+            string size_Str = item.Currentsize.ToString() + "/" + item.Maxsize.ToString();
+            AddItem(item.Roomid.ToString(), size_Str);
+        }
+    }
 
     ////添加列表项
-    //public void AddItem(string roomid, string size)
-    //{
-    //    GameObject a = Instantiate(item) as GameObject;
+    public void AddItem(string roomid, string size)
+    {
+        GameObject a = Instantiate(item) as GameObject;
 
-    //    a.transform.Find("roomid").GetComponent<Text>().text = roomid;
-    //    a.transform.Find("size").GetComponent<Text>().text = size;
-    //    a.transform.Find("Button").GetComponent<Button>().onClick.AddListener(
-    //        delegate () {
-    //            EnterRoom(a);
-    //        }
-    //    );
-    //    a.GetComponent<Transform>().SetParent(parent.GetComponent<Transform>(), false);
-    //    a.transform.localPosition = new Vector3(itemLocalPos.x, itemLocalPos.y - messages.Count * itemHeight, 0);
-    //    messages.Add(a);
+        a.transform.Find("roomid").GetComponent<Text>().text = roomid;
+        a.transform.Find("size").GetComponent<Text>().text = size;
+        a.transform.Find("Button").GetComponent<Button>().onClick.AddListener(
+            delegate ()
+            {
+                EnterRoom(a);
+            }
+        );
+        a.GetComponent<Transform>().SetParent(parent.GetComponent<Transform>(), false);
+        a.transform.localPosition = new Vector3(itemLocalPos.x, itemLocalPos.y - messages.Count * itemHeight, 0);
+        messages.Add(a);
 
-    //    if (contentSize.y <= messages.Count * itemHeight)//增加内容的高度
-    //    {
-    //        parent.GetComponent<RectTransform>().sizeDelta = new Vector2(contentSize.x, messages.Count * itemHeight);
-    //    }
-    //}
-    //public void EnterRoom(GameObject t)
-    //{
-    //    print("Enter Room Request");
-    //    string username = main.GetComponent<GameMain>().WorldSystem._model.PlayerModel.username;
-    //    //send request
-    //    int roomid = int.Parse(t.transform.Find("roomid").GetComponent<Text>().text);
-    //    main.GetComponent<GameMain>().socket.sock_c2s.EnterRoomC2S(username, roomid);
-    //}
+        if (contentSize.y <= messages.Count * itemHeight)//增加内容的高度
+        {
+            parent.GetComponent<RectTransform>().sizeDelta = new Vector2(contentSize.x, messages.Count * itemHeight);
+        }
+    }
+    public void EnterRoom(GameObject t)
+    {
+        print("Enter Room Request");
+        //string username = main.GetComponent<GameMain>().WorldSystem._model.PlayerModel.username;
+        ////send request
+        int roomid = int.Parse(t.transform.Find("roomid").GetComponent<Text>().text);
+        main.GetComponent<GameMain>().socket.sock_c2s.PlayerEnterRoom(roomid);
+    }
 
     ////移除列表项
     //public void RemoveItem(GameObject t)

@@ -7,7 +7,6 @@ using UnityEngine;
 public class SystemManager
 {
     public AudioManager _audio;
-    public PoolManager _pool;
     public BattleManager _battle;
     public MapManager _map;
     public ModelManager _model;
@@ -15,7 +14,6 @@ public class SystemManager
     public SystemManager()
     {
         _battle = new BattleManager(this);
-        _pool = new PoolManager();
         _audio = new AudioManager();
         _map = new MapManager(this);
         _model = new ModelManager();

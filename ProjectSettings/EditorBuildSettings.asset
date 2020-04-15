@@ -5,15 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LoginPanel.unity
     guid: 40a24b562fb86d442a230fe32da4c787
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: afbb0d0f2592e1b49bfae86989c4926c
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/RoomList.unity
     guid: b8a33adf7d3a4da4a90aaf3052969ecd
+  - enabled: 1
+    path: Assets/Scenes/HeroSelect.unity
+    guid: 7871c681cbd90f84d910fb000262993b
   - enabled: 0
     path: Assets/Scenes/TeamUpUI.unity
     guid: 2aa9c2f63548b314cae8a8487adc4d51

@@ -152,28 +152,65 @@ public class ClientListen : MonoBehaviour
             }
         }
     }
-   
 
     void HandleMsg(int tag, byte[] pack , int pack_size)
     {
+        Debug.Log("Tag: " + tag);
+        Debug.Log("PackSize: "+pack_size);
         if (tag == GeneralType.UserLogin + 100)
         {
             IMessage IMPlayersPack = new LoginS2C();
             LoginS2C synPack = new LoginS2C();
             synPack = (LoginS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            Debug.Log("成功");
-            if (synPack.Error==ErrorType.NullError)
-            {
-                Debug.Log("成功");
-                //EventDispatcher.Instance().DispatchEvent("Login", true);
-               // EventDispatcher.Instance().DispatchEvent(EventMessageType.UserLogin, true);
-            }
-            else
-            {
-
-                EventDispatcher.Instance().DispatchEvent("Login", false);
-            }
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.UserLogin, synPack);
         }
+
+        else if (tag == GeneralType.CreateGame + 100)
+        {
+            IMessage IMPlayersPack = new CreateRoomS2C();
+            CreateRoomS2C synPack = new CreateRoomS2C();
+            synPack = (CreateRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.CreateGame, synPack);
+
+
+        }
+        else if (tag == GeneralType.BroadCastRoomInfo)
+        {
+            
+            IMessage IMPlayersPack = new GetRoomInfoS2C();
+            GetRoomInfoS2C synPack = new GetRoomInfoS2C();
+            synPack = (GetRoomInfoS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.GetRoomInfo, synPack);
+
+        }
+        else if (tag == GeneralType.GetRoomList +100)
+        {
+
+            IMessage IMPlayersPack = new GetRoomListS2C();
+            GetRoomListS2C synPack = new GetRoomListS2C();
+            synPack = (GetRoomListS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.GetRoomList, synPack);
+        }
+        else if (tag == GeneralType.PlayerLeaveRoom +100)
+        {
+            IMessage IMPlayersPack = new LeaveRoomS2C();
+            LeaveRoomS2C synPack = new LeaveRoomS2C();
+            synPack = (LeaveRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.LeaveRoom, synPack);
+        }
+        
+        else if (tag == GeneralType.StartGame + 100)
+        {
+            IMessage IMPlayersPack = new StartGameS2C();
+            StartGameS2C synPack = new StartGameS2C();
+            synPack = (StartGameS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.StartGame, synPack);
+
+
+
+        }
+
+
         //else if (tag == GeneralType.UserRegister+ 100)
         //{
         //    IMessage IMPlayersPack = new Login.LoginS2C();

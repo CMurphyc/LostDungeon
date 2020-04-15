@@ -69,5 +69,54 @@ public class ClientSend
         Send(pack.ToByteArray(), GeneralType.UserLogin);
     }
 
+    public void CreateRoomC2S()
+    {
+        CreateRoomC2S pack = new CreateRoomC2S();
+        Send(pack.ToByteArray(), GeneralType.CreateGame);
+    }
 
+    public void ChangeCharacter( CharacterType Type)
+    {
+        Debug.Log("Chagne Charcter");
+        //Change
+        ChangeRoleC2S pack = new ChangeRoleC2S();
+        pack.Role = (Role)Type;
+        Send(pack.ToByteArray(), GeneralType.ChangeCharacter);
+
+    }
+    public void GetRoomList()
+    {
+        GetRoomListC2S pack = new GetRoomListC2S();
+        Send(pack.ToByteArray(), GeneralType.GetRoomList);
+
+
+    }
+    public void PlayerReady()
+    {
+        PlayerReadyC2S pack = new PlayerReadyC2S();
+
+        Send(pack.ToByteArray(), GeneralType.PlayerReady);
+
+    }
+
+    public void PlayerStartGame()
+    {
+        StartGameC2S pack = new StartGameC2S();
+        Send(pack.ToByteArray(), GeneralType.StartGame);
+    }
+
+    public void PlayerExitRoom()
+    {
+        LeaveRoomC2S pack = new LeaveRoomC2S();
+        Send(pack.ToByteArray(), GeneralType.PlayerLeaveRoom);
+    }
+
+    public void PlayerEnterRoom(int RoomID)
+    {
+        EnterRoomC2S pack = new EnterRoomC2S();
+        pack.RoomId = RoomID;
+        Send(pack.ToByteArray(), GeneralType.EnterRoom);
+
+
+    }
 }

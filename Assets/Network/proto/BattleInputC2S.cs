@@ -22,12 +22,14 @@ public static partial class BattleInputC2SReflection {
   static BattleInputC2SReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChRCYXR0bGVJbnB1dEMyUy5wcm90byIQCg5CYXR0bGVJbnB1dEMyU2IGcHJv",
-          "dG8z"));
+          "ChRCYXR0bGVJbnB1dEMyUy5wcm90byKIAQoOQmF0dGxlSW5wdXRDMlMSFgoO",
+          "bW92ZURpcmVjdGlvblgYASABKAUSFgoObW92ZURpcmVjdGlvblkYAiABKAUS",
+          "EgoKYXR0YWNrVHlwZRgDIAEoBRIYChBhdHRhY2tEaXJlY3Rpb25YGAQgASgF",
+          "EhgKEGF0dGFja0RpcmVjdGlvblkYBSABKAViBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::BattleInputC2S), global::BattleInputC2S.Parser, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::BattleInputC2S), global::BattleInputC2S.Parser, new[]{ "MoveDirectionX", "MoveDirectionY", "AttackType", "AttackDirectionX", "AttackDirectionY" }, null, null, null)
         }));
   }
   #endregion
@@ -59,12 +61,72 @@ public sealed partial class BattleInputC2S : pb::IMessage<BattleInputC2S> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public BattleInputC2S(BattleInputC2S other) : this() {
+    moveDirectionX_ = other.moveDirectionX_;
+    moveDirectionY_ = other.moveDirectionY_;
+    attackType_ = other.attackType_;
+    attackDirectionX_ = other.attackDirectionX_;
+    attackDirectionY_ = other.attackDirectionY_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public BattleInputC2S Clone() {
     return new BattleInputC2S(this);
+  }
+
+  /// <summary>Field number for the "moveDirectionX" field.</summary>
+  public const int MoveDirectionXFieldNumber = 1;
+  private int moveDirectionX_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int MoveDirectionX {
+    get { return moveDirectionX_; }
+    set {
+      moveDirectionX_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "moveDirectionY" field.</summary>
+  public const int MoveDirectionYFieldNumber = 2;
+  private int moveDirectionY_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int MoveDirectionY {
+    get { return moveDirectionY_; }
+    set {
+      moveDirectionY_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "attackType" field.</summary>
+  public const int AttackTypeFieldNumber = 3;
+  private int attackType_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int AttackType {
+    get { return attackType_; }
+    set {
+      attackType_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "attackDirectionX" field.</summary>
+  public const int AttackDirectionXFieldNumber = 4;
+  private int attackDirectionX_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int AttackDirectionX {
+    get { return attackDirectionX_; }
+    set {
+      attackDirectionX_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "attackDirectionY" field.</summary>
+  public const int AttackDirectionYFieldNumber = 5;
+  private int attackDirectionY_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int AttackDirectionY {
+    get { return attackDirectionY_; }
+    set {
+      attackDirectionY_ = value;
+    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -80,12 +142,22 @@ public sealed partial class BattleInputC2S : pb::IMessage<BattleInputC2S> {
     if (ReferenceEquals(other, this)) {
       return true;
     }
+    if (MoveDirectionX != other.MoveDirectionX) return false;
+    if (MoveDirectionY != other.MoveDirectionY) return false;
+    if (AttackType != other.AttackType) return false;
+    if (AttackDirectionX != other.AttackDirectionX) return false;
+    if (AttackDirectionY != other.AttackDirectionY) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
+    if (MoveDirectionX != 0) hash ^= MoveDirectionX.GetHashCode();
+    if (MoveDirectionY != 0) hash ^= MoveDirectionY.GetHashCode();
+    if (AttackType != 0) hash ^= AttackType.GetHashCode();
+    if (AttackDirectionX != 0) hash ^= AttackDirectionX.GetHashCode();
+    if (AttackDirectionY != 0) hash ^= AttackDirectionY.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -99,6 +171,26 @@ public sealed partial class BattleInputC2S : pb::IMessage<BattleInputC2S> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
+    if (MoveDirectionX != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(MoveDirectionX);
+    }
+    if (MoveDirectionY != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(MoveDirectionY);
+    }
+    if (AttackType != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(AttackType);
+    }
+    if (AttackDirectionX != 0) {
+      output.WriteRawTag(32);
+      output.WriteInt32(AttackDirectionX);
+    }
+    if (AttackDirectionY != 0) {
+      output.WriteRawTag(40);
+      output.WriteInt32(AttackDirectionY);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -107,6 +199,21 @@ public sealed partial class BattleInputC2S : pb::IMessage<BattleInputC2S> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
+    if (MoveDirectionX != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(MoveDirectionX);
+    }
+    if (MoveDirectionY != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(MoveDirectionY);
+    }
+    if (AttackType != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(AttackType);
+    }
+    if (AttackDirectionX != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(AttackDirectionX);
+    }
+    if (AttackDirectionY != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(AttackDirectionY);
+    }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -117,6 +224,21 @@ public sealed partial class BattleInputC2S : pb::IMessage<BattleInputC2S> {
   public void MergeFrom(BattleInputC2S other) {
     if (other == null) {
       return;
+    }
+    if (other.MoveDirectionX != 0) {
+      MoveDirectionX = other.MoveDirectionX;
+    }
+    if (other.MoveDirectionY != 0) {
+      MoveDirectionY = other.MoveDirectionY;
+    }
+    if (other.AttackType != 0) {
+      AttackType = other.AttackType;
+    }
+    if (other.AttackDirectionX != 0) {
+      AttackDirectionX = other.AttackDirectionX;
+    }
+    if (other.AttackDirectionY != 0) {
+      AttackDirectionY = other.AttackDirectionY;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -129,6 +251,26 @@ public sealed partial class BattleInputC2S : pb::IMessage<BattleInputC2S> {
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
+        case 8: {
+          MoveDirectionX = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          MoveDirectionY = input.ReadInt32();
+          break;
+        }
+        case 24: {
+          AttackType = input.ReadInt32();
+          break;
+        }
+        case 32: {
+          AttackDirectionX = input.ReadInt32();
+          break;
+        }
+        case 40: {
+          AttackDirectionY = input.ReadInt32();
+          break;
+        }
       }
     }
   }

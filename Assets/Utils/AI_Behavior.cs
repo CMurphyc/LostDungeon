@@ -3,14 +3,6 @@ using System.Collections;
 
 
 
-enum AI_BehaviorType
-{
-    Idle,
-    Run,
-    Attack,
-    Dead
-
-}
 //使用说明 
 //1.先Start()
 //2.再Update()
