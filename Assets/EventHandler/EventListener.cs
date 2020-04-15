@@ -17,7 +17,9 @@ public class EventListener : MonoBehaviour
         EventDispatcher.Instance().RegistEventListener(EventMessageType.UserLogin, Login);
 
         EventDispatcher.Instance().RegistEventListener(EventMessageType.CreateGame, CreateRoom);
-      
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.GetRoomInfo, GetRoomInfo);
+
+    
         //EventDispatcher.Instance().RegistEventListener("Login", Login);
         //EventDispatcher.Instance().RegistEventListener("Register", Register);
         //EventDispatcher.Instance().RegistEventListener("CreateGame", CreateGame);
@@ -26,6 +28,36 @@ public class EventListener : MonoBehaviour
         //EventDispatcher.Instance().RegistEventListener("PlayerReady", PlayerReady);
         //EventDispatcher.Instance().RegistEventListener("RoomStart", RoomStart);
     }
+
+
+    void GetRoomInfo(EventBase eb)
+    {
+        GetRoomInfoS2C synPack = (GetRoomInfoS2C)eb.eventValue; 
+
+        if (synPack.Error==0)
+        {
+            
+            main.GetComponent<GameMain>().WorldSystem._model._RoomModule.RemoveAllPlayer();
+            
+            main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomid = synPack.RoomId;
+
+            main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomOwnerID = synPack.RoomOwnerId;
+          
+            for (int i = 0; i < synPack.PlayersInfo.Count;i++)
+            {
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.Add_Player(synPack.PlayersInfo[i]);
+
+
+            }
+            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect");
+
+
+            main.GetComponent<GameMain>().WorldSystem._map.RefreshRoomInfo();
+        }
+
+
+    }
+
     void Login(EventBase eb)
     {
         LoginS2C temp = (LoginS2C)eb.eventValue;
@@ -51,15 +83,11 @@ public class EventListener : MonoBehaviour
         {
             if (synPack.Succeed)
             {
-                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomid = synPack.RoomId;
-                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomOwnerID = 0;
-
-              
-                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect");
-
-
-                main.GetComponent<GameMain>().WorldSystem._map.InitRoomInfo();
-                
+                Debug.Log("创建房间成功");
+            }
+            else
+            {
+                Debug.Log("房间数量超出限制");
             }
         }
 

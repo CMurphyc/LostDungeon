@@ -30,7 +30,7 @@ public class EventMessageType
 {
     public static string UserLogin = "Login";
     public static string CreateGame = "CreateGame";
-
+    public static string GetRoomInfo = "GetRoomInfo";
 }
 
 public enum CharacterType

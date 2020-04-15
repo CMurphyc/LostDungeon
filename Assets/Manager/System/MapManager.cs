@@ -60,17 +60,48 @@ public class MapManager : SceneManager
 
 
 
-    public void InitRoomInfo()
+    public void RefreshRoomInfo()
     {
-       
-    
+        Debug.Log("Refresh UI .......");
 
-        
+        for (int i = 0; i < sys._model._RoomModule.PlayerList.Count; i++)
+        {
+            GameObject Character = GameObject.Find("Canvas/Player" + (i + 1).ToString() + "/Character");
 
+            if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Enginner)
+            {
+                Character.GetComponent<Text>().text = "工程师";
+            }
+            else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Warrior)
+            {
+                Character.GetComponent<Text>().text = "圣骑士";
+            }
+            else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Magician)
+            {
+                Character.GetComponent<Text>().text = "元素使";
+            }
 
-        //sys._model._RoomModule.Add_Player(1);
+            GameObject username = GameObject.Find("Canvas/Player" + (i + 1).ToString() + "/name");
 
+            username.GetComponent<Text>().text = sys._model._RoomModule.PlayerList[i].uid.ToString();
 
+            GameObject status = GameObject.Find("Canvas/Player" + (i + 1).ToString() + "/status");
+            if  (sys._model._RoomModule.PlayerList[i].ready)
+            {
+                status.GetComponent<Text>().text = "已准备";
+            }
+            else
+            {
+                status.GetComponent<Text>().text = "未准备";
+            }
+            if (sys._model._RoomModule.PlayerList[i].uid == sys._model._RoomModule.roomOwnerID)
+            {
+                status.GetComponent<Text>().text = "";
+            }
+
+        }
+
+ 
 
     }
 

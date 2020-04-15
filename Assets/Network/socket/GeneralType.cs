@@ -7,7 +7,7 @@ public class GeneralType
     public static int CreateGame = 10;
 
 
-
+    public static int BroadCastRoomInfo = 113;
 
     public static int GetRoomList = 4;
     public static int EnterRoom = 5;

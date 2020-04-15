@@ -22,14 +22,14 @@ public static partial class GetRoomInfoS2CReflection {
   static GetRoomInfoS2CReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChRHZXRSb29tSW5mb1MyQy5wcm90bxoQUGxheWVySW5mby5wcm90byJnCg5H",
+          "ChRHZXRSb29tSW5mb1MyQy5wcm90bxoQUGxheWVySW5mby5wcm90byJ3Cg5H",
           "ZXRSb29tSW5mb1MyQxINCgVlcnJvchgBIAEoBRIPCgdzdWNjZWVkGAIgASgI",
-          "EhMKC3Jvb21Pd25lcklkGAMgASgFEiAKC3BsYXllcnNJbmZvGAQgAygLMgsu",
-          "UGxheWVySW5mb2IGcHJvdG8z"));
+          "Eg4KBnJvb21JZBgDIAEoBRITCgtyb29tT3duZXJJZBgEIAEoBRIgCgtwbGF5",
+          "ZXJzSW5mbxgFIAMoCzILLlBsYXllckluZm9iBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { global::PlayerInfoReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::GetRoomInfoS2C), global::GetRoomInfoS2C.Parser, new[]{ "Error", "Succeed", "RoomOwnerId", "PlayersInfo" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::GetRoomInfoS2C), global::GetRoomInfoS2C.Parser, new[]{ "Error", "Succeed", "RoomId", "RoomOwnerId", "PlayersInfo" }, null, null, null)
         }));
   }
   #endregion
@@ -63,6 +63,7 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
   public GetRoomInfoS2C(GetRoomInfoS2C other) : this() {
     error_ = other.error_;
     succeed_ = other.succeed_;
+    roomId_ = other.roomId_;
     roomOwnerId_ = other.roomOwnerId_;
     playersInfo_ = other.playersInfo_.Clone();
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -95,8 +96,19 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
     }
   }
 
+  /// <summary>Field number for the "roomId" field.</summary>
+  public const int RoomIdFieldNumber = 3;
+  private int roomId_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int RoomId {
+    get { return roomId_; }
+    set {
+      roomId_ = value;
+    }
+  }
+
   /// <summary>Field number for the "roomOwnerId" field.</summary>
-  public const int RoomOwnerIdFieldNumber = 3;
+  public const int RoomOwnerIdFieldNumber = 4;
   private int roomOwnerId_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int RoomOwnerId {
@@ -107,9 +119,9 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
   }
 
   /// <summary>Field number for the "playersInfo" field.</summary>
-  public const int PlayersInfoFieldNumber = 4;
+  public const int PlayersInfoFieldNumber = 5;
   private static readonly pb::FieldCodec<global::PlayerInfo> _repeated_playersInfo_codec
-      = pb::FieldCodec.ForMessage(34, global::PlayerInfo.Parser);
+      = pb::FieldCodec.ForMessage(42, global::PlayerInfo.Parser);
   private readonly pbc::RepeatedField<global::PlayerInfo> playersInfo_ = new pbc::RepeatedField<global::PlayerInfo>();
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public pbc::RepeatedField<global::PlayerInfo> PlayersInfo {
@@ -131,6 +143,7 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
     }
     if (Error != other.Error) return false;
     if (Succeed != other.Succeed) return false;
+    if (RoomId != other.RoomId) return false;
     if (RoomOwnerId != other.RoomOwnerId) return false;
     if(!playersInfo_.Equals(other.playersInfo_)) return false;
     return Equals(_unknownFields, other._unknownFields);
@@ -141,6 +154,7 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
     int hash = 1;
     if (Error != 0) hash ^= Error.GetHashCode();
     if (Succeed != false) hash ^= Succeed.GetHashCode();
+    if (RoomId != 0) hash ^= RoomId.GetHashCode();
     if (RoomOwnerId != 0) hash ^= RoomOwnerId.GetHashCode();
     hash ^= playersInfo_.GetHashCode();
     if (_unknownFields != null) {
@@ -164,8 +178,12 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
       output.WriteRawTag(16);
       output.WriteBool(Succeed);
     }
-    if (RoomOwnerId != 0) {
+    if (RoomId != 0) {
       output.WriteRawTag(24);
+      output.WriteInt32(RoomId);
+    }
+    if (RoomOwnerId != 0) {
+      output.WriteRawTag(32);
       output.WriteInt32(RoomOwnerId);
     }
     playersInfo_.WriteTo(output, _repeated_playersInfo_codec);
@@ -182,6 +200,9 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
     }
     if (Succeed != false) {
       size += 1 + 1;
+    }
+    if (RoomId != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomId);
     }
     if (RoomOwnerId != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomOwnerId);
@@ -203,6 +224,9 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
     }
     if (other.Succeed != false) {
       Succeed = other.Succeed;
+    }
+    if (other.RoomId != 0) {
+      RoomId = other.RoomId;
     }
     if (other.RoomOwnerId != 0) {
       RoomOwnerId = other.RoomOwnerId;
@@ -228,10 +252,14 @@ public sealed partial class GetRoomInfoS2C : pb::IMessage<GetRoomInfoS2C> {
           break;
         }
         case 24: {
+          RoomId = input.ReadInt32();
+          break;
+        }
+        case 32: {
           RoomOwnerId = input.ReadInt32();
           break;
         }
-        case 34: {
+        case 42: {
           playersInfo_.AddEntriesFrom(input, _repeated_playersInfo_codec);
           break;
         }

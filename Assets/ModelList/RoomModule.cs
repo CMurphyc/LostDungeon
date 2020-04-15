@@ -4,46 +4,81 @@ using System.Collections.Generic;
 
 public class RoomModule 
 {
-    ModelManager sys;
-    public RoomModule(ModelManager system)
+    ModelManager model;
+    public RoomModule(ModelManager parent)
     {
-        sys = system;
+        model = parent;
     }
 
     public int roomid;
 
     public int roomOwnerID;
-    List<PlayerData> PlayerList = new List<PlayerData> { new PlayerData{ }, new PlayerData { }, new PlayerData { }, new PlayerData { } };
+    public List<PlayerData> PlayerList = new List<PlayerData> { new PlayerData{ }, new PlayerData { }, new PlayerData { }, new PlayerData { } };
 
     List<GameObject> PlayerAnimation = new List<GameObject>();
 
-    public void Add_Player(int uid, string nickName)
+
+    public void RemoveAllPlayer()
+    {
+        for (int i = 0; i < PlayerList.Count; i++)
+        {
+            if (!PlayerList[i].empty )
+            {
+                PlayerData temp = PlayerList[i];
+                temp.empty = true;
+                temp.uid = 0;
+                temp.ready = false;
+                Object.Destroy(temp.obj);
+                temp.obj = null;
+                PlayerList[i] = temp;
+               
+
+            }
+        }
+         PlayerAnimation.RemoveAll(it=> PlayerAnimation.Contains(it));
+    }
+
+
+    public void Add_Player(PlayerInfo playerinfo)
     {
         for (int i = 0; i < PlayerList.Count;i++)
         {
             if (PlayerList[i].empty)
             {
+             
                 PlayerData temp = PlayerList[i];
-                temp.uid = uid;
-                temp.ready = false;
-                temp.type = CharacterType.Enginner;
-
+                temp.uid = playerinfo.PlayerId;
+                temp.ready = playerinfo.IsReady;
+                temp.type = (CharacterType)playerinfo.Role;
+                temp.empty = false;
                 PlayerList[i] = temp;
+                GameObject Animation_Prefab;
+                if (temp.type == CharacterType.Enginner)
+                {
+                    Animation_Prefab = (GameObject)Resources.Load("Resources/Model/Player/Prefab/Engineer");
+                }
+                else if (temp.type == CharacterType.Warrior)
+                {
+                    Animation_Prefab = (GameObject)Resources.Load("Resources/Model/Player/Prefab/Guardian");
+                }
+                else
+                {
+                    Animation_Prefab = (GameObject)Resources.Load("Resources/Model/Player/Prefab/Magician");
+                }
 
-                GameObject Enginner_Prefab = (GameObject)Resources.Load("Resources/Model/Player/Prefab/Engineer");
-                Enginner_Prefab.transform.localScale = new Vector3(400, 400, 1);
-                Enginner_Prefab.transform.position = Global.PlayerPosList[0];
-                GameObject Enginner_Instance = Object.Instantiate(Enginner_Prefab);
+                Animation_Prefab.transform.localScale = new Vector3(400, 400, 1);
+                Animation_Prefab.transform.position = Global.PlayerPosList[(int)temp.type];
+                GameObject Enginner_Instance = Object.Instantiate(Animation_Prefab);
                 PlayerAnimation.Add(Enginner_Instance);
 
 
+                Debug.Log("PlayerUid: " + temp.uid);
+                Debug.Log("PlayerReady: " + temp.ready);
+                Debug.Log("PlayerType: " + temp.type);
                 //UI
                 //NickName
                 //Character
                 //Ready
-
-
-
 
                 break;
             }

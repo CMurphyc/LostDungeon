@@ -155,6 +155,8 @@ public class ClientListen : MonoBehaviour
 
     void HandleMsg(int tag, byte[] pack , int pack_size)
     {
+        Debug.Log("Tag: " + tag);
+        Debug.Log("PackSize: "+pack_size);
         if (tag == GeneralType.UserLogin + 100)
         {
             IMessage IMPlayersPack = new LoginS2C();
@@ -165,19 +167,20 @@ public class ClientListen : MonoBehaviour
 
         else if (tag == GeneralType.CreateGame + 100)
         {
-            //IMessage IMPlayersPack = new CreateRoomS2C();
-            //CreateRoomS2C synPack = new CreateRoomS2C();
-            //synPack = (CreateRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            //EventDispatcher.Instance().DispatchEvent(EventMessageType.CreateGame, synPack);
-            Debug.Log("房间数量超出限制");
+            IMessage IMPlayersPack = new CreateRoomS2C();
+            CreateRoomS2C synPack = new CreateRoomS2C();
+            synPack = (CreateRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.CreateGame, synPack);
+
+
         }
-        else if (tag == 113)
+        else if (tag == GeneralType.BroadCastRoomInfo)
         {
             
             IMessage IMPlayersPack = new GetRoomInfoS2C();
             GetRoomInfoS2C synPack = new GetRoomInfoS2C();
             synPack = (GetRoomInfoS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            EventDispatcher.Instance().DispatchEvent(EventMessageType.CreateGame, synPack);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.GetRoomInfo, synPack);
 
 
 
