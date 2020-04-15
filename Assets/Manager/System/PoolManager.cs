@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
+public struct PlayerObjInfo
+{
+    int uid;
+    GameObject obj;
+}
+
  public class PoolManager 
 {
 
@@ -11,6 +18,7 @@ using UnityEngine;
     //当前所有玩家所在的房间
     public HashSet<int> LiveRoom;
 
+    public Dictionary<int, List<PlayerObjInfo>> RoomToPlayer;
     //房间号-怪物列表
     public Dictionary<int, List<GameObject>> RoomToMonster;
 
@@ -43,40 +51,5 @@ using UnityEngine;
         doorToDoor = new Dictionary<int, int>();
         DoorToRoom = new Dictionary<int, int>();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //void Add_Object ( GameObject obj, ObjectType obj_type)
-    //{
-    //    if (_poolStorage.ContainsKey(obj_type))
-    //    {
-    //        _poolStorage[obj_type].Add(obj);
-    //    }
-    //    else
-    //    {
-    //        HashSet<GameObject> New_Add = new HashSet<GameObject>();
-    //        New_Add.Add(obj);
-    //        _poolStorage.Add(obj_type, New_Add);
-    //    }
-    //}
-
-
-    //void Release_Object()
-    //{
-    //    _poolStorage.Clear();
-    //}
 
 }

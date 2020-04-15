@@ -148,6 +148,10 @@
     <Compile Include="Assets\Manager\System\AnimationManager.cs" />
     <Compile Include="Assets\Manager\System\AudioManager.cs" />
     <Compile Include="Assets\Manager\System\BattleManager.cs" />
+    <Compile Include="Assets\Manager\System\BattleModule\MonsterModule.cs" />
+    <Compile Include="Assets\Manager\System\BattleModule\PlayerModule.cs" />
+    <Compile Include="Assets\Manager\System\BattleModule\SkillModule.cs" />
+    <Compile Include="Assets\Manager\System\BattleModule\TerrainModule.cs" />
     <Compile Include="Assets\Manager\System\MapManager.cs" />
     <Compile Include="Assets\Manager\System\ModelManager.cs" />
     <Compile Include="Assets\Manager\System\PoolManager.cs" />

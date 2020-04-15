@@ -38,7 +38,7 @@ public class RoomListEvent : MonoBehaviour
 
         Counter++;
 
-        if (Counter > 2 && main.GetComponent<GameMain>().WorldSystem._model._RoomModule.NeedUpdate)
+        if (Counter > 2 && main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.NeedUpdate)
         {
             RefreshWindow();
 
@@ -47,7 +47,7 @@ public class RoomListEvent : MonoBehaviour
     }
     void RefreshWindow()
     {
-        main.GetComponent<GameMain>().WorldSystem._model._RoomModule.NeedUpdate = false;
+        main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.NeedUpdate = false;
         GetRoomListS2C temp = main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.RoomListPack;
         for (int i = 0; i < temp.RoomsInfo.Count; i++)
         {
