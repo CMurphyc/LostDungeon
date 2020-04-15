@@ -31,6 +31,10 @@ public class EventMessageType
     public static string UserLogin = "Login";
     public static string CreateGame = "CreateGame";
     public static string GetRoomInfo = "GetRoomInfo";
+    public static string RefreshHeroWindow = "RefreshHeroWindow";
+    public static string GetRoomList = "GetRoomList";
+    public static string LeaveRoom = "LeaveRoom";
+    public static string StartGame = "StartGame";
 }
 
 public enum CharacterType
@@ -41,5 +45,26 @@ public enum CharacterType
 
     None
 
+
+}
+
+
+public struct PlayerData
+{
+    public bool empty;
+    public int uid;
+    public bool ready;
+    public string username;
+    public GameObject obj;
+    public CharacterType type;
+    public PlayerData(bool emp = true, int id = 0, bool status = false, GameObject gameObject = null, CharacterType character = CharacterType.Enginner, string name = "")
+    {
+        empty = emp;
+        uid = id;
+        ready = status;
+        obj = gameObject;
+        type = character;
+        username = name;
+    }
 
 }

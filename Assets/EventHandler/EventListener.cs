@@ -12,14 +12,17 @@ public class EventListener : MonoBehaviour
     void Start()
     {
         main = GameObject.FindWithTag("GameEntry");
-     
-
         EventDispatcher.Instance().RegistEventListener(EventMessageType.UserLogin, Login);
-
         EventDispatcher.Instance().RegistEventListener(EventMessageType.CreateGame, CreateRoom);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.GetRoomInfo, GetRoomInfo);
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.GetRoomList, GetRoomList);
 
-    
+
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.LeaveRoom, LeaveRoom);
+
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.StartGame, StartGame);
+       
+
         //EventDispatcher.Instance().RegistEventListener("Login", Login);
         //EventDispatcher.Instance().RegistEventListener("Register", Register);
         //EventDispatcher.Instance().RegistEventListener("CreateGame", CreateGame);
@@ -28,31 +31,69 @@ public class EventListener : MonoBehaviour
         //EventDispatcher.Instance().RegistEventListener("PlayerReady", PlayerReady);
         //EventDispatcher.Instance().RegistEventListener("RoomStart", RoomStart);
     }
+    void StartGame(EventBase eb)
+    {
+        StartGameS2C synPack = (StartGameS2C)eb.eventValue;
+        if (synPack.Error == 0)
+        {
+            if (synPack.Succeed)
+            {
+                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Battle");
+            }
+            else
+            {
 
+                Debug.Log("开始游戏失败,有玩家未准备");
+            }
 
+        }
+
+    }
+    void LeaveRoom(EventBase eb)
+    {
+        LeaveRoomS2C synPack = (LeaveRoomS2C)eb.eventValue;
+        if (synPack.Error == 0)
+        {
+            Debug.Log("返回成功");
+            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
+        }
+
+    }
+
+    void GetRoomList(EventBase eb)
+    {
+        GetRoomListS2C synPack = (GetRoomListS2C)eb.eventValue;
+        Debug.Log("Error: "+synPack.Error);
+        if (synPack.Error==0)
+        {
+            main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.RoomListPack = synPack;
+            main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.NeedUpdate = true;
+            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
+        }
+    }
     void GetRoomInfo(EventBase eb)
     {
         GetRoomInfoS2C synPack = (GetRoomInfoS2C)eb.eventValue; 
 
         if (synPack.Error==0)
         {
-            
+
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.RemoveAllPlayer();
-            
+
+
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomid = synPack.RoomId;
 
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomOwnerID = synPack.RoomOwnerId;
-          
+           
             for (int i = 0; i < synPack.PlayersInfo.Count;i++)
             {
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.Add_Player(synPack.PlayersInfo[i]);
-
-
             }
+
+            main.GetComponent<GameMain>().WorldSystem._model._RoomModule.NeedUpdate = true;
             main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect");
 
-
-            main.GetComponent<GameMain>().WorldSystem._map.RefreshRoomInfo();
+          
         }
 
 
@@ -69,6 +110,8 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.uid = temp.Uid;
             main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.nickname = temp.UserName;
             main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main");
+
+           
         }
 
 

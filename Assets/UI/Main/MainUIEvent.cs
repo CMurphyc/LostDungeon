@@ -34,14 +34,14 @@ public class MainUIEvent : MonoBehaviour
 
     }
 
-    //public void OnBtnGetRoomList()
-    //{
-    //    //send request
-    //    main.GetComponent<GameMain>().socket.sock_c2s.GetRoomListC2S();
-    //    print("GetRoomList Request Send");
+    public void OnBtnGetRoomList()
+    {
+        //send request
+        main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList();
+        print("GetRoomList Request Send");
 
 
 
-    //}
+    }
 
 }

@@ -6,31 +6,31 @@ public class HeroSelectUIEvent : MonoBehaviour
 {
     GameObject main;
     // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         main = GameObject.FindWithTag("GameEntry");
-
+    }
+    void Start()
+    {
+        
     }
 
     public void OnBtnReady()
     {
-
+        main.GetComponent<GameMain>().socket.sock_c2s.PlayerReady();
 
     }
 
     public void OnBtnExit()
     {
-
+        main.GetComponent<GameMain>().socket.sock_c2s.PlayerExitRoom();
 
     }
 
     public void OnHeroEngineer()
     {
-        //int PlayerUid = main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.uid;
-        //CharacterType type =main.GetComponent<GameMain>().WorldSystem._model._RoomModule.GetCharacterType(PlayerUid);
-
         main.GetComponent<GameMain>().socket.sock_c2s.ChangeCharacter(CharacterType.Enginner);
-
     }
 
     public void OnHeroWarrior()

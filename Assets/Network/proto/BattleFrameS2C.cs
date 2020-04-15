@@ -22,12 +22,14 @@ public static partial class BattleFrameS2CReflection {
   static BattleFrameS2CReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChRCYXR0bGVGcmFtZVMyQy5wcm90byIfCg5CYXR0bGVGcmFtZVMyQxINCgVl",
-          "cnJvchgBIAEoBWIGcHJvdG8z"));
+          "ChRCYXR0bGVGcmFtZVMyQy5wcm90bxoUQmF0dGxlSW5wdXRTMkMucHJvdG8i",
+          "WgoOQmF0dGxlRnJhbWVTMkMSDQoFZXJyb3IYASABKAUSEwoLZnJhbWVOdW1i",
+          "ZXIYAiABKAUSJAoLYmF0dGxlRnJhbWUYAyADKAsyDy5CYXR0bGVJbnB1dFMy",
+          "Q2IGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
+        new pbr::FileDescriptor[] { global::BattleInputS2CReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::BattleFrameS2C), global::BattleFrameS2C.Parser, new[]{ "Error" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::BattleFrameS2C), global::BattleFrameS2C.Parser, new[]{ "Error", "FrameNumber", "BattleFrame" }, null, null, null)
         }));
   }
   #endregion
@@ -60,6 +62,8 @@ public sealed partial class BattleFrameS2C : pb::IMessage<BattleFrameS2C> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public BattleFrameS2C(BattleFrameS2C other) : this() {
     error_ = other.error_;
+    frameNumber_ = other.frameNumber_;
+    battleFrame_ = other.battleFrame_.Clone();
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -79,6 +83,27 @@ public sealed partial class BattleFrameS2C : pb::IMessage<BattleFrameS2C> {
     }
   }
 
+  /// <summary>Field number for the "frameNumber" field.</summary>
+  public const int FrameNumberFieldNumber = 2;
+  private int frameNumber_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int FrameNumber {
+    get { return frameNumber_; }
+    set {
+      frameNumber_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "battleFrame" field.</summary>
+  public const int BattleFrameFieldNumber = 3;
+  private static readonly pb::FieldCodec<global::BattleInputS2C> _repeated_battleFrame_codec
+      = pb::FieldCodec.ForMessage(26, global::BattleInputS2C.Parser);
+  private readonly pbc::RepeatedField<global::BattleInputS2C> battleFrame_ = new pbc::RepeatedField<global::BattleInputS2C>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::BattleInputS2C> BattleFrame {
+    get { return battleFrame_; }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as BattleFrameS2C);
@@ -93,6 +118,8 @@ public sealed partial class BattleFrameS2C : pb::IMessage<BattleFrameS2C> {
       return true;
     }
     if (Error != other.Error) return false;
+    if (FrameNumber != other.FrameNumber) return false;
+    if(!battleFrame_.Equals(other.battleFrame_)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -100,6 +127,8 @@ public sealed partial class BattleFrameS2C : pb::IMessage<BattleFrameS2C> {
   public override int GetHashCode() {
     int hash = 1;
     if (Error != 0) hash ^= Error.GetHashCode();
+    if (FrameNumber != 0) hash ^= FrameNumber.GetHashCode();
+    hash ^= battleFrame_.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -117,6 +146,11 @@ public sealed partial class BattleFrameS2C : pb::IMessage<BattleFrameS2C> {
       output.WriteRawTag(8);
       output.WriteInt32(Error);
     }
+    if (FrameNumber != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(FrameNumber);
+    }
+    battleFrame_.WriteTo(output, _repeated_battleFrame_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -128,6 +162,10 @@ public sealed partial class BattleFrameS2C : pb::IMessage<BattleFrameS2C> {
     if (Error != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(Error);
     }
+    if (FrameNumber != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(FrameNumber);
+    }
+    size += battleFrame_.CalculateSize(_repeated_battleFrame_codec);
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -142,6 +180,10 @@ public sealed partial class BattleFrameS2C : pb::IMessage<BattleFrameS2C> {
     if (other.Error != 0) {
       Error = other.Error;
     }
+    if (other.FrameNumber != 0) {
+      FrameNumber = other.FrameNumber;
+    }
+    battleFrame_.Add(other.battleFrame_);
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -155,6 +197,14 @@ public sealed partial class BattleFrameS2C : pb::IMessage<BattleFrameS2C> {
           break;
         case 8: {
           Error = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          FrameNumber = input.ReadInt32();
+          break;
+        }
+        case 26: {
+          battleFrame_.AddEntriesFrom(input, _repeated_battleFrame_codec);
           break;
         }
       }

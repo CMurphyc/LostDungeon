@@ -75,12 +75,12 @@ public class BattleManager
 
     void UpdateView()
     {
-        HashSet<GameObject> hash = sys._pool._poolStorage[ObjectType.Player];
-        foreach (GameObject item in hash)
-        {
+        //HashSet<GameObject> hash = sys._pool._poolStorage[ObjectType.Player];
+        //foreach (GameObject item in hash)
+        //{
   
-            item.GetComponent<PlayerView_Component>().RefreshView();
-        }
+        //    item.GetComponent<PlayerView_Component>().RefreshView();
+        //}
 
         //hash = sys._pool._poolStorage[ObjectType.NPC];
         //foreach (var item in hash)

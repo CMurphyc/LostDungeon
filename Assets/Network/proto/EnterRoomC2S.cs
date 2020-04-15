@@ -22,11 +22,12 @@ public static partial class EnterRoomC2SReflection {
   static EnterRoomC2SReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChJFbnRlclJvb21DMlMucHJvdG8iDgoMRW50ZXJSb29tQzJTYgZwcm90bzM="));
+          "ChJFbnRlclJvb21DMlMucHJvdG8iHgoMRW50ZXJSb29tQzJTEg4KBnJvb21J",
+          "ZBgBIAEoBWIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::EnterRoomC2S), global::EnterRoomC2S.Parser, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::EnterRoomC2S), global::EnterRoomC2S.Parser, new[]{ "RoomId" }, null, null, null)
         }));
   }
   #endregion
@@ -58,12 +59,24 @@ public sealed partial class EnterRoomC2S : pb::IMessage<EnterRoomC2S> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public EnterRoomC2S(EnterRoomC2S other) : this() {
+    roomId_ = other.roomId_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public EnterRoomC2S Clone() {
     return new EnterRoomC2S(this);
+  }
+
+  /// <summary>Field number for the "roomId" field.</summary>
+  public const int RoomIdFieldNumber = 1;
+  private int roomId_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int RoomId {
+    get { return roomId_; }
+    set {
+      roomId_ = value;
+    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -79,12 +92,14 @@ public sealed partial class EnterRoomC2S : pb::IMessage<EnterRoomC2S> {
     if (ReferenceEquals(other, this)) {
       return true;
     }
+    if (RoomId != other.RoomId) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
+    if (RoomId != 0) hash ^= RoomId.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -98,6 +113,10 @@ public sealed partial class EnterRoomC2S : pb::IMessage<EnterRoomC2S> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
+    if (RoomId != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(RoomId);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -106,6 +125,9 @@ public sealed partial class EnterRoomC2S : pb::IMessage<EnterRoomC2S> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
+    if (RoomId != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomId);
+    }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -116,6 +138,9 @@ public sealed partial class EnterRoomC2S : pb::IMessage<EnterRoomC2S> {
   public void MergeFrom(EnterRoomC2S other) {
     if (other == null) {
       return;
+    }
+    if (other.RoomId != 0) {
+      RoomId = other.RoomId;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -128,6 +153,10 @@ public sealed partial class EnterRoomC2S : pb::IMessage<EnterRoomC2S> {
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
+        case 8: {
+          RoomId = input.ReadInt32();
+          break;
+        }
       }
     }
   }

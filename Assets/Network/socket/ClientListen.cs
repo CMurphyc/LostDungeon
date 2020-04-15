@@ -182,11 +182,33 @@ public class ClientListen : MonoBehaviour
             synPack = (GetRoomInfoS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
             EventDispatcher.Instance().DispatchEvent(EventMessageType.GetRoomInfo, synPack);
 
+        }
+        else if (tag == GeneralType.GetRoomList +100)
+        {
+
+            IMessage IMPlayersPack = new GetRoomListS2C();
+            GetRoomListS2C synPack = new GetRoomListS2C();
+            synPack = (GetRoomListS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.GetRoomList, synPack);
+        }
+        else if (tag == GeneralType.PlayerLeaveRoom +100)
+        {
+            IMessage IMPlayersPack = new LeaveRoomS2C();
+            LeaveRoomS2C synPack = new LeaveRoomS2C();
+            synPack = (LeaveRoomS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.LeaveRoom, synPack);
+        }
+        
+        else if (tag == GeneralType.StartGame + 100)
+        {
+            IMessage IMPlayersPack = new StartGameS2C();
+            StartGameS2C synPack = new StartGameS2C();
+            synPack = (StartGameS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.StartGame, synPack);
+
 
 
         }
-        
-
 
 
         //else if (tag == GeneralType.UserRegister+ 100)

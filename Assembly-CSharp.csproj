@@ -154,6 +154,7 @@
     <Compile Include="Assets\Manager\SystemManager.cs" />
     <Compile Include="Assets\ModelList\BagModule.cs" />
     <Compile Include="Assets\ModelList\PlayerModule.cs" />
+    <Compile Include="Assets\ModelList\RoomListModule.cs" />
     <Compile Include="Assets\ModelList\RoomModule.cs" />
     <Compile Include="Assets\Network\proto\BattleFrameC2S.cs" />
     <Compile Include="Assets\Network\proto\BattleFrameS2C.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TmxObject.cs" />
     <Compile Include="Assets\UGUIKit Flat\Content\Scripts\bl_ProgressBar.cs" />
     <Compile Include="Assets\UGUIKit Flat\Content\Scripts\bl_ToggleSwitcher.cs" />
+    <Compile Include="Assets\UI\HeroSelect\HeroSelectRefreshWindow.cs" />
     <Compile Include="Assets\UI\HeroSelect\HeroSelectUIEvent.cs" />
     <Compile Include="Assets\UI\Login\LoginEvent.cs" />
     <Compile Include="Assets\UI\Main\MainUIEvent.cs" />

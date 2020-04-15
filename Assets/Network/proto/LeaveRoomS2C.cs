@@ -22,12 +22,12 @@ public static partial class LeaveRoomS2CReflection {
   static LeaveRoomS2CReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChJMZWF2ZVJvb21TMkMucHJvdG8iKgoMTGVhdmVSb29tUzJDEg0KBWVycm9y",
-          "GAEgASgFEgsKA3VpZBgCIAEoBWIGcHJvdG8z"));
+          "ChJMZWF2ZVJvb21TMkMucHJvdG8iOwoMTGVhdmVSb29tUzJDEg0KBWVycm9y",
+          "GAEgASgFEg8KB3N1Y2NlZWQYAiABKAgSCwoDdWlkGAMgASgFYgZwcm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::LeaveRoomS2C), global::LeaveRoomS2C.Parser, new[]{ "Error", "Uid" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::LeaveRoomS2C), global::LeaveRoomS2C.Parser, new[]{ "Error", "Succeed", "Uid" }, null, null, null)
         }));
   }
   #endregion
@@ -60,6 +60,7 @@ public sealed partial class LeaveRoomS2C : pb::IMessage<LeaveRoomS2C> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public LeaveRoomS2C(LeaveRoomS2C other) : this() {
     error_ = other.error_;
+    succeed_ = other.succeed_;
     uid_ = other.uid_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
@@ -80,8 +81,19 @@ public sealed partial class LeaveRoomS2C : pb::IMessage<LeaveRoomS2C> {
     }
   }
 
+  /// <summary>Field number for the "succeed" field.</summary>
+  public const int SucceedFieldNumber = 2;
+  private bool succeed_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Succeed {
+    get { return succeed_; }
+    set {
+      succeed_ = value;
+    }
+  }
+
   /// <summary>Field number for the "uid" field.</summary>
-  public const int UidFieldNumber = 2;
+  public const int UidFieldNumber = 3;
   private int uid_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int Uid {
@@ -105,6 +117,7 @@ public sealed partial class LeaveRoomS2C : pb::IMessage<LeaveRoomS2C> {
       return true;
     }
     if (Error != other.Error) return false;
+    if (Succeed != other.Succeed) return false;
     if (Uid != other.Uid) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
@@ -113,6 +126,7 @@ public sealed partial class LeaveRoomS2C : pb::IMessage<LeaveRoomS2C> {
   public override int GetHashCode() {
     int hash = 1;
     if (Error != 0) hash ^= Error.GetHashCode();
+    if (Succeed != false) hash ^= Succeed.GetHashCode();
     if (Uid != 0) hash ^= Uid.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
@@ -131,8 +145,12 @@ public sealed partial class LeaveRoomS2C : pb::IMessage<LeaveRoomS2C> {
       output.WriteRawTag(8);
       output.WriteInt32(Error);
     }
-    if (Uid != 0) {
+    if (Succeed != false) {
       output.WriteRawTag(16);
+      output.WriteBool(Succeed);
+    }
+    if (Uid != 0) {
+      output.WriteRawTag(24);
       output.WriteInt32(Uid);
     }
     if (_unknownFields != null) {
@@ -145,6 +163,9 @@ public sealed partial class LeaveRoomS2C : pb::IMessage<LeaveRoomS2C> {
     int size = 0;
     if (Error != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(Error);
+    }
+    if (Succeed != false) {
+      size += 1 + 1;
     }
     if (Uid != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(Uid);
@@ -162,6 +183,9 @@ public sealed partial class LeaveRoomS2C : pb::IMessage<LeaveRoomS2C> {
     }
     if (other.Error != 0) {
       Error = other.Error;
+    }
+    if (other.Succeed != false) {
+      Succeed = other.Succeed;
     }
     if (other.Uid != 0) {
       Uid = other.Uid;
@@ -182,6 +206,10 @@ public sealed partial class LeaveRoomS2C : pb::IMessage<LeaveRoomS2C> {
           break;
         }
         case 16: {
+          Succeed = input.ReadBool();
+          break;
+        }
+        case 24: {
           Uid = input.ReadInt32();
           break;
         }
