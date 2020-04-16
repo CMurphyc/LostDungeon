@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerModule : MonoBehaviour
+public class PlayerModule 
 {
 
     public int uid;

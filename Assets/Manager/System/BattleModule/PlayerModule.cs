@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerModule 
+public class PlayerDataModule
 {
     BattleManager _parentManager;
 
 
     
 
-    public PlayerModule(BattleManager parent)
+    public PlayerDataModule(BattleManager parent)
     {
         _parentManager = parent;
     }

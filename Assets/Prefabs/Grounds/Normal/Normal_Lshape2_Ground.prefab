@@ -2222,7 +2222,7 @@ Tilemap:
   - first: {x: -8, y: -7, z: 0}
     second:
       m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileSpriteIndex: 52
       m_TileMatrixIndex: 1
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -6688,8 +6688,8 @@ Tilemap:
     m_Data: {fileID: 21300708, guid: 0d9f9925dae4b7f429f5cc5aaed0f010, type: 3}
   - m_RefCount: 6
     m_Data: {fileID: 21300386, guid: 0d9f9925dae4b7f429f5cc5aaed0f010, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300212, guid: 291597fd3ca7c6d41a58250a649d1804, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 3
@@ -6782,8 +6782,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 107
     m_Data: {fileID: 21300088, guid: 0d9f9925dae4b7f429f5cc5aaed0f010, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300212, guid: 291597fd3ca7c6d41a58250a649d1804, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300136, guid: 291597fd3ca7c6d41a58250a649d1804, type: 3}
   - m_RefCount: 1
@@ -6956,6 +6956,7 @@ TilemapRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -6965,8 +6966,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 772722321
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -7030,7 +7031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4744719314543457257}
   m_Layer: 0
-  m_Name: Lshape2_Ground
+  m_Name: Normal_Lshape2_Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

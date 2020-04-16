@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - GameEntry
+  - Collision
+  - MonsterPoint
   layers:
   - Default
   - TransparentFX
@@ -41,4 +43,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 772722321
+    locked: 0
+  - name: Door
+    uniqueID: 3520734457
+    locked: 0
+  - name: Player
+    uniqueID: 2028834293
     locked: 0

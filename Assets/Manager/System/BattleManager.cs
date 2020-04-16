@@ -11,7 +11,7 @@ public class BattleManager
     SystemManager sys;
 
     MonsterModule _monster;
-    PlayerModule _player;
+    PlayerDataModule _player;
     SkillModule _skill;
     TerrainModule _terrain;
 
@@ -26,7 +26,7 @@ public class BattleManager
         sys = system;
 
         _monster = new MonsterModule(this);
-        _player = new PlayerModule(this);
+        _player = new PlayerDataModule(this);
         _skill = new SkillModule(this);
         _terrain = new TerrainModule(this);
     }
