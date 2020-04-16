@@ -68,3 +68,15 @@ public struct PlayerData
     }
 
 }
+
+
+public struct DoorData
+{
+    public int doorNum;
+    public Vector3 transferPos;
+    public DoorData(int _doorNum, Vector3 _transferPos)
+    {
+        doorNum = _doorNum;
+        transferPos = _transferPos;
+    }
+}

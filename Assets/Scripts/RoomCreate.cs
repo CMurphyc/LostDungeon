@@ -48,7 +48,7 @@ public class RoomCreate : MonoBehaviour
     public Dictionary<int, List<GameObject>> roomToMonster = new Dictionary<int, List<GameObject>>();   // 房间号对应的怪物列表
     public Dictionary<int, List<int>> roomToDoor = new Dictionary<int, List<int>>();   // 房间号对应的门列表
     public Dictionary<int, GameObject> doornumToDoor = new Dictionary<int, GameObject>();   // 门号对应门的实体
-    public Dictionary<int, int> doorToDoor = new Dictionary<int, int>();   // 一个编号的门传送到的另一个门的编号
+    public Dictionary<int, DoorData> doorToDoor = new Dictionary<int, DoorData>();   // 一个编号的门传送到的另一个门的编号
     public Dictionary<int, int> doorToRoom = new Dictionary<int, int>();   // 一个编号的门对应的房间编号
 
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
@@ -303,7 +303,7 @@ public class RoomCreate : MonoBehaviour
                     doornumToDoor.Add(nowDoor, door1);
                     doornumToDoor.Add(nowDoor + 1, door2);
                     //  门号对应的另一个门号
-                    doorToDoor.Add(nowDoor, nowDoor + 1);
+                    doorToDoor.Add(nowDoor, DoorData(nowDoor + 1, ));
                     doorToDoor.Add(nowDoor + 1, nowDoor);
                     //  对应房间号添加门号
                     roomToDoorTmp[roomTag[i, j] - 1].Add(nowDoor);
