@@ -22,13 +22,14 @@ public static partial class BattleFrameReflection {
   static BattleFrameReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChFCYXR0bGVGcmFtZS5wcm90bxoRQmF0dGxlSW5wdXQucHJvdG8iVAoLQmF0",
+          "ChFCYXR0bGVGcmFtZS5wcm90bxoRQmF0dGxlSW5wdXQucHJvdG8iaQoLQmF0",
           "dGxlRnJhbWUSDQoFZXJyb3IYASABKAUSEwoLZnJhbWVOdW1iZXIYAiABKAUS",
-          "IQoLYmF0dGxlRnJhbWUYAyADKAsyDC5CYXR0bGVJbnB1dGIGcHJvdG8z"));
+          "EgoKcmFuZG9tQ29kZRgDIAEoBRIiCgxiYXR0bGVJbnB1dHMYBCADKAsyDC5C",
+          "YXR0bGVJbnB1dGIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { global::BattleInputReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::BattleFrame), global::BattleFrame.Parser, new[]{ "Error", "FrameNumber", "BattleFrame_" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::BattleFrame), global::BattleFrame.Parser, new[]{ "Error", "FrameNumber", "RandomCode", "BattleInputs" }, null, null, null)
         }));
   }
   #endregion
@@ -62,7 +63,8 @@ public sealed partial class BattleFrame : pb::IMessage<BattleFrame> {
   public BattleFrame(BattleFrame other) : this() {
     error_ = other.error_;
     frameNumber_ = other.frameNumber_;
-    battleFrame_ = other.battleFrame_.Clone();
+    randomCode_ = other.randomCode_;
+    battleInputs_ = other.battleInputs_.Clone();
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -93,14 +95,25 @@ public sealed partial class BattleFrame : pb::IMessage<BattleFrame> {
     }
   }
 
-  /// <summary>Field number for the "battleFrame" field.</summary>
-  public const int BattleFrame_FieldNumber = 3;
-  private static readonly pb::FieldCodec<global::BattleInput> _repeated_battleFrame_codec
-      = pb::FieldCodec.ForMessage(26, global::BattleInput.Parser);
-  private readonly pbc::RepeatedField<global::BattleInput> battleFrame_ = new pbc::RepeatedField<global::BattleInput>();
+  /// <summary>Field number for the "randomCode" field.</summary>
+  public const int RandomCodeFieldNumber = 3;
+  private int randomCode_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public pbc::RepeatedField<global::BattleInput> BattleFrame_ {
-    get { return battleFrame_; }
+  public int RandomCode {
+    get { return randomCode_; }
+    set {
+      randomCode_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "battleInputs" field.</summary>
+  public const int BattleInputsFieldNumber = 4;
+  private static readonly pb::FieldCodec<global::BattleInput> _repeated_battleInputs_codec
+      = pb::FieldCodec.ForMessage(34, global::BattleInput.Parser);
+  private readonly pbc::RepeatedField<global::BattleInput> battleInputs_ = new pbc::RepeatedField<global::BattleInput>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::BattleInput> BattleInputs {
+    get { return battleInputs_; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -118,7 +131,8 @@ public sealed partial class BattleFrame : pb::IMessage<BattleFrame> {
     }
     if (Error != other.Error) return false;
     if (FrameNumber != other.FrameNumber) return false;
-    if(!battleFrame_.Equals(other.battleFrame_)) return false;
+    if (RandomCode != other.RandomCode) return false;
+    if(!battleInputs_.Equals(other.battleInputs_)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -127,7 +141,8 @@ public sealed partial class BattleFrame : pb::IMessage<BattleFrame> {
     int hash = 1;
     if (Error != 0) hash ^= Error.GetHashCode();
     if (FrameNumber != 0) hash ^= FrameNumber.GetHashCode();
-    hash ^= battleFrame_.GetHashCode();
+    if (RandomCode != 0) hash ^= RandomCode.GetHashCode();
+    hash ^= battleInputs_.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -149,7 +164,11 @@ public sealed partial class BattleFrame : pb::IMessage<BattleFrame> {
       output.WriteRawTag(16);
       output.WriteInt32(FrameNumber);
     }
-    battleFrame_.WriteTo(output, _repeated_battleFrame_codec);
+    if (RandomCode != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(RandomCode);
+    }
+    battleInputs_.WriteTo(output, _repeated_battleInputs_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -164,7 +183,10 @@ public sealed partial class BattleFrame : pb::IMessage<BattleFrame> {
     if (FrameNumber != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(FrameNumber);
     }
-    size += battleFrame_.CalculateSize(_repeated_battleFrame_codec);
+    if (RandomCode != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(RandomCode);
+    }
+    size += battleInputs_.CalculateSize(_repeated_battleInputs_codec);
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -182,7 +204,10 @@ public sealed partial class BattleFrame : pb::IMessage<BattleFrame> {
     if (other.FrameNumber != 0) {
       FrameNumber = other.FrameNumber;
     }
-    battleFrame_.Add(other.battleFrame_);
+    if (other.RandomCode != 0) {
+      RandomCode = other.RandomCode;
+    }
+    battleInputs_.Add(other.battleInputs_);
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -202,8 +227,12 @@ public sealed partial class BattleFrame : pb::IMessage<BattleFrame> {
           FrameNumber = input.ReadInt32();
           break;
         }
-        case 26: {
-          battleFrame_.AddEntriesFrom(input, _repeated_battleFrame_codec);
+        case 24: {
+          RandomCode = input.ReadInt32();
+          break;
+        }
+        case 34: {
+          battleInputs_.AddEntriesFrom(input, _repeated_battleInputs_codec);
           break;
         }
       }

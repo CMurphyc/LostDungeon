@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class RoomModule 
 {
+    public int MapSeed ;
+    public int MapFloorNumber;
+
     public bool NeedUpdate = false;
     ModelManager model;
     public RoomModule(ModelManager parent)
@@ -18,6 +21,20 @@ public class RoomModule
 
     public List<GameObject> PlayerAnimation = new List<GameObject>();
 
+
+    public int GetPlayerSize()
+    {
+        int ret = 0;
+        for (int i = 0; i < PlayerList.Count; i++)
+        {
+            if (!PlayerList[i].empty)
+            {
+                ret++;
+            }
+        }
+        return ret;
+
+    }
 
     public int GetMinIndex()
     {

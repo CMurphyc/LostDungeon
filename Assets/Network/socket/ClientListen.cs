@@ -155,8 +155,8 @@ public class ClientListen : MonoBehaviour
 
     void HandleMsg(int tag, byte[] pack , int pack_size)
     {
-        Debug.Log("Tag: " + tag);
-        Debug.Log("PackSize: "+pack_size);
+        //Debug.Log("Tag: " + tag);
+        //Debug.Log("PackSize: "+pack_size);
         if (tag == GeneralType.UserLogin + 100)
         {
             IMessage IMPlayersPack = new LoginS2C();
@@ -205,11 +205,16 @@ public class ClientListen : MonoBehaviour
             StartGameS2C synPack = new StartGameS2C();
             synPack = (StartGameS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
             EventDispatcher.Instance().DispatchEvent(EventMessageType.StartGame, synPack);
-
+        }
+        else if (tag == GeneralType.BattleSynS2C)
+        {
+            IMessage IMPlayersPack = new BattleFrame();
+            BattleFrame synPack = new BattleFrame();
+            synPack = (BattleFrame)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.BattleSyn, synPack);
 
 
         }
-
 
         //else if (tag == GeneralType.UserRegister+ 100)
         //{

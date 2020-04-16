@@ -35,6 +35,8 @@ public class EventMessageType
     public static string GetRoomList = "GetRoomList";
     public static string LeaveRoom = "LeaveRoom";
     public static string StartGame = "StartGame";
+
+    public static string BattleSyn = "BattleSyn";
 }
 
 public enum CharacterType
@@ -47,7 +49,12 @@ public enum CharacterType
 
 
 }
+public struct PlayerInGameData
+{
+    public GameObject obj;
+    public int RoomID;
 
+}
 
 public struct PlayerData
 {

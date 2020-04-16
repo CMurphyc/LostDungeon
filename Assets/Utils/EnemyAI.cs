@@ -6,30 +6,37 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     int Counter = 0;
-    AI_Enemy t2;
+    AI_Enemy AI_Controller;
     public GameObject target;
 
     void Start()
     {
-        t2 = new AI_Enemy(gameObject);
+        AI_Controller = new AI_Enemy(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Counter += 1;
-        if (Counter == 120)
-        {
-            t2.Start(Counter);
-        }
-        Vector2 vec2 = transform.position;
-        Vector2 tar = target.transform.position;
-        t2.Update(Counter, vec2, tar);
+        //Counter += 1;
+        //if (Counter == 120)
+        //{
+        //    t2.Start(Counter);
+        //}
+        //Vector2 vec2 = transform.position;
+        //Vector2 tar = target.transform.position;
+        //t2.Update(Counter, vec2, tar);
 
     }
     public void UpdateLogic(GameObject target,int frame)
     {
-
+        Vector2 vec2 = new Vector2();
+        Vector2 tar= new Vector2();
+        if (target != null)
+        {
+            vec2 = transform.position;
+            tar = target.transform.position;
+        }
+        AI_Controller.Update(Counter, vec2, tar);
     }
     public void UpdateView()
     {

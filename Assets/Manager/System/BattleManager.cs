@@ -10,16 +10,14 @@ public class BattleManager
 
     SystemManager sys;
 
-    MonsterModule _monster;
-    PlayerDataModule _player;
-    SkillModule _skill;
-    TerrainModule _terrain;
+    public MonsterModule _monster;
+    public PlayerDataModule _player;
+    public SkillModule _skill;
+    public TerrainModule _terrain;
 
+    public int Seed;
+    public int SeverFrame;
 
-    public BattleManager()
-    {
-        local_frame = 0;
-    }
     public BattleManager(SystemManager system)
     {
         local_frame = 0;
@@ -30,19 +28,26 @@ public class BattleManager
         _skill = new SkillModule(this);
         _terrain = new TerrainModule(this);
     }
-    void UpdateFrame()
+
+
+    public void UpdateFrame()
     {
         UpdateLogicByFrame();
         UpdateView();
     }
     void UpdateLogicByFrame()
     {
-
+        //初始化随机种子
+        UnityEngine.Random.InitState(Seed);
+        //战斗主逻辑
         _monster.UpdateLogic(local_frame);
         _player.UpdateLogic(local_frame);
         _skill.UpdateLogic(local_frame);
         _terrain.UpdateLogic(local_frame);
         local_frame++;
+
+
+
     }
 
     void UpdateView()
@@ -51,7 +56,6 @@ public class BattleManager
         _player.UpdateView();
         _skill.UpdateView();
         _terrain.UpdateView();
-
     }
 
 }

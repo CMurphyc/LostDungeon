@@ -31,7 +31,7 @@ public class ClientSend
         byte[] databytes = data;
         byte[] length_pack = PackConverter.intToBytes(data.Length);
 
-        Debug.Log("Send Length: " +data.Length);
+        //Debug.Log("Send Length: " +data.Length);
         byte[] final = new byte[databytes.Length + init.Length + length_pack.Length];
         //pack.CalculateSize()
 
@@ -116,5 +116,20 @@ public class ClientSend
         EnterRoomC2S pack = new EnterRoomC2S();
         pack.RoomId = RoomID;
         Send(pack.ToByteArray(), GeneralType.EnterRoom);
+    }
+
+    public void BattleSynC2S(Vector3 Left, Vector3 Right)
+    {
+        BattleInput pack = new BattleInput();
+        //导入信息 To Do
+
+        Debug.Log("Left: " + Left);
+        Debug.Log("Right: " + Right);
+        pack.MoveDirectionX = (int)(Left.x *10000);
+        pack.MoveDirectionY = (int)(Left.y *10000);
+        pack.AttackDirectionX = (int)(Right.x * 10000);
+        pack.AttackDirectionY = (int)(Right.y * 10000);
+        //pack.AttackType = ;
+        Send(pack.ToByteArray(), GeneralType.BattleSynC2S);
     }
 }

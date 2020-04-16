@@ -7,7 +7,7 @@ public class MonsterModule
     BattleManager _parentManager;
 
     //房间号-怪物列表
-    public Dictionary<int, List<GameObject>> RoomToMonster;
+    public Dictionary<int, List<GameObject>> RoomToMonster = new Dictionary<int, List<GameObject>>();
 
     public MonsterModule(BattleManager parent)
     {

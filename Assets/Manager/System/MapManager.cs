@@ -63,6 +63,8 @@ public class MapManager : SceneManager
     {
 
         Debug.Log("Refresh UI .......");
+        Text RoomID = GameObject.Find("Canvas/RoomInfo").GetComponent<Text>();
+        RoomID.text = "房间号："+sys._model._RoomModule.roomid.ToString();
 
         for (int i = 0; i < sys._model._RoomModule.PlayerList.Count; i++)
         {
@@ -96,7 +98,7 @@ public class MapManager : SceneManager
                 GameObject Enginner_Instance = UnityEngine.Object.Instantiate(Animation_Prefab);
                 sys._model._RoomModule.PlayerAnimation.Add(Enginner_Instance);
 
-
+            
                 GameObject username = GameObject.Find("Canvas/player" + (i + 1).ToString() + "/name");
 
                 username.GetComponent<Text>().text = sys._model._RoomModule.PlayerList[i].username.ToString();
@@ -110,12 +112,14 @@ public class MapManager : SceneManager
                 {
                     status.GetComponent<Text>().text = "未准备";
                 }
-                if (sys._model._RoomModule.PlayerList[i].uid == sys._model._RoomModule.roomOwnerID)
-                {
-                    status.GetComponent<Text>().text = "";
-                }
+
             }
 
+        }
+        GameObject btnStatus = GameObject.Find("Canvas/btnReady/Text");
+        if (sys._model._PlayerModule.uid == sys._model._RoomModule.roomOwnerID)
+        {
+            btnStatus.GetComponent<Text>().text = "开始游戏";
         }
 
     }

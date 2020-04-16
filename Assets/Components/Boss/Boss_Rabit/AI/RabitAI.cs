@@ -36,61 +36,61 @@ public class RabitAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Counter += 1;
-        if (Counter == 120)
-        {
-            t2.Start(Counter);
-        }
-        t2.Update(Counter);
+        //Counter += 1;
+        //if (Counter == 120)
+        //{
+        //    t2.Start(Counter);
+        //}
+        //t2.Update(Counter);
 
-        //生成子弹
-        if (t2.bullet.ContainsKey(Counter))
-        {
-            for (int i = 0; i < t2.bullet[Counter].Count;i++ )
-            {
-                GameObject Bullet_Instance = Object.Instantiate(t2.bullet[Counter][i].BulletObject, t2.bullet[Counter][i].Position, t2.bullet[Counter][i].BulletObject.transform.rotation);
-                BulletInfo Bullet_InstanceInfo = t2.bullet[Counter][i];
-                Bullet_InstanceInfo.BulletObject = Bullet_Instance;
-                arrow.Add(Bullet_InstanceInfo);
-            }
-        }
-        for (int i = 0; i < arrow.Count;i++)
-        {
-            arrow[i].BulletObject.transform.Translate(5 * arrow[i].Toward * Time.deltaTime);
-        }
+        ////生成子弹
+        //if (t2.bullet.ContainsKey(Counter))
+        //{
+        //    for (int i = 0; i < t2.bullet[Counter].Count;i++ )
+        //    {
+        //        GameObject Bullet_Instance = Object.Instantiate(t2.bullet[Counter][i].BulletObject, t2.bullet[Counter][i].Position, t2.bullet[Counter][i].BulletObject.transform.rotation);
+        //        BulletInfo Bullet_InstanceInfo = t2.bullet[Counter][i];
+        //        Bullet_InstanceInfo.BulletObject = Bullet_Instance;
+        //        arrow.Add(Bullet_InstanceInfo);
+        //    }
+        //}
+        //for (int i = 0; i < arrow.Count;i++)
+        //{
+        //    arrow[i].BulletObject.transform.Translate(5 * arrow[i].Toward * Time.deltaTime);
+        //}
 
-        //
-        if (t2.AniInfo.ContainsKey(Counter))
-        {
-            AniList.Add(t2.AniInfo[Counter]);
-        }
+        ////
+        //if (t2.AniInfo.ContainsKey(Counter))
+        //{
+        //    AniList.Add(t2.AniInfo[Counter]);
+        //}
 
-        for  (int i = 0; i< AniList.Count;i++ )
-        {
+        //for  (int i = 0; i< AniList.Count;i++ )
+        //{
 
 
 
-            AnimationInfo item = AniList[i];
-            if (item.AnimationInterval>0)
-            {
-                //初始化寻路
-                //Debug.Log("Pos:  " + item.obj.transform.position);
-                item.obj.GetComponent<AIPath>().InitConfig(item.obj.transform.position, item.obj.transform.rotation, new Vector3(1.5f, 1.5f, 1.5f),Global.FrameRate);
-                //获取当前帧位置
-                Vector3 Pos;
-                Quaternion Rot;
-                item.obj.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
-                item.obj.transform.position = Pos;
-                item.obj.transform.rotation = Rot;
-                item.AnimationInterval--;
+        //    AnimationInfo item = AniList[i];
+        //    if (item.AnimationInterval>0)
+        //    {
+        //        //初始化寻路
+        //        //Debug.Log("Pos:  " + item.obj.transform.position);
+        //        item.obj.GetComponent<AIPath>().InitConfig(item.obj.transform.position, item.obj.transform.rotation, new Vector3(1.5f, 1.5f, 1.5f),Global.FrameRate);
+        //        //获取当前帧位置
+        //        Vector3 Pos;
+        //        Quaternion Rot;
+        //        item.obj.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
+        //        item.obj.transform.position = Pos;
+        //        item.obj.transform.rotation = Rot;
+        //        item.AnimationInterval--;
 
-                AniList[i] = item;
+        //        AniList[i] = item;
 
-                //Debug.Log("Left Frame: " + item.AnimationInterval);
-            }
+        //        //Debug.Log("Left Frame: " + item.AnimationInterval);
+        //    }
             
 
-        }
+        //}
 
 
     }
@@ -126,60 +126,60 @@ class AI_Rabit:AI_Behavior
     }
     public override void BossAttackLogic(int frame)
     {
-        int Switch = Random.Range(1, 3);
-        if (Switch == 1)
-        {
+        //int Switch = Random.Range(1, 3);
+        //if (Switch == 1)
+        //{
 
-            int AttackRate = 5;
-            int AttackNumber = base.Attack_FrameInterval / AttackRate;
-            RoundBulletSystem sys = new RoundBulletSystem();
-            int InitAngle = Random.Range(1, 30);
-            for (int i = 0; i < AttackNumber; i++)
-            {
-                int AttackInitFrame = frame + i * AttackRate + 20;
-                Debug.Log("AttackFrame: " + AttackInitFrame);
+        //    int AttackRate = 5;
+        //    int AttackNumber = base.Attack_FrameInterval / AttackRate;
+        //    RoundBulletSystem sys = new RoundBulletSystem();
+        //    int InitAngle = Random.Range(1, 30);
+        //    for (int i = 0; i < AttackNumber; i++)
+        //    {
+        //        int AttackInitFrame = frame + i * AttackRate + 20;
+        //        Debug.Log("AttackFrame: " + AttackInitFrame);
 
-                InitAngle += 5;
-                List<BulletInfo> temp = sys.InitBullet(Boss.transform.position, 12, BulletTypeNumber, BossType.BossRaibit, InitAngle);
-                foreach (BulletInfo item in temp)
-                {
-                    if (!bullet.ContainsKey(AttackInitFrame))
-                    {
-                        bullet.Add(AttackInitFrame, new List<BulletInfo> { item });
-                    }
-                    else
-                    {
-                        bullet[AttackInitFrame].Add(item);
-                    }
-                }
-            }
-        }
-        else
-        {
+        //        InitAngle += 5;
+        //        List<BulletInfo> temp = sys.InitBullet(Boss.transform.position, 12, BulletTypeNumber, BossType.BossRaibit, InitAngle);
+        //        foreach (BulletInfo item in temp)
+        //        {
+        //            if (!bullet.ContainsKey(AttackInitFrame))
+        //            {
+        //                bullet.Add(AttackInitFrame, new List<BulletInfo> { item });
+        //            }
+        //            else
+        //            {
+        //                bullet[AttackInitFrame].Add(item);
+        //            }
+        //        }
+        //    }
+        //}
+        //else
+        //{
 
-            int AttackRate = 10;
-            int AttackNumber = base.Attack_FrameInterval / AttackRate;
-            RoundBulletSystem sys = new RoundBulletSystem();
+        //    int AttackRate = 10;
+        //    int AttackNumber = base.Attack_FrameInterval / AttackRate;
+        //    RoundBulletSystem sys = new RoundBulletSystem();
           
-            for (int i = 0; i < AttackNumber; i++)
-            {
-                int AttackInitFrame = frame + i * AttackRate + 20;
-                Debug.Log("AttackFrame: " + AttackInitFrame);
-                int InitAngle = Random.Range(1, 30);
-                List<BulletInfo> temp = sys.InitBullet(Boss.transform.position, 12, BulletTypeNumber, BossType.BossRaibit, InitAngle);
-                foreach (BulletInfo item in temp)
-                {
-                    if (!bullet.ContainsKey(AttackInitFrame))
-                    {
-                        bullet.Add(AttackInitFrame, new List<BulletInfo> { item });
-                    }
-                    else
-                    {
-                        bullet[AttackInitFrame].Add(item);
-                    }
-                }
-            }
-        }
+        //    for (int i = 0; i < AttackNumber; i++)
+        //    {
+        //        int AttackInitFrame = frame + i * AttackRate + 20;
+        //        Debug.Log("AttackFrame: " + AttackInitFrame);
+        //        int InitAngle = Random.Range(1, 30);
+        //        List<BulletInfo> temp = sys.InitBullet(Boss.transform.position, 12, BulletTypeNumber, BossType.BossRaibit, InitAngle);
+        //        foreach (BulletInfo item in temp)
+        //        {
+        //            if (!bullet.ContainsKey(AttackInitFrame))
+        //            {
+        //                bullet.Add(AttackInitFrame, new List<BulletInfo> { item });
+        //            }
+        //            else
+        //            {
+        //                bullet[AttackInitFrame].Add(item);
+        //            }
+        //        }
+        //    }
+        //}
       
     }
     public override void BossRunLogic(int frame)
