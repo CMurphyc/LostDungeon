@@ -50,15 +50,24 @@ public class RoomCreate : MonoBehaviour
     public Dictionary<int, GameObject> doornumToDoor = new Dictionary<int, GameObject>();   // 门号对应门的实体
     public Dictionary<int, DoorData> doorToDoor = new Dictionary<int, DoorData>();   // 一个编号的门传送到的另一个门的编号
     public Dictionary<int, int> doorToRoom = new Dictionary<int, int>();   // 一个编号的门对应的房间编号
+    public Dictionary<int, int> playerToRoom = new Dictionary<int, int>();   // 玩家编号对应房间号
+    public Dictionary<int, GameObject> playerToPlayer = new Dictionary<int, GameObject>();   // 玩家编号对应玩家实体
 
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
+    private int birthX;
+    private int birthY;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        RandMap.StartRand(10330178, 1, 5);
+        int playerNum = 1;
+        int nowFloor = 5;
+        int playerId0 = 0;
+        // int playerId1 = 1;
+        // int playerId2 = 2;
+        int playerId3 = 3;
+        RandMap.StartRand(10330178, playerNum, nowFloor);
         int d = RandMap.GetWidth() + 1;
         int h = RandMap.GetHeight() + 1;
         int[,] array = new int[h, d];
@@ -69,7 +78,11 @@ public class RoomCreate : MonoBehaviour
                 array[i, j] = RandMap.GetValue(i, j);
             }
         }
-        MakeGraph(array, h, d, 0);
+        MakeGraph(array, h, d, playerNum);
+        CreatePlayer(playerId0);
+        // CreatePlayer(playerId1);
+        // CreatePlayer(playerId2);
+        CreatePlayer(playerId3);
     }
 
     void MakeGraph(int[,] map, int row, int col, int playerNum)
@@ -186,9 +199,10 @@ public class RoomCreate : MonoBehaviour
                         room = Instantiate(NormalRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Normal
                         if (map[i, j] == 12)  // 出生点
                         {
-                            //  根据玩家编号来决定出生位置
+                            //  确定出生点的 x y 值
+                            birthX = i;
+                            birthY = j;
                             startRoom = nowRoom;
-                            Player.transform.position = new Vector3(xOffset * j + startPosition[playerNum * 2], yOffset * i + startPosition[playerNum * 2 + 1], 0);
                             terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
                         }
                         else
@@ -381,7 +395,16 @@ public class RoomCreate : MonoBehaviour
             roomToDoor.Add(i + 1, roomToDoorTmp[i]);
         }
     }
+
+    public void CreatePlayer(int playerNum)
+    {
+        //  创建玩家实体并根据玩家编号来决定出生位置
+        GameObject playerTmp = Instantiate(Player, new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0), Quaternion.identity);
+        playerToPlayer.Add(playerNum, playerTmp);
+        playerToRoom.Add(playerNum, startRoom);
+    }
 }
+
 
 [System.Serializable]
 public class Door
