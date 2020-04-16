@@ -17,16 +17,7 @@ public class MapManager : SceneManager
     string CurrentScene  = "LoginPanel";
 
     SystemManager sys;
-    public MapManager()
-    {
-        SceneList = new List<string>();
-        SceneList.Add("Scenes/LoginPanel");
-        SceneList.Add("Scenes/Main");
-        SceneList.Add("Scenes/TeamUpUI");
-        SceneList.Add("Scenes/Battle");
-        SceneList.Add("Scenes/RoomList");
-        SceneList.Add("Scenes/HeroSelect");
-    }
+
     public MapManager(SystemManager system)
     {
         sys = system;
@@ -37,6 +28,7 @@ public class MapManager : SceneManager
         SceneList.Add("Scenes/Battle");
         SceneList.Add("Scenes/RoomList");
         SceneList.Add("Scenes/HeroSelect");
+        SceneList.Add("Scenes/MapCreate");
     }
 
     public void SwitchScene(string targetScene)

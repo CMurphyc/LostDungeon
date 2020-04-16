@@ -116,7 +116,5 @@ public class ClientSend
         EnterRoomC2S pack = new EnterRoomC2S();
         pack.RoomId = RoomID;
         Send(pack.ToByteArray(), GeneralType.EnterRoom);
-
-
     }
 }

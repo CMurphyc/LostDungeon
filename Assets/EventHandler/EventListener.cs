@@ -38,11 +38,10 @@ public class EventListener : MonoBehaviour
         {
             if (synPack.Succeed)
             {
-                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Battle");
+                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("MapCreate");
             }
             else
             {
-
                 Debug.Log("开始游戏失败,有玩家未准备");
             }
 
