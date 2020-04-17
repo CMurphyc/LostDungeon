@@ -81,10 +81,11 @@ public class RoomCreate : MonoBehaviour
 
 
         int playerNum = sys._model._RoomModule.GetPlayerSize();
-
+        playerNum = 1;
         int seed = sys._model._RoomModule.MapSeed;
-        seed = 80000000;
+        seed = 10330178;
         int floorNum = sys._model._RoomModule.MapFloorNumber;
+        floorNum = 5;
         RandMap.StartRand(seed, playerNum, floorNum);
         int d = RandMap.GetWidth() + 1;
         int h = RandMap.GetHeight() + 1;
