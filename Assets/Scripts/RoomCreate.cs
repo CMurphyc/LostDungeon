@@ -44,30 +44,48 @@ public class RoomCreate : MonoBehaviour
     public int yOffset;
     public int[,] roomTag;
     public int startRoom;
-    public Dictionary<int, List<GameObject>> roomToStone = new Dictionary<int, List<GameObject>>();   // 房间号对应的石头列表
-    public Dictionary<int, List<GameObject>> roomToMonster = new Dictionary<int, List<GameObject>>();   // 房间号对应的怪物列表
-    public Dictionary<int, List<int>> roomToDoor = new Dictionary<int, List<int>>();   // 房间号对应的门列表
-    public Dictionary<int, GameObject> doornumToDoor = new Dictionary<int, GameObject>();   // 门号对应门的实体
-    public Dictionary<int, DoorData> doorToDoor = new Dictionary<int, DoorData>();   // 一个编号的门传送到的另一个门的编号
-    public Dictionary<int, int> doorToRoom = new Dictionary<int, int>();   // 一个编号的门对应的房间编号
-    public Dictionary<int, int> playerToRoom = new Dictionary<int, int>();   // 玩家编号对应房间号
-    public Dictionary<int, GameObject> playerToPlayer = new Dictionary<int, GameObject>();   // 玩家编号对应玩家实体
+    public Dictionary<int, List<GameObject>> roomToStone ;   // 房间号对应的石头列表
 
+    public Dictionary<int, List<int>> roomToDoor ;   // 房间号对应的门列表
+    public Dictionary<int, GameObject> doornumToDoor ;   // 门号对应门的实体
+    public Dictionary<int, DoorData> doorToDoor ;   // 一个编号的门传送到的另一个门的编号
+    public Dictionary<int, int> doorToRoom ;   // 一个编号的门对应的房间编号
+  
+    public Dictionary<int, PlayerInGameData> playerToPlayer ;   // 玩家编号对应玩家信息
+    public Dictionary<int, List<GameObject>> roomToMonster ;   // 房间号对应的怪物列表
+   
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
     private int birthX;
     private int birthY;
 
+    SystemManager sys;
+    private void Awake()
+    {
+        sys = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        int playerNum = 1;
-        int nowFloor = 5;
-        int playerId0 = 0;
-        // int playerId1 = 1;
-        // int playerId2 = 2;
-        int playerId3 = 3;
-        RandMap.StartRand(10330178, playerNum, nowFloor);
+        //人物初始化
+        playerToPlayer = sys._battle._player.playerToPlayer;
+        //怪物初始化
+        roomToMonster = sys._battle._monster.RoomToMonster;
+        //地形初始化
+        roomToStone = sys._battle._terrain.roomToStone;
+        roomToDoor = sys._battle._terrain.roomToDoor;
+        doornumToDoor = sys._battle._terrain.doornumToDoor;
+        doorToDoor = sys._battle._terrain.doorToDoor;
+        doorToRoom = sys._battle._terrain.doorToRoom;
+
+
+        int playerNum = sys._model._RoomModule.GetPlayerSize();
+
+        int seed = sys._model._RoomModule.MapSeed;
+        seed = 80000000;
+        int floorNum = sys._model._RoomModule.MapFloorNumber;
+        RandMap.StartRand(seed, playerNum, floorNum);
         int d = RandMap.GetWidth() + 1;
         int h = RandMap.GetHeight() + 1;
         int[,] array = new int[h, d];
@@ -79,13 +97,66 @@ public class RoomCreate : MonoBehaviour
             }
         }
         MakeGraph(array, h, d, playerNum);
-        CreatePlayer(playerId0);
-        // CreatePlayer(playerId1);
-        // CreatePlayer(playerId2);
-        CreatePlayer(playerId3);
-    }
 
-    void MakeGraph(int[,] map, int row, int col, int playerNum)
+        Debug.Log("Astar");
+        AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
+        int Width = (int)(GetRightTop().x - GetLeftBottom().x + 1);
+        int Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
+        AStar.data.gridGraph.center = new Vector3((GetRightTop().x + GetLeftBottom().x)/2+0.5f, (GetRightTop().y + GetLeftBottom().y)/2+0.5f);
+        AStar.data.gridGraph.SetDimensions(Width, Depth, 1);
+        AStar.Scan();
+
+
+        List<PlayerData> PlayerList = sys._model._RoomModule.PlayerList;
+        for (int i = 0; i< PlayerList.Count;i++)
+        {
+            if (!PlayerList[i].empty)
+            {
+                CreatePlayer(i, PlayerList[i].uid);
+            }
+        }
+
+
+        //AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
+        //AStar.data.gridGraph.Width = (int)(GetRightTop().x - GetLeftBottom().x +1);
+        //AStar.data.gridGraph.Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
+
+        //Debug.Log(AStar.data.gridGraph.Width);
+        //Debug.Log(AStar.data.gridGraph.Depth);
+        //AStar.data.gridGraph.center = new Vector3(GetRightTop().x - GetLeftBottom().x, GetRightTop().y - GetLeftBottom().y);
+        //Debug.Log(AStar.data.gridGraph.center);
+        //AStar.Scan();
+
+
+        //怪物初始化
+        sys._battle._monster.RoomToMonster = roomToMonster;
+        //人物初始化
+        sys._battle._player.playerToPlayer = playerToPlayer;
+        //地形初始化
+        sys._battle._terrain.roomToStone = roomToStone;
+        sys._battle._terrain.roomToDoor = roomToDoor;
+        sys._battle._terrain.doornumToDoor = doornumToDoor;
+        sys._battle._terrain.doorToDoor = doorToDoor;
+        sys._battle._terrain.doorToRoom = doorToRoom;
+
+        
+        
+        //初始化相机
+        for (int i = 0; i < PlayerList.Count; i++)
+        {
+            if (!PlayerList[i].empty && PlayerList[i].uid == sys._model._PlayerModule.uid)
+            {
+                Camera.main.GetComponent<CameraController>().SetTarget(playerToPlayer[PlayerList[i].uid].obj);
+                break;
+            }
+        }
+
+
+
+
+}
+
+void MakeGraph(int[,] map, int row, int col, int playerNum)
     {
 
         // 根据传入的矩阵生成整体房间地图
@@ -203,7 +274,9 @@ public class RoomCreate : MonoBehaviour
                             birthX = i;
                             birthY = j;
                             startRoom = nowRoom;
-                            terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
+                            //kkkkkkkkkkkkkkkkkkkk
+                            //terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
+                            terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         }
                         else
                         {
@@ -228,7 +301,9 @@ public class RoomCreate : MonoBehaviour
                         }
                     }
                 }
-                if (terrain != null && nowRoom != startRoom)
+                //kkkkkkk
+                // if (terrain != null && nowRoom != startRoom)
+                if (terrain != null)
                 {
                     Transform father = terrain.transform;
                     int monsterNum = 0;
@@ -245,8 +320,8 @@ public class RoomCreate : MonoBehaviour
                         {
                             if (monsterNum % (5 - playerNum) == 0)
                             {
-                                GameObject monster = Instantiate(MonsterList[Random.Range(0, MonsterList.Length)], child.transform);
-                                child.transform.position = Vector3.zero;
+                                GameObject monster = Instantiate(MonsterList[Random.Range(0, MonsterList.Length)], child.transform.position, Quaternion.identity);
+                                monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
                                 monsters.Add(monster);
                             }
                             monsterNum++;
@@ -255,6 +330,9 @@ public class RoomCreate : MonoBehaviour
                 }
                 roomToStone.Add(nowRoom, stones);
                 roomToMonster.Add(nowRoom, monsters);
+
+
+                
             }
         }
 
@@ -395,14 +473,21 @@ public class RoomCreate : MonoBehaviour
         {
             roomToDoor.Add(i + 1, roomToDoorTmp[i]);
         }
+
+
     }
 
-    public void CreatePlayer(int playerNum)
+    public void CreatePlayer(int playerNum , int uid)
     {
         //  创建玩家实体并根据玩家编号来决定出生位置
         GameObject playerTmp = Instantiate(Player, new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0), Quaternion.identity);
-        playerToPlayer.Add(playerNum, playerTmp);
-        playerToRoom.Add(playerNum, startRoom);
+        playerTmp.transform.localScale = new Vector3(2,2,1);
+        PlayerInGameData data = new PlayerInGameData();
+        data.obj = playerTmp;
+        data.RoomID = startRoom;
+        playerToPlayer.Add(uid, data);
+
+    
     }
 
     public Vector2 GetLeftBottom()

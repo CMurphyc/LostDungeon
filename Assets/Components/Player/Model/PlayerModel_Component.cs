@@ -112,6 +112,7 @@ public class PlayerModel_Component : MonoBehaviour
 
     public void Move(Vector2 v)
     {
+        v=10*v;
         playerPosition.x += v.x;
         playerPosition.y += v.y;
         if (v.x != 0)
