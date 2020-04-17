@@ -102,14 +102,8 @@ public class RoomCreate : MonoBehaviour
         AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
         int Width = (int)(GetRightTop().x - GetLeftBottom().x + 1);
         int Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
-
-        Debug.Log(Width);
-        Debug.Log(Depth);
         AStar.data.gridGraph.center = new Vector3((GetRightTop().x + GetLeftBottom().x)/2+0.5f, (GetRightTop().y + GetLeftBottom().y)/2+0.5f);
-      
         AStar.data.gridGraph.SetDimensions(Width, Depth, 1);
-        Debug.Log("Center");
-        Debug.Log(AStar.data.gridGraph.center);
         AStar.Scan();
 
 

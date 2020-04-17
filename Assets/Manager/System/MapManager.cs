@@ -93,10 +93,42 @@ public class MapManager : SceneManager
                 }
 
 
-                Animation_Prefab.transform.localScale = new Vector3(400, 400, 1);
-                Animation_Prefab.transform.position = Global.PlayerPosList[sys._model._RoomModule.GetPlayerIndex(sys._model._RoomModule.PlayerList[i].uid)];
+                //Animation_Prefab.transform.localScale = new Vector3(400, 400, 1);
+      
+                //Vector3 WorldPos = Camera.main.ScreenToWorldPoint(Global.PlayerPosList[sys._model._RoomModule.GetPlayerIndex(sys._model._RoomModule.PlayerList[i].uid)]);
+                //Animation_Prefab.transform.position = WorldPos;
+
                 GameObject Enginner_Instance = UnityEngine.Object.Instantiate(Animation_Prefab);
+                Enginner_Instance.transform.parent = GameObject.Find("Canvas").transform;
+                int index = sys._model._RoomModule.GetPlayerIndex(sys._model._RoomModule.PlayerList[i].uid);
+                if (index == 0)
+                {
+                    Vector3 UIpos = GameObject.Find("Canvas/player1").transform.position;
+                    Enginner_Instance.transform.position = UIpos;
+                }
+                else if  (index ==1)
+                {
+                    Vector3 UIpos = GameObject.Find("Canvas/player2").transform.position;
+                    Enginner_Instance.transform.position = UIpos;
+
+                }
+                else if (index ==2)
+                {
+                    Vector3 UIpos = GameObject.Find("Canvas/player3").transform.position;
+                    Enginner_Instance.transform.position = UIpos;
+                }
+                else if (index ==3)
+                {
+                    Vector3 UIpos = GameObject.Find("Canvas/player4").transform.position;
+                    Enginner_Instance.transform.position = UIpos;
+
+                }
+
+                Enginner_Instance.transform.localScale = new Vector3(400, 400, 1);
+
+
                 sys._model._RoomModule.PlayerAnimation.Add(Enginner_Instance);
+
 
             
                 GameObject username = GameObject.Find("Canvas/player" + (i + 1).ToString() + "/name");
