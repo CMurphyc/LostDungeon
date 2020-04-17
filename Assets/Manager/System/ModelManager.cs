@@ -11,7 +11,7 @@ public class ModelManager
     public PlayerModule _PlayerModule;
 
     public RoomListModule _RoomListModule;
-
+    public JoyStickModule _JoyStickModule;
 
     public ModelManager()
     {
@@ -19,6 +19,7 @@ public class ModelManager
         _BagModule = new BagModule();
         _PlayerModule = new PlayerModule();
         _RoomListModule = new RoomListModule();
+        _JoyStickModule = new JoyStickModule();
     }
 
 

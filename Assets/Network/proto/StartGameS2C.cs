@@ -22,12 +22,14 @@ public static partial class StartGameS2CReflection {
   static StartGameS2CReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChJTdGFydEdhbWVTMkMucHJvdG8iLgoMU3RhcnRHYW1lUzJDEg0KBWVycm9y",
-          "GAEgASgFEg8KB3N1Y2NlZWQYAiABKAhiBnByb3RvMw=="));
+          "ChJTdGFydEdhbWVTMkMucHJvdG8aEFBsYXllckluZm8ucHJvdG8icwoMU3Rh",
+          "cnRHYW1lUzJDEg0KBWVycm9yGAEgASgFEg8KB3N1Y2NlZWQYAiABKAgSDAoE",
+          "c2VlZBgDIAEoBRITCgtmbG9vck51bWJlchgEIAEoBRIgCgtwbGF5ZXJzSW5m",
+          "bxgFIAMoCzILLlBsYXllckluZm9iBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
+        new pbr::FileDescriptor[] { global::PlayerInfoReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::StartGameS2C), global::StartGameS2C.Parser, new[]{ "Error", "Succeed" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::StartGameS2C), global::StartGameS2C.Parser, new[]{ "Error", "Succeed", "Seed", "FloorNumber", "PlayersInfo" }, null, null, null)
         }));
   }
   #endregion
@@ -61,6 +63,9 @@ public sealed partial class StartGameS2C : pb::IMessage<StartGameS2C> {
   public StartGameS2C(StartGameS2C other) : this() {
     error_ = other.error_;
     succeed_ = other.succeed_;
+    seed_ = other.seed_;
+    floorNumber_ = other.floorNumber_;
+    playersInfo_ = other.playersInfo_.Clone();
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -91,6 +96,38 @@ public sealed partial class StartGameS2C : pb::IMessage<StartGameS2C> {
     }
   }
 
+  /// <summary>Field number for the "seed" field.</summary>
+  public const int SeedFieldNumber = 3;
+  private int seed_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Seed {
+    get { return seed_; }
+    set {
+      seed_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "floorNumber" field.</summary>
+  public const int FloorNumberFieldNumber = 4;
+  private int floorNumber_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int FloorNumber {
+    get { return floorNumber_; }
+    set {
+      floorNumber_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "playersInfo" field.</summary>
+  public const int PlayersInfoFieldNumber = 5;
+  private static readonly pb::FieldCodec<global::PlayerInfo> _repeated_playersInfo_codec
+      = pb::FieldCodec.ForMessage(42, global::PlayerInfo.Parser);
+  private readonly pbc::RepeatedField<global::PlayerInfo> playersInfo_ = new pbc::RepeatedField<global::PlayerInfo>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public pbc::RepeatedField<global::PlayerInfo> PlayersInfo {
+    get { return playersInfo_; }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as StartGameS2C);
@@ -106,6 +143,9 @@ public sealed partial class StartGameS2C : pb::IMessage<StartGameS2C> {
     }
     if (Error != other.Error) return false;
     if (Succeed != other.Succeed) return false;
+    if (Seed != other.Seed) return false;
+    if (FloorNumber != other.FloorNumber) return false;
+    if(!playersInfo_.Equals(other.playersInfo_)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -114,6 +154,9 @@ public sealed partial class StartGameS2C : pb::IMessage<StartGameS2C> {
     int hash = 1;
     if (Error != 0) hash ^= Error.GetHashCode();
     if (Succeed != false) hash ^= Succeed.GetHashCode();
+    if (Seed != 0) hash ^= Seed.GetHashCode();
+    if (FloorNumber != 0) hash ^= FloorNumber.GetHashCode();
+    hash ^= playersInfo_.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -135,6 +178,15 @@ public sealed partial class StartGameS2C : pb::IMessage<StartGameS2C> {
       output.WriteRawTag(16);
       output.WriteBool(Succeed);
     }
+    if (Seed != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(Seed);
+    }
+    if (FloorNumber != 0) {
+      output.WriteRawTag(32);
+      output.WriteInt32(FloorNumber);
+    }
+    playersInfo_.WriteTo(output, _repeated_playersInfo_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -149,6 +201,13 @@ public sealed partial class StartGameS2C : pb::IMessage<StartGameS2C> {
     if (Succeed != false) {
       size += 1 + 1;
     }
+    if (Seed != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Seed);
+    }
+    if (FloorNumber != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(FloorNumber);
+    }
+    size += playersInfo_.CalculateSize(_repeated_playersInfo_codec);
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -166,6 +225,13 @@ public sealed partial class StartGameS2C : pb::IMessage<StartGameS2C> {
     if (other.Succeed != false) {
       Succeed = other.Succeed;
     }
+    if (other.Seed != 0) {
+      Seed = other.Seed;
+    }
+    if (other.FloorNumber != 0) {
+      FloorNumber = other.FloorNumber;
+    }
+    playersInfo_.Add(other.playersInfo_);
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -183,6 +249,18 @@ public sealed partial class StartGameS2C : pb::IMessage<StartGameS2C> {
         }
         case 16: {
           Succeed = input.ReadBool();
+          break;
+        }
+        case 24: {
+          Seed = input.ReadInt32();
+          break;
+        }
+        case 32: {
+          FloorNumber = input.ReadInt32();
+          break;
+        }
+        case 42: {
+          playersInfo_.AddEntriesFrom(input, _repeated_playersInfo_codec);
           break;
         }
       }

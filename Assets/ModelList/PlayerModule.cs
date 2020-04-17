@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class PlayerModule 
 {
-
     public int uid;
-
-
     public string nickname;
-
 }

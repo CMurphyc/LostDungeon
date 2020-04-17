@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainModule : MonoBehaviour
+public class TerrainModule 
 {
     BattleManager _parentManager;
 
 
-    //房间号-障碍物
-    public Dictionary<int, List<GameObject>> RoomToStone;
-    //房间号-传送门列表
-    public Dictionary<int, List<int>> RoomToDoor;
-    //门号-门号实体
-    public Dictionary<int, GameObject> DoorToDoorObj;
-    //门号-传送门号
-    public Dictionary<int, int> doorToDoor;
-    //门号-房间号
-    public Dictionary<int, int> DoorToRoom;
-
+    public Dictionary<int, List<GameObject>> roomToStone = new Dictionary<int, List<GameObject>>();   // 房间号对应的石头列表
+    public Dictionary<int, List<int>> roomToDoor = new Dictionary<int, List<int>>();   // 房间号对应的门列表
+    public Dictionary<int, GameObject> doornumToDoor = new Dictionary<int, GameObject>() ;   // 门号对应门的实体
+    public Dictionary<int, DoorData> doorToDoor = new Dictionary<int, DoorData>() ;   // 一个编号的门传送到的另一个门的编号
+    public Dictionary<int, int> doorToRoom = new Dictionary<int, int>() ;   // 一个编号的门对应的房间编号
 
     public TerrainModule(BattleManager parent)
     {

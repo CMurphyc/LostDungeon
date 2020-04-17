@@ -16,20 +16,39 @@ public class EventListener : MonoBehaviour
         EventDispatcher.Instance().RegistEventListener(EventMessageType.CreateGame, CreateRoom);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.GetRoomInfo, GetRoomInfo);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.GetRoomList, GetRoomList);
-
-
         EventDispatcher.Instance().RegistEventListener(EventMessageType.LeaveRoom, LeaveRoom);
 
         EventDispatcher.Instance().RegistEventListener(EventMessageType.StartGame, StartGame);
-       
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.BattleSyn, BattleSyn);
 
-        //EventDispatcher.Instance().RegistEventListener("Login", Login);
-        //EventDispatcher.Instance().RegistEventListener("Register", Register);
-        //EventDispatcher.Instance().RegistEventListener("CreateGame", CreateGame);
-        //EventDispatcher.Instance().RegistEventListener("GetRoomList", GetRoomList);
-        //EventDispatcher.Instance().RegistEventListener("EnterRoom", EnterRoom);
-        //EventDispatcher.Instance().RegistEventListener("PlayerReady", PlayerReady);
-        //EventDispatcher.Instance().RegistEventListener("RoomStart", RoomStart);
+    
+    }
+
+    void BattleSyn(EventBase eb)
+    {
+        BattleFrame synPack = (BattleFrame)eb.eventValue;
+        if (synPack.Error == 0)
+        {
+            //Debug.Log("SynPack");
+            // 缓存帧信息
+            main.GetComponent<GameMain>().WorldSystem._battle.SeverFrame = synPack.FrameNumber;
+            main.GetComponent<GameMain>().WorldSystem._battle.Seed = synPack.RandomCode;
+
+            //Debug.Log("Sever Frame: "+ synPack.FrameNumber);
+            //Debug.Log("Seed: " + synPack.RandomCode);
+            List<BattleInput> Inputs = new List<BattleInput>();
+            for (int i = 0; i <synPack.BattleInputs.Count;i++)
+            {
+                Inputs.Add(synPack.BattleInputs[i]);
+
+                
+
+            }
+            main.GetComponent<GameMain>().WorldSystem._battle._player.frameInfo = Inputs;
+            main.GetComponent<GameMain>().WorldSystem._battle.UpdateFrame();
+        
+            main.GetComponent<GameMain>().socket.sock_c2s.BattleSynC2S(main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Ljoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick);
+        }
     }
     void StartGame(EventBase eb)
     {
@@ -38,11 +57,12 @@ public class EventListener : MonoBehaviour
         {
             if (synPack.Succeed)
             {
-                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Battle");
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapSeed = synPack.Seed;
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapFloorNumber = synPack.FloorNumber;
+                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("MapCreate");
             }
             else
             {
-
                 Debug.Log("开始游戏失败,有玩家未准备");
             }
 

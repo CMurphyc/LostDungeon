@@ -5,7 +5,15 @@ using System.IO;
 
 public class PackConverter 
 {
-    
+    public static FixVector3 Vector3ToFixVector3(Vector3 vec3)
+    {
+        return new FixVector3((Fix64)vec3.x, (Fix64)vec3.y, (Fix64)vec3.z);
+    }
+
+    public static Vector3 FixVector3ToVector3(FixVector3 fixvec3)
+    {
+        return new Vector3((float)fixvec3.x, (float)fixvec3.y, (float)fixvec3.z);
+    }
 
     public static byte[] intToBytes(int value)
     {

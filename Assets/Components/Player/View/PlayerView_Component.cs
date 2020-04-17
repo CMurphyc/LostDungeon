@@ -13,7 +13,7 @@ public class PlayerView_Component : MonoBehaviour
 
     void Update()
     {
-        RefreshView();
+        //RefreshView();
     }
 
     public void RefreshView()

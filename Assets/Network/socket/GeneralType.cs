@@ -15,9 +15,13 @@ public class GeneralType
     public static int StartGame = 17;
 
     public static int EnterRoom = 12;
-    
+
+    public static int BattleSynC2S = 50;
+    public static int BattleSynS2C = 151;
+   
 
 
- 
+
+
 };
   

@@ -46,6 +46,9 @@ class MeleeAI_Behavior
 
     public void LogicUpdate(int frame , Vector2 NpcPosition, Vector2 TargetPosition)
     {
+        //Debug.Log("NPC Position " + NpcPosition);
+        //Debug.Log("Current Frame " + frame);
+        //Debug.Log("Next Change Frame " + NextChangeStateFrame);
         if (CurrentState == (int)AI_BehaviorType.Dead)
             return;
 
@@ -54,6 +57,8 @@ class MeleeAI_Behavior
 
         if (distance2Player< AttackDistance && CurrentState!= (int)AI_BehaviorType.Attack)
         {
+
+            Debug.Log("In Attack Range:" + distance2Player);
             NextChangeStateFrame = frame;
             Attack = true;
         }
@@ -100,6 +105,8 @@ class MeleeAI_Behavior
 
     public void UpdateView()
     {
+        Boss.transform.position = new Vector2((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
+        Boss.transform.rotation = Boss.GetComponent<MonsterModel_Component>().Rotation;
         switch (CurrentState)
         {
             case (int)AI_BehaviorType.Run:

@@ -16,20 +16,20 @@ public class DeathKnightAI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        Counter += 1;
+    //void Update()
+    //{
+    //    Counter += 1;
 
-        if (Counter == 120)
-        {
-            t2.Start(Counter);
-        }
-        Vector2 vec2 = transform.position;
-        Vector2 tar = target.transform.position;
-        t2.Update(Counter, vec2, tar);
+    //    if (Counter == 120)
+    //    {
+    //        t2.Start(Counter);
+    //    }
+    //    Vector2 vec2 = transform.position;
+    //    Vector2 tar = target.transform.position;
+    //    t2.Update(Counter, vec2, tar);
 
    
-    }
+    //}
 }
 
 

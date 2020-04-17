@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 870878452893989545}
   - component: {fileID: 870878452893989544}
   - component: {fileID: 870878452893989559}
+  - component: {fileID: -7918016135999067699}
   m_Layer: 8
   m_Name: BossRabit
   m_TagString: Untagged
@@ -68,8 +69,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2028834293
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7f4fc50017b57b747a1051c4cee23f99, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -111,5 +112,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee4fbea06c428cf4e8eb3f518a06959f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7918016135999067699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870878452893989547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1bab14efa120e4caecb9b4a3dc0d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
