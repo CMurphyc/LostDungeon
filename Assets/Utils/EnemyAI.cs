@@ -5,42 +5,31 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    int Counter = 0;
+    
     AI_Enemy AI_Controller;
-    public GameObject target;
+    
 
     void Start()
     {
         AI_Controller = new AI_Enemy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Counter += 1;
-        //if (Counter == 120)
-        //{
-        //    t2.Start(Counter);
-        //}
-        //Vector2 vec2 = transform.position;
-        //Vector2 tar = target.transform.position;
-        //t2.Update(Counter, vec2, tar);
-
-    }
     public void UpdateLogic(GameObject target,int frame)
     {
-        Vector2 vec2 = new Vector2();
+        Vector2 MonsterPos = new Vector2();
         Vector2 tar= new Vector2();
         if (target != null)
         {
-            vec2 = transform.position;
-            tar = target.transform.position;
+            MonsterPos = new Vector2((float)GetComponent<MonsterModel_Component>().position.x, (float)GetComponent<MonsterModel_Component>().position.y);
+          
+            tar =  PackConverter.FixVector3ToVector3(target.GetComponent<PlayerModel_Component>().Position);
         }
-        AI_Controller.Update(Counter, vec2, tar);
+        AI_Controller.LogicUpdate(frame, MonsterPos, tar);
     }
     public void UpdateView()
     {
-
+        
+        AI_Controller.UpdateView();
     }
 }
 class AI_Enemy : MeleeAI_Behavior
@@ -49,10 +38,10 @@ class AI_Enemy : MeleeAI_Behavior
     public SystemManager sys;
     public AI_Enemy(GameObject obj) : base(obj)
     {
-        //base.Idle_FrameInterval = 60;
+        base.Idle_FrameInterval = 60;
         base.Run_FrameInterval = 1;
         base.Attack_FrameInterval = 60;
-        base.AttackDistance = 1;
+        base.AttackDistance = 0.07f;
         Boss = obj;
         
         sys = new SystemManager();
@@ -67,14 +56,20 @@ class AI_Enemy : MeleeAI_Behavior
     }
     public override void BossRunLogic(int frame)
     {
-
-        Boss.GetComponent<AIPath>().InitConfig(Boss.transform.position, Boss.transform.rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
+        //Debug.Log("Runnning Logic");
+        Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
+        Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
         //获取当前帧位置
         Vector3 Pos;
         Quaternion Rot;
         Boss.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
-        Boss.transform.position = Pos;
-        Boss.transform.rotation = Rot;
+
+        //Debug.Log("Pos "+Pos);
+        //Debug.Log("Rot " + Rot);
+
+        FixVector3 FixMonsterPos = new FixVector3((Fix64)Pos.x, (Fix64)Pos.y, (Fix64)Pos.z);
+        Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
+        Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
 
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainModule : MonoBehaviour
+public class TerrainModule 
 {
     BattleManager _parentManager;
 

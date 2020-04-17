@@ -54,7 +54,6 @@ public class RoomCreate : MonoBehaviour
     public Dictionary<int, PlayerInGameData> playerToPlayer ;   // 玩家编号对应玩家信息
     public Dictionary<int, List<GameObject>> roomToMonster ;   // 房间号对应的怪物列表
    
-  
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
     private int birthX;
@@ -82,9 +81,9 @@ public class RoomCreate : MonoBehaviour
 
 
         int playerNum = sys._model._RoomModule.GetPlayerSize();
-       
 
         int seed = sys._model._RoomModule.MapSeed;
+        seed = 80000000;
         int floorNum = sys._model._RoomModule.MapFloorNumber;
         RandMap.StartRand(seed, playerNum, floorNum);
         int d = RandMap.GetWidth() + 1;
@@ -99,6 +98,21 @@ public class RoomCreate : MonoBehaviour
         }
         MakeGraph(array, h, d, playerNum);
 
+        Debug.Log("Astar");
+        AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
+        int Width = (int)(GetRightTop().x - GetLeftBottom().x + 1);
+        int Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
+
+        Debug.Log(Width);
+        Debug.Log(Depth);
+        AStar.data.gridGraph.center = new Vector3((GetRightTop().x + GetLeftBottom().x)/2+0.5f, (GetRightTop().y + GetLeftBottom().y)/2+0.5f);
+      
+        AStar.data.gridGraph.SetDimensions(Width, Depth, 1);
+        Debug.Log("Center");
+        Debug.Log(AStar.data.gridGraph.center);
+        AStar.Scan();
+
+
         List<PlayerData> PlayerList = sys._model._RoomModule.PlayerList;
         for (int i = 0; i< PlayerList.Count;i++)
         {
@@ -107,6 +121,19 @@ public class RoomCreate : MonoBehaviour
                 CreatePlayer(i, PlayerList[i].uid);
             }
         }
+
+
+        //AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
+        //AStar.data.gridGraph.Width = (int)(GetRightTop().x - GetLeftBottom().x +1);
+        //AStar.data.gridGraph.Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
+
+        //Debug.Log(AStar.data.gridGraph.Width);
+        //Debug.Log(AStar.data.gridGraph.Depth);
+        //AStar.data.gridGraph.center = new Vector3(GetRightTop().x - GetLeftBottom().x, GetRightTop().y - GetLeftBottom().y);
+        //Debug.Log(AStar.data.gridGraph.center);
+        //AStar.Scan();
+
+
         //怪物初始化
         sys._battle._monster.RoomToMonster = roomToMonster;
         //人物初始化
@@ -118,6 +145,8 @@ public class RoomCreate : MonoBehaviour
         sys._battle._terrain.doorToDoor = doorToDoor;
         sys._battle._terrain.doorToRoom = doorToRoom;
 
+        
+        
         //初始化相机
         for (int i = 0; i < PlayerList.Count; i++)
         {
@@ -127,6 +156,10 @@ public class RoomCreate : MonoBehaviour
                 break;
             }
         }
+
+
+
+
 }
 
 void MakeGraph(int[,] map, int row, int col, int playerNum)
@@ -247,7 +280,9 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                             birthX = i;
                             birthY = j;
                             startRoom = nowRoom;
-                            terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
+                            //kkkkkkkkkkkkkkkkkkkk
+                            //terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
+                            terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         }
                         else
                         {
@@ -272,7 +307,9 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                         }
                     }
                 }
-                if (terrain != null && nowRoom != startRoom)
+                //kkkkkkk
+                // if (terrain != null && nowRoom != startRoom)
+                if (terrain != null)
                 {
                     Transform father = terrain.transform;
                     int monsterNum = 0;
@@ -289,7 +326,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                         {
                             if (monsterNum % (5 - playerNum) == 0)
                             {
-                                GameObject monster = Instantiate(MonsterList[Random.Range(0, MonsterList.Length)], child.transform);
+                                GameObject monster = Instantiate(MonsterList[Random.Range(0, MonsterList.Length)], child.transform.position, Quaternion.identity);
+                                monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
                                 monsters.Add(monster);
                             }
                             monsterNum++;
@@ -298,6 +336,9 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                 }
                 roomToStone.Add(nowRoom, stones);
                 roomToMonster.Add(nowRoom, monsters);
+
+
+                
             }
         }
 
@@ -438,6 +479,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
         {
             roomToDoor.Add(i + 1, roomToDoorTmp[i]);
         }
+
+
     }
 
     public void CreatePlayer(int playerNum , int uid)
@@ -451,6 +494,16 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
         playerToPlayer.Add(uid, data);
 
     
+    }
+
+    public Vector2 GetLeftBottom()
+    {
+        return new Vector2(-10, RandMap.GetHeight() * yOffset - 5);
+    }
+
+    public Vector2 GetRightTop()
+    {
+        return new Vector2(RandMap.GetWidth() * xOffset + 9, 4);
     }
 }
 

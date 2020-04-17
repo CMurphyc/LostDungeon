@@ -29,24 +29,20 @@ public class EventListener : MonoBehaviour
         BattleFrame synPack = (BattleFrame)eb.eventValue;
         if (synPack.Error == 0)
         {
-            Debug.Log("SynPack");
+            //Debug.Log("SynPack");
             // 缓存帧信息
             main.GetComponent<GameMain>().WorldSystem._battle.SeverFrame = synPack.FrameNumber;
             main.GetComponent<GameMain>().WorldSystem._battle.Seed = synPack.RandomCode;
 
-            Debug.Log("Sever Frame: "+ synPack.FrameNumber);
-            Debug.Log("Seed: " + synPack.RandomCode);
+            //Debug.Log("Sever Frame: "+ synPack.FrameNumber);
+            //Debug.Log("Seed: " + synPack.RandomCode);
             List<BattleInput> Inputs = new List<BattleInput>();
             for (int i = 0; i <synPack.BattleInputs.Count;i++)
             {
                 Inputs.Add(synPack.BattleInputs[i]);
 
                 
-               
-                Debug.Log(synPack.BattleInputs[i].MoveDirectionX);
-                Debug.Log(synPack.BattleInputs[i].MoveDirectionY);
-                Debug.Log(synPack.BattleInputs[i].AttackDirectionX);
-                Debug.Log(synPack.BattleInputs[i].AttackDirectionY);
+
             }
             main.GetComponent<GameMain>().WorldSystem._battle._player.frameInfo = Inputs;
             main.GetComponent<GameMain>().WorldSystem._battle.UpdateFrame();

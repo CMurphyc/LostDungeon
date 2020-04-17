@@ -198,36 +198,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: enemy44
       objectReference: {fileID: 0}
-    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
-        type: 3}
-      propertyPath: orientation
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
-        type: 3}
-      propertyPath: gravity.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
-        type: 3}
-      propertyPath: gravity.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
-        type: 3}
-      propertyPath: gravity.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
-        type: 3}
-      propertyPath: repathRate
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
-        type: 3}
-      propertyPath: enableRotation
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1769817788567972304, guid: b2f2f335622d5104287e5da1bc15c9eb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -283,6 +253,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
+        type: 3}
+      propertyPath: orientation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
+        type: 3}
+      propertyPath: gravity.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
+        type: 3}
+      propertyPath: gravity.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
+        type: 3}
+      propertyPath: gravity.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
+        type: 3}
+      propertyPath: repathRate
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2584962474344447142, guid: b2f2f335622d5104287e5da1bc15c9eb,
+        type: 3}
+      propertyPath: enableRotation
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2f2f335622d5104287e5da1bc15c9eb, type: 3}
 --- !u!1 &134136041 stripped
@@ -305,6 +305,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 266052429}
+  Target: {x: 0, y: 0, z: 0}
+  AI_Switch: 0
 --- !u!114 &134136043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +490,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 266052429}
+  Target: {x: 0, y: 0, z: 0}
+  AI_Switch: 0
 --- !u!1 &400370072
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +606,6 @@ GameObject:
   - component: {fileID: 618591954}
   - component: {fileID: 618591957}
   - component: {fileID: 618591956}
-  - component: {fileID: 618591955}
   m_Layer: 9
   m_Name: boss10_2_0
   m_TagString: Untagged
@@ -673,28 +676,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!66 &618591955
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 618591952}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths: []
-  m_CompositePaths:
-    m_Paths: []
-  m_VertexDistance: 0.0005
-  m_OffsetDistance: 0.000005
 --- !u!50 &618591956
 Rigidbody2D:
   serializedVersion: 4
@@ -906,7 +887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAABAIewimiaPaQIAAAwFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMty4jAQ/BVK5yWFCS/vbdchZA95VMhWLr7I0hirkCWXJAdIin/fkWxjhz0hZnpG3T0jfxGhbAXMabMxgj9qDuTniPgz+THqkw9wpDuttuITOsy74K7wIBowr9QJjfHIl1ldgjOC/VI76cETDNZK5NqUa76DRFtnMZxTaQFTRjtfrTD0NSJH/BnHvuSEp+nSnz7xFE9GZzwyUA5MD13eRItFtFy1+PHsJprOZqvp4ratmyBgHseL+XwaGtSKSVpWwL2avk9023ZYBpRCmS3AS2JaSmFbjsSdquBBQitbo0IEcEFRcyDm8QWIXeE8/2Hxc55bcK0hhp7uhEHrmq7kt278LKndN7Q+qKz9PfOoYd40ffwvP45COje6fOjujSb+DlcItn+lJ0atGxg+DN99J16rA5V7mkl4L0A96Y3RteKYdKb2pbWF6V3/9yItKYDt+3hD9SpYV73d3Xy76XoN56D+mEhRZmFwsyawlTr4HZYCDE7mDxIOK2PbFhj1LP5aeKO74W61iXthrMNUq1J5epmujYeSdfDMq6ldoo2CEG5JV6CodKcXbOOuR3iVG1x7lbmn/hW1l7e57nFclYRwj59MrlIv+nAZli304RFs8Vw7KRT0pH3iCX1KtFLNhg096cq2tckpG5TtasG/rxbhM76ar2YLFsXxlGf5OIMl5TFkNM9uozljJOyeUKiTypeGaGsPTk31zRXuWfdxGW0MrcK2c0MPG/FZ6oHlQuV6ywyAem46XIiDwUvwVfI1F2jQFpwTKsybfKVEarYHnl4apUHp+ugMTfsuKanEh3Y+kpIkfE1Scibnf1BLAwQUAAAICAAAQCHs5DKSn20AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNVRUEovSizIKAaKGII4pZkpIHa0UopJioWphYlZsqGlpVFKUppuUqp5YoplalJiWpKxoWlyslIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAQCHsIpomj2kCAAAMBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAQCHs5DKSn20AAAB4AAAACQAkAAAAAAAAAAAAAAC2AgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAG4DAAAAAA==
+    dataString: UEsDBBQAAAgIAABAIeyjoFlgZgIAAAkFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVE1z2jAQ/SuMziWDXfPh3lpCSA/5mNBOLr7I0hprkCWPPgIkw3+vJMsxcU+I93ZXb9+u/IGY0C0QI9VWMfogKaAfE+TP6NtkIO/hhPdS7Ng79DGvjJraB+EQ84INkw5PfJqWDRjFyE+x5z545kArWCVVs6F7WEtttIMrzDU4Sknjs4WDPibo5H6muU85u1O69Kd3d8pnk4s7EhAG1BC6vEkWi2S5ivHT7CZJs2yVxqyZo+d5vpjP05BuBeG4aYH6XoYq6SLmJ1kIE67LGOErEck501EiMuc2WLBra1DgPaAMu46DLG9ADWxfm3HuU1VpMNEOhc+3TDnjuqLol+zcbLA+dLLeMLf+mnnSKe+KPvzHT5NAV0o29/29yczfYWpGDi/4TLA2V3Zfw7dfhVtxxPyASw6vNYhHuVXSCupIo6xPtRrS2+HvZ2vrGshhwDupI9C2g939dPvZ+h4uofvTmrOmDIPLOmDHZbA7rAQoN5jfTnBYGB1LONSr+KvhD95fb1Yk7pjSxlGxS+HlldIqH4o2wTPfjTVrqQQEOIpuQWBuzs+ujBmPcMRdXTti7rB/Q/HyyPVPY5QS4CF+NhtRz/L4OSxdy+MD6PrJGs4EDKI98eh8Wkshug3TX0mftbOqwuQqa28Z/bpZiGZ0NV9lC5LkeUrLalrCEtMcSlyV35M5ISisHhOuTcyfO53RHTc0MRQXbs36L8tkq3Ablp0qfNyy90Ze6WOikjuiAMRTV6F3SINyl7g3STeUOX92YAwTYdzoo0BckgPQ4rNQETrdnIzCxVClQC17k8YjBVqHT0mBLujyD1BLAwQUAAAICAAAQCHs5DKSn20AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNVRUEovSizIKAaKGII4pZkpIHa0UopJioWphYlZsqGlpVFKUppuUqp5YoplalJiWpKxoWlyslIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAQCHso6BZYGYCAAAJBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAQCHs5DKSn20AAAB4AAAACQAkAAAAAAAAAAAAAACzAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAGsDAAAAAA==
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -1541,9 +1522,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1850111518}
   - component: {fileID: 1850111519}
-  - component: {fileID: 1850111522}
   - component: {fileID: 1850111521}
   - component: {fileID: 1850111520}
+  - component: {fileID: 1850111522}
   m_Layer: 9
   m_Name: boss10_1
   m_TagString: Untagged
@@ -1657,8 +1638,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &1850111522
-CircleCollider2D:
+--- !u!61 &1850111522
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1671,8 +1652,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.45, y: 0.44}
+    newSize: {x: 0.45, y: 0.44}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.225
+  m_Size: {x: 0.45, y: 0.44}
+  m_EdgeRadius: 0
 --- !u!1001 &1885334621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1764,11 +1755,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossRabit
       objectReference: {fileID: 0}
-    - target: {fileID: 870878452893989545, guid: 35bc7c21a8abe234180c112b64e042bc,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 870878452893989558, guid: 35bc7c21a8abe234180c112b64e042bc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1823,6 +1809,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 870878452893989545, guid: 35bc7c21a8abe234180c112b64e042bc,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35bc7c21a8abe234180c112b64e042bc, type: 3}

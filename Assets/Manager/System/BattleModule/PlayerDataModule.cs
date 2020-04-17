@@ -14,12 +14,12 @@ public class PlayerDataModule
     {
         _parentManager = parent;
     }
+
+
     public void UpdateLogic(int frame)
     {
-
         for (int i = 0; i < frameInfo.Count;i++)
         {
-        
             if (playerToPlayer.ContainsKey(frameInfo[i].Uid))
             {
                 PlayerInGameData Input = playerToPlayer[frameInfo[i].Uid];
@@ -27,9 +27,7 @@ public class PlayerDataModule
                 Vector2 MoveVec = new Vector2(frameInfo[i].MoveDirectionX/10000f, frameInfo[i].MoveDirectionY/10000f).normalized * Global.FrameRate/1000f;
                 Input.obj.GetComponent<PlayerModel_Component>().Move(MoveVec);
             }
-
         }
-
     }
     public void UpdateView()
     {
@@ -44,5 +42,31 @@ public class PlayerDataModule
             }
 
         }
+    }
+
+
+    public HashSet<int> GetLiveRoom()
+    {
+        HashSet<int> LiveRoomList = new HashSet<int>();
+        foreach( var item in playerToPlayer)
+        {
+            LiveRoomList.Add(item.Value.RoomID);
+        }
+        return LiveRoomList;
+    }
+
+    public List<PlayerInGameData> FindPlayerInRoom(int roomid)
+    {
+        List<PlayerInGameData> ret = new List<PlayerInGameData>();
+
+        foreach(var item in playerToPlayer)
+        {
+            if (item.Value.RoomID == roomid)
+            {
+                ret.Add(item.Value);
+            }
+
+        }
+        return ret;
     }
 }

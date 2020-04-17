@@ -123,8 +123,6 @@ public class ClientSend
         BattleInput pack = new BattleInput();
         //导入信息 To Do
 
-        Debug.Log("Left: " + Left);
-        Debug.Log("Right: " + Right);
         pack.MoveDirectionX = (int)(Left.x *10000);
         pack.MoveDirectionY = (int)(Left.y *10000);
         pack.AttackDirectionX = (int)(Right.x * 10000);
