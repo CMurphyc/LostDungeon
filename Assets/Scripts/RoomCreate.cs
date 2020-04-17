@@ -246,6 +246,7 @@ public class RoomCreate : MonoBehaviour
                             if (monsterNum % (5 - playerNum) == 0)
                             {
                                 GameObject monster = Instantiate(MonsterList[Random.Range(0, MonsterList.Length)], child.transform);
+                                child.transform.position = Vector3.zero;
                                 monsters.Add(monster);
                             }
                             monsterNum++;
@@ -402,6 +403,16 @@ public class RoomCreate : MonoBehaviour
         GameObject playerTmp = Instantiate(Player, new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0), Quaternion.identity);
         playerToPlayer.Add(playerNum, playerTmp);
         playerToRoom.Add(playerNum, startRoom);
+    }
+
+    public Vector2 GetLeftBottom()
+    {
+        return new Vector2(-10, RandMap.GetHeight() * yOffset - 5);
+    }
+
+    public Vector2 GetRightTop()
+    {
+        return new Vector2(RandMap.GetWidth() * xOffset + 9, 4);
     }
 }
 
