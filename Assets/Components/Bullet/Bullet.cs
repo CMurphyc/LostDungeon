@@ -125,7 +125,7 @@ public class BulletUnion : BulletBase
         }
     }
 
-    private bool CollideCheck(Bullet bullet, Monster monster)
+    private bool CollideCheck(Bullet bullet, MonsterMoudle monster)
     {
         CollideDetecter collideDetecter = new CollideDetecter();
         return collideDetecter.CircleCollideRect(bullet.collider.circle, monster.collider.rectangle);
@@ -134,24 +134,26 @@ public class BulletUnion : BulletBase
     //溅射
     private void Sputtering(Bullet bullet)
     {
-        for(int i = 0; i < Monster.roomToMonster[bullet.roomid].Count; ++i)
+        for(int i = 0; i < MonsterMoudle.roomToMonster[bullet.roomid].Count; ++i)
         {
             //获取真实的敌对单位位置的接口，待对接
             //在溅射范围内
-            if(Vector2.Distance(bullet.anchor, ) <= 20)
+            if(Vector2.Distance(bullet.anchor, MonsterMoudle.roomToMonster[bullet.roomid][i].transform.position) <= 20)
             {
                 //敌对单位受击接口，待对接
+                MonsterMoudle monsterMoudle = MonsterMoudle.roomToMonster[bullet.roomid][i].GetComponent<MonsterMoudle>();
+                monsterMoudle.BeAttacked(bullet.damage);
             }
         }
     }
     //闪电链
     private void LightningChain(Bullet bullet)
     {
-        List<int> enemyDistance = new List<int>();
-        for(int i = 0; i < Monster.roomToMonster[bullet.roomid].Count; ++i)
+        List<float> enemyDistance = new List<float>();
+        for(int i = 0; i < MonsterMoudle.roomToMonster[bullet.roomid].Count; ++i)
         {
             //获取真实的敌对单位位置的接口，待对接
-            enemyDistance.Add(Vector2.Distance(bullet.anchor, );
+            enemyDistance.Add(Vector2.Distance(bullet.anchor, MonsterMoudle.roomToMonster[bullet.roomid][i].transform.position));
         }
         enemyDistance.Sort();
 
@@ -161,12 +163,16 @@ public class BulletUnion : BulletBase
             enemyDistance.RemoveAt(i);
         }
 
-        for(int i = 0; i < Monster.roomToMonster[bullet.roomid].Count; ++i)
+        for(int i = 0; i < MonsterMoudle.roomToMonster[bullet.roomid].Count; ++i)
         {
             //获取真实的敌对单位位置的接口，待对接
-            if(Vector2.Distance(bullet.anchor, ) == enemyDistance[0] || Vector2.Distance(bullet.anchor, ) == enemyDistance[1] || Vector2.Distance(bullet.anchor, ) == enemyDistance[2])
+            if(Vector2.Distance(bullet.anchor, MonsterMoudle.roomToMonster[bullet.roomid][i].transform.position) == enemyDistance[0] || 
+               Vector2.Distance(bullet.anchor, MonsterMoudle.roomToMonster[bullet.roomid][i].transform.position) == enemyDistance[1] || 
+               Vector2.Distance(bullet.anchor, MonsterMoudle.roomToMonster[bullet.roomid][i].transform.position) == enemyDistance[2])
             {
                 //敌对单位受击接口，待对接
+                MonsterMoudle monsterMoudle = MonsterMoudle.roomToMonster[bullet.roomid][i].GetComponent<MonsterMoudle>();
+                monsterMoudle.BeAttacked(bullet.damage);
             }
         }
 
@@ -196,29 +202,46 @@ public class BulletUnion : BulletBase
     {
         for(int i = 0; i < spwanedBullet.Count; ++i)
         {
-            for(int j = 0; j < Monster.roomToMonster[spwanedBullet[i].roomid].Count; ++j)
+            for(int j = 0; j < MonsterMoudle.roomToMonster[spwanedBullet[i].roomid].Count; ++j)
             {
                 //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取，待对接
-                if(CollideCheck(spwanedBullet[i], )
+                MonsterMoudle monsterMoudle = MonsterMoudle.roomToMonster[spwanedBullet[i].roomid][j].GetComponent<MonsterMoudle>();
+                if(CollideCheck(spwanedBullet[i], monsterMoudle) == true)
                 {
                     spwanedBullet[i].active = false;
                     //attackEffect逻辑层面的实现
                     foreach(var effect in spwanedBullet[i].attackEffectList)
                     {
-                        if(effect == (int)bulletType.Penetrate) Penetrate(spwanedBullet[i]);
-                        else if(effect == (int)bulletType.Sputtering) Sputtering(spwanedBullet[i]);
-                        else if(effect == (int)bulletType.LightningChain) LightningChain(spwanedBullet[i]);
+                        switch(effect)
+                        {
+                            case (int)bulletType.Penetrate : 
+                                Penetrate(spwanedBullet[i]);
+                                break;
+                            case (int)bulletType.Sputtering : 
+                                Sputtering(spwanedBullet[i]);
+                                break;
+                            case (int)bulletType.LightningChain :
+                                LightningChain(spwanedBullet[i]);
+                                break;
+                        }
+                        // if(effect == (int)bulletType.Penetrate) Penetrate(spwanedBullet[i]);
+                        // else if(effect == (int)bulletType.Sputtering) Sputtering(spwanedBullet[i]);
+                        // else if(effect == (int)bulletType.LightningChain) LightningChain(spwanedBullet[i]);
                     }
 
                     //debuff传递逻辑层面的实现
                     foreach(var debuff in spwanedBullet[i].debuffList)
                     {
                         //待对接敌方单位的debuff接口
-                        if(debuff == (int)bulletType.Freeze)
-                        else if(debuff == (int)bulletType.Poision)
-                        else if(debuff == (int)bulletType.Burn)
-                        else if(debuff == (int)bulletType.Dizziness)
-                        else if(debuff == (int)bulletType.Retard)
+                        // switch(debuff)
+                        // {
+                        //     case : (int)bulletType.Freeze
+                        // }
+                        // if(debuff == (int)bulletType.Freeze)
+                        // else if(debuff == (int)bulletType.Poision)
+                        // else if(debuff == (int)bulletType.Burn)
+                        // else if(debuff == (int)bulletType.Dizziness)
+                        // else if(debuff == (int)bulletType.Retard)
                     }
                     //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
                     if(spwanedBullet[i].active == false) break;
