@@ -42,11 +42,11 @@ public class EnemyAI : MonoBehaviour
           
             tar = new  Vector2((float)target.GetComponent<PlayerModel_Component>().GetPlayerPosition().x, (float)target.GetComponent<PlayerModel_Component>().GetPlayerPosition().y);
         }
-        else
-        {
+        //else
+        //{
 
-            Debug.Log("null");
-        }
+        //    Debug.Log("null");
+        //}
         AI_Controller.LogicUpdate(frame, MonsterPos, tar, gameObject);
     }
     public void UpdateView()
@@ -81,7 +81,7 @@ class AI_Enemy : MeleeAI_Behavior
     {
         //Debug.Log("Runnning Logic");
 
-        Debug.Log("Logic Monster HP: " + Boss.GetComponent<MonsterModel_Component>().HP);
+        //Debug.Log("Logic Monster HP: " + Boss.GetComponent<MonsterModel_Component>().HP);
 
         Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
         Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);

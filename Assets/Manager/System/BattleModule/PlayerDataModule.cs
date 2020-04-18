@@ -45,9 +45,8 @@ public class PlayerDataModule
                 ////释放技能
                 //{
 
-
                 //Debug.Log("我射了");
-                if (frameInfo[i].AttackType != 0&&( frameInfo[i].AttackDirectionX!=0&&frameInfo[i].AttackDirectionY!=0))
+                if (frameInfo[i].AttackType != 0&&( Mathf.Abs(frameInfo[i].AttackDirectionX/10000f) >= 0.01f && Mathf.Abs(frameInfo[i].AttackDirectionY/10000f) >= 0.01f))
                 {
                     if (frame>=Input.NextAttackFrame)
                     {
@@ -109,7 +108,7 @@ public class PlayerDataModule
         HashSet<int> RoomList  = new HashSet<int>();
         foreach (var item in playerToPlayer)
         {
-            Debug.Log("Live Room Number: " + item.Value.RoomID);
+            //Debug.Log("Live Room Number: " + item.Value.RoomID);
 
             RoomList.Add(item.Value.RoomID);
         }

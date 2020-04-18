@@ -48,10 +48,10 @@ class MeleeAI_Behavior
     public void LogicUpdate(int frame , Vector2 NpcPosition, Vector2 TargetPosition, GameObject obj)
     {
 
-        Debug.Log("FrameNumber: "+ frame);
-        Debug.Log("NextChangeFrame: " + NextChangeStateFrame);
+        //Debug.Log("FrameNumber: "+ frame);
+        //Debug.Log("NextChangeFrame: " + NextChangeStateFrame);
 
-        Debug.Log(obj.GetComponent<MonsterModel_Component>().HP);
+        //Debug.Log(obj.GetComponent<MonsterModel_Component>().HP);
         if (obj.GetComponent<MonsterModel_Component>().HP<=Fix64.Zero)
         {
             //Debug.Log("HP =0 STATE = Dead");

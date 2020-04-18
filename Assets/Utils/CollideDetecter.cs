@@ -118,6 +118,7 @@ public class CollideDetecter
             PointToLine(point, line4) <= (rect.horizon + rect.vertical))
         {
             //Debug.Log("IN");
+            //Debug.Log("anchor is + " + rect.anchor);
             //Debug.Log("Distance * 4 = " + (PointToLine(point, line1) +
             //PointToLine(point, line2) +
             //PointToLine(point, line3) +

@@ -75,7 +75,9 @@ public class EventListener : MonoBehaviour
         if (synPack.Error == 0)
         {
             Debug.Log("返回成功");
-            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
+            //main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
+
+            main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList();
         }
 
     }

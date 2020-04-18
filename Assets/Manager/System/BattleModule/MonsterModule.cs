@@ -157,7 +157,7 @@ public class MonsterModule
             }
 
         }
-        Debug.Log("MONSTER HP: "+ obj.GetComponent<MonsterModel_Component>().HP);
+        //Debug.Log("MONSTER HP: "+ obj.GetComponent<MonsterModel_Component>().HP);
     }
 
 

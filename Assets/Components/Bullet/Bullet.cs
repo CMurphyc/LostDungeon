@@ -119,6 +119,8 @@ public class BulletUnion : BulletBase
     //初始化所有子弹逻辑层logic的信息以及视图层prefab的信息
     public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList)
     {
+        FixVector2 fv = new FixVector2((Fix64)0.000000023, (Fix64)0.00000000056);
+        Debug.Log("After normalize vector is " + fv.GetNormalized());
         //Debug.Log("传进来的vector：" + toward.x + " " + toward.y);
         ContainerInit();
         //逻辑层信息初始化
@@ -142,6 +144,7 @@ public class BulletUnion : BulletBase
         //根据信息量实例化对应信息的子弹实体
         foreach (var it in spwanedBullet)
         {
+            Debug.Log("bullet toward is " + it.toward);
             GameObject bulletInstance = GameObject.Instantiate(bulletPrefab, Converter.FixVector2ToVector2(anchor), bulletPrefab.transform.rotation);
             bulletList.Add(bulletInstance);
         }
@@ -280,6 +283,7 @@ public class BulletUnion : BulletBase
         //遍历墙体
         for (int i = 0; i < spwanedBullet.Count; ++i)
         {
+            //Debug.Log("stone sz " + _parentManager._terrain.roomToStone[spwanedBullet[i].roomid].Count);
             for (int j = 0; j < _parentManager._terrain.roomToStone[spwanedBullet[i].roomid].Count; ++j)
             {
                 //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取，待对接
@@ -296,9 +300,10 @@ public class BulletUnion : BulletBase
                 Rectangle rect = new Rectangle(new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)), new FixVector2((Fix64)1, (Fix64)1), 
                     (Fix64)collider.size.x, 
                     (Fix64)collider.size.y);
+                //Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
                 if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                 {
-                    Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
+                    //Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
                     spwanedBullet[i].active = false;
                     //attackEffect逻辑层面的实现
                     foreach (var effect in spwanedBullet[i].attackEffectList)
