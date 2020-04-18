@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Pathfinding;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,12 +25,12 @@ class MeleeAI_Behavior
     public float AttackDistance = 0;
     // 需初始化
     int NextChangeStateFrame = 0;
-    GameObject Boss;
+    
 
 
-    public MeleeAI_Behavior(GameObject obj)
+    public MeleeAI_Behavior()
     {
-        Boss = obj;
+      
     }
 
     public void Start(int frame)
@@ -40,18 +41,24 @@ class MeleeAI_Behavior
 
     public void Update(int frame, Vector2 NpcPosition, Vector2 TargetPosition)
     {
-        LogicUpdate(frame, NpcPosition, TargetPosition);
-        UpdateView();
+        //LogicUpdate(frame, NpcPosition, TargetPosition);
+        //UpdateView();
     }
 
-    public void LogicUpdate(int frame , Vector2 NpcPosition, Vector2 TargetPosition)
+    public void LogicUpdate(int frame , Vector2 NpcPosition, Vector2 TargetPosition, GameObject obj)
     {
-        //Debug.Log("NPC Position " + NpcPosition);
-        //Debug.Log("Current Frame " + frame);
-        //Debug.Log("Next Change Frame " + NextChangeStateFrame);
-        if (CurrentState == (int)AI_BehaviorType.Dead)
-            return;
 
+        Debug.Log("FrameNumber: "+ frame);
+        Debug.Log("NextChangeFrame: " + NextChangeStateFrame);
+
+        Debug.Log(obj.GetComponent<MonsterModel_Component>().HP);
+        if (obj.GetComponent<MonsterModel_Component>().HP<=Fix64.Zero)
+        {
+            //Debug.Log("HP =0 STATE = Dead");
+            obj.GetComponent<AIDestinationSetter>().AI_Switch = false;
+            CurrentState = (int)AI_BehaviorType.Dead;
+            return;
+        }
 
         float distance2Player = Vector2.Distance(NpcPosition, TargetPosition);
 
@@ -91,37 +98,37 @@ class MeleeAI_Behavior
             if (CurrentState == (int)AI_BehaviorType.Run)
             {
                 //Debug.Log("Run");
-                BossRunLogic(frame);
+                BossRunLogic(frame, obj);
                 NextChangeStateFrame = frame + Run_FrameInterval;
             }
             else if (CurrentState == (int)AI_BehaviorType.Attack)
             {
                 //Debug.Log("Attack");
-                BossAttackLogic(frame);
+                BossAttackLogic(frame, obj);
                 NextChangeStateFrame = frame + Attack_FrameInterval;
             }
         }
     }
 
-    public void UpdateView()
+    public void UpdateView(GameObject obj)
     {
-        Boss.transform.position = new Vector2((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
-        Boss.transform.rotation = Boss.GetComponent<MonsterModel_Component>().Rotation;
+        obj.transform.position = new Vector2((float)obj.GetComponent<MonsterModel_Component>().position.x, (float)obj.GetComponent<MonsterModel_Component>().position.y);
+        obj.transform.rotation = obj.GetComponent<MonsterModel_Component>().Rotation;
         switch (CurrentState)
         {
             case (int)AI_BehaviorType.Run:
                 {
-                    Boss.GetComponent<Animator>().SetInteger("MainState", 1);
+                    obj.GetComponent<Animator>().SetInteger("MainState", 1);
                     break;
                 }
             case (int)AI_BehaviorType.Attack:
                 {
-                    Boss.GetComponent<Animator>().SetInteger("MainState", 2);
+                    obj.GetComponent<Animator>().SetInteger("MainState", 2);
                     break;
                 }
             case (int)AI_BehaviorType.Dead:
                 {
-                    Boss.GetComponent<Animator>().SetInteger("MainState", 3);
+                    obj.GetComponent<Animator>().SetInteger("MainState", 3);
                     break;
                 }
 
@@ -130,7 +137,7 @@ class MeleeAI_Behavior
         }
 
     }
-    public virtual void BossRunLogic(int frame)
+    public virtual void BossRunLogic(int frame,GameObject obj)
     {
 
 
@@ -138,7 +145,7 @@ class MeleeAI_Behavior
     }
 
 
-    public virtual void BossAttackLogic(int frame)
+    public virtual void BossAttackLogic(int frame, GameObject obj)
     {
 
 

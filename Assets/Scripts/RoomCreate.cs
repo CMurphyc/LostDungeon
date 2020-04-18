@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class RoomCreate : MonoBehaviour
 {
     public GameObject Player;
@@ -28,6 +30,8 @@ public class RoomCreate : MonoBehaviour
     public Door GameDoor;
     public Door SacrificeDoor;
     public GameObject[] MonsterList;
+    public int[] MonsterInitHP;
+
     public GameObject[] NormalNormalTerrain;
     public GameObject[] NormalLshape1Terrain;
     public GameObject[] NormalLshape2Terrain;
@@ -83,7 +87,7 @@ public class RoomCreate : MonoBehaviour
         int playerNum = sys._model._RoomModule.GetPlayerSize();
 
         int seed = sys._model._RoomModule.MapSeed;
-        seed = 80000000;
+        Random.InitState(seed);
         int floorNum = sys._model._RoomModule.MapFloorNumber;
         RandMap.StartRand(seed, playerNum, floorNum);
         int d = RandMap.GetWidth() + 1;
@@ -297,7 +301,15 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                         GameObject child = father.GetChild(k).gameObject;
                         if (child.tag == "Collision")
                         {
-                            stones.Add(child);
+                            Transform childTransform = child.transform;
+                            for (int q = 0; q < childTransform.childCount; q++)
+                            {
+                                GameObject wall = childTransform.GetChild(q).gameObject;
+                                if (wall.tag == "Collision")
+                                {
+                                    stones.Add(wall);
+                                }
+                            }
                         }
                     }
                 }
@@ -320,8 +332,10 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                         {
                             if (monsterNum % (5 - playerNum) == 0)
                             {
-                                GameObject monster = Instantiate(MonsterList[Random.Range(0, MonsterList.Length)], child.transform.position, Quaternion.identity);
+                                int index = Random.Range(0, MonsterList.Length);
+                                GameObject monster = Instantiate(MonsterList[index], child.transform.position, Quaternion.identity);
                                 monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
+                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)MonsterInitHP[index];
                                 monsters.Add(monster);
                             }
                             monsterNum++;
@@ -482,6 +496,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
         //  创建玩家实体并根据玩家编号来决定出生位置
         GameObject playerTmp = Instantiate(Player, new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0), Quaternion.identity);
         playerTmp.transform.localScale = new Vector3(2,2,1);
+        
         PlayerInGameData data = new PlayerInGameData();
         data.obj = playerTmp;
         data.RoomID = startRoom;

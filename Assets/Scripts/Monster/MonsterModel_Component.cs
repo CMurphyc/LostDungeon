@@ -38,6 +38,11 @@ public class MonsterModel_Component : MonoBehaviour
     /// </summary>
     public Fix64 AttackSpeed { get; set; }
 
+
+    /// <summary>
+    /// 死亡后实体余留帧数
+    /// </summary>
+    public int FrameLeftFromDestroy = 60;
     /// <summary>
     /// 当前Debuff效果
     /// </summary>

@@ -12,7 +12,7 @@ public class DeathKnightAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        t2 = new AI_DeathKnight(gameObject);
+        //t2 = new AI_DeathKnight(gameObject);
     }
 
     // Update is called once per frame
@@ -40,21 +40,21 @@ class AI_DeathKnight : MeleeAI_Behavior
 {
     public Dictionary<int, AnimationInfo> AniInfo = new Dictionary<int, AnimationInfo>();
     GameObject Boss;
-    public AI_DeathKnight(GameObject obj) : base(obj)
+    public AI_DeathKnight() : base()
     {
         //base.Idle_FrameInterval = 60;
         base.Run_FrameInterval = 1;
         base.Attack_FrameInterval = 60;
         base.AttackDistance = 1;
-        Boss = obj;
+       
     }
 
-    public override void BossAttackLogic(int frame)
+    public override void BossAttackLogic(int frame, GameObject obj)
     {
 
         //Debug.Log("DeathKnight Attack");
     }
-    public override void BossRunLogic(int frame)
+    public override void BossRunLogic(int frame, GameObject obj)
     {
         //Debug.Log("DeathKnight Run");
 
