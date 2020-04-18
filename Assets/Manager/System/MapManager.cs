@@ -64,7 +64,7 @@ public class MapManager : SceneManager
 
         Debug.Log("Refresh UI .......");
         Text RoomID = GameObject.Find("Canvas/RoomInfo").GetComponent<Text>();
-        RoomID.text = "房间号："+sys._model._RoomModule.roomid.ToString();
+        RoomID.text = "RoomID："+sys._model._RoomModule.roomid.ToString();
 
         for (int i = 0; i < sys._model._RoomModule.PlayerList.Count; i++)
         {
@@ -79,17 +79,17 @@ public class MapManager : SceneManager
                 if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Enginner)
                 {
                     Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Engineer");
-                    Character.GetComponent<Text>().text = "工程师";
+                    Character.GetComponent<Text>().text = "Engineer";
                 }
                 else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Warrior)
                 {
                     Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Guardian");
-                    Character.GetComponent<Text>().text = "圣骑士";
+                    Character.GetComponent<Text>().text = "Warrior";
                 }
                 else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Magician)
                 {
                     Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Magician");
-                    Character.GetComponent<Text>().text = "元素使";
+                    Character.GetComponent<Text>().text = "Wizard";
                 }
 
 
@@ -138,21 +138,23 @@ public class MapManager : SceneManager
                 GameObject status = GameObject.Find("Canvas/player" + (i + 1).ToString() + "/status");
                 if (sys._model._RoomModule.PlayerList[i].ready)
                 {
-                    status.GetComponent<Text>().text = "已准备";
+                    status.GetComponent<Text>().text = "Ready";
                 }
                 else
                 {
-                    status.GetComponent<Text>().text = "未准备";
+                    status.GetComponent<Text>().text = "Waiting...";
                 }
-
+                GameObject btn = GameObject.Find("Canvas/btnReady/Text");
+                btn.GetComponent<Text>().text = "Ready";
             }
 
         }
         GameObject btnStatus = GameObject.Find("Canvas/btnReady/Text");
         if (sys._model._PlayerModule.uid == sys._model._RoomModule.roomOwnerID)
         {
-            btnStatus.GetComponent<Text>().text = "开始游戏";
+            btnStatus.GetComponent<Text>().text = "Start";
         }
+       
 
     }
 
