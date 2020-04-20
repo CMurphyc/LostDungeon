@@ -11,11 +11,6 @@ public class PlayerView_Component : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    void Update()
-    {
-        //RefreshView();
-    }
-
     public void RefreshView()
     {
         UpdatePosition();
@@ -24,10 +19,10 @@ public class PlayerView_Component : MonoBehaviour
 
     private void UpdatePosition()
     {
-        FixVector3 FloatPos = GetComponent<PlayerModel_Component>().GetPlayerPosition();
-        if (FloatPos == new FixVector3((Fix64)transform.position.x, (Fix64)transform.position.y, (Fix64)transform.position.z)) SetRun(false);
+        FixVector2 FloatPos = GetComponent<PlayerModel_Component>().GetPlayerPosition();
+        if (FloatPos == new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y)) SetRun(false);
         else SetRun(true);
-        transform.position = new Vector3((float)FloatPos.x, (float)FloatPos.y, (float)FloatPos.z);
+        transform.position = new Vector3((float)FloatPos.x, (float)FloatPos.y);
     }
 
     private void UpdateRotation()

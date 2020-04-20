@@ -125,8 +125,16 @@ public class ClientSend
 
         pack.MoveDirectionX = (int)(Left.x *10000);
         pack.MoveDirectionY = (int)(Left.y *10000);
-        pack.AttackDirectionX = (int)(Right.x * 10000);
-        pack.AttackDirectionY = (int)(Right.y * 10000);
+        if (Right.x == 0 && Right.y == 0)
+        {
+            pack.AttackType = 0;
+        }
+        else
+        {
+            pack.AttackType = 1;
+            pack.AttackDirectionX = (int)(Right.x * 10000);
+            pack.AttackDirectionY = (int)(Right.y * 10000);
+        }
         //pack.AttackType = ;
         Send(pack.ToByteArray(), GeneralType.BattleSynC2S);
     }

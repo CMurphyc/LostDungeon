@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class PlayerModel_Component : MonoBehaviour
 {
-    Fix64 healthPoint;   // 玩家血量
-    Fix64 playerSpeed;   // 玩家移动速度
-    Fix64 attackPoint;   // 玩家攻击力
-    FixVector3 playerPosition;   // 玩家位置
-    bool playerRotation;   // 玩家朝向
-    FixVector3 weaponPosition;   // 武器位置
-    FixVector3 weaponRotation;   // 武器朝向
-    Fix64 bulletSpeed;   // 玩家射出子弹的速度
-    Fix64 roomId;   // 玩家所处的房间ID
+    private Fix64 healthPoint;           // 玩家血量
+    private Fix64 playerSpeed;           // 玩家移动速度
+    private Fix64 attackPoint;           // 玩家攻击力
+    private FixVector2 playerPosition;   // 玩家位置
+    private bool playerRotation;         // 玩家朝向
+    private FixVector2 weaponPosition;   // 武器位置
+    private FixVector2 weaponRotation;   // 武器朝向
+    private Fix64 bulletSpeed;           // 玩家射出子弹的速度
 
     void Awake()
     {
         //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
-        playerPosition = new FixVector3((Fix64)transform.position.x, (Fix64)transform.position.y, (Fix64)transform.position.z);
+        playerPosition = new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y);
     }
 
     public void SetHealthPoint(Fix64 _healthPoint)
@@ -50,12 +49,12 @@ public class PlayerModel_Component : MonoBehaviour
         return attackPoint;
     }
 
-    public void SetPlayerPosition(FixVector3 _playerPosition)
+    public void SetPlayerPosition(FixVector2 _playerPosition)
     {
         playerPosition = _playerPosition;
     }
 
-    public FixVector3 GetPlayerPosition()
+    public FixVector2 GetPlayerPosition()
     {
         return playerPosition;
     }
@@ -70,22 +69,22 @@ public class PlayerModel_Component : MonoBehaviour
         return playerRotation;
     }
 
-    public void SetWeaponPosition(FixVector3 _weaponPosition)
+    public void SetWeaponPosition(FixVector2 _weaponPosition)
     {
         weaponPosition = _weaponPosition;
     }
 
-    public FixVector3 GetWeaponPosition()
+    public FixVector2 GetWeaponPosition()
     {
         return weaponPosition;
     }
 
-    public void SetWeaponRotation(FixVector3 _weaponRotation)
+    public void SetWeaponRotation(FixVector2 _weaponRotation)
     {
         weaponRotation = _weaponRotation;
     }
 
-    public FixVector3 GetWeaponRotation()
+    public FixVector2 GetWeaponRotation()
     {
         return weaponRotation;
     }
@@ -99,25 +98,19 @@ public class PlayerModel_Component : MonoBehaviour
     {
         return bulletSpeed;
     }
-
-    public void SetRoomId(Fix64 _roomId)
+    public void Move(FixVector2 v)
     {
-        roomId = _roomId;
-    }
-
-    public Fix64 GetRoomId()
-    {
-        return roomId;
-    }
-
-    public void Move(Vector2 v)
-    {
-        v=10*v;
+        
         playerPosition.x += v.x;
         playerPosition.y += v.y;
-        if (v.x != 0)
+        if (v.x != (Fix64)0)
         {
             playerRotation = v.x < 0 ? true : false;
         }
+    }
+    public void SetPosition(FixVector2 v)
+    {
+        playerPosition.x = v.x;
+        playerPosition.y = v.y;
     }
 }

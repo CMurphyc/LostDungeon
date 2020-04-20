@@ -27,6 +27,7 @@ public class VirtualJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler,
 
     public virtual void OnDrag(PointerEventData ped)
     {
+        
         Vector2 pos;
 
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(bgImg.rectTransform

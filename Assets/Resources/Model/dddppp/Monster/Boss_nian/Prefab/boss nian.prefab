@@ -165,7 +165,7 @@ MonoBehaviour:
   slowdownDistance: 0.6
   pickNextWaypointDist: 0.6
   endReachedDistance: 0.2
-  alwaysDrawGizmos: 1
+  alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 0
@@ -209,3 +209,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1bab14efa120e4caecb9b4a3dc0d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FrameLeftFromDestroy: 60

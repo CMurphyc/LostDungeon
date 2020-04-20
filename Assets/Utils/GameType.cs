@@ -49,10 +49,16 @@ public enum CharacterType
 
 
 }
-public struct PlayerInGameData
+public class PlayerInGameData
 {
     public GameObject obj;
     public int RoomID;
+
+    public int NextAttackFrame;
+    public void ChangeRoomID(int val)
+    {
+        RoomID = val;
+    }
 
 }
 
