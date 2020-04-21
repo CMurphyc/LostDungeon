@@ -3,6 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public class FakeBulletUnion
+{
+    public string tag;
+    public FixVector2 anchor;
+    public FixVector2 toward;
+    public Fix64 speed;
+    public Fix64 damage;
+    public int roomid;
+    public GameObject bulletPrefab;
+    public List<int> itemList;
+    public FakeBulletUnion(string tag2, FixVector2 anchor2, FixVector2 toward2, Fix64 speed2, Fix64 damage2, int roomid2, GameObject bulletPrefab2, List<int> itemList2)
+    {
+        tag = tag2;
+        anchor= anchor2;
+        toward= toward2;
+        speed= speed2;
+        damage= damage2;
+        roomid= roomid2;
+        bulletPrefab= bulletPrefab2;
+        itemList= itemList2;
+}
+   
+
+}
+
 public enum bulletType
 {
     Penetrate = 1,
@@ -119,6 +144,8 @@ public class BulletUnion : BulletBase
     //初始化所有子弹逻辑层logic的信息以及视图层prefab的信息
     public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList)
     {
+        FixVector2 fv = new FixVector2((Fix64)0.000000023, (Fix64)0.00000000056);
+        //Debug.Log("After normalize vector is " + fv.GetNormalized());
         //Debug.Log("传进来的vector：" + toward.x + " " + toward.y);
         ContainerInit();
         //逻辑层信息初始化
@@ -140,11 +167,17 @@ public class BulletUnion : BulletBase
 
         //视图层信息初始化
         //根据信息量实例化对应信息的子弹实体
+
+
         foreach (var it in spwanedBullet)
         {
+            //Debug.Log("bullet toward is " + it.toward);
             GameObject bulletInstance = GameObject.Instantiate(bulletPrefab, Converter.FixVector2ToVector2(anchor), bulletPrefab.transform.rotation);
             bulletList.Add(bulletInstance);
         }
+        
+
+       
     }
 
     private bool CollideCheck(Bullet bullet, MonsterModel_Component monster)
@@ -223,56 +256,118 @@ public class BulletUnion : BulletBase
 
     public override void LogicUpdate()
     {
+
         for (int i = 0; i < spwanedBullet.Count; ++i)
         {
-            for (int j = 0; j < _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid].Count; ++j)
+            if (spwanedBullet[i].tag == "Player")
             {
-                //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取，待对接
-                MonsterModel_Component MonsterModule = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].GetComponent<MonsterModel_Component>();
-                CollideDetecter collideDetecter = new CollideDetecter();
-                Rectangle rect = new Rectangle(new FixVector2((Fix64)MonsterModule.position.x, (Fix64)MonsterModule.position.y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
-
-
-                if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
+                for (int j = 0; j < _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid].Count; ++j)
                 {
-                    _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], 1f, spwanedBullet[i].roomid);
-                       spwanedBullet[i].active = false;
-                    //attackEffect逻辑层面的实现
-                    foreach (var effect in spwanedBullet[i].attackEffectList)
+                    //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取，待对接
+                    MonsterModel_Component MonsterModule = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].GetComponent<MonsterModel_Component>();
+                    CollideDetecter collideDetecter = new CollideDetecter();
+                    Rectangle rect = new Rectangle(new FixVector2((Fix64)MonsterModule.position.x, (Fix64)MonsterModule.position.y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
+
+
+                    if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
-                        switch (effect)
+
+                        _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], 1f, spwanedBullet[i].roomid);
+                        spwanedBullet[i].active = false;
+                        //attackEffect逻辑层面的实现
+                        foreach (var effect in spwanedBullet[i].attackEffectList)
                         {
-                            case (int)bulletType.Penetrate:
-                                Penetrate(spwanedBullet[i]);
-                                break;
-                            case (int)bulletType.Sputtering:
-                                Sputtering(spwanedBullet[i]);
-                                break;
-                            case (int)bulletType.LightningChain:
-                                LightningChain(spwanedBullet[i]);
-                                break;
+                            switch (effect)
+                            {
+                                case (int)bulletType.Penetrate:
+                                    Penetrate(spwanedBullet[i]);
+                                    break;
+                                case (int)bulletType.Sputtering:
+                                    Sputtering(spwanedBullet[i]);
+                                    break;
+                                case (int)bulletType.LightningChain:
+                                    LightningChain(spwanedBullet[i]);
+                                    break;
+                            }
+                            // if(effect == (int)bulletType.Penetrate) Penetrate(spwanedBullet[i]);
+                            // else if(effect == (int)bulletType.Sputtering) Sputtering(spwanedBullet[i]);
+                            // else if(effect == (int)bulletType.LightningChain) LightningChain(spwanedBullet[i]);
                         }
-                        // if(effect == (int)bulletType.Penetrate) Penetrate(spwanedBullet[i]);
-                        // else if(effect == (int)bulletType.Sputtering) Sputtering(spwanedBullet[i]);
-                        // else if(effect == (int)bulletType.LightningChain) LightningChain(spwanedBullet[i]);
+
+                        //debuff传递逻辑层面的实现
+                        foreach (var debuff in spwanedBullet[i].debuffList)
+                        {
+                            //待对接敌方单位的debuff接口
+                            // switch(debuff)
+                            // {
+                            //     case : (int)bulletType.Freeze
+                            // }
+                            // if(debuff == (int)bulletType.Freeze)
+                            // else if(debuff == (int)bulletType.Poision)
+                            // else if(debuff == (int)bulletType.Burn)
+                            // else if(debuff == (int)bulletType.Dizziness)
+                            // else if(debuff == (int)bulletType.Retard)
+                        }
+                        //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
+                        if (spwanedBullet[i].active == false) break;
+                    }
+                }
+            }
+            else if (spwanedBullet[i].tag == "Boss_Rabit")
+            {
+                foreach(var item in _parentManager._player.playerToPlayer)
+                {
+
+                    PlayerModel_Component PlayerComp = item.Value.obj.GetComponent<PlayerModel_Component>();
+
+
+                    CollideDetecter collideDetecter = new CollideDetecter();
+                    Rectangle rect = new Rectangle(new FixVector2((Fix64)PlayerComp.GetPlayerPosition().x, (Fix64)PlayerComp.GetPlayerPosition().y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
+
+                    if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
+                    {
+                        //Debug.Log("玩家受到攻击");
+                       // _parentManager._player.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], 1f, spwanedBullet[i].roomid);
+                        spwanedBullet[i].active = false;
+                        //attackEffect逻辑层面的实现
+                        //foreach (var effect in spwanedBullet[i].attackEffectList)
+                        //{
+                        //    switch (effect)
+                        //    {
+                        //        case (int)bulletType.Penetrate:
+                        //            Penetrate(spwanedBullet[i]);
+                        //            break;
+                        //        case (int)bulletType.Sputtering:
+                        //            Sputtering(spwanedBullet[i]);
+                        //            break;
+                        //        case (int)bulletType.LightningChain:
+                        //            LightningChain(spwanedBullet[i]);
+                        //            break;
+                        //    }
+                        //    // if(effect == (int)bulletType.Penetrate) Penetrate(spwanedBullet[i]);
+                        //    // else if(effect == (int)bulletType.Sputtering) Sputtering(spwanedBullet[i]);
+                        //    // else if(effect == (int)bulletType.LightningChain) LightningChain(spwanedBullet[i]);
+                        //}
+
+                        //debuff传递逻辑层面的实现
+                        //foreach (var debuff in spwanedBullet[i].debuffList)
+                        //{
+                        //    //待对接敌方单位的debuff接口
+                        //    // switch(debuff)
+                        //    // {
+                        //    //     case : (int)bulletType.Freeze
+                        //    // }
+                        //    // if(debuff == (int)bulletType.Freeze)
+                        //    // else if(debuff == (int)bulletType.Poision)
+                        //    // else if(debuff == (int)bulletType.Burn)
+                        //    // else if(debuff == (int)bulletType.Dizziness)
+                        //    // else if(debuff == (int)bulletType.Retard)
+                        //}
+                        //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
+                        if (spwanedBullet[i].active == false) break;
                     }
 
-                    //debuff传递逻辑层面的实现
-                    foreach (var debuff in spwanedBullet[i].debuffList)
-                    {
-                        //待对接敌方单位的debuff接口
-                        // switch(debuff)
-                        // {
-                        //     case : (int)bulletType.Freeze
-                        // }
-                        // if(debuff == (int)bulletType.Freeze)
-                        // else if(debuff == (int)bulletType.Poision)
-                        // else if(debuff == (int)bulletType.Burn)
-                        // else if(debuff == (int)bulletType.Dizziness)
-                        // else if(debuff == (int)bulletType.Retard)
-                    }
-                    //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
-                    if (spwanedBullet[i].active == false) break;
+
                 }
             }
         }
@@ -280,6 +375,7 @@ public class BulletUnion : BulletBase
         //遍历墙体
         for (int i = 0; i < spwanedBullet.Count; ++i)
         {
+            //Debug.Log("stone sz " + _parentManager._terrain.roomToStone[spwanedBullet[i].roomid].Count);
             for (int j = 0; j < _parentManager._terrain.roomToStone[spwanedBullet[i].roomid].Count; ++j)
             {
                 //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取，待对接
@@ -296,9 +392,10 @@ public class BulletUnion : BulletBase
                 Rectangle rect = new Rectangle(new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)), new FixVector2((Fix64)1, (Fix64)1), 
                     (Fix64)collider.size.x, 
                     (Fix64)collider.size.y);
+                //Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
                 if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                 {
-                    Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
+                    //Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
                     spwanedBullet[i].active = false;
                     //attackEffect逻辑层面的实现
                     foreach (var effect in spwanedBullet[i].attackEffectList)

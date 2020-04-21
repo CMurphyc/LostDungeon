@@ -6,6 +6,8 @@ public class PlayerView_Component : MonoBehaviour
     GameObject player;
     private Animator anim;
 
+    private Vector3 Velocity = Vector3.zero;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -22,7 +24,11 @@ public class PlayerView_Component : MonoBehaviour
         FixVector2 FloatPos = GetComponent<PlayerModel_Component>().GetPlayerPosition();
         if (FloatPos == new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y)) SetRun(false);
         else SetRun(true);
-        transform.position = new Vector3((float)FloatPos.x, (float)FloatPos.y);
+
+        //transform.position = new Vector3((float)FloatPos.x, (float)FloatPos.y);
+        FixVector2 FixedVec = GetComponent<PlayerModel_Component>().GetPlayerPosition();
+        Vector2 CurrentPos = new Vector2((float)FixedVec.x, (float)FixedVec.y);
+        transform.position = Vector3.SmoothDamp(transform.position, CurrentPos, ref Velocity, Global.FrameRate/1000f);
     }
 
     private void UpdateRotation()

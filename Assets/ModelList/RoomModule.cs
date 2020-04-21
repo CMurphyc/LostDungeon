@@ -110,9 +110,9 @@ public class RoomModule
                 PlayerList[i] = temp;
 
 
-                Debug.Log("PlayerUid: " + temp.uid);
-                Debug.Log("PlayerReady: " + temp.ready);
-                Debug.Log("PlayerType: " + temp.type);
+                //Debug.Log("PlayerUid: " + temp.uid);
+                //Debug.Log("PlayerReady: " + temp.ready);
+                //Debug.Log("PlayerType: " + temp.type);
                 //UI
                 //NickName
                 //Character

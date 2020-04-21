@@ -91,8 +91,6 @@ public class MapManager : SceneManager
                     Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Magician");
                     Character.GetComponent<Text>().text = "Wizard";
                 }
-
-
                 //Animation_Prefab.transform.localScale = new Vector3(400, 400, 1);
       
                 //Vector3 WorldPos = Camera.main.ScreenToWorldPoint(Global.PlayerPosList[sys._model._RoomModule.GetPlayerIndex(sys._model._RoomModule.PlayerList[i].uid)]);
@@ -149,13 +147,12 @@ public class MapManager : SceneManager
             }
             else
             {
-                GameObject username = GameObject.Find("Canvas/player" +(i+1).ToString()+"/name");
+                GameObject username = GameObject.Find("Canvas/player" + (i + 1).ToString() + "/name");
                 GameObject status = GameObject.Find("Canvas/player" + (i + 1).ToString() + "/status");
                 status.GetComponent<Text>().text = "";
                 username.GetComponent<Text>().text = "";
                 Character.GetComponent<Text>().text = "";
             }
-
         }
         GameObject btnStatus = GameObject.Find("Canvas/btnReady/Text");
         if (sys._model._PlayerModule.uid == sys._model._RoomModule.roomOwnerID)

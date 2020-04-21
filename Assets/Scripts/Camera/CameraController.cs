@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour
     private Vector3 currTargetPosition = Vector3.zero;             //下一目标位置
     private float currLerpDistance = 0.0f;
 
+    private Vector3 CurrentVelocity = Vector3.zero;
+    private float SmoothTime = 0.01f;
     public void SetTarget(GameObject tar)
     {
         playerObject = tar;
@@ -27,7 +29,8 @@ public class CameraController : MonoBehaviour
         trackPlayer();
         //将摄像头移动到目标位置
         currLerpDistance += cameraTrackingSpeed;
-        transform.position = Vector3.Lerp(lastTargetPosition, currTargetPosition, currLerpDistance);
+        //transform.position = Vector3.Lerp(lastTargetPosition, currTargetPosition, currLerpDistance);
+        transform.position = Vector3.SmoothDamp(lastTargetPosition, currTargetPosition, ref CurrentVelocity, 0.001f);
     }
     void trackPlayer()
     {

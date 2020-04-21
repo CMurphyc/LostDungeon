@@ -23,8 +23,9 @@ public class TerrainModule
     {
         foreach(GameObject stone in roomToStone[RoomId])
         {
-
-            Rectangle rect = new Rectangle(new FixVector2((Fix64)stone.transform.position.x, (Fix64)stone.transform.position.y),
+            BoxCollider2D collider = stone.GetComponent<BoxCollider2D>();
+            Rectangle rect = new Rectangle(new FixVector2((Fix64)(stone.transform.position.x + collider.offset.x), 
+                                                          (Fix64)(stone.transform.position.y + collider.offset.y)),
                 new FixVector2((Fix64)stone.transform.rotation.x, (Fix64)stone.transform.rotation.y),
                 (Fix64)(stone.GetComponent<BoxCollider2D>().size.x),
                 (Fix64)(stone.GetComponent<BoxCollider2D>().size.y)
@@ -53,7 +54,7 @@ public class TerrainModule
                 Debug.Log(FixVector2.Distance(pos, doorAnchor));
                 Debug.Log("-------------------");
                 */
-                if (FixVector2.Distance(pos, doorAnchor) <= (Fix64)0.8f )//这里加一个monstermodule的是否没怪
+                if (FixVector2.Distance(pos, doorAnchor) <= (Fix64)0.8f &&  _parentManager._monster.GetMonsterNumber(RoomId)==0)//这里加一个monstermodule的是否没怪
                 {
                     //&& ( _parentManager._monster.GetMonsterNumber(RoomId))==0
                   
@@ -61,7 +62,7 @@ public class TerrainModule
                     DoorData To = doorToDoor[p];//编号 位置
                     
                     FixVector2 telPos = new FixVector2((Fix64)To.transferPos.x, (Fix64)To.transferPos.y);
-                    Debug.Log(RoomId);
+                    //Debug.Log(RoomId);
                     //x.Value.obj.GetComponent<PlayerModel_Component>().Move(telPos-x.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
                     x.Value.obj.GetComponent<PlayerModel_Component>().SetPosition(telPos);
                     _parentManager._player.playerToPlayer[x.Key].ChangeRoomID(doorToRoom[To.doorNum]);

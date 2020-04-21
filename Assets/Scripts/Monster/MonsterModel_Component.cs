@@ -39,6 +39,8 @@ public class MonsterModel_Component : MonoBehaviour
     public Fix64 AttackSpeed { get; set; }
 
 
+
+    public bool UnderAttack = false;
     /// <summary>
     /// 死亡后实体余留帧数
     /// </summary>

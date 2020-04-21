@@ -45,9 +45,8 @@ public class PlayerDataModule
                 ////释放技能
                 //{
 
-
                 //Debug.Log("我射了");
-                if (frameInfo[i].AttackType != 0&&( frameInfo[i].AttackDirectionX!=0&&frameInfo[i].AttackDirectionY!=0))
+                if (frameInfo[i].AttackType != 0&&( Mathf.Abs(frameInfo[i].AttackDirectionX/10000f) >= 0.1f && Mathf.Abs(frameInfo[i].AttackDirectionY/10000f) >= 0.1f))
                 {
                     if (frame>=Input.NextAttackFrame)
                     {
@@ -55,7 +54,7 @@ public class PlayerDataModule
                         BulletUnion bu = new BulletUnion(_parentManager);
 
 
-                        bu.BulletInit("tag", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                        bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                             (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                             new FixVector2((Fix64)frameInfo[i].AttackDirectionX / 10000f,
                                                             (Fix64)frameInfo[i].AttackDirectionY / 10000f),
@@ -109,7 +108,7 @@ public class PlayerDataModule
         HashSet<int> RoomList  = new HashSet<int>();
         foreach (var item in playerToPlayer)
         {
-            Debug.Log("Live Room Number: " + item.Value.RoomID);
+            //Debug.Log("Live Room Number: " + item.Value.RoomID);
 
             RoomList.Add(item.Value.RoomID);
         }
@@ -126,4 +125,7 @@ public class PlayerDataModule
 
         return PlayerUIDList;
     }
+
+
+
 }
