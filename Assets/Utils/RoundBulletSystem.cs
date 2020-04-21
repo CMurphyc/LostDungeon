@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-enum BossType
+public enum BossType
 {
     BossRaibit,
     BossGhost,
@@ -10,7 +10,7 @@ enum BossType
 }
 
 
-struct BulletInfo
+public class BulletInfo
 {
     public Vector2 Toward;
     public BossType BossType;

@@ -54,7 +54,7 @@ public class PlayerDataModule
                         BulletUnion bu = new BulletUnion(_parentManager);
 
 
-                        bu.BulletInit("tag", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                        bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                             (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                             new FixVector2((Fix64)frameInfo[i].AttackDirectionX / 10000f,
                                                             (Fix64)frameInfo[i].AttackDirectionY / 10000f),
@@ -125,4 +125,7 @@ public class PlayerDataModule
 
         return PlayerUIDList;
     }
+
+
+
 }

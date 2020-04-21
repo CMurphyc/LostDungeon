@@ -1485,10 +1485,27 @@ MonoBehaviour:
     rightDoor: {fileID: 715232806871546833, guid: 49fd78ac77c45ca48b848408594b0153,
       type: 3}
   MonsterList:
-  - {fileID: 1246219329112178834, guid: d0a1ab6f28098ac49a6730ae5cad6451, type: 3}
-  - {fileID: 6606036554287153081, guid: 74ef1c2de7ada5a46b1387caab7ba017, type: 3}
-  - {fileID: 5964808108021513039, guid: 603b6b3a70b341c4ca2249acae26ed39, type: 3}
-  - {fileID: 7774359129733772670, guid: b20b269ec64a1e445822602a21f65567, type: 3}
+  - monsterGameObject: {fileID: 1246219329112178834, guid: d0a1ab6f28098ac49a6730ae5cad6451,
+      type: 3}
+    type: 0
+    MonsterID: 0
+  - monsterGameObject: {fileID: 6606036554287153081, guid: 74ef1c2de7ada5a46b1387caab7ba017,
+      type: 3}
+    type: 0
+    MonsterID: 0
+  - monsterGameObject: {fileID: 5964808108021513039, guid: 603b6b3a70b341c4ca2249acae26ed39,
+      type: 3}
+    type: 0
+    MonsterID: 0
+  - monsterGameObject: {fileID: 7774359129733772670, guid: b20b269ec64a1e445822602a21f65567,
+      type: 3}
+    type: 0
+    MonsterID: 0
+  BossList:
+  - monsterGameObject: {fileID: 870878452893989547, guid: 35bc7c21a8abe234180c112b64e042bc,
+      type: 3}
+    type: 2
+    MonsterID: 0
   MonsterInitHP: 05000000050000000500000005000000
   NormalNormalTerrain:
   - {fileID: 676767245588214965, guid: b5ce7f6606ab84c489fe6eda71c1e40a, type: 3}

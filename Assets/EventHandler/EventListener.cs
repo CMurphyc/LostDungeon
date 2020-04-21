@@ -96,10 +96,10 @@ public class EventListener : MonoBehaviour
     void GetRoomInfo(EventBase eb)
     {
         GetRoomInfoS2C synPack = (GetRoomInfoS2C)eb.eventValue;
-        Debug.Log("Receive1");
+        
         if (synPack.Error==0)
         {
-            Debug.Log("Receive2");
+           
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.RemoveAllPlayer();
 
 
