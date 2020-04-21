@@ -26,7 +26,6 @@ public class RoomListEvent : MonoBehaviour
      
         parent = GameObject.Find("Canvas/content");
         contentSize = parent.GetComponent<RectTransform>().sizeDelta;
-
         itemHeight = item.GetComponent<RectTransform>().rect.height;
         itemLocalPos = item.transform.localPosition;
 
@@ -86,6 +85,21 @@ public class RoomListEvent : MonoBehaviour
         ////send request
         int roomid = int.Parse(t.transform.Find("roomid").GetComponent<Text>().text);
         main.GetComponent<GameMain>().socket.sock_c2s.PlayerEnterRoom(roomid);
+    }
+    public void OnBtnCreateGame()
+    {
+
+        //send request
+        main.GetComponent<GameMain>().socket.sock_c2s.CreateRoomC2S();
+        print("Create Room Request Send");
+
+        //if (main != null)
+        //{
+        //    MapManager mapCtl = main.GetComponent<GameMain>().WorldSystem._map;
+        //    mapCtl.SwitchScene("TeamUpUI");
+        //   // print(SceneManager.)
+        //}
+
     }
 
     ////移除列表项

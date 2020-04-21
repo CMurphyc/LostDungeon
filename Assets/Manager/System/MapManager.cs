@@ -147,6 +147,14 @@ public class MapManager : SceneManager
                 GameObject btn = GameObject.Find("Canvas/btnReady/Text");
                 btn.GetComponent<Text>().text = "Ready";
             }
+            else
+            {
+                GameObject username = GameObject.Find("Canvas/player" +(i+1).ToString()+"/name");
+                GameObject status = GameObject.Find("Canvas/player" + (i + 1).ToString() + "/status");
+                status.GetComponent<Text>().text = "";
+                username.GetComponent<Text>().text = "";
+                Character.GetComponent<Text>().text = "";
+            }
 
         }
         GameObject btnStatus = GameObject.Find("Canvas/btnReady/Text");
