@@ -8,7 +8,7 @@ public class BattleManager
 {
     int local_frame;
 
-    SystemManager sys;
+    public SystemManager sys;
 
     public MonsterModule _monster;
     public PlayerDataModule _player;

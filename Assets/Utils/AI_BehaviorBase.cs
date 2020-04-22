@@ -35,7 +35,7 @@ class AI_BehaviorBase
     // 需初始化
     int NextChangeStateFrame = 0;
     public AI_Type type;
-
+    public int RoomID;
     Vector3 Velocity = Vector3.zero;
 
     public AI_BehaviorBase()
@@ -77,6 +77,16 @@ class AI_BehaviorBase
                     MeleeLogic(frame, NpcPosition, TargetPosition, obj);
                     break;
                 }
+            case AI_Type.Nomral_Range:
+                {
+                    RangeLogic(frame, NpcPosition, TargetPosition, obj);
+                    break;
+                }
+            case AI_Type.Engineer_TerretTower:
+                {
+                    StaticRangeAILogic(frame, NpcPosition, TargetPosition, obj);
+                    break;
+                }
             default:
                 break;
 
@@ -93,7 +103,6 @@ class AI_BehaviorBase
 
 
         obj.transform.rotation = obj.GetComponent<MonsterModel_Component>().Rotation;
-
 
         if (CurrentState != (int)AI_BehaviorType.UnderAttack)
         {
@@ -139,9 +148,9 @@ class AI_BehaviorBase
 
     }
 
-    public virtual void BossRunLogic(int frame,GameObject obj)
+    public virtual void BossRunLogic(int frame,GameObject obj, Vector2 TargetPosition)
     { }
-    public virtual void BossAttackLogic(int frame, GameObject obj)
+    public virtual void BossAttackLogic(int frame, GameObject obj, Vector2 TargetPosition)
     { }
     public virtual void BossTPLogic(int frame, GameObject obj, Vector2 ToPos,bool rot)
     { }
@@ -187,14 +196,14 @@ class AI_BehaviorBase
                     else
                     {
                         Dash = false;
-                        BossRunLogic(frame, obj);
+                        BossRunLogic(frame, obj,Vector2.zero);
                         NextChangeStateFrame = frame + Run_FrameInterval;
                     }
                 }
                 else if (CurrentState == (int)AI_BehaviorType.Attack)
                 {
                     //Debug.Log("Attack");
-                    BossAttackLogic(frame, obj);
+                    BossAttackLogic(frame, obj, TargetPosition);
                     NextChangeStateFrame = frame + Attack_FrameInterval;
                 }
             }
@@ -252,13 +261,13 @@ class AI_BehaviorBase
             if (CurrentState == (int)AI_BehaviorType.Run)
             {
                 //Debug.Log("Run");
-                BossRunLogic(frame, obj);
+                BossRunLogic(frame, obj,Vector2.zero);
                 NextChangeStateFrame = frame + Run_FrameInterval;
             }
             else if (CurrentState == (int)AI_BehaviorType.Attack)
             {
                 //Debug.Log("Attack");
-                BossAttackLogic(frame, obj);
+                BossAttackLogic(frame, obj, TargetPosition);
                 NextChangeStateFrame = frame + Attack_FrameInterval;
             }
             else if (CurrentState == (int)AI_BehaviorType.UnderAttack)
@@ -268,6 +277,79 @@ class AI_BehaviorBase
 
         }
     }
+    private void RangeLogic(int frame, Vector2 NpcPosition, Vector2 TargetPosition, GameObject obj)
+    {
 
+    }
+    private void StaticRangeAILogic (int frame, Vector2 NpcPosition, Vector2 TargetPosition, GameObject obj)
+    {
+
+        //Debug.Log("NextChangeFrame: "+ NextChangeStateFrame);
+        //Debug.Log("CurrentState: " + CurrentState);
+        if (obj.GetComponent<MonsterModel_Component>().HP <= Fix64.Zero)
+        {
+            obj.GetComponent<AIDestinationSetter>().AI_Switch = false;
+            CurrentState = (int)AI_BehaviorType.Dead;
+            return;
+        }
+        float distance2Player = Vector2.Distance(NpcPosition, TargetPosition);
+
+        //if (distance2Player < AttackDistance && TargetPosition!=Vector2.zero && CurrentState!= (int)AI_BehaviorType.Attack )
+        if (distance2Player < AttackDistance && CurrentState != (int)AI_BehaviorType.Attack && TargetPosition != Vector2.zero)
+        {
+            //Debug.Log("ChangeState " );
+            obj.GetComponent<AIDestinationSetter>().AI_Switch = true;
+            NextChangeStateFrame = frame;
+            Attack = true;
+            //Debug.Log("Now NextChangeFrame: " + NextChangeStateFrame);
+        }
+        else
+        {
+            Attack = false;
+            obj.GetComponent<AIDestinationSetter>().AI_Switch = false;
+        }
+
+        //if (Attack && CurrentState != (int)AI_BehaviorType.Attack)
+        //{
+        //    NextChangeStateFrame = frame;
+        //}
+        //else
+        //{
+        //}
+        if (frame == NextChangeStateFrame)
+        {
+            if (Attack )
+            {
+                CurrentState = (int)AI_BehaviorType.Attack;
+                TempState = CurrentState;
+            }
+            else
+            {
+                CurrentState = (int)AI_BehaviorType.Idle;
+                TempState = CurrentState;
+            }
+
+            if (CurrentState == (int)AI_BehaviorType.Attack)
+            {
+                //Debug.Log("Attack");
+                BossAttackLogic(frame, obj, TargetPosition);
+                NextChangeStateFrame = frame + Attack_FrameInterval;
+            }
+            //else if (CurrentState == (int)AI_BehaviorType.Idle)
+            //{
+            //    BossRunLogic(frame, obj, TargetPosition);
+            //    NextChangeStateFrame = frame + Idle_FrameInterval;
+            //}
+
+        }
+        if (TargetPosition != Vector2.zero)
+        {
+            BossRunLogic(frame, obj, TargetPosition);
+        }
+            //NextChangeStateFrame = frame + Idle_FrameInterval;
+      
+
+
+    }
 
 }

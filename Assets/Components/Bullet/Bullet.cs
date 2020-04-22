@@ -259,7 +259,7 @@ public class BulletUnion : BulletBase
 
         for (int i = 0; i < spwanedBullet.Count; ++i)
         {
-            if (spwanedBullet[i].tag == "Player")
+            if (spwanedBullet[i].tag == "Player" || spwanedBullet[i].tag == "AliasAI")
             {
                 for (int j = 0; j < _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid].Count; ++j)
                 {

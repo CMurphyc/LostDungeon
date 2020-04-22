@@ -16,30 +16,53 @@ public class MonsterEventFrame
     public GameObject obj;
 }
 
+public class AliasMonsterPack
+{
+    public int RemainingFrame;
+    public GameObject obj;
+}
 
 public class MonsterModule
 {
     BattleManager _parentManager;
 
-    //房间号-怪物列表
+    //房间号-敌方怪物列表
     public Dictionary<int, List<GameObject>> RoomToMonster = new Dictionary<int, List<GameObject>>();
     public int BossRoom;
 
+    //房间号-己方怪物列表
+    public Dictionary<int, List<AliasMonsterPack>> RoomToAliasUnit = new Dictionary<int, List<AliasMonsterPack>>();
+
+
+
+    /// <summary>
+    /// 敌方单位
+    /// </summary>
     //死亡延迟销毁尸体
     private Dictionary<GameObject, int> RemoveCounter = new Dictionary<GameObject, int>();
     //死亡延迟从容器剔除
     private Dictionary<GameObject, MonsterPack> RemoveWaitFrame = new Dictionary<GameObject, MonsterPack>();
+
     //受击状态
     private Dictionary<GameObject, int> StatusCounter = new Dictionary<GameObject, int>();
     //强制怪物移动
     public Dictionary<GameObject, int> BossMove = new Dictionary<GameObject, int>();
 
-
- 
     //Boss子弹
     public List<BulletUnion> bulletList = new List<BulletUnion>();
     //Boss子弹触发帧
     public Dictionary<int, List<FakeBulletUnion>> bulletEvent = new Dictionary<int, List<FakeBulletUnion>>();
+
+
+    /// <summary>
+    /// 己方单位
+    /// </summary>
+    //死亡延迟销毁尸体
+    private Dictionary<GameObject, int> AliasRemoveCounter = new Dictionary<GameObject, int>();
+    //死亡延迟从容器剔除
+    private Dictionary<GameObject, MonsterPack> AliasRemoveWaitFrame = new Dictionary<GameObject, MonsterPack>();
+
+ 
 
 
     private Color Attacked = new Color(255f/255f, 93f / 255f, 93f / 255f);
@@ -123,8 +146,7 @@ public class MonsterModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, float dmg, int roomid)
     {
-      
-       
+
         int AttackedTime = 10;
         Fix64 hp = obj.GetComponent<MonsterModel_Component>().HP - (Fix64)dmg;
         if (hp > Fix64.Zero)
@@ -139,9 +161,7 @@ public class MonsterModule
             else
             {
                 StatusCounter[obj] = AttackedTime;
-
             }
-
         }
         else
         {
@@ -152,12 +172,17 @@ public class MonsterModule
                 MonsterPack temp = new MonsterPack();
                 temp.RemainingFrame = 2;
                 temp.RoomID = roomid;
-
-                RemoveWaitFrame.Add(obj, temp);
+                if (!RemoveWaitFrame.ContainsKey(obj))
+                {
+                    RemoveWaitFrame.Add(obj, temp);
+                }
                 //RoomToMonster[roomid].Remove(obj);
                 int LeftFrameFromDestory = obj.GetComponent<MonsterModel_Component>().FrameLeftFromDestroy;
-                RemoveCounter.Add(obj, LeftFrameFromDestory);
 
+                if (!RemoveCounter.ContainsKey(obj))
+                {
+                    RemoveCounter.Add(obj, LeftFrameFromDestory);
+                }
 
 
                 if (AttackedTime <= LeftFrameFromDestory)
@@ -194,20 +219,14 @@ public class MonsterModule
 
         obj.GetComponent<MonsterModel_Component>().UnderAttack = true;
 
-        Debug.Log("MONSTER HP: " + obj.GetComponent<MonsterModel_Component>().HP);
-                
-              
-
-
-
-
-       
+        //Debug.Log("MONSTER HP: " + obj.GetComponent<MonsterModel_Component>().HP);
     }
     void MonsterAILogic(int frame)
     {
 
         foreach (int RoomID in _parentManager._player.GetLiveRoom())
         {
+            //敌方AI
             if (RoomToMonster.ContainsKey(RoomID))
             {
                 List<GameObject> MonsterList = RoomToMonster[RoomID];
@@ -220,7 +239,7 @@ public class MonsterModule
 
                     //Debug.Log("HP:　"+ Monster.GetComponent<MonsterModel_Component>().HP);
 
-                    Monster.GetComponent<EnemyAI>().UpdateLogic(Target, frame, Monster);
+                    Monster.GetComponent<EnemyAI>().UpdateLogic(Target, frame, Monster,true);
                     if (Target != null)
                     {
                         Monster.GetComponent<AIDestinationSetter>().Target = new Vector3((float)Target.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
@@ -231,6 +250,52 @@ public class MonsterModule
                     else
                     {
                         Monster.GetComponent<AIDestinationSetter>().AI_Switch = false;
+                    }
+                }
+            }
+            //己方AI
+            if (RoomToAliasUnit.ContainsKey(RoomID))
+            {
+                List<AliasMonsterPack> AliasMonsterList = RoomToAliasUnit[RoomID];
+                for (int i = 0; i < AliasMonsterList.Count;i++)
+                {
+                    if (AliasMonsterList[i].RemainingFrame > 0)
+                    {
+                        AliasMonsterList[i].RemainingFrame--;
+                        GameObject AliasUnit = AliasMonsterList[i].obj;
+                        Vector2 AliasPos = new Vector2((float)AliasUnit.GetComponent<MonsterModel_Component>().position.x, (float)AliasUnit.GetComponent<MonsterModel_Component>().position.y);
+                        GameObject Target = FindCloseMonster(AliasPos, RoomID);
+                        AliasUnit.GetComponent<EnemyAI>().UpdateLogic(Target, frame, AliasUnit, false);
+                        if (Target != null)
+                        {
+                            AliasUnit.GetComponent<AIDestinationSetter>().Target = new Vector3((float)Target.GetComponent<MonsterModel_Component>().position.x,
+                                (float)Target.GetComponent<MonsterModel_Component>().position.y, (float)0);
+                            AliasUnit.GetComponent<AIDestinationSetter>().AI_Switch = true;
+                            AliasUnit.GetComponent<EnemyAI>().InitMonster(frame);
+                        }
+                        else
+                        {
+                            AliasUnit.GetComponent<AIDestinationSetter>().AI_Switch = false;
+                        }
+                    }
+                    else
+                    {
+                        //销毁
+                        GameObject AliasUnit = AliasMonsterList[i].obj;
+                        AliasUnit.GetComponent<MonsterModel_Component>().HP = Fix64.Zero;
+                        if (RoomToAliasUnit[RoomID].Contains(AliasMonsterList[i]))
+                        {
+                            //MonsterPack temp = new MonsterPack();
+                            //temp.RemainingFrame = 2;
+                            //temp.RoomID = RoomID;
+
+                            //AliasRemoveWaitFrame.Add(AliasUnit, temp);
+
+                            RoomToAliasUnit[RoomID].Remove(AliasMonsterList[i]);
+                            int LeftFrameFromDestory = AliasUnit.GetComponent<MonsterModel_Component>().FrameLeftFromDestroy; 
+                            AliasRemoveCounter.Add(AliasUnit, LeftFrameFromDestory);
+
+                        }
                     }
                 }
             }
@@ -290,6 +355,109 @@ public class MonsterModule
     void MonsterDeadHandler()
     {
 
+        //己方单位销毁
+        //销毁死亡动画
+        //销毁
+        /*
+        List<GameObject> tempTrash3 = new List<GameObject>();
+        List<MonsterEventFrame> LiveMonster3 = new List<MonsterEventFrame>();
+
+        foreach (var item in AliasRemoveWaitFrame)
+        {
+            int LeftFrame = item.Value.RemainingFrame - 1;
+            if (LeftFrame > 0)
+            {
+                MonsterEventFrame temp = new MonsterEventFrame();
+                temp.obj = item.Key;
+                temp.RemainingFrame = LeftFrame;
+                LiveMonster3.Add(temp);
+            }
+            else
+            {
+                tempTrash3.Add(item.Key);
+            }
+        }
+        for (int i = 0; i < LiveMonster3.Count; i++)
+        {
+            AliasRemoveWaitFrame[LiveMonster3[i].obj].RemainingFrame = LiveMonster3[i].RemainingFrame;
+        }
+        for (int i = 0; i < tempTrash3.Count; i++)
+        {
+            if (AliasRemoveWaitFrame.ContainsKey(tempTrash3[i]))
+            {
+                AliasMonsterPack temp = new AliasMonsterPack();
+                bool Inited = false;
+                for (int j = 0; j < RoomToAliasUnit[RemoveWaitFrame[tempTrash3[i]].RoomID].Count;j++)
+                {
+                   if ( RoomToAliasUnit[RemoveWaitFrame[tempTrash3[i]].RoomID][j].obj == tempTrash3[i])
+                    {
+                        Inited = true;
+                        temp = RoomToAliasUnit[RemoveWaitFrame[tempTrash3[i]].RoomID][j];
+                    }
+                }
+                if (Inited)
+                {
+                    RoomToAliasUnit[RemoveWaitFrame[tempTrash3[i]].RoomID].Remove(temp);
+                }
+                AliasRemoveWaitFrame.Remove(tempTrash3[i]);
+
+            }
+        }
+        tempTrash3.RemoveAll(it => tempTrash3.Contains(it));
+        */
+
+        //死亡销毁
+        List<GameObject> tempTrash4 = new List<GameObject>();
+        List<MonsterEventFrame> LiveMonster4 = new List<MonsterEventFrame>();
+
+
+        foreach (var item in AliasRemoveCounter)
+        {
+            int LeftFrame = item.Value - 1;
+            if (LeftFrame > 0)
+            {
+                MonsterEventFrame temp = new MonsterEventFrame();
+                temp.obj = item.Key;
+                temp.RemainingFrame = LeftFrame;
+                LiveMonster4.Add(temp);
+            }
+            else
+            {
+                tempTrash4.Add(item.Key);
+            }
+        }
+
+        for (int i = 0; i < LiveMonster4.Count; i++)
+        {
+            AliasRemoveCounter[LiveMonster4[i].obj] = LiveMonster4[i].RemainingFrame;
+        }
+
+
+        for (int i = 0; i < tempTrash4.Count; i++)
+        {
+            if (AliasRemoveCounter.ContainsKey(tempTrash4[i]))
+            {
+                Object.Destroy(tempTrash4[i]);
+                AliasRemoveCounter.Remove(tempTrash4[i]);
+
+            }
+        }
+        tempTrash4.RemoveAll(it => tempTrash4.Contains(it));
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ///敌方单位
+        //延迟1帧踢出队列
         //销毁
         List<GameObject> tempTrash2 = new List<GameObject>();
         List<MonsterEventFrame> LiveMonster2 = new List<MonsterEventFrame>();
@@ -332,7 +500,7 @@ public class MonsterModule
 
 
 
-
+        //死亡销毁
         //销毁
         List<GameObject> tempTrash = new List<GameObject>();
         List<MonsterEventFrame> LiveMonster = new List<MonsterEventFrame>();
@@ -370,12 +538,21 @@ public class MonsterModule
             }
         }
         tempTrash.RemoveAll(it => tempTrash.Contains(it));
+
+
+
+
+
+        
+
+
     }
 
     public void UpdateView()
     {
         foreach (int RoomID in _parentManager._player.GetLiveRoom())
         {
+            //敌方单位
             if (RoomToMonster.ContainsKey(RoomID))
             {
                 List<GameObject> MonsterList = RoomToMonster[RoomID];
@@ -386,10 +563,44 @@ public class MonsterModule
                     Monster.GetComponent<EnemyAI>().UpdateView(Monster);
                 }
             }
+            //己方单位
+            if (RoomToAliasUnit.ContainsKey(RoomID))
+            {
+                List<AliasMonsterPack> MonsterList = RoomToAliasUnit[RoomID];
+                for (int i = 0; i < MonsterList.Count; i++)
+                {
+                    GameObject Monster = MonsterList[i].obj;
+                    Monster.GetComponent<EnemyAI>().UpdateView(Monster);
+                }
+            }
+
+
         }
     }
     
+    GameObject FindCloseMonster(Vector2 AliasPos, int RoomID)
+    {
+        GameObject ret = null;
+        float Min_Distance = 99999;
 
+        if (RoomToMonster.ContainsKey(RoomID))
+        {
+            List<GameObject> MonsterList = RoomToMonster[RoomID];
+            for (int i = 0; i < MonsterList.Count; i++)
+            {
+                Vector2 MonsterPos = new Vector2((float)MonsterList[i].GetComponent<MonsterModel_Component>().position.x, (float)MonsterList[i].GetComponent<MonsterModel_Component>().position.y);
+                float distance = Vector2.Distance(MonsterPos, AliasPos);
+                if (distance < Min_Distance)
+                {
+                    Min_Distance = distance;
+                    ret = MonsterList[i];
+                }
+            }
+
+
+        }
+        return ret;
+    }
 
     GameObject FindClosePlayer(Vector2 MonsterPos, int RoomID )
     {
