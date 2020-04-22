@@ -53,7 +53,7 @@ class AI_Enemy : AI_BehaviorBase
     {
         sys = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem;
         base.type = AItype;
-        if (type == AI_Type.Normal_Melee || type == AI_Type.Boss_Rabit_Egg)
+        if (type == AI_Type.Normal_Melee )
         {
             base.Idle_FrameInterval = 1000 / Global.FrameRate;
             base.Run_FrameInterval = 1;
@@ -70,7 +70,13 @@ class AI_Enemy : AI_BehaviorBase
             base.DashToDistance = 2f;
             base.SummoningInterval = 20;
         }
-        
+        else if (type == AI_Type.Boss_Rabit_Egg)
+        {
+            base.Idle_FrameInterval = 1000 / Global.FrameRate;
+            base.Run_FrameInterval = 1;
+            base.AttackDistance = 0.6f;
+            base.Attack_FrameInterval = 20;
+        }
 
     }
     public override void BossTPLogic(int frame, GameObject obj , Vector2 ToPos , bool rot)
@@ -189,6 +195,7 @@ class AI_Enemy : AI_BehaviorBase
             case AI_Type.Boss_Rabit_Egg:
                 {
                     Debug.Log("蛋蛋攻击");
+                    
                     break;
                 }
             default:
