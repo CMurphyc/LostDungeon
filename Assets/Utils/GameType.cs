@@ -30,6 +30,7 @@ public enum AI_Type
     Nomral_Range,
     Boss_Rabit,
     Boss_Rabit_Egg,
+    Engineer_TerretTower,
 }
 
 

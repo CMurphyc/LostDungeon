@@ -126,6 +126,10 @@ public class PlayerDataModule
         return PlayerUIDList;
     }
 
-
+    public int FindCurrentPlayerUID()
+    {
+        return _parentManager.sys._model._PlayerModule.uid;
+    }
+   
 
 }

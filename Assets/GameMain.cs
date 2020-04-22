@@ -20,7 +20,7 @@ public class GameMain : MonoBehaviour
         socket.SetPort(10001);
         socket.Connect();
         socket.CreateListenThread();
-        
+      
     }
 
     // Update is called once per frame
