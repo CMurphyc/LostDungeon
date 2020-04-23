@@ -574,7 +574,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                 new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
                 Quaternion.identity);
 
-                playerTmp.transform.localScale = new Vector3(2, 2, 1);
+                playerTmp.transform.localScale = new Vector3(3, 3, 1);
 
                 PlayerInGameData data = new PlayerInGameData();
                 data.obj = playerTmp;

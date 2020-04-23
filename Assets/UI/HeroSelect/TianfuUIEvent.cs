@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class TianfuUIEvent : MonoBehaviour
 {
     GameObject main;
-    private GameObject Tianfu;
+    public GameObject Tianfu;
+    //private GameObject Tianfu;
     private Button[] skillButton = new Button[10];
     private Button SaveBtn;
     private Button ExitBtn;
@@ -15,7 +16,7 @@ public class TianfuUIEvent : MonoBehaviour
     void Awake()
     {
         main = GameObject.FindWithTag("GameEntry");
-        Tianfu = transform.Find("Tianfu").gameObject;
+        //Tianfu = transform.Find("Tianfu").gameObject;
         SaveBtn = Tianfu.transform.Find("btnSave").GetComponent<Button>();
         ExitBtn = Tianfu.transform.Find("btnExit").GetComponent<Button>();
         for (int i=0;i<10;i++)
@@ -43,7 +44,9 @@ public class TianfuUIEvent : MonoBehaviour
     }
     public void OnTianfuBtn()
     {
-        Tianfu.SetActive(true);
+        if (Tianfu.activeSelf == false)
+            Tianfu.SetActive(true);
+        else Tianfu.SetActive(false);
     }
     public void OnExitBtn()
     {
@@ -56,6 +59,7 @@ public class TianfuUIEvent : MonoBehaviour
     public void OnSaveBtn()
     {
         IsSave = true;
+        Tianfu.SetActive(false);
     }
     public void OnSkillBtn0()
     {
