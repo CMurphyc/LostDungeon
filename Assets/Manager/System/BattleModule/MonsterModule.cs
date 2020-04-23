@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class MonsterPack
 {
@@ -81,6 +81,7 @@ public class MonsterModule
         MonsterBeAttackHandler(frame);
         MonsterDeadHandler();
         UpdateBullet(frame);
+        UpdateBossHP();
     }
     void UpdateBullet(int frame)
     {
@@ -141,7 +142,41 @@ public class MonsterModule
        
 
     }
+    public void UpdateBossHP()
 
+    {
+        BattleUIUpdate BattleUI = GameObject.Find("Canvas").GetComponent<BattleUIUpdate>();
+        GameObject BossUI = BattleUI.BossUI;
+        int CurrnetUID = _parentManager._player.FindCurrentPlayerUID();
+        int CurrnetRoomID = _parentManager._player.playerToPlayer[CurrnetUID].RoomID;
+        if (CurrnetRoomID == BossRoom)
+        {
+            if (!BossUI.activeSelf)
+            {
+                BossUI.SetActive(true);
+            }
+            else
+            {
+                List<GameObject> ListObj = _parentManager._monster.RoomToMonster[BossRoom];
+                for (int i = 0; i < ListObj.Count; i++)
+                {
+                    if (ListObj[i].tag == "Boss")
+                    {
+                        bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
+                        BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
+                        BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
+                        break;
+                    }
+                }
+            }
+        }
+        Text MonsterNum = GameObject.Find("Canvas/MonsterLeft/monsternum").GetComponent<Text>();
+        MonsterNum.text = _parentManager._monster.RoomToMonster[CurrnetRoomID].Count.ToString();
+
+
+
+
+    }
 
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, float dmg, int roomid)
@@ -218,6 +253,8 @@ public class MonsterModule
         }
 
         obj.GetComponent<MonsterModel_Component>().UnderAttack = true;
+
+
 
         //Debug.Log("MONSTER HP: " + obj.GetComponent<MonsterModel_Component>().HP);
     }

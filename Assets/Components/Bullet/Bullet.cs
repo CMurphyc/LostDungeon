@@ -269,6 +269,12 @@ public class BulletUnion : BulletBase
                     CollideDetecter collideDetecter = new CollideDetecter();
                     Rectangle rect = new Rectangle(new FixVector2((Fix64)MonsterModule.position.x, (Fix64)MonsterModule.position.y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
 
+                    if(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][i].tag == "Boss")
+                    {
+                        BoxCollider2D bc = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][i].GetComponent<BoxCollider2D>();
+                        rect.horizon = (Fix64)bc.size.x;
+                        rect.vertical = (Fix64)bc.size.y;
+                    }
 
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
@@ -320,6 +326,7 @@ public class BulletUnion : BulletBase
 
 
                     CollideDetecter collideDetecter = new CollideDetecter();
+  
                     Rectangle rect = new Rectangle(new FixVector2((Fix64)PlayerComp.GetPlayerPosition().x, (Fix64)PlayerComp.GetPlayerPosition().y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
 
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)

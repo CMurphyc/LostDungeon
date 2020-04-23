@@ -67,8 +67,8 @@ public class explode
             csp.GetBytes(byteCsp);
             float offsetY = System.BitConverter.ToInt32(byteCsp, 0) % 3 * 0.05f;
 
-            Debug.Log("offsetX " + offsetX);
-            Debug.Log("offsetY " + offsetY);
+            //Debug.Log("offsetX " + offsetX);
+            //Debug.Log("offsetY " + offsetY);
 
             //随机rect的scale
             float scale = 0.2f;

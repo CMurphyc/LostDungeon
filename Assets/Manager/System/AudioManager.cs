@@ -153,7 +153,7 @@ public class AudioManager : MonoBehaviour
         bool ret = false;
         foreach (var sound in sounds)
         {
-            Debug.Log(sound.name);
+            //Debug.Log(sound.name);
             if (sound.name == AudioNameToAudioClip[_name])
             {
                 ret = sound.isPlaying();
@@ -167,7 +167,7 @@ public class AudioManager : MonoBehaviour
     {
         foreach (var sound in sounds)
         {
-            Debug.Log(sound.name);
+            //Debug.Log(sound.name);
             if (sound.name == AudioNameToAudioClip[_name])
             {
                 sound.Loop(isLoop);
