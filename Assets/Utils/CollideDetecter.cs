@@ -115,7 +115,7 @@ public class CollideDetecter
         if (PointToLine(point, line1) +
             PointToLine(point, line2) +
             PointToLine(point, line3) +
-            PointToLine(point, line4) <= (rect.horizon + rect.vertical))
+            PointToLine(point, line4) <= (rect.horizon + rect.vertical + (Fix64)0.01f))
         {
             //Debug.Log("IN");
             //Debug.Log("anchor is + " + rect.anchor);
