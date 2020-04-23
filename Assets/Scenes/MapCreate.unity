@@ -1323,10 +1323,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edde9e166fa09a5498a106d73a7f6403, type: 3}
---- !u!224 &1442849199 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1745252121654759910, guid: edde9e166fa09a5498a106d73a7f6403,
-    type: 3}
+--- !u!4 &1442849199 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1442849198}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1651822863
@@ -1440,35 +1439,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 5528144218637167087, guid: 38290e90198553148a604b45f209865e, type: 3}
-  NormalRoom: {fileID: 1099469136215024510, guid: 3b4595687841ac14aaa67c3a1d1e89d7,
+  NormalRoom: {fileID: 3690445263335616983, guid: d6d88f771d231d14eb19088f93ec8e30,
     type: 3}
-  LargeRoom: {fileID: 2469632991605110825, guid: d9485f2ddf6976845a9643c5290b4820,
+  LargeRoom: {fileID: 8794103160505445808, guid: 69bc0859db546c84d97cf50befa53565,
     type: 3}
-  Lshape1Room: {fileID: 6696342528224448909, guid: 31befb0327fd0b648903bad5f960fa44,
+  Lshape1Room: {fileID: 5806154854313463767, guid: 710655892ffe38c4ba2d4c2b925f783e,
     type: 3}
-  Lshape2Room: {fileID: 8247294496371177412, guid: eeb75cf13869c2f45ad6d22fb706536c,
+  Lshape2Room: {fileID: 3116096921210919894, guid: f1d57547304befd459a585525824988b,
     type: 3}
-  Lshape3Room: {fileID: 407268442955296775, guid: e52ba6a30c5205c4fa3ed174b4406bb4,
+  Lshape3Room: {fileID: 2985574938158714118, guid: d9a1f9e6cd3d8014383ad05ec0df5ae5,
     type: 3}
-  Lshape4Room: {fileID: 8165380566334385292, guid: bb68755eee6885d4c96548d5856fddf1,
+  Lshape4Room: {fileID: 9104765780363697918, guid: 6a1d299f223d5aa4d8241fba68dbd057,
     type: 3}
-  LongRoad1Room: {fileID: 1797077955160392729, guid: fc2f95be54023e34d8555e1035bb926d,
+  LongRoad1Room: {fileID: 3194429268100650981, guid: 7e71ba31d9cb84840af4ced5faf815f8,
     type: 3}
-  LongRoad2Room: {fileID: 6236811543194416518, guid: 2252b49f75d8be14284c0333deeeca39,
+  LongRoad2Room: {fileID: 727640883780231140, guid: 0c5ad1aa97301b141bc64ae621ed44e6,
     type: 3}
-  TreasureRoom: {fileID: 4843572608271453551, guid: 7eb1d0a41d9f48e449ec6ec860b73974,
+  TreasureRoom: {fileID: 1239241653288581975, guid: 6cb9d6e3d35ddec40a366c976db8a146,
     type: 3}
-  BossRoom: {fileID: 6927787830062420565, guid: f68f90ea43fcec34c85596cc7ea25a3b,
+  BossRoom: {fileID: 4773236304135573352, guid: f50d255e8f9cc424e8fcb46fa55eaf1a,
     type: 3}
-  ChallengeRoom: {fileID: 1693317083414224828, guid: bf7dc22520d46fe47abe039804e31981,
+  ChallengeRoom: {fileID: 7402376634856171466, guid: 63915f4131cc1ae458a279e983ab20b3,
     type: 3}
-  DevilRoom: {fileID: 1099469136215024510, guid: 3b4595687841ac14aaa67c3a1d1e89d7,
+  DevilRoom: {fileID: 3690445263335616983, guid: d6d88f771d231d14eb19088f93ec8e30,
     type: 3}
-  GameRoom: {fileID: 1775423341905640595, guid: 1f0d3b8f2cdcd4b4385dca1b7e40454e,
+  GameRoom: {fileID: 1697696665630874966, guid: 80987cca60fc6b14b911dc2588583798,
     type: 3}
-  ShopRoom: {fileID: 5425220304731850363, guid: 8a2f0fe1d50c1f340bd64d1b488deec5,
+  ShopRoom: {fileID: 2796990184978731865, guid: 81a55069dffd4d9448499c1c838864b9,
     type: 3}
-  SacrificeRoom: {fileID: 9172663782056594098, guid: 2913d9af7f723d64fa2782cc7c6183c4,
+  SacrificeRoom: {fileID: 720766872609787681, guid: 1efc14fd90fa7cb46b9b6cf8bc12f5b1,
     type: 3}
   NormalDoor:
     upDoor: {fileID: 4917385047953394967, guid: 07c229d87e23d654db93cf842de8bd95,
@@ -1554,37 +1553,52 @@ MonoBehaviour:
       type: 3}
     type: 2
     MonsterID: 0
+  TreasureList:
+  - {fileID: 6167147485909967427, guid: 56d7562070ff5fb4e9c3fb4fe146f3f6, type: 3}
+  - {fileID: 1191563592896174228, guid: 85158bb19b0f2c345972861ae34ede21, type: 3}
+  - {fileID: 6548428581073956927, guid: ad6cebce2766ffc4f90fd349abea9124, type: 3}
+  - {fileID: 8887654901604626354, guid: dc2e428e8cd2225458b3a19e622bd3c7, type: 3}
+  - {fileID: 7228520739801652520, guid: 12f796cf506203d418246569e31c6e5c, type: 3}
+  - {fileID: 6909067098567022676, guid: f79384366305e8c43b969c997eb285e0, type: 3}
+  - {fileID: 6520889025348594599, guid: 6799cc6696c599640b6591d35937427a, type: 3}
+  - {fileID: 5139268068570486322, guid: a45dde7a07d02924b82e90588d3c648a, type: 3}
+  - {fileID: 1627870031858258325, guid: 42936887183665c4bbbe710c6df2d810, type: 3}
+  - {fileID: 4779283928435966377, guid: 1170f59680bc8004990d30f9aff24a0b, type: 3}
+  - {fileID: 8273542065605736142, guid: 0ab1cbdc6e6531e44a27ecdade3704fe, type: 3}
   MonsterInitHP: 05000000050000000500000005000000
   NormalNormalTerrain:
-  - {fileID: 676767245588214965, guid: b5ce7f6606ab84c489fe6eda71c1e40a, type: 3}
-  - {fileID: 8780022670998879699, guid: ec05222f0d63ceb46b10d625b0404a6c, type: 3}
-  - {fileID: 8960285790444617749, guid: 3c4623d15bc76174eba05ad63603d36e, type: 3}
-  - {fileID: 735445643114674513, guid: 4193284e817dff140bb15feb04baf4d8, type: 3}
-  - {fileID: 5332741157871361232, guid: d00989310d1489f46a1d248a8007b5df, type: 3}
+  - {fileID: 2592502930492833309, guid: f1d5c5a0de1d978489050a2f6d36e72f, type: 3}
+  - {fileID: 8511737966765212540, guid: acc3315e6fed36948831a8fd447757ff, type: 3}
+  - {fileID: 1418550316592016234, guid: 465da1a181f7ede478ed13a5ed55f4d8, type: 3}
+  - {fileID: 5910742817773727055, guid: bb20557c6d3632247b51f247fcdb121a, type: 3}
+  - {fileID: 6845915070003214333, guid: 2e81eec2693c402489b290fb9ba4379a, type: 3}
   NormalLshape1Terrain:
-  - {fileID: 5363741284693217312, guid: 92b6655b8d0dc9c4e932dfdfa01d4abc, type: 3}
+  - {fileID: 6515829220484702698, guid: d754b502f1185b246a09a47c2e7ac52b, type: 3}
   NormalLshape2Terrain:
-  - {fileID: 3988754621550046930, guid: 05132f36495ce864fa1379dec94c6049, type: 3}
+  - {fileID: 5555400975918678131, guid: 81d923cfbcaa554468948488977e93a0, type: 3}
   NormalLshape3Terrain:
-  - {fileID: 3217117657200517237, guid: 1374e4a80f2bb36468074349cf072ee3, type: 3}
+  - {fileID: 4557416693716005279, guid: b474a146adf80f54789c4c15374d113d, type: 3}
   NormalLshape4Terrain:
-  - {fileID: 6716296661612781693, guid: 8dd70f94121e4b2499e5664ef03fecf8, type: 3}
+  - {fileID: 6578708376954802987, guid: fe98973af009ab542ba1ed0c1b8cb2a1, type: 3}
   NormalLongRoad1Terrain:
-  - {fileID: 6206816958751172894, guid: e339f42b7cadde544b648ddbaf6ebc94, type: 3}
+  - {fileID: 788970157208808093, guid: eb2b1842cd069dd41b986c479a74b081, type: 3}
   NormalLongRoad2Terrain:
-  - {fileID: 2631464301261386557, guid: 2649b34f454db4a46a8634b030836af7, type: 3}
+  - {fileID: 3108999171684255797, guid: ff955818a6a4def44bbd9017256c2097, type: 3}
   NormalLargeTerrain:
-  - {fileID: 8461159474142362021, guid: 2a55fea4019f0d14e925958b3b2b6c91, type: 3}
+  - {fileID: 8813345613094597950, guid: 5b8c9c1b0945528408c6a25f28d2e513, type: 3}
   TreasureNormalTerrain:
-  - {fileID: 5307800324779702985, guid: d276991197e589641924ea35b0043156, type: 3}
+  - {fileID: 5249501342245356832, guid: 42fba292060ea664f8a0303caede56a6, type: 3}
+  - {fileID: 289123865702400714, guid: 8f3e8dc047a2c9b49bba9fb19ef0fb38, type: 3}
+  - {fileID: 5246988086961937036, guid: 182f096c17fdc234e9f3d2919351f01f, type: 3}
+  - {fileID: 3730571030351697457, guid: 0456ec18912367d4694d78f35b694821, type: 3}
   BossNormalTerrain:
-  - {fileID: 7531779408445860602, guid: 32604b9b6059a1c48a742be1a88a71d4, type: 3}
+  - {fileID: 7531779408445860602, guid: b4ecf96ce4cd3d543a1d93b709ef080c, type: 3}
   DevilNormalTerrain:
-  - {fileID: 4234667952237941549, guid: 87df7d9a76c63f04f9a5ffc624f3bd4e, type: 3}
+  - {fileID: 4234667952237941549, guid: c1ec771410dfe7143a75a5859f652f10, type: 3}
   ChallengeNormalTerrain:
-  - {fileID: 2989160037920656135, guid: 4ef83edcaf9ab2d44bbdaea4d52f38de, type: 3}
-  xOffset: 24
-  yOffset: -14
+  - {fileID: 2989160037920656135, guid: 8e643b3e83a443448bf22ee0e335b7a4, type: 3}
+  xOffset: 20
+  yOffset: -13
   startRoom: 0
 --- !u!1001 &2112919355
 PrefabInstance:

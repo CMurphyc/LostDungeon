@@ -31,6 +31,7 @@ public class RoomCreate : MonoBehaviour
     public Door SacrificeDoor;
     public Monster[] MonsterList;
     public Monster[] BossList;
+    public GameObject[] TreasureList;
     public int[] MonsterInitHP;
 
     public GameObject[] NormalNormalTerrain;
@@ -45,6 +46,7 @@ public class RoomCreate : MonoBehaviour
     public GameObject[] BossNormalTerrain;
     public GameObject[] DevilNormalTerrain;
     public GameObject[] ChallengeNormalTerrain;
+
     public int xOffset;
     public int yOffset;
     public int[,] roomTag;
@@ -58,7 +60,9 @@ public class RoomCreate : MonoBehaviour
   
     public Dictionary<int, PlayerInGameData> playerToPlayer ;   // 玩家编号对应玩家信息
     public Dictionary<int, List<GameObject>> roomToMonster ;   // 房间号对应的怪物列表
-   
+
+    public Dictionary<int, List<GameObject>> roomToTreasure = new Dictionary<int, List<GameObject>>();   // 房间号对应宝物列表
+
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
     private int birthX;
@@ -268,7 +272,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     else if (map[i, j] == 11)  // 宝箱
                     {
                         room = Instantiate(TreasureRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Treasure
-                        terrain = Instantiate(TreasureNormalTerrain[Random.Range(0, TreasureNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        terrain = Instantiate(TreasureNormalTerrain[playerNum - 1], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                     }
                     else  // 普通
                     {
@@ -295,6 +299,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                 //  创建石头对象的列表
                 List<GameObject> stones = new List<GameObject>();
                 List<GameObject> monsters = new List<GameObject>();
+                List<GameObject> treasures = new List<GameObject>();
+
                 //  获得当前地形下所有的子物体，即所有石头
                 if (room != null)
                 {
@@ -346,7 +352,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
                                                 monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
                                                 monster.GetComponent<MonsterModel_Component>().HP = (Fix64)100;
-                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom,null);
+                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
                                                 monsters.Add(monster);
                                             }
                                         }
@@ -358,17 +364,26 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                     GameObject monster = Instantiate(MonsterList[index].monsterGameObject, child.transform.position, Quaternion.identity);
                                     monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
                                     monster.GetComponent<MonsterModel_Component>().HP = (Fix64)MonsterInitHP[index];
-                                    monster.GetComponent<EnemyAI>().InitAI(MonsterList[index].type, nowRoom,null);
+                                    monster.GetComponent<EnemyAI>().InitAI(MonsterList[index].type, nowRoom, null);
                                     monsters.Add(monster);
                                 }
                             }
                             monsterNum++;
                         }
+                        else if (child.tag == "TreasureTable")
+                        {
+                            GameObject treasure = Instantiate(TreasureList[Random.Range(0, TreasureList.Length)], new Vector3(xOffset * j, yOffset * i + 0.6f, 0), Quaternion.identity);
+                            stones.Add(child);
+                            treasures.Add(treasure);
+                        }
                     }
                 }
+                // Debug.Log(stones.Count);
                 roomToStone.Add(nowRoom, stones);
+                // Debug.Log(monsters.Count);
                 roomToMonster.Add(nowRoom, monsters);
-
+                // Debug.Log(treasures.Count);
+                roomToTreasure.Add(nowRoom, treasures);
 
                 
             }

@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{1AB9DF0A-AFCA-9A14-537B-46DA1B65852E}</ProjectGuid>
+    <ProjectGuid>{59347FA7-AF0A-A24A-8D91-0A35895BC673}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Components\Boss\Boss_Rabit\AI\RabitAI.cs" />
+    <Compile Include="Assets\Components\Bullet\Bullet.cs" />
+    <Compile Include="Assets\Components\Bullet\explode.cs" />
     <Compile Include="Assets\Components\NPC\NPC_Alien\AI\AlienAI.cs" />
     <Compile Include="Assets\Components\NPC\NPC_DeathKnight\AI\DeathKnightAI.cs" />
     <Compile Include="Assets\Components\Player\Model\PlayerModel_Component.cs" />
@@ -199,6 +201,8 @@
     <Compile Include="Assets\Resources\Model\Boss\Boss_Ghost\GhostAI.cs" />
     <Compile Include="Assets\Resources\Model\dddppp\Monster\Paotai\Scrpts\BulletView_Component.cs" />
     <Compile Include="Assets\Resources\Model\dddppp\Monster\Paotai\Scrpts\PaotaiAI.cs" />
+    <Compile Include="Assets\Resources\UI\Scene'sPictures\HeroSelect\TianfuUIEvent.cs" />
+    <Compile Include="Assets\Resources\UI\Scene'sPictures\Main\ImageContro.cs" />
     <Compile Include="Assets\Scripts\AttackJoystick.cs" />
     <Compile Include="Assets\Scripts\BulletModel_Component.cs" />
     <Compile Include="Assets\Scripts\BulletType.cs" />
@@ -207,15 +211,14 @@
     <Compile Include="Assets\Scripts\CameraManager.cs" />
     <Compile Include="Assets\Scripts\CancleJoystick.cs" />
     <Compile Include="Assets\Scripts\JoyStick\PlayerInputs.cs" />
+    <Compile Include="Assets\Scripts\JoyStick\SkillIndiactor.cs" />
+    <Compile Include="Assets\Scripts\JoyStick\SkillJoystick.cs" />
     <Compile Include="Assets\Scripts\JoyStick\VirtualJoystick.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterModel_Component.cs" />
-    <Compile Include="Assets\Scripts\MoveJoystick.cs" />
     <Compile Include="Assets\Scripts\RandMap.cs" />
     <Compile Include="Assets\Scripts\RoomCreate.cs" />
     <Compile Include="Assets\Scripts\Skill_Config.cs" />
     <Compile Include="Assets\Scripts\SkillArea.cs" />
-    <Compile Include="Assets\Scripts\SkillIndiactor.cs" />
-    <Compile Include="Assets\Scripts\SkillJoystick.cs" />
     <Compile Include="Assets\Scripts\Weapons.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\CircleObject.cs" />
     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\GameObjectExtensions.cs" />
@@ -248,6 +251,7 @@
     <Compile Include="Assets\Tilemap\Tiles\Weighted Random Tile\WeightedRandomTile.cs" />
     <Compile Include="Assets\UGUIKit Flat\Content\Scripts\bl_ProgressBar.cs" />
     <Compile Include="Assets\UGUIKit Flat\Content\Scripts\bl_ToggleSwitcher.cs" />
+    <Compile Include="Assets\UI\Battle\BattleUIEvent.cs" />
     <Compile Include="Assets\UI\HeroSelect\HeroSelectRefreshWindow.cs" />
     <Compile Include="Assets\UI\HeroSelect\HeroSelectUIEvent.cs" />
     <Compile Include="Assets\UI\Login\LoginEvent.cs" />
@@ -259,17 +263,19 @@
     <Compile Include="Assets\UI\TeamUp\TeamUpEvent.cs" />
     <Compile Include="Assets\UI\TeamUp\TeamUpUIEvent.cs" />
     <Compile Include="Assets\Utils\AI_Behavior.cs" />
+    <Compile Include="Assets\Utils\AI_BehaviorBase.cs" />
     <Compile Include="Assets\Utils\AnimationEventType.cs" />
     <Compile Include="Assets\Utils\CollideDetecter.cs" />
+    <Compile Include="Assets\Utils\Collider.cs" />
     <Compile Include="Assets\Utils\EnemyAI.cs" />
     <Compile Include="Assets\Utils\EventDispatcher.cs" />
     <Compile Include="Assets\Utils\Fix64.cs" />
     <Compile Include="Assets\Utils\GameType.cs" />
     <Compile Include="Assets\Utils\Global.cs" />
-    <Compile Include="Assets\Utils\MeleeAI_Behavior.cs" />
     <Compile Include="Assets\Utils\PackConverter.cs" />
     <Compile Include="Assets\Utils\Polygon.cs" />
     <Compile Include="Assets\Utils\RangeAI_Behavior.cs" />
+    <Compile Include="Assets\Utils\ResourceManager.cs" />
     <Compile Include="Assets\Utils\RoundBulletSystem.cs" />
     <None Include="Assets\Tiled2Unity\Shaders\shaDiffuseDepth-Instanced.shader" />
     <None Include="Assets\Tilemap\Tiles\Rule Tile\ScriptTemplates\NewCustomRuleTile.cs.txt" />
@@ -302,61 +308,61 @@
     <None Include="Assets\Tiled2Unity\Imported\_ReadMe.txt" />
     <None Include="Assets\Tiled2Unity\Meshes\_ReadMe.txt" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-weaver.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
-      <HintPath>F:/Unity/Space/1.2/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>F:/Unity/2019.2.4f1/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -536,19 +542,19 @@
       <HintPath>F:/Unity/2019.2.4f1/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
     <Reference Include="Pathfinding.Ionic.Zip.Reduced">
-      <HintPath>F:/Unity/Space/1.2/Assets/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Assets/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>F:/Unity/Space/1.2/Assets/Network/proto/Google.Protobuf.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Assets/Network/proto/Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>F:/Unity/Space/1.2/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>F:/Unity/Space/1.2/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>F:/Unity/Space/1.2/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>F:/Unity/Space/1.5/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>F:/Unity/2019.2.4f1/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -907,15 +913,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="AstarPathfindingProject.csproj">
-      <Project>{EB02F532-12E2-907B-F07A-0ADA72E4069F}</Project>
+      <Project>{48883C0B-8385-50B4-5154-BF48C682B639}</Project>
       <Name>AstarPathfindingProject</Name>
     </ProjectReference>
     <ProjectReference Include="PackageToolsEditor.csproj">
-      <Project>{7D324053-9AFB-727F-B928-307489DE7FBD}</Project>
+      <Project>{498874E8-8DBC-FE6A-7535-F6818CA29519}</Project>
       <Name>PackageToolsEditor</Name>
     </ProjectReference>
     <ProjectReference Include="AstarPathfindingProjectEditor.csproj">
-      <Project>{063B0A9C-99BA-0259-F75B-CEF2937F0140}</Project>
+      <Project>{BDC6BF5D-0AEB-758A-9B3D-288F202474DD}</Project>
       <Name>AstarPathfindingProjectEditor</Name>
     </ProjectReference>
   </ItemGroup>
