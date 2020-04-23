@@ -42,6 +42,6 @@ public class MainUIEvent : MonoBehaviour
     }
     public void OnBtnReturn()
     {
-
+        main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoginPanel");
     }
 }

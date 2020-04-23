@@ -352,7 +352,10 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
                                                 monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
                                                 monster.GetComponent<MonsterModel_Component>().HP = (Fix64)100;
-                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
+
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)100;
+                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom,null);
+
                                                 monsters.Add(monster);
                                             }
                                         }

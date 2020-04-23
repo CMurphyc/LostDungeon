@@ -25,6 +25,7 @@ class AI_BehaviorBase
     public int AttackSpeedInterval = 0;
     public float AttackDistance = 0;
     public int SummoningInterval = 0;
+
     //boss
     
     public float DashDistance = 0;
