@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerInputs : MonoBehaviour
 {
     JoyStickModule joystick;
+    
     private void Awake()
     {
         joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
@@ -14,6 +15,5 @@ public class PlayerInputs : MonoBehaviour
     {
         joystick.Ljoystick = GameObject.Find("Canvas/MoveStickUI").GetComponent<VirtualJoystick>().GetVirtualJoystickInput();
         joystick.Rjoystick = GameObject.Find("Canvas/AttackStickUI").GetComponent<VirtualJoystick>().GetVirtualJoystickInput();
-
     }
 }

@@ -6,13 +6,13 @@ using System;
 
 public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    private GameMain Main;
+    public GameObject Main;
     private GameObject Cancle_Joystick;
     private Vector2 JoyStickCenter;
-    public Action<Vector2,float> OnSkillJoystickDownEvent;  //点下事件
-    public Action<Vector2,float> OnSkillJoystickMoveEvent;  //拖动事件
+    public Action<Vector2, float> OnSkillJoystickDownEvent;  //点下事件
+    public Action<Vector2, float> OnSkillJoystickMoveEvent;  //拖动事件
     public Action OnSkillJoystickUpEvent;                   //抬起事件
-    
+
     public GameObject InnerJoystick;
     public GameObject OuterJoystick;
     private float maxRadius = 50;                           //内部摇杆最远滑到多远
@@ -21,14 +21,18 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
     public GameObject Effect;
 
 
+    public AttackType SkillType;
+    JoyStickModule joystick;
     void Start()
     {
         //Main = GameObject.FindWithTag("GameEntry").GetComponent<GameMain>();
         Cancle_Joystick = transform.parent.Find("CancelStickUI").gameObject;
         JoyStickCenter = transform.position;
+        Cancle_Joystick.SetActive(false);
+        joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
     }
 
-    public void SetSkill(float area,GameObject e)
+    public void SetSkill(float area, GameObject e)
     {
         Effect = e;
         SkillArea = area;
@@ -59,14 +63,24 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         InnerJoystick.transform.localPosition = Vector3.zero;
         OnSkillJoystickUpEvent();
 
-        /*
-        if(Cancle_Joystick.GetComponent<CancleJoystick>().GetIsIn()==false)
+
+        if (Cancle_Joystick.GetComponent<CancleJoystick>().GetIsIn() == false)
         {
-            //释放技能
-            GameObject it=Instantiate(Resources.Load("Effects/explosion")) as GameObject;
-            it.transform.position = transform.GetComponent<SkillIndiactor>().GetSkillPosition();
+            Vector2 x = transform.GetComponent<SkillIndiactor>().GetSkillPosition();
+
+            joystick.Rjoystick = x;
+            if (this.gameObject.name == "SkillStickUI1")
+            {
+                joystick.type = AttackType.Skill1;
+            }
+            else
+            {
+
+                joystick.type = AttackType.Skill2;
+            }
+
         }
-        */
+
         OuterJoystick.SetActive(false);
         InnerJoystick.SetActive(false);
         Cancle_Joystick.GetComponent<CancleJoystick>().End();

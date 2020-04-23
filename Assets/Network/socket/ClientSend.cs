@@ -118,23 +118,35 @@ public class ClientSend
         Send(pack.ToByteArray(), GeneralType.EnterRoom);
     }
 
-    public void BattleSynC2S(Vector3 Left, Vector3 Right)
+    public void BattleSynC2S(Vector3 Left, Vector3 Right, AttackType type)
     {
         BattleInput pack = new BattleInput();
         //导入信息 To Do
 
         pack.MoveDirectionX = (int)(Left.x *10000);
         pack.MoveDirectionY = (int)(Left.y *10000);
-        if (Right.x == 0 && Right.y == 0)
-        {
-            pack.AttackType = 0;
-        }
-        else
-        {
-            pack.AttackType = 1;
-            pack.AttackDirectionX = (int)(Right.x * 10000);
-            pack.AttackDirectionY = (int)(Right.y * 10000);
-        }
+
+
+        pack.AttackDirectionX = (int)(Right.x * 10000);
+        pack.AttackDirectionY = (int)(Right.y * 10000);
+
+        pack.AttackType = (int)type;
+
+        /*
+        Debug.Log("AttackDirX  " + pack.AttackDirectionX);
+        Debug.Log("AttackDirY  " + pack.AttackDirectionY);
+        Debug.Log("Attack Type  " + pack.AttackType);
+        */
+        //if (Right.x == 0 && Right.y == 0)
+        //{
+        //    pack.AttackType = 0;
+        //}
+        //else
+        //{
+        //    pack.AttackType = 1;
+        //    pack.AttackDirectionX = (int)(Right.x * 10000);
+        //    pack.AttackDirectionY = (int)(Right.y * 10000);
+        //}
         //pack.AttackType = ;
         Send(pack.ToByteArray(), GeneralType.BattleSynC2S);
     }

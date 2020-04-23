@@ -13,7 +13,6 @@ public enum SkillAreaType
 
 public class SkillIndiactor : MonoBehaviour
 {
-    private GameMain Main;
     private Dictionary<SkillAreaType,Transform> indiactor;
     private SkillJoystick Skill_Joystick;
     private SkillAreaType areaType;      //技能范围类型
@@ -68,7 +67,7 @@ public class SkillIndiactor : MonoBehaviour
         switch(areaType)
         {
             case SkillAreaType.OuterCircle_InnerCircle:
-                indiactor[areaType].position = GameObject.Find("Engineer(Clone)").transform.position; 
+                indiactor[areaType].position = Target.transform.position; 
                 break;
             default:
                 break;

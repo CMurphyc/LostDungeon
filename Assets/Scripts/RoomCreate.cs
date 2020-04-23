@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.UI;
 
 public class RoomCreate : MonoBehaviour
 {
-    public GameObject Player;
     public GameObject NormalRoom;
     public GameObject LargeRoom;
     public GameObject Lshape1Room;
@@ -116,10 +114,11 @@ public class RoomCreate : MonoBehaviour
         {
             if (!PlayerList[i].empty)
             {
-                CreatePlayer(i, PlayerList[i].uid);
+                CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
             }
         }
 
+        ChangeSkillIcon();
 
         //AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
         //AStar.data.gridGraph.Width = (int)(GetRightTop().x - GetLeftBottom().x +1);
@@ -491,18 +490,74 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
 
     }
 
-    public void CreatePlayer(int playerNum , int uid)
+
+    public void ChangeSkillIcon()
+    {
+        int PlayerUID = sys._model._PlayerModule.uid;
+        CharacterType PlayerType = sys._model._RoomModule.GetCharacterType(PlayerUID);
+
+        GameObject js1 = GameObject.Find("SkillStickUI1"), js2=GameObject.Find("SkillStickUI2");
+
+        switch (PlayerType)
+        {
+            case CharacterType.Enginner:
+                {
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill1Image;
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill2Image;
+                    break;
+                }
+            case CharacterType.Magician:
+                {
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill1Image;
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill2Image;
+                    break;
+                }
+            default:
+                break;
+        }
+        GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
+        js1.GetComponent<SkillIndiactor>().Init(2,0.5f, PlayerObject);
+        js2.GetComponent<SkillIndiactor>().Init(2,0.5f, PlayerObject);
+
+    }
+
+    public void CreatePlayer(int playerNum , int uid,CharacterType type)
     {
         //  创建玩家实体并根据玩家编号来决定出生位置
-        GameObject playerTmp = Instantiate(Player, new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0), Quaternion.identity);
-        playerTmp.transform.localScale = new Vector3(2,2,1);
-        
-        PlayerInGameData data = new PlayerInGameData();
-        data.obj = playerTmp;
-        data.RoomID = startRoom;
-        playerToPlayer.Add(uid, data);
+        switch(type)
+        {
+            case  CharacterType.Enginner:
+            {
+                GameObject playerTmp = Instantiate(sys._battle._skill.enginerBase.obj,
+                new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                Quaternion.identity);
 
-    
+                playerTmp.transform.localScale = new Vector3(2, 2, 1);
+
+                PlayerInGameData data = new PlayerInGameData();
+                data.obj = playerTmp;
+                data.RoomID = startRoom;
+                playerToPlayer.Add(uid, data);
+
+                break;
+            }
+            case CharacterType.Magician:
+            {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.magicianBase.obj,
+                    new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
+
+                    playerTmp.transform.localScale = new Vector3(2, 2, 1);
+
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    playerToPlayer.Add(uid, data);
+                    break;
+            }
+            default:
+                break;
+        }
     }
 
     public Vector2 GetLeftBottom()

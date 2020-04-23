@@ -47,7 +47,15 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._battle._player.frameInfo = Inputs;
             main.GetComponent<GameMain>().WorldSystem._battle.UpdateFrame();
         
-            main.GetComponent<GameMain>().socket.sock_c2s.BattleSynC2S(main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Ljoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick);
+            main.GetComponent<GameMain>().socket.sock_c2s.BattleSynC2S(main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Ljoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type);
+
+            AttackType temp = main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type;
+            if (temp == AttackType.Skill1 || temp == AttackType.Skill2)
+            {
+                main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick = Vector3.zero;
+                main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type = AttackType.BasicAttack;
+            }
+
         }
     }
     void StartGame(EventBase eb)
