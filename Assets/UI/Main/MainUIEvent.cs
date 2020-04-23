@@ -39,9 +39,9 @@ public class MainUIEvent : MonoBehaviour
         //send request
         main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList();
         print("GetRoomList Request Send");
-
-
+    }
+    public void OnBtnReturn()
+    {
 
     }
-
 }

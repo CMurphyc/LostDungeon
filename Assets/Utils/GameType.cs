@@ -7,9 +7,32 @@ enum AI_BehaviorType
     Idle,
     Run,
     Attack,
-    Dead
+    Dead,
+    UnderAttack,
+    Dash
 
 }
+
+[System.Serializable]
+public class Monster
+{
+    public GameObject monsterGameObject;
+    public AI_Type type;
+    public int MonsterID;
+}
+
+
+
+[System.Serializable]
+public enum AI_Type
+{
+    Normal_Melee,
+    Nomral_Range,
+    Boss_Rabit,
+    Boss_Rabit_Egg,
+    Engineer_TerretTower,
+}
+
 
 public enum StateType
 {

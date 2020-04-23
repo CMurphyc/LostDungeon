@@ -965,6 +965,36 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 300394154019564945, guid: 44bb157b44bf14c498889b1a20f4d1d1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 300394154019564945, guid: 44bb157b44bf14c498889b1a20f4d1d1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 300394154019564945, guid: 44bb157b44bf14c498889b1a20f4d1d1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 300394154019564945, guid: 44bb157b44bf14c498889b1a20f4d1d1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 767986376}
+    - target: {fileID: 300394154019564945, guid: 44bb157b44bf14c498889b1a20f4d1d1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBtnInitTerretTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 300394154019564945, guid: 44bb157b44bf14c498889b1a20f4d1d1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44bb157b44bf14c498889b1a20f4d1d1, type: 3}
 --- !u!224 &767986374 stripped
@@ -973,6 +1003,24 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 767986373}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &767986375 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 300394154019564947, guid: 44bb157b44bf14c498889b1a20f4d1d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 767986373}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &767986376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767986375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b22e78009865da46914d65826834d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &910421341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1485,10 +1533,27 @@ MonoBehaviour:
     rightDoor: {fileID: 715232806871546833, guid: 49fd78ac77c45ca48b848408594b0153,
       type: 3}
   MonsterList:
-  - {fileID: 1246219329112178834, guid: d0a1ab6f28098ac49a6730ae5cad6451, type: 3}
-  - {fileID: 6606036554287153081, guid: 74ef1c2de7ada5a46b1387caab7ba017, type: 3}
-  - {fileID: 5964808108021513039, guid: 603b6b3a70b341c4ca2249acae26ed39, type: 3}
-  - {fileID: 7774359129733772670, guid: b20b269ec64a1e445822602a21f65567, type: 3}
+  - monsterGameObject: {fileID: 1246219329112178834, guid: d0a1ab6f28098ac49a6730ae5cad6451,
+      type: 3}
+    type: 0
+    MonsterID: 0
+  - monsterGameObject: {fileID: 6606036554287153081, guid: 74ef1c2de7ada5a46b1387caab7ba017,
+      type: 3}
+    type: 0
+    MonsterID: 0
+  - monsterGameObject: {fileID: 5964808108021513039, guid: 603b6b3a70b341c4ca2249acae26ed39,
+      type: 3}
+    type: 0
+    MonsterID: 0
+  - monsterGameObject: {fileID: 7774359129733772670, guid: b20b269ec64a1e445822602a21f65567,
+      type: 3}
+    type: 0
+    MonsterID: 0
+  BossList:
+  - monsterGameObject: {fileID: 870878452893989547, guid: 35bc7c21a8abe234180c112b64e042bc,
+      type: 3}
+    type: 2
+    MonsterID: 0
   MonsterInitHP: 05000000050000000500000005000000
   NormalNormalTerrain:
   - {fileID: 676767245588214965, guid: b5ce7f6606ab84c489fe6eda71c1e40a, type: 3}
