@@ -31,7 +31,6 @@ public class RoomCreate : MonoBehaviour
     public Door SacrificeDoor;
     public Monster[] MonsterList;
     public Monster[] BossList;
-    public GameObject[] TreasureList;
     public int[] MonsterInitHP;
 
     public GameObject[] NormalNormalTerrain;
@@ -61,7 +60,9 @@ public class RoomCreate : MonoBehaviour
     public Dictionary<int, PlayerInGameData> playerToPlayer ;   // 玩家编号对应玩家信息
     public Dictionary<int, List<GameObject>> roomToMonster ;   // 房间号对应的怪物列表
 
-    public Dictionary<int, List<GameObject>> roomToTreasure = new Dictionary<int, List<GameObject>>();   // 房间号对应宝物列表
+    public Dictionary<int, List<TreasureData>> roomToTreasure = new Dictionary<int, List<TreasureData>>();   // 房间号对应宝物列表
+    public Dictionary<int, PropData> propToProperty = new Dictionary<int, PropData>();   // 根据道具名称找到对应道具属性
+
 
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
@@ -88,7 +89,11 @@ public class RoomCreate : MonoBehaviour
         doornumToDoor = sys._battle._terrain.doornumToDoor;
         doorToDoor = sys._battle._terrain.doorToDoor;
         doorToRoom = sys._battle._terrain.doorToRoom;
-       
+
+        // 加载道具信息
+        UploadPropAttr();
+
+
         int playerNum = sys._model._RoomModule.GetPlayerSize();
         playerNum = 2;
 
@@ -160,8 +165,7 @@ public class RoomCreate : MonoBehaviour
             }
         }
 
-
-
+        
 
 }
 
@@ -300,7 +304,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                 //  创建石头对象的列表
                 List<GameObject> stones = new List<GameObject>();
                 List<GameObject> monsters = new List<GameObject>();
-                List<GameObject> treasures = new List<GameObject>();
+                List<TreasureData> treasures = new List<TreasureData>();
 
                 //  获得当前地形下所有的子物体，即所有石头
                 if (room != null)
@@ -376,9 +380,13 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         }
                         else if (child.tag == "TreasureTable")
                         {
-                            GameObject treasure = Instantiate(TreasureList[Random.Range(0, TreasureList.Length)], child.transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
+                            // 根据随机生成的道具下标来创建道具实体
+                            int treasureId = Random.Range(0, propToProperty.Count);
+                            GameObject treasure = Instantiate(propToProperty[treasureId].propObject, child.transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
+                            // Debug.Log(treasure.name);
+                            Debug.Log(treasure.name + "   " + treasureId);
                             stones.Add(child);
-                            treasures.Add(treasure);
+                            treasures.Add(new TreasureData(treasureId, propToProperty[treasureId].propObject));
                         }
                     }
                 }
@@ -557,6 +565,20 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
         return new Vector2(RandMap.GetWidth() * xOffset + 9, 4);
     }
+    public void UploadPropAttr()
+    {
+        // 根据配置表中的下标来添加对应物体的一系列属性
+        List<PropData> propConfigList = (Resources.Load("Config/PropConfig") as PropConfig).prop_config_list;
+        for (int i = 0; i < propConfigList.Count; i++)
+        {
+            Debug.Log(propConfigList[i].propObject.name + "   " + i);
+            propToProperty.Add(i, propConfigList[i]);
+        }
+        /*foreach (KeyValuePair<int, PropData> kvp in propToProperty)
+        {
+            Debug.Log(kvp.Key);
+        }*/
+    }
 }
 
 
@@ -568,4 +590,3 @@ public class Door
     public GameObject leftDoor;
     public GameObject rightDoor;
 }
-
