@@ -90,6 +90,7 @@ public class RoomCreate : MonoBehaviour
         doorToRoom = sys._battle._terrain.doorToRoom;
        
         int playerNum = sys._model._RoomModule.GetPlayerSize();
+        playerNum = 2;
 
         int seed = sys._model._RoomModule.MapSeed;
         Random.InitState(seed);
@@ -375,7 +376,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         }
                         else if (child.tag == "TreasureTable")
                         {
-                            GameObject treasure = Instantiate(TreasureList[Random.Range(0, TreasureList.Length)], new Vector3(xOffset * j, yOffset * i + 0.6f, 0), Quaternion.identity);
+                            GameObject treasure = Instantiate(TreasureList[Random.Range(0, TreasureList.Length)], child.transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
                             stones.Add(child);
                             treasures.Add(treasure);
                         }
