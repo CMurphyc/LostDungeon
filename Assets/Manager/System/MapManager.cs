@@ -29,6 +29,9 @@ public class MapManager : SceneManager
         SceneList.Add("Scenes/RoomList");
         SceneList.Add("Scenes/HeroSelect");
         SceneList.Add("Scenes/MapCreate");
+
+        AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
+
     }
 
     public void SwitchScene(string targetScene)
@@ -39,6 +42,66 @@ public class MapManager : SceneManager
             CurrentScene = targetScene;
             Debug.Log("ChangeScene: " + CurrentScene);
             SceneIndex = SceneList.IndexOf(scene_dir + targetScene);
+
+            //if(targetScene == "MapCreate") AudioManager.instance.PlayAudio(AudioName.MainSceneBGM,true);
+            switch (targetScene)
+            {
+                case "LoginPanel":
+                    {
+                        if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
+                        {
+                            AudioManager.instance.MuteAll();
+                            AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
+                        }
+                        break;
+                    }
+                case "Main":
+                    {
+                        if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
+                        {
+                            AudioManager.instance.MuteAll();
+                            AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
+                        }
+                        break;
+                    }
+                case "RoomList":
+                    {
+                        if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
+                        {
+                            AudioManager.instance.MuteAll();
+                            AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
+                        }
+                        break;
+                    }
+                case "HeroSelect":
+                    {
+                        if (!AudioManager.instance.isPlaying(AudioName.TeamBGM))
+                        {
+                            AudioManager.instance.MuteAll();
+                            AudioManager.instance.PlayAudio(AudioName.TeamBGM, true);
+                        }
+                        break;
+                    }
+              
+                case "MapCreate":
+                    {
+                        if (!AudioManager.instance.isPlaying(AudioName.BattleBGM))
+                        {
+                            AudioManager.instance.MuteAll();
+                            AudioManager.instance.PlayAudio(AudioName.BattleBGM, true);
+                        }
+                        break;
+                    }
+
+
+
+
+                default:
+                    {
+                        break;
+                    }
+            }
+          
         }
         
     }

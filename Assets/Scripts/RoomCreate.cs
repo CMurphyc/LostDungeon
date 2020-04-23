@@ -27,7 +27,9 @@ public class RoomCreate : MonoBehaviour
     public Door DevilDoor;
     public Door GameDoor;
     public Door SacrificeDoor;
-    public GameObject[] MonsterList;
+    public Monster[] MonsterList;
+    public Monster[] BossList;
+    public GameObject[] TreasureList;
     public int[] MonsterInitHP;
 
     public GameObject[] NormalNormalTerrain;
@@ -42,6 +44,7 @@ public class RoomCreate : MonoBehaviour
     public GameObject[] BossNormalTerrain;
     public GameObject[] DevilNormalTerrain;
     public GameObject[] ChallengeNormalTerrain;
+
     public int xOffset;
     public int yOffset;
     public int[,] roomTag;
@@ -55,11 +58,14 @@ public class RoomCreate : MonoBehaviour
   
     public Dictionary<int, PlayerInGameData> playerToPlayer ;   // 玩家编号对应玩家信息
     public Dictionary<int, List<GameObject>> roomToMonster ;   // 房间号对应的怪物列表
-   
+
+    public Dictionary<int, List<GameObject>> roomToTreasure = new Dictionary<int, List<GameObject>>();   // 房间号对应宝物列表
+
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
     private int birthX;
     private int birthY;
+    private int bossRoom;
 
     SystemManager sys;
     private void Awake()
@@ -80,8 +86,7 @@ public class RoomCreate : MonoBehaviour
         doornumToDoor = sys._battle._terrain.doornumToDoor;
         doorToDoor = sys._battle._terrain.doorToDoor;
         doorToRoom = sys._battle._terrain.doorToRoom;
-
-
+       
         int playerNum = sys._model._RoomModule.GetPlayerSize();
 
         int seed = sys._model._RoomModule.MapSeed;
@@ -98,7 +103,7 @@ public class RoomCreate : MonoBehaviour
                 array[i, j] = RandMap.GetValue(i, j);
             }
         }
-        MakeGraph(array, h, d, playerNum);
+        MakeGraph(array, h, d, playerNum, floorNum);
 
         Debug.Log("Astar");
         AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
@@ -141,9 +146,8 @@ public class RoomCreate : MonoBehaviour
         sys._battle._terrain.doornumToDoor = doornumToDoor;
         sys._battle._terrain.doorToDoor = doorToDoor;
         sys._battle._terrain.doorToRoom = doorToRoom;
+        sys._battle._monster.BossRoom = bossRoom;
 
-        
-        
         //初始化相机
         for (int i = 0; i < PlayerList.Count; i++)
         {
@@ -159,7 +163,7 @@ public class RoomCreate : MonoBehaviour
 
 }
 
-void MakeGraph(int[,] map, int row, int col, int playerNum)
+void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
 
         // 根据传入的矩阵生成整体房间地图
@@ -238,6 +242,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                 {
                     if (map[i, j] == 5)  // Boss
                     {
+                        bossRoom = nowRoom;
                         room = Instantiate(BossRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Boss
                         terrain = Instantiate(BossNormalTerrain[Random.Range(0, BossNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                     }
@@ -266,7 +271,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                     else if (map[i, j] == 11)  // 宝箱
                     {
                         room = Instantiate(TreasureRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Treasure
-                        terrain = Instantiate(TreasureNormalTerrain[Random.Range(0, TreasureNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        terrain = Instantiate(TreasureNormalTerrain[playerNum - 1], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                     }
                     else  // 普通
                     {
@@ -288,9 +293,13 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                     }
                     roomTag[i, j] = nowRoom;
                 }
+                //
+                //startRoom = bossRoom;
                 //  创建石头对象的列表
                 List<GameObject> stones = new List<GameObject>();
                 List<GameObject> monsters = new List<GameObject>();
+                List<GameObject> treasures = new List<GameObject>();
+
                 //  获得当前地形下所有的子物体，即所有石头
                 if (room != null)
                 {
@@ -331,19 +340,52 @@ void MakeGraph(int[,] map, int row, int col, int playerNum)
                         {
                             if (monsterNum % (5 - playerNum) == 0)
                             {
-                                int index = Random.Range(0, MonsterList.Length);
-                                GameObject monster = Instantiate(MonsterList[index], child.transform.position, Quaternion.identity);
-                                monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
-                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)MonsterInitHP[index];
-                                monsters.Add(monster);
+                                if (map[i, j] == 5)
+                                {
+                                    if (BossList.Length > floorNum - 1)
+                                    {
+                                        if (BossList[floorNum - 1] != null)
+                                        {
+                                            if (BossList[floorNum - 1].type == AI_Type.Boss_Rabit)
+                                            {
+                                                GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
+                                                monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
+                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)100;
+
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)100;
+                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom,null);
+
+                                                monsters.Add(monster);
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    int index = Random.Range(0, MonsterList.Length);
+                                    GameObject monster = Instantiate(MonsterList[index].monsterGameObject, child.transform.position, Quaternion.identity);
+                                    monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
+                                    monster.GetComponent<MonsterModel_Component>().HP = (Fix64)MonsterInitHP[index];
+                                    monster.GetComponent<EnemyAI>().InitAI(MonsterList[index].type, nowRoom, null);
+                                    monsters.Add(monster);
+                                }
                             }
                             monsterNum++;
                         }
+                        else if (child.tag == "TreasureTable")
+                        {
+                            GameObject treasure = Instantiate(TreasureList[Random.Range(0, TreasureList.Length)],child.transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
+                            stones.Add(child);
+                            treasures.Add(treasure);
+                        }
                     }
                 }
+                // Debug.Log(stones.Count);
                 roomToStone.Add(nowRoom, stones);
+                // Debug.Log(monsters.Count);
                 roomToMonster.Add(nowRoom, monsters);
-
+                // Debug.Log(treasures.Count);
+                roomToTreasure.Add(nowRoom, treasures);
 
                 
             }
@@ -580,3 +622,4 @@ public class Door
     public GameObject leftDoor;
     public GameObject rightDoor;
 }
+

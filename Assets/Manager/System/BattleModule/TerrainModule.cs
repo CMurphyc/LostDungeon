@@ -21,7 +21,8 @@ public class TerrainModule
 
     public bool IsMovable(FixVector2 pos,int RoomId)
     {
-        foreach(GameObject stone in roomToStone[RoomId])
+
+        foreach (GameObject stone in roomToStone[RoomId])
         {
             BoxCollider2D collider = stone.GetComponent<BoxCollider2D>();
             Rectangle rect = new Rectangle(new FixVector2((Fix64)(stone.transform.position.x + collider.offset.x), 
@@ -29,9 +30,17 @@ public class TerrainModule
                 new FixVector2((Fix64)stone.transform.rotation.x, (Fix64)stone.transform.rotation.y),
                 (Fix64)(stone.GetComponent<BoxCollider2D>().size.x),
                 (Fix64)(stone.GetComponent<BoxCollider2D>().size.y)
-                ); 
+                );
+            //Debug.Log("anchor is " + rect.anchor + "offsetX is " + rect.horizon + "offsety is " + rect.vertical );
             if (collideDetecter.PointInRectangle(pos, rect))
+            {
+                //Debug.Log("mememe pos is " + pos + " " + "collide anchor is " + rect.anchor + " " + "horizon is " + rect.horizon + " " + "vertical is " + rect.vertical);
                 return false;
+            }
+            else
+            {
+                //Debug.Log("mememe pos is " + pos + " " + "dis anchor is " + rect.anchor + " " + "horizon is " + rect.horizon + " " + "vertical is " + rect.vertical);
+            }
         }
         return true;
 

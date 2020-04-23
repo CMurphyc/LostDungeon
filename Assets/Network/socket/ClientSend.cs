@@ -132,11 +132,11 @@ public class ClientSend
 
         pack.AttackType = (int)type;
 
-        /*
+      /* 
         Debug.Log("AttackDirX  " + pack.AttackDirectionX);
         Debug.Log("AttackDirY  " + pack.AttackDirectionY);
         Debug.Log("Attack Type  " + pack.AttackType);
-        */
+     */
         //if (Right.x == 0 && Right.y == 0)
         //{
         //    pack.AttackType = 0;

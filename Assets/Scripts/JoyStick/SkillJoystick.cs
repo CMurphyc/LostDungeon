@@ -67,7 +67,7 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         if (Cancle_Joystick.GetComponent<CancleJoystick>().GetIsIn() == false)
         {
             Vector2 x = transform.GetComponent<SkillIndiactor>().GetSkillPosition();
-
+            //Debug.Log("技能XY： "+x);
             joystick.Rjoystick = x;
             if (this.gameObject.name == "SkillStickUI1")
             {

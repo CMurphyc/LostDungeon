@@ -40,8 +40,8 @@ public class BattleManager
         //初始化随机种子
         UnityEngine.Random.InitState(Seed);
         //战斗主逻辑
-        _monster.UpdateLogic(local_frame);
         _player.UpdateLogic(local_frame);
+        _monster.UpdateLogic(local_frame);
         _skill.UpdateLogic(local_frame);
         _terrain.UpdateLogic(local_frame);
         local_frame++;

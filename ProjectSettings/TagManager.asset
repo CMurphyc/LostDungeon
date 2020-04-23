@@ -7,6 +7,9 @@ TagManager:
   - GameEntry
   - Collision
   - MonsterPoint
+  - Enemy
+  - Boss
+  - TreasureTable
   layers:
   - Default
   - TransparentFX
@@ -52,4 +55,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2028834293
+    locked: 0
+  - name: Props
+    uniqueID: 3394919531
     locked: 0

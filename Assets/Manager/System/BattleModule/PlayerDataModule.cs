@@ -42,6 +42,7 @@ public class PlayerDataModule
                     }
                 }
 
+
                 switch (frameInfo[i].AttackType)
                 {
                     case (int)AttackType.BasicAttack:
@@ -50,12 +51,12 @@ public class PlayerDataModule
                             if ((Mathf.Abs(frameInfo[i].AttackDirectionX / 10000f) >= 0.01f 
                                 && Mathf.Abs(frameInfo[i].AttackDirectionY / 10000f) >= 0.01f))
                             {
-                                Debug.Log("aaaaaaaa");
+                                //Debug.Log("aaaaaaaa");
                                 if (frame >= Input.NextAttackFrame)
                                 {
                                     List<int> list = new List<int>();
                                     BulletUnion bu = new BulletUnion(_parentManager);
-                                    bu.BulletInit("tag", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                    bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         new FixVector2((Fix64)frameInfo[i].AttackDirectionX / 10000f,
                                                                         (Fix64)frameInfo[i].AttackDirectionY / 10000f),
@@ -74,7 +75,7 @@ public class PlayerDataModule
                         }
                     case (int)AttackType.Skill1:
                         {
-                            Debug.Log("bbbbbbbbbb");
+                            //Debug.Log("bbbbbbbbbb");
                             CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
 
                             List<int> tmp = new List<int>();
@@ -115,7 +116,7 @@ public class PlayerDataModule
                         }
                     case (int)AttackType.Skill2:
                         {
-                            Debug.Log("ccccccccc");
+                            //Debug.Log("ccccccccc");
                             int PlayerUID = _parentManager.sys._model._PlayerModule.uid;
                             CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(PlayerUID);
 
@@ -130,6 +131,8 @@ public class PlayerDataModule
                             {
                                 case CharacterType.Enginner:
                                     {
+                                        //Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
+                                        //Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
                                         _parentManager._skill.enginerBase.Skill2Logic(frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
@@ -157,6 +160,8 @@ public class PlayerDataModule
                         }
                     default:
                         break;
+
+
                 }
                 
                 foreach(var it in bulletList)
@@ -211,6 +216,7 @@ public class PlayerDataModule
 
         return PlayerUIDList;
     }
+
     public GameObject FindPlayerObjByUID(int uid)
     {
         if (playerToPlayer.ContainsKey(uid))
@@ -219,4 +225,13 @@ public class PlayerDataModule
         }
         return null;
     }
+
+
+    public int FindCurrentPlayerUID()
+    {
+        return _parentManager.sys._model._PlayerModule.uid;
+    }
+   
+
+
 }

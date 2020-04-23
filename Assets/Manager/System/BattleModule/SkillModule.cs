@@ -9,8 +9,10 @@ public class SkillModule
     //房间号-抛射物
     public Dictionary<int, List<SkillBase>> RoomToProjectile = new Dictionary<int, List<SkillBase>>();
 
+
     public EngineerBase enginerBase;
     public MagicianBase magicianBase;
+
     public SkillModule(BattleManager parent)
     {
         
@@ -45,18 +47,16 @@ public class SkillModule
                             mon.GetComponent<MonsterModel_Component>().position.y),x.center
                             );
 
-                        Debug.Log((float)dist);
-                        Debug.Log(x.radius);
-
                         if(dist<=x.radius)
                         {
                             btt.Add(mon);
-                            //
+                            
                         }
                     }
                     //destroy skillbase
                     foreach(var mon in btt)
                     {
+                        Debug.Log("damage:" + x.damage);
                         _parentManager._monster.BeAttacked(mon, x.damage, p.Key);
                     }
                     btt.Clear();

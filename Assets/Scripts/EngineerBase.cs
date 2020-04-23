@@ -94,20 +94,58 @@ public class EngineerBase
 
     public int Skill1Logic(int frame, int RoomID, List<int> gifted,Vector3 st,Vector3 ed)//返回值就是cd
     {
-        /////////////////////////////
-        return 1;
+        /*
+            FixVector2 PlayerPos = battle._player.playerToPlayer[UID].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+
+            FixVector3 PlayerPos3 = new FixVector3(PlayerPos.x, PlayerPos.y, (Fix64)0);
+
+            Vector3 PlayerPos2 = new Vector3((float)PlayerPos.x, (float)PlayerPos.y);
+            //Debug.Log(PlayerPos2);
+            */
+            GameObject TerretInstance = GameObject.Instantiate(effectArtillery, ed, Quaternion.identity);
+            TerretInstance.GetComponent<MonsterModel_Component>().position = new FixVector3(
+                (Fix64)ed.x,
+                (Fix64)ed.y, (Fix64)ed.z
+                );
+
+            AliasMonsterPack temp = new AliasMonsterPack();
+            BossAttribute attribute = new BossAttribute();
+            attribute.Attack_FrameInterval = 5;
+            attribute.SpinRate = 3;
+            TerretInstance.GetComponent<EnemyAI>().InitAI(AI_Type.Engineer_TerretTower, RoomID, attribute);
+            TerretInstance.GetComponent<MonsterModel_Component>().HP = (Fix64)10;
+            temp.obj = TerretInstance;
+            temp.RemainingFrame = 200;
+
+            if (!_parentManager._monster.RoomToAliasUnit.ContainsKey(RoomID))
+            {
+                List<AliasMonsterPack> ListAlias = new List<AliasMonsterPack>();
+                ListAlias.Add(temp);
+                _parentManager._monster.RoomToAliasUnit.Add(RoomID, ListAlias);
+            }
+            else
+            {
+                _parentManager._monster.RoomToAliasUnit[RoomID].Add(temp);
+
+            }
+        return 7*1000/Global.FrameRate;
     }
 
     public int Skill2Logic(int frame,int RoomID, List<int> gifted, Vector3 st, Vector3 ed)
     {
+
+        int damageFrame = frame;
+
         //手雷投出
         GameObject p = GameObject.Instantiate(effectGernade);
         if(gifted[0]==1)//天赋点了第一个减投掷时间
         {
+            damageFrame += (int)(0.6f * 1000 / Global.FrameRate * throwTime);
             p.GetComponent<GrenadeTrail>().init(frame,(int)(0.6f*1000/Global.FrameRate* throwTime), st, ed);//这里修改天赋快了多少
         }
         else
         {
+            damageFrame += (int)(1000 / Global.FrameRate * throwTime);
             p.GetComponent<GrenadeTrail>().init(frame, (int)(1000/Global.FrameRate* throwTime), st, ed);
         }
         grenade.Add(p);
@@ -145,7 +183,10 @@ public class EngineerBase
             tr*=1.5f;
         }
 
-        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)ed.x, (Fix64)ed.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), frame);
+        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)ed.x, (Fix64)ed.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate),
+
+
+            damageFrame);
 
         _parentManager._skill.Add(tmp, RoomID);
         

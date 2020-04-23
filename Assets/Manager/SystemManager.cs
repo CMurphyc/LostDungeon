@@ -20,6 +20,11 @@ public class SystemManager
         _animation = new AnimationManager(this);
     }
     
+    //void Destory()
+    //{
+    //    _battle.de
+
+    //}
 }
 
 
