@@ -39,6 +39,8 @@ public class MapManager : SceneManager
             CurrentScene = targetScene;
             Debug.Log("ChangeScene: " + CurrentScene);
             SceneIndex = SceneList.IndexOf(scene_dir + targetScene);
+
+            if(targetScene == "MapCreate") AudioManager.instance.PlayAudio(AudioName.MainSceneBGM);
         }
         
     }

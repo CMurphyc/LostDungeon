@@ -22,7 +22,14 @@ public enum AudioName
     HumanDie2,
     BombExplode,
     WizardIce,
-    WizardFire
+    WizardFire,
+    BossRabbitShot,
+    EngineerShot,
+    MonsterBeAttacked,
+    ItemUpgrade,
+    MainSceneBGM,
+    BattleBGM,
+    TeamBGM
 }
 
 
@@ -59,17 +66,21 @@ public class AudioManager : MonoBehaviour
     private List<Sound> sounds;
     private Dictionary<AudioName, string> AudioNameToAudioClip;
 
+    GameObject main;
     private void Awake()
     {
+        main = GameObject.FindWithTag("GameEntry");
         if(instance == null) instance = this;
         else if (instance != this) Object.Destroy(gameObject);
-    }
-
-    private void Start()
-    {
-        sounds = new List<Sound>();
 
         DictionaryInit();
+        SoundsInit();
+        
+    }
+
+    private void SoundsInit()
+    {
+        sounds = new List<Sound>();
 
         foreach(var it in AudioNameToAudioClip)
         {
@@ -84,7 +95,11 @@ public class AudioManager : MonoBehaviour
 
         foreach(var sound in sounds)
         {
-            sound.SetUpSound(new GameObject().AddComponent<AudioSource>());
+            Debug.Log("add sound");
+            GameObject temp =new GameObject();
+            temp.AddComponent<AudioSource>();
+            temp.transform.parent = main.transform;
+            sound.SetUpSound(temp.GetComponent<AudioSource>());
         }
     }
     private void DictionaryInit()
@@ -110,12 +125,20 @@ public class AudioManager : MonoBehaviour
         AudioNameToAudioClip.Add(AudioName.BombExplode, "fx_explode_small");
         AudioNameToAudioClip.Add(AudioName.WizardIce, "fx_ice");
         AudioNameToAudioClip.Add(AudioName.WizardFire, "fx_fireworks_play_long");
+        AudioNameToAudioClip.Add(AudioName.BossRabbitShot, "fx_gun_4");
+        AudioNameToAudioClip.Add(AudioName.EngineerShot, "fx_gun_cannon");
+        AudioNameToAudioClip.Add(AudioName.MonsterBeAttacked, "fx_boss13_dead");
+        AudioNameToAudioClip.Add(AudioName.ItemUpgrade, "fx_switch #180557");
+        AudioNameToAudioClip.Add(AudioName.MainSceneBGM, "bgm_5Low");
+        AudioNameToAudioClip.Add(AudioName.BattleBGM, "bgm_7Low");
+        AudioNameToAudioClip.Add(AudioName.TeamBGM, "bgm_room");
     }
 
     public void PlayAudio(AudioName _name)
     {
         foreach(var sound in sounds)
         {
+            Debug.Log(sound.name);
             if(sound.name == AudioNameToAudioClip[_name]) sound.Play();
         }
     }
