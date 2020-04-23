@@ -118,7 +118,7 @@ public class PlayerDataModule
                     case (int)AttackType.Skill2:
                         {
                             //Debug.Log("ccccccccc");
-                            int PlayerUID = _parentManager.sys._model._PlayerModule.uid;
+                            int PlayerUID = frameInfo[i].Uid;
                             CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(PlayerUID);
 
                             List<int> tmp = new List<int>();
