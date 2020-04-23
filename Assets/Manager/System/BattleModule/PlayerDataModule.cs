@@ -60,8 +60,8 @@ public class PlayerDataModule
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         new FixVector2((Fix64)frameInfo[i].AttackDirectionX / 10000f,
                                                                         (Fix64)frameInfo[i].AttackDirectionY / 10000f),
-                                                                        (Fix64)0.1, (Fix64)2, Input.RoomID,
-                                                                        Resources.Load("Model/Player/Player") as GameObject
+                                                                        (Fix64)0.2, (Fix64)2, Input.RoomID,
+                                                                        _parentManager.sys._battle._skill.enginerBase.bulletObj
 
                                                                         , list);
 
@@ -69,6 +69,7 @@ public class PlayerDataModule
 
                                     Input.NextAttackFrame = frame + AttackInterval;
 
+                                    AudioManager.instance.PlayAudio(AudioName.Gunshot1, false);
                                 }
                             }
                             break;

@@ -25,10 +25,10 @@ public class explode
         aroundStart = 3
     }
 
-    public explode(GameObject centerCircle, GameObject allaroundRect, FixVector2 anchor)
+    public explode(FixVector2 anchor)
     {
-        this.centerCircle = centerCircle;
-        this.allaroundRect = allaroundRect;
+        this.centerCircle = Resources.Load("Effects/circle") as GameObject;
+        this.allaroundRect = Resources.Load("Effects/rect") as GameObject;
         this.anchor = anchor;
         this.circleA = 1;
 
@@ -63,15 +63,15 @@ public class explode
 
             //固定锚点，随机偏移量
             csp.GetBytes(byteCsp);
-            float offsetX = System.BitConverter.ToInt32(byteCsp, 0) % 10 * 0.2f;
+            float offsetX = System.BitConverter.ToInt32(byteCsp, 0) % 3 * 0.05f;
             csp.GetBytes(byteCsp);
-            float offsetY = System.BitConverter.ToInt32(byteCsp, 0) % 10 * 0.2f;
+            float offsetY = System.BitConverter.ToInt32(byteCsp, 0) % 3 * 0.05f;
 
             Debug.Log("offsetX " + offsetX);
             Debug.Log("offsetY " + offsetY);
 
             //随机rect的scale
-            float scale = 8f;
+            float scale = 0.2f;
 
             //随机偏移量的符号
             csp.GetBytes(byteCsp);
@@ -157,14 +157,14 @@ public class explode
 
     private void CircleLogicUpdate()
     {
-        if (circleA > 0) circleA -= 0.025f;
+        if (circleA > 0) circleA -= 0.15f;
     }
 
     private void RectLogicUpdate()
     {
         for (int i = 0; i < rectNum; ++i)
         {
-            if (rectA[i] > 0) rectA[i] -= 0.025f;
+            if (rectA[i] > 0) rectA[i] -= 0.15f;
         }
     }
 

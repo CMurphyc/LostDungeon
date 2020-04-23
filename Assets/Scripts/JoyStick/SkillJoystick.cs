@@ -15,7 +15,7 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public GameObject InnerJoystick;
     public GameObject OuterJoystick;
-    private float maxRadius = 50;                           //内部摇杆最远滑到多远
+    private float maxRadius = 60;                           //内部摇杆最远滑到多远
 
     private float SkillArea;
     public GameObject Effect;

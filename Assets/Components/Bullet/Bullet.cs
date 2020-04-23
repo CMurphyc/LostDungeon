@@ -16,15 +16,15 @@ public class FakeBulletUnion
     public FakeBulletUnion(string tag2, FixVector2 anchor2, FixVector2 toward2, Fix64 speed2, Fix64 damage2, int roomid2, GameObject bulletPrefab2, List<int> itemList2)
     {
         tag = tag2;
-        anchor= anchor2;
-        toward= toward2;
-        speed= speed2;
-        damage= damage2;
-        roomid= roomid2;
-        bulletPrefab= bulletPrefab2;
-        itemList= itemList2;
-}
-   
+        anchor = anchor2;
+        toward = toward2;
+        speed = speed2;
+        damage = damage2;
+        roomid = roomid2;
+        bulletPrefab = bulletPrefab2;
+        itemList = itemList2;
+    }
+
 
 }
 
@@ -61,7 +61,7 @@ public class Bullet
     public List<int> debuffList;
     public List<int> scaleEffectList;
 
-    
+
 
     public Bullet(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList)
     {
@@ -76,6 +76,8 @@ public class Bullet
         this.damage = damage;
         this.roomid = roomid;
         this.bulletPrefab = bulletPrefab;
+        this.bulletPrefab.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((float)toward.y, (float)toward.x) * 180f / Mathf.PI);
+
         this.itemList = itemList;
 
         this.active = true;
@@ -91,7 +93,7 @@ public class Bullet
         attackEffectList = new List<int>();
         debuffList = new List<int>();
         scaleEffectList = new List<int>();
-}
+    }
     private void GetBulletCollider(Fix64 radius)
     {
         //collider.BuildCircleCollider(anchor, toward, radius);
@@ -119,6 +121,7 @@ public class BulletBase
     protected List<Bullet> spwanedBullet;
     //视图层子弹集合
     protected List<GameObject> bulletList;
+    protected List<explode> explodeList;
     //子弹类型（这里直接传一个GameObject，实例化的都是它的拷贝）
     protected GameObject bulletPrefab;
     public virtual void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList) { }
@@ -139,14 +142,12 @@ public class BulletUnion : BulletBase
     {
         spwanedBullet = new List<Bullet>();
         bulletList = new List<GameObject>();
+        explodeList = new List<explode>();
     }
 
     //初始化所有子弹逻辑层logic的信息以及视图层prefab的信息
     public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList)
     {
-        FixVector2 fv = new FixVector2((Fix64)0.000000023, (Fix64)0.00000000056);
-        //Debug.Log("After normalize vector is " + fv.GetNormalized());
-        //Debug.Log("传进来的vector：" + toward.x + " " + toward.y);
         ContainerInit();
         //逻辑层信息初始化
 
@@ -160,7 +161,7 @@ public class BulletUnion : BulletBase
         for (int i = 1; i <= splitNum; ++i) spwanedBullet.Add(new Bullet(tag, anchor, Converter.NormalFixVector2Rotate(toward, (Fix64)(-15f * i)), speed, damage, roomid, bulletPrefab, itemList));
 
         //中央的子弹
-        if(midBullet.toward != FixVector2.Zero) spwanedBullet.Add(midBullet);
+        if (midBullet.toward != FixVector2.Zero) spwanedBullet.Add(midBullet);
 
         //右侧偏移的子弹
         for (int i = 1; i <= splitNum; ++i) spwanedBullet.Add(new Bullet(tag, anchor, Converter.NormalFixVector2Rotate(toward, (Fix64)(15f * i)), speed, damage, roomid, bulletPrefab, itemList));
@@ -175,9 +176,9 @@ public class BulletUnion : BulletBase
             GameObject bulletInstance = GameObject.Instantiate(bulletPrefab, Converter.FixVector2ToVector2(anchor), bulletPrefab.transform.rotation);
             bulletList.Add(bulletInstance);
         }
-        
 
-       
+
+
     }
 
     private bool CollideCheck(Bullet bullet, MonsterModel_Component monster)
@@ -289,25 +290,22 @@ public class BulletUnion : BulletBase
                                     LightningChain(spwanedBullet[i]);
                                     break;
                             }
-                            // if(effect == (int)bulletType.Penetrate) Penetrate(spwanedBullet[i]);
-                            // else if(effect == (int)bulletType.Sputtering) Sputtering(spwanedBullet[i]);
-                            // else if(effect == (int)bulletType.LightningChain) LightningChain(spwanedBullet[i]);
                         }
 
                         //debuff传递逻辑层面的实现
-                        foreach (var debuff in spwanedBullet[i].debuffList)
-                        {
-                            //待对接敌方单位的debuff接口
-                            // switch(debuff)
-                            // {
-                            //     case : (int)bulletType.Freeze
-                            // }
-                            // if(debuff == (int)bulletType.Freeze)
-                            // else if(debuff == (int)bulletType.Poision)
-                            // else if(debuff == (int)bulletType.Burn)
-                            // else if(debuff == (int)bulletType.Dizziness)
-                            // else if(debuff == (int)bulletType.Retard)
-                        }
+                        // foreach (var debuff in spwanedBullet[i].debuffList)
+                        // {
+                        //待对接敌方单位的debuff接口
+                        // switch(debuff)
+                        // {
+                        //     case : (int)bulletType.Freeze
+                        // }
+                        // if(debuff == (int)bulletType.Freeze)
+                        // else if(debuff == (int)bulletType.Poision)
+                        // else if(debuff == (int)bulletType.Burn)
+                        // else if(debuff == (int)bulletType.Dizziness)
+                        // else if(debuff == (int)bulletType.Retard)
+                        // }
                         //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
                         if (spwanedBullet[i].active == false) break;
                     }
@@ -315,7 +313,7 @@ public class BulletUnion : BulletBase
             }
             else if (spwanedBullet[i].tag == "Boss_Rabit")
             {
-                foreach(var item in _parentManager._player.playerToPlayer)
+                foreach (var item in _parentManager._player.playerToPlayer)
                 {
 
                     PlayerModel_Component PlayerComp = item.Value.obj.GetComponent<PlayerModel_Component>();
@@ -327,7 +325,7 @@ public class BulletUnion : BulletBase
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
                         //Debug.Log("玩家受到攻击");
-                       // _parentManager._player.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], 1f, spwanedBullet[i].roomid);
+                        // _parentManager._player.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], 1f, spwanedBullet[i].roomid);
                         spwanedBullet[i].active = false;
                         //attackEffect逻辑层面的实现
                         //foreach (var effect in spwanedBullet[i].attackEffectList)
@@ -363,7 +361,7 @@ public class BulletUnion : BulletBase
                         //    // else if(debuff == (int)bulletType.Dizziness)
                         //    // else if(debuff == (int)bulletType.Retard)
                         //}
-                        //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
+                        //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，且可能吃buff穿越怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历，但必须判
                         if (spwanedBullet[i].active == false) break;
                     }
 
@@ -383,14 +381,12 @@ public class BulletUnion : BulletBase
                 Vector2 Pos = _parentManager._terrain.roomToStone[spwanedBullet[i].roomid][j].transform.position;
                 FixVector2 vv = new FixVector2((Fix64)_parentManager._terrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>().size.x,
                                                (Fix64)_parentManager._terrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>().size.y);
-                
-                //Debug.Log("collider size is " + vv);
+
                 CollideDetecter collideDetecter = new CollideDetecter();
                 BoxCollider2D collider = _parentManager._terrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>();
-                //Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
                 _parentManager._terrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>();
-                Rectangle rect = new Rectangle(new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)), new FixVector2((Fix64)1, (Fix64)1), 
-                    (Fix64)collider.size.x, 
+                Rectangle rect = new Rectangle(new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)), new FixVector2((Fix64)1, (Fix64)1),
+                    (Fix64)collider.size.x,
                     (Fix64)collider.size.y);
                 //Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
                 if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
@@ -418,24 +414,27 @@ public class BulletUnion : BulletBase
                     }
 
                     //debuff传递逻辑层面的实现
-                    foreach (var debuff in spwanedBullet[i].debuffList)
-                    {
-                        //待对接敌方单位的debuff接口
-                        // switch(debuff)
-                        // {
-                        //     case : (int)bulletType.Freeze
-                        // }
-                        // if(debuff == (int)bulletType.Freeze)
-                        // else if(debuff == (int)bulletType.Poision)
-                        // else if(debuff == (int)bulletType.Burn)
-                        // else if(debuff == (int)bulletType.Dizziness)
-                        // else if(debuff == (int)bulletType.Retard)
-                    }
-                    //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
+                    // foreach (var debuff in spwanedBullet[i].debuffList)
+                    // {
+                    //待对接敌方单位的debuff接口
+                    // switch(debuff)
+                    // {
+                    //     case : (int)bulletType.Freeze
+                    // }
+                    // if(debuff == (int)bulletType.Freeze)
+                    // else if(debuff == (int)bulletType.Poision)
+                    // else if(debuff == (int)bulletType.Burn)
+                    // else if(debuff == (int)bulletType.Dizziness)
+                    // else if(debuff == (int)bulletType.Retard)
+                    // }
+                    //理论上一个子弹最多只可能击中一个墙，因为不可能穿墙，所以找到一个碰撞的就可以停止遍历
                     break;
                 }
             }
         }
+
+
+        for (int i = 0; i < explodeList.Count; ++i) explodeList[i].LogicUpdate();
 
         //更新逻辑层子弹的位置
         List<Bullet> latestBullet = new List<Bullet>();
@@ -449,6 +448,7 @@ public class BulletUnion : BulletBase
         spwanedBullet.Clear();
 
         foreach (var it in latestBullet) spwanedBullet.Add(it);
+
     }
 
     public override void ViewUpdate()
@@ -458,12 +458,14 @@ public class BulletUnion : BulletBase
             if (spwanedBullet[i].active == true)
             {
                 //更新子弹scale
-                bulletList[i].transform.localScale = Converter.FixVector2ToVector2(spwanedBullet[i].bulletScale);
+                //bulletList[i].transform.localScale = Converter.FixVector2ToVector2(spwanedBullet[i].bulletScale);
                 //更新子弹位置
                 //每次移动定位子弹speed的1/5，以免出现step太大导致的移动不平滑的问题
                 bulletList[i].transform.position = Vector2.MoveTowards(bulletList[i].transform.position, Converter.FixVector2ToVector2(spwanedBullet[i].anchor), (float)spwanedBullet[i].speed);
             }
         }
+
+        for (int i = 0; i < explodeList.Count; ++i) explodeList[i].ViewUpdate();
 
         //数据层面的销毁子弹的存储集合
         List<Bullet> destroyBullet = new List<Bullet>();
@@ -484,6 +486,8 @@ public class BulletUnion : BulletBase
             }
             else
             {
+                //添加爆炸特效
+                explodeList.Add(new explode(spwanedBullet[i].anchor));
                 destroyBullet.Add(spwanedBullet[i]);
                 destroyBulletObject.Add(bulletList[i]);
             }
@@ -495,14 +499,12 @@ public class BulletUnion : BulletBase
         foreach (var it in liveBullet) spwanedBullet.Add(it);
         foreach (var it in liveBulletObject) bulletList.Add(it);
 
+
         //销毁该die的子弹
         for (int i = 0; i < destroyBulletObject.Count; ++i) UnityEngine.Object.Destroy(destroyBulletObject[i]);
 
     }
 }
-
-
-
 
 class Converter
 {
@@ -528,7 +530,6 @@ class Converter
     //输入为角度制
     public static FixVector2 NormalFixVector2Rotate(FixVector2 v, Fix64 rotateAngle)
     {
-        Debug.Log("传进来的vector：" + v.x + " " + v.y);
         Fix64 length = Fix64.Sqrt(v.x * v.x + v.y * v.y);
         Fix64 originAngle = Fix64.Atan(v.y / v.x);
 
@@ -537,3 +538,4 @@ class Converter
         return rotateVector;
     }
 }
+
