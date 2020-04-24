@@ -22,6 +22,15 @@ public class RoomCreate : MonoBehaviour
     public GameObject GameRoom;
     public GameObject ShopRoom;
     public GameObject SacrificeRoom;
+    public GameObject BackGround;
+    public GameObject NormalCurtain;
+    public GameObject LargeCurtain;
+    public GameObject Lshape1Curtain;
+    public GameObject Lshape2Curtain;
+    public GameObject Lshape3Curtain;
+    public GameObject Lshape4Curtain;
+    public GameObject LongRoad1Curtain;
+    public GameObject LongRoad2Curtain;
     public Door NormalDoor;
     public Door TreasureDoor;
     public Door BossDoor;
@@ -63,6 +72,7 @@ public class RoomCreate : MonoBehaviour
     public Dictionary<int, List<TreasureData>> roomToTreasure = new Dictionary<int, List<TreasureData>>();   // 房间号对应宝物列表
     public Dictionary<int, PropData> propToProperty = new Dictionary<int, PropData>();   // 根据道具名称找到对应道具属性
 
+    public Dictionary<int, GameObject> roomToCurtain = new Dictionary<int, GameObject>();   // 房间对应的幕布实体
 
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
@@ -93,7 +103,6 @@ public class RoomCreate : MonoBehaviour
         // 加载道具信息
         UploadPropAttr();
 
-
         int playerNum = sys._model._RoomModule.GetPlayerSize();
         playerNum = 2;
 
@@ -112,6 +121,10 @@ public class RoomCreate : MonoBehaviour
             }
         }
         MakeGraph(array, h, d, playerNum, floorNum);
+
+        // 生成底部黑幕
+        GameObject backGround = Instantiate(BackGround, new Vector3(d / 2 * xOffset, h / 2 * yOffset, 0), Quaternion.identity);
+        backGround.transform.localScale = new Vector3(d + 2, h + 2, 1);
 
         Debug.Log("Astar");
         AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
@@ -191,6 +204,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                 roomToDoorTmp.Add(new List<int>());
                 GameObject room = null;
                 GameObject terrain = null;
+                GameObject curtain = null;
                 if (map[i, j] == 2)  // L形
                 {
                     // test 10330171
@@ -199,12 +213,14 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(Lshape1Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         terrain = Instantiate(NormalLshape1Terrain[Random.Range(0, NormalLshape1Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         roomTag[i, j] = nowRoom; roomTag[i, j + 1] = nowRoom; roomTag[i + 1, j + 1] = nowRoom;
+                        curtain = Instantiate(Lshape1Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                     else if (j + 1 < col && map[i, j + 1] == 2 && i + 1 < row && map[i + 1, j] == 2)  // Lshape2
                     {
                         room = Instantiate(Lshape2Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i, j + 1] = nowRoom; roomTag[i + 1, j] = nowRoom;
                         terrain = Instantiate(NormalLshape2Terrain[Random.Range(0, NormalLshape2Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(Lshape2Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                     // test 10330178
                     else if (i + 1 < col && map[i + 1, j] == 2 && j + 1 < row && map[i + 1, j + 1] == 2)  // Lshape3
@@ -212,6 +228,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(Lshape3Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i + 1, j] = nowRoom; roomTag[i + 1, j + 1] = nowRoom;
                         terrain = Instantiate(NormalLshape3Terrain[Random.Range(0, NormalLshape3Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(Lshape3Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                     // test 10330178
                     else if (i + 1 < col && map[i + 1, j] == 2 && j - 1 < row && map[i + 1, j - 1] == 2)  // Lshape4
@@ -219,6 +236,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(Lshape4Room, new Vector3(xOffset * (j - 1), yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i + 1, j] = nowRoom; roomTag[i + 1, j - 1] = nowRoom;
                         terrain = Instantiate(NormalLshape4Terrain[Random.Range(0, NormalLshape4Terrain.Length)], new Vector3(xOffset * (j - 1), yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(Lshape4Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                 }
                 else if (map[i, j] == 3)  // 长直道
@@ -229,6 +247,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(LongRoad1Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i, j + 1] = nowRoom;
                         terrain = Instantiate(NormalLongRoad1Terrain[Random.Range(0, NormalLongRoad1Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(LongRoad1Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                     // test 10330178
                     else if (i + 1 < row && map[i + 1, j] == 3)  // LongRoad2
@@ -236,6 +255,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(LongRoad2Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i + 1, j] = nowRoom;
                         terrain = Instantiate(NormalLongRoad2Terrain[Random.Range(0, NormalLongRoad2Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(LongRoad2Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                 }
                 else if (map[i, j] == 4)  // 大型
@@ -243,6 +263,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     room = Instantiate(LargeRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Large
                     roomTag[i, j] = nowRoom; roomTag[i, j + 1] = nowRoom; roomTag[i + 1, j] = nowRoom; roomTag[i + 1, j + 1] = nowRoom;
                     terrain = Instantiate(NormalLargeTerrain[Random.Range(0, NormalLargeTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                    curtain = Instantiate(LargeCurtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                 }
                 else  // 普通大小
                 {
@@ -297,8 +318,10 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                             terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         }
                     }
+                    curtain = Instantiate(NormalCurtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     roomTag[i, j] = nowRoom;
                 }
+
                 //
                 //startRoom = bossRoom;
                 //  创建石头对象的列表
@@ -397,6 +420,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                 // Debug.Log(treasures.Count);
                 roomToTreasure.Add(nowRoom, treasures);
 
+                curtain.SetActive(false);
+                roomToCurtain.Add(nowRoom, curtain);
                 
             }
         }
