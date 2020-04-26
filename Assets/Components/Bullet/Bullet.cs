@@ -520,12 +520,12 @@ class Converter
 {
     public static Fix64 DegreeToRadian(Fix64 degree)
     {
-        return Mathf.PI / 180f * degree;
+        return Fix64.PI / (Fix64)180 * degree;
     }
 
     public static Fix64 RadianToDegree(Fix64 Radian)
     {
-        return Radian * 180 / Mathf.PI;
+        return Radian * (Fix64)180 / Fix64.PI;
     }
 
     public static Vector2 FixVector2ToVector2(FixVector2 v)
