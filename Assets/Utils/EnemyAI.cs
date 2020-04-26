@@ -39,7 +39,7 @@ public class EnemyAI : MonoBehaviour
 
 
 
-    public void UpdateLogic(GameObject target,int frame, GameObject MonsterObj,bool isEnemy)
+    public void UpdateLogic(GameObject target,int frame, GameObject MonsterObj,bool isEnemy , Fix64 GameCounter)
     {
         //Vector2 MonsterPos = new Vector2();
         //Vector2 tar= Vector2.zero;
@@ -63,7 +63,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        AI_Controller.LogicUpdate(frame, MonsterPos, tar, MonsterObj);
+        AI_Controller.LogicUpdate(frame, MonsterPos, tar, MonsterObj,  GameCounter);
     }
     public void UpdateView(GameObject MonsterObj)
     {
@@ -266,7 +266,7 @@ class AI_Enemy : AI_BehaviorBase
                 break;
         }
     }
-    public override void BossRunLogic(int frame, GameObject Boss, FixVector2 TargetPosition)
+    public override void BossRunLogic(int frame, GameObject Boss, FixVector2 TargetPosition , Fix64 GameCounter)
     {
         switch (type)
         {
@@ -276,7 +276,7 @@ class AI_Enemy : AI_BehaviorBase
                 {
 
                     Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
-                    Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
+                    Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate, (float)GameCounter);
                     //获取当前帧位置
                     Vector3 Pos;
                     Quaternion Rot;
@@ -300,7 +300,7 @@ class AI_Enemy : AI_BehaviorBase
             case AI_Type.Boss_Rabit_Egg:
                 {
                     Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
-                    Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
+                    Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate, (float)GameCounter);
                     //获取当前帧位置
                     Vector3 Pos;
                     Quaternion Rot;

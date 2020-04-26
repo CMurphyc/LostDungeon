@@ -170,6 +170,8 @@ namespace Pathfinding {
 
         protected float FrameRate;
 
+        protected float GameCounter;
+
 		/// <summary>Cached Rigidbody component</summary>
 		protected Rigidbody rigid;
 
@@ -295,7 +297,7 @@ namespace Pathfinding {
 		/// <summary>True if the path should be automatically recalculated as soon as possible</summary>
 		protected virtual bool shouldRecalculatePath {
 			get {
-				return Time.time - lastRepath >= repathRate && !waitingForPathCalculation && canSearch && !float.IsPositiveInfinity(destination.x);
+				return GameCounter - lastRepath >= repathRate && !waitingForPathCalculation && canSearch && !float.IsPositiveInfinity(destination.x);
 			}
 		}
 
@@ -306,18 +308,20 @@ namespace Pathfinding {
 			destination = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
 		}
 
-        public void InitConfig(Vector3 pos, Quaternion Rot, Vector3 scale, float rate)
+        public void InitConfig(Vector3 pos, Quaternion Rot, Vector3 scale, float rate, float counter)
         {
             Position = pos;
             Rotation = Rot;
             LocalScale = scale;
             FrameRate = rate;
+            GameCounter = counter;
         }
         public  virtual void GetFramePosAndRotation(out Vector3 NextPosition, out Quaternion NextRotation)
         {
 
             if (shouldRecalculatePath) SearchPath();
 
+            
             // If gravity is used depends on a lot of things.
             // For example when a non-kinematic rigidbody is used then the rigidbody will apply the gravity itself
             // Note that the gravity can contain NaN's, which is why the comparison uses !(a==b) instead of just a!=b.
@@ -477,7 +481,7 @@ namespace Pathfinding {
 			if (float.IsPositiveInfinity(destination.x)) return;
 			if (onSearchPath != null) onSearchPath();
 
-			lastRepath = Time.time;
+			lastRepath = GameCounter;
 			waitingForPathCalculation = true;
 
 			seeker.CancelCurrentPathRequest();
@@ -530,7 +534,7 @@ namespace Pathfinding {
 				ClearPath();
 			} else if (path.PipelineState == PathState.Created) {
 				// Path has not started calculation yet
-				lastRepath = Time.time;
+				lastRepath = GameCounter;
 				waitingForPathCalculation = true;
 				seeker.CancelCurrentPathRequest();
 				seeker.StartPath(path);

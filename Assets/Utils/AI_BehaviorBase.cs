@@ -59,33 +59,33 @@ class AI_BehaviorBase
         //UpdateView();
     }
 
-    public void LogicUpdate(int frame , FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
+    public void LogicUpdate(int frame , FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj , Fix64 GameCounter)
     {
         switch(type)
         {
             case AI_Type.Normal_Melee:
                 {
-                    MeleeLogic(frame, NpcPosition, TargetPosition, obj);
+                    MeleeLogic(frame, NpcPosition, TargetPosition, obj , GameCounter);
                     break;
                 }
             case AI_Type.Boss_Rabit:
                 {
-                    RaibitLogic(frame, NpcPosition, TargetPosition, obj);
+                    RaibitLogic(frame, NpcPosition, TargetPosition, obj, GameCounter);
                     break;
                 }
             case AI_Type.Boss_Rabit_Egg:
                 {
-                    MeleeLogic(frame, NpcPosition, TargetPosition, obj);
+                    MeleeLogic(frame, NpcPosition, TargetPosition, obj, GameCounter);
                     break;
                 }
             case AI_Type.Nomral_Range:
                 {
-                    RangeLogic(frame, NpcPosition, TargetPosition, obj);
+                    RangeLogic(frame, NpcPosition, TargetPosition, obj, GameCounter);
                     break;
                 }
             case AI_Type.Engineer_TerretTower:
                 {
-                    StaticRangeAILogic(frame, NpcPosition, TargetPosition, obj);
+                    StaticRangeAILogic(frame, NpcPosition, TargetPosition, obj, GameCounter);
                     break;
                 }
             default:
@@ -149,14 +149,14 @@ class AI_BehaviorBase
 
     }
 
-    public virtual void BossRunLogic(int frame,GameObject obj, FixVector2 TargetPosition)
+    public virtual void BossRunLogic(int frame,GameObject obj, FixVector2 TargetPosition ,Fix64 GameCounter)
     { }
     public virtual void BossAttackLogic(int frame, GameObject obj, FixVector2 TargetPosition)
     { }
     public virtual void BossTPLogic(int frame, GameObject obj, FixVector2 ToPos,bool rot)
     { }
 
-    private void RaibitLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
+    private void RaibitLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj ,Fix64 GameCounter)
     {
         if (CurrentState == (int)AI_BehaviorType.Dead)
             return;
@@ -197,7 +197,7 @@ class AI_BehaviorBase
                     else
                     {
                         Dash = false;
-                        BossRunLogic(frame, obj, FixVector2.Zero);
+                        BossRunLogic(frame, obj, FixVector2.Zero, GameCounter);
                         NextChangeStateFrame = frame + Run_FrameInterval;
                     }
                 }
@@ -211,7 +211,7 @@ class AI_BehaviorBase
         }
 
     }
-    private void MeleeLogic (int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
+    private void MeleeLogic (int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj, Fix64 GameCounter)
     {
         //Debug.Log("HP = " + obj.GetComponent<MonsterModel_Component>().HP);
         if (obj.GetComponent<MonsterModel_Component>().HP <= Fix64.Zero)
@@ -262,7 +262,7 @@ class AI_BehaviorBase
             if (CurrentState == (int)AI_BehaviorType.Run)
             {
                 //Debug.Log("Run");
-                BossRunLogic(frame, obj, FixVector2.Zero);
+                BossRunLogic(frame, obj, FixVector2.Zero, GameCounter);
                 NextChangeStateFrame = frame + Run_FrameInterval;
             }
             else if (CurrentState == (int)AI_BehaviorType.Attack)
@@ -278,11 +278,11 @@ class AI_BehaviorBase
 
         }
     }
-    private void RangeLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
+    private void RangeLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj, Fix64 GameCounter)
     {
 
     }
-    private void StaticRangeAILogic (int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
+    private void StaticRangeAILogic (int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj, Fix64 GameCounter)
     {
 
         //Debug.Log("NextChangeFrame: "+ NextChangeStateFrame);
@@ -345,7 +345,7 @@ class AI_BehaviorBase
         }
         if (TargetPosition != FixVector2.Zero)
         {
-            BossRunLogic(frame, obj, TargetPosition);
+            BossRunLogic(frame, obj, TargetPosition, GameCounter);
         }
             //NextChangeStateFrame = frame + Idle_FrameInterval;
       

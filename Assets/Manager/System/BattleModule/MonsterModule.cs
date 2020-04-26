@@ -277,7 +277,7 @@ public class MonsterModule
 
                     //Debug.Log("HP:　"+ Monster.GetComponent<MonsterModel_Component>().HP);
 
-                    Monster.GetComponent<EnemyAI>().UpdateLogic(Target, frame, Monster,true);
+                    Monster.GetComponent<EnemyAI>().UpdateLogic(Target, frame, Monster,true , _parentManager.GameCounter);
                     if (Target != null)
                     {
                         Monster.GetComponent<AIDestinationSetter>().Target = new Vector3((float)Target.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
@@ -303,7 +303,7 @@ public class MonsterModule
                         GameObject AliasUnit = AliasMonsterList[i].obj;
                         Vector2 AliasPos = new Vector2((float)AliasUnit.GetComponent<MonsterModel_Component>().position.x, (float)AliasUnit.GetComponent<MonsterModel_Component>().position.y);
                         GameObject Target = FindCloseMonster(AliasPos, RoomID);
-                        AliasUnit.GetComponent<EnemyAI>().UpdateLogic(Target, frame, AliasUnit, false);
+                        AliasUnit.GetComponent<EnemyAI>().UpdateLogic(Target, frame, AliasUnit, false, _parentManager.GameCounter);
                         if (Target != null)
                         {
                             AliasUnit.GetComponent<AIDestinationSetter>().Target = new Vector3((float)Target.GetComponent<MonsterModel_Component>().position.x,
@@ -355,7 +355,7 @@ public class MonsterModule
                 LiveEvent.Add(temp);
                 GameObject Boss = item.Key;
                 Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
-                Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
+                Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate,(float)_parentManager.GameCounter);
                 //获取当前帧位置
                 Vector3 Pos;
                 Quaternion Rot;

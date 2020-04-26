@@ -17,6 +17,7 @@ public class BattleManager
 
     public int Seed;
     public int SeverFrame;
+    public Fix64 GameCounter;
 
     public BattleManager(SystemManager system)
     {
@@ -34,6 +35,10 @@ public class BattleManager
     {
         UpdateLogicByFrame();
         UpdateView();
+        //Debug.Log("Time: " +Time.time);
+        //Debug.Log("Counter: " + GameCounter);
+
+        //Debug.Log("Diff: " + ((Fix64)Time.time -GameCounter));
     }
     void UpdateLogicByFrame()
     {
@@ -44,9 +49,10 @@ public class BattleManager
         _monster.UpdateLogic(local_frame);
         _skill.UpdateLogic(local_frame);
         _terrain.UpdateLogic(local_frame);
+
         local_frame++;
-
-
+        GameCounter += (Fix64)Global.FrameRate / (Fix64)1000;
+       
 
     }
 
