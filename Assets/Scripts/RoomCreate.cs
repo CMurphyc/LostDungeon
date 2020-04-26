@@ -123,14 +123,14 @@ public class RoomCreate : MonoBehaviour
         MakeGraph(array, h, d, playerNum, floorNum);
 
         // 生成底部黑幕
-        GameObject backGround = Instantiate(BackGround, new Vector3(d / 2 * xOffset, h / 2 * yOffset, 0), Quaternion.identity);
+        GameObject backGround = Instantiate(BackGround, new Vector3((int)(d / 2 + 1) * xOffset, (int)(h / 2 + 1) * yOffset, 0), Quaternion.identity);
         backGround.transform.localScale = new Vector3(d + 2, h + 2, 1);
 
         Debug.Log("Astar");
         AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
         int Width = (int)(GetRightTop().x - GetLeftBottom().x + 1);
         int Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
-        AStar.data.gridGraph.center = new Vector3((GetRightTop().x + GetLeftBottom().x)/2+0.5f, (GetRightTop().y + GetLeftBottom().y)/2+0.5f);
+        AStar.data.gridGraph.center = new Vector3((int)((GetRightTop().x + GetLeftBottom().x) / 2 + 1), (int)((GetRightTop().y + GetLeftBottom().y) / 2 + 1));
         AStar.data.gridGraph.SetDimensions(Width, Depth, 1);
         AStar.Scan();
 
@@ -310,8 +310,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                             birthY = j;
                             startRoom = nowRoom;
                             //kkkkkkkkkkkkkkkkkkkk
-                            //terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
-                            terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                            terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
+                            // terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         }
                         else
                         {
