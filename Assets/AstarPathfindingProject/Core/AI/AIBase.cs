@@ -448,12 +448,12 @@ namespace Pathfinding {
 		/// If rigidbodies are used then all movement happens here.
 		/// </summary>
 		protected virtual void FixedUpdate () {
-			if (!(rigid == null && rigid2D == null) && canMove) {
-				Vector3 nextPosition;
-				Quaternion nextRotation;
-				MovementUpdate(Time.fixedDeltaTime, out nextPosition, out nextRotation);
-				FinalizeMovement(nextPosition, nextRotation);
-			}
+			//if (!(rigid == null && rigid2D == null) && canMove) {
+			//	Vector3 nextPosition;
+			//	Quaternion nextRotation;
+			//	MovementUpdate(Time.fixedDeltaTime, out nextPosition, out nextRotation);
+			//	FinalizeMovement(nextPosition, nextRotation);
+			//}
 		}
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::MovementUpdate</summary>
@@ -687,11 +687,11 @@ namespace Pathfinding {
 		}
 
 		protected void UpdateVelocity () {
-			var currentFrame = Time.frameCount;
+			//var currentFrame = Time.frameCount;
 
-			if (currentFrame != prevFrame) prevPosition2 = prevPosition1;
-			prevPosition1 = position;
-			prevFrame = currentFrame;
+			//if (currentFrame != prevFrame) prevPosition2 = prevPosition1;
+			//prevPosition1 = position;
+			//prevFrame = currentFrame;
 		}
 
 		/// <summary>

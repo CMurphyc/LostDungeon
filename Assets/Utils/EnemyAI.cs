@@ -286,6 +286,8 @@ class AI_Enemy : AI_BehaviorBase
                     Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
                     Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
 
+
+                    Debug.Log("MonterPos: " + FixMonsterPos);
                     break;
                 }
             case AI_Type.Boss_Rabit:

@@ -565,6 +565,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
 
     public void CreatePlayer(int playerNum , int uid,CharacterType type)
     {
+        FixVector2 SpwanPos = new FixVector2((Fix64)xOffset * birthY + startPosition[playerNum * 2], (Fix64)yOffset * birthX + startPosition[playerNum * 2 + 1]);
         //  创建玩家实体并根据玩家编号来决定出生位置
         switch(type)
         {
@@ -576,6 +577,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
 
                 playerTmp.transform.localScale = new Vector3(3, 3, 1);
 
+
+                playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
                 PlayerInGameData data = new PlayerInGameData();
                 data.obj = playerTmp;
                 data.RoomID = startRoom;
@@ -590,7 +593,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     Quaternion.identity);
 
                     playerTmp.transform.localScale = new Vector3(3, 3, 1);
-
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
                     PlayerInGameData data = new PlayerInGameData();
                     data.obj = playerTmp;
                     data.RoomID = startRoom;

@@ -13,11 +13,11 @@ public class PlayerModel_Component : MonoBehaviour
     private FixVector2 weaponRotation;   // 武器朝向
     private Fix64 bulletSpeed;           // 玩家射出子弹的速度
 
-    void Awake()
-    {
-        //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
-        playerPosition = new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y);
-    }
+    //void Awake()
+    //{
+    //    //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
+    //    playerPosition = new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y);
+    //}
 
     public void SetHealthPoint(Fix64 _healthPoint)
     {

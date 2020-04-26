@@ -25,8 +25,8 @@ public class TerrainModule
         foreach (GameObject stone in roomToStone[RoomId])
         {
             BoxCollider2D collider = stone.GetComponent<BoxCollider2D>();
-            Rectangle rect = new Rectangle(new FixVector2((Fix64)(stone.transform.position.x + collider.offset.x), 
-                                                          (Fix64)(stone.transform.position.y + collider.offset.y)),
+            Rectangle rect = new Rectangle(new FixVector2((Fix64)stone.transform.position.x + (Fix64)collider.offset.x, 
+                                                          (Fix64)stone.transform.position.y + (Fix64)collider.offset.y),
                 new FixVector2((Fix64)stone.transform.rotation.x, (Fix64)stone.transform.rotation.y),
                 (Fix64)(stone.GetComponent<BoxCollider2D>().size.x),
                 (Fix64)(stone.GetComponent<BoxCollider2D>().size.y)

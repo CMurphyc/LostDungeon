@@ -200,7 +200,8 @@ namespace Pathfinding {
 
 		Vector3 IAstarAI.velocity {
 			get {
-				return Time.deltaTime > 0.00001f ? (previousPosition1 - previousPosition2) / Time.deltaTime : Vector3.zero;
+                return Vector3.zero;
+				//return Time.deltaTime > 0.00001f ? (previousPosition1 - previousPosition2) / Time.deltaTime : Vector3.zero;
 			}
 		}
 
@@ -384,7 +385,8 @@ namespace Pathfinding {
 		/// <summary>True if the path should be automatically recalculated as soon as possible</summary>
 		protected virtual bool shouldRecalculatePath {
 			get {
-				return Time.time - lastRepath >= repathRate && canSearchAgain && canSearch && !float.IsPositiveInfinity(destination.x);
+                return false;
+				//return Time.time - lastRepath >= repathRate && canSearchAgain && canSearch && !float.IsPositiveInfinity(destination.x);
 			}
 		}
 
@@ -399,34 +401,34 @@ namespace Pathfinding {
 
 		/// <summary>Requests a path to the target.</summary>
 		public virtual void SearchPath () {
-			if (float.IsPositiveInfinity(destination.x)) return;
-			if (onSearchPath != null) onSearchPath();
+			//if (float.IsPositiveInfinity(destination.x)) return;
+			//if (onSearchPath != null) onSearchPath();
 
-			lastRepath = Time.time;
+			//lastRepath = Time.time;
 
-			// This is where the path should start to search from
-			var currentPosition = GetFeetPosition();
+			//// This is where the path should start to search from
+			//var currentPosition = GetFeetPosition();
 
-			// If we are following a path, start searching from the node we will
-			// reach next this can prevent odd turns right at the start of the path
-			/*if (interpolator.valid) {
-			    var prevDist = interpolator.distance;
-			    // Move to the end of the current segment
-			    interpolator.MoveToSegment(interpolator.segmentIndex, 1);
-			    currentPosition = interpolator.position;
-			    // Move back to the original position
-			    interpolator.distance = prevDist;
-			}*/
+			//// If we are following a path, start searching from the node we will
+			//// reach next this can prevent odd turns right at the start of the path
+			///*if (interpolator.valid) {
+			//    var prevDist = interpolator.distance;
+			//    // Move to the end of the current segment
+			//    interpolator.MoveToSegment(interpolator.segmentIndex, 1);
+			//    currentPosition = interpolator.position;
+			//    // Move back to the original position
+			//    interpolator.distance = prevDist;
+			//}*/
 
-			canSearchAgain = false;
+			//canSearchAgain = false;
 
-			// Alternative way of creating a path request
-			//ABPath p = ABPath.Construct(currentPosition, targetPoint, null);
-			//seeker.StartPath(p);
+			//// Alternative way of creating a path request
+			////ABPath p = ABPath.Construct(currentPosition, targetPoint, null);
+			////seeker.StartPath(p);
 
-			// Create a new path request
-			// The OnPathComplete method will later be called with the result
-			seeker.StartPath(currentPosition, destination);
+			//// Create a new path request
+			//// The OnPathComplete method will later be called with the result
+			//seeker.StartPath(currentPosition, destination);
 		}
 
 		/// <summary>
@@ -516,26 +518,26 @@ namespace Pathfinding {
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::SetPath</summary>
 		public void SetPath (Path path) {
-			if (path == null) {
-				ClearPath();
-			} else if (path.PipelineState == PathState.Created) {
-				// Path has not started calculation yet
-				lastRepath = Time.time;
-				canSearchAgain = false;
-				seeker.CancelCurrentPathRequest();
-				seeker.StartPath(path);
-			} else if (path.PipelineState == PathState.Returned) {
-				// Path has already been calculated
+			//if (path == null) {
+			//	ClearPath();
+			//} else if (path.PipelineState == PathState.Created) {
+			//	// Path has not started calculation yet
+			//	lastRepath = Time.time;
+			//	canSearchAgain = false;
+			//	seeker.CancelCurrentPathRequest();
+			//	seeker.StartPath(path);
+			//} else if (path.PipelineState == PathState.Returned) {
+			//	// Path has already been calculated
 
-				// We might be calculating another path at the same time, and we don't want that path to override this one. So cancel it.
-				if (seeker.GetCurrentPath() != path) seeker.CancelCurrentPathRequest();
-				else throw new System.ArgumentException("If you calculate the path using seeker.StartPath then this script will pick up the calculated path anyway as it listens for all paths the Seeker finishes calculating. You should not call SetPath in that case.");
+			//	// We might be calculating another path at the same time, and we don't want that path to override this one. So cancel it.
+			//	if (seeker.GetCurrentPath() != path) seeker.CancelCurrentPathRequest();
+			//	else throw new System.ArgumentException("If you calculate the path using seeker.StartPath then this script will pick up the calculated path anyway as it listens for all paths the Seeker finishes calculating. You should not call SetPath in that case.");
 
-				OnPathComplete(path);
-			} else {
-				// Path calculation has been started, but it is not yet complete. Cannot really handle this.
-				throw new System.ArgumentException("You must call the SetPath method with a path that either has been completely calculated or one whose path calculation has not been started at all. It looks like the path calculation for the path you tried to use has been started, but is not yet finished.");
-			}
+			//	OnPathComplete(path);
+			//} else {
+			//	// Path calculation has been started, but it is not yet complete. Cannot really handle this.
+			//	throw new System.ArgumentException("You must call the SetPath method with a path that either has been completely calculated or one whose path calculation has not been started at all. It looks like the path calculation for the path you tried to use has been started, but is not yet finished.");
+			//}
 		}
 
 		protected virtual void ConfigurePathSwitchInterpolation () {
@@ -571,13 +573,13 @@ namespace Pathfinding {
 		}
 
 		protected virtual void Update () {
-			if (shouldRecalculatePath) SearchPath();
-			if (canMove) {
-				Vector3 nextPosition;
-				Quaternion nextRotation;
-				MovementUpdate(Time.deltaTime, out nextPosition, out nextRotation);
-				FinalizeMovement(nextPosition, nextRotation);
-			}
+			//if (shouldRecalculatePath) SearchPath();
+			//if (canMove) {
+			//	Vector3 nextPosition;
+			//	Quaternion nextRotation;
+			//	MovementUpdate(Time.deltaTime, out nextPosition, out nextRotation);
+			//	FinalizeMovement(nextPosition, nextRotation);
+			//}
 		}
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::MovementUpdate</summary>
