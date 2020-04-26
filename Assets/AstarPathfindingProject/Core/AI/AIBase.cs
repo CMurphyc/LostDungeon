@@ -295,7 +295,8 @@ namespace Pathfinding {
 		/// <summary>True if the path should be automatically recalculated as soon as possible</summary>
 		protected virtual bool shouldRecalculatePath {
 			get {
-				return Time.time - lastRepath >= repathRate && !waitingForPathCalculation && canSearch && !float.IsPositiveInfinity(destination.x);
+				return !waitingForPathCalculation && canSearch && !float.IsPositiveInfinity(destination.x);
+				// return Time.time - lastRepath >= repathRate && !waitingForPathCalculation && canSearch && !float.IsPositiveInfinity(destination.x);
 			}
 		}
 
@@ -422,18 +423,18 @@ namespace Pathfinding {
 		/// If no rigidbodies are used then all movement happens here.
 		/// </summary>
 		protected virtual void Update () {
-			if (shouldRecalculatePath) SearchPath();
+			// if (shouldRecalculatePath) SearchPath();
 
 			// If gravity is used depends on a lot of things.
 			// For example when a non-kinematic rigidbody is used then the rigidbody will apply the gravity itself
 			// Note that the gravity can contain NaN's, which is why the comparison uses !(a==b) instead of just a!=b.
-			usingGravity = !(gravity == Vector3.zero) && (!updatePosition || ((rigid == null || rigid.isKinematic) && (rigid2D == null || rigid2D.isKinematic)));
-			if (rigid == null && rigid2D == null && canMove) {
-				Vector3 nextPosition;
-				Quaternion nextRotation;
-				MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
-				//FinalizeMovement(nextPosition, nextRotation);
-			}
+			// usingGravity = !(gravity == Vector3.zero) && (!updatePosition || ((rigid == null || rigid.isKinematic) && (rigid2D == null || rigid2D.isKinematic)));
+			// if (rigid == null && rigid2D == null && canMove) {
+			// 	Vector3 nextPosition;
+			// 	Quaternion nextRotation;
+			// 	MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
+			// 	//FinalizeMovement(nextPosition, nextRotation);
+			// }
 		}
 
      
@@ -444,12 +445,12 @@ namespace Pathfinding {
 		/// If rigidbodies are used then all movement happens here.
 		/// </summary>
 		protected virtual void FixedUpdate () {
-			if (!(rigid == null && rigid2D == null) && canMove) {
-				Vector3 nextPosition;
-				Quaternion nextRotation;
-				MovementUpdate(Time.fixedDeltaTime, out nextPosition, out nextRotation);
-				FinalizeMovement(nextPosition, nextRotation);
-			}
+			// if (!(rigid == null && rigid2D == null) && canMove) {
+			// 	Vector3 nextPosition;
+			// 	Quaternion nextRotation;
+			// 	MovementUpdate(Time.fixedDeltaTime, out nextPosition, out nextRotation);
+			// 	FinalizeMovement(nextPosition, nextRotation);
+			// }
 		}
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::MovementUpdate</summary>
@@ -477,7 +478,7 @@ namespace Pathfinding {
 			if (float.IsPositiveInfinity(destination.x)) return;
 			if (onSearchPath != null) onSearchPath();
 
-			lastRepath = Time.time;
+			// lastRepath = Time.time;
 			waitingForPathCalculation = true;
 
 			seeker.CancelCurrentPathRequest();
@@ -530,7 +531,7 @@ namespace Pathfinding {
 				ClearPath();
 			} else if (path.PipelineState == PathState.Created) {
 				// Path has not started calculation yet
-				lastRepath = Time.time;
+				// lastRepath = Time.time;
 				waitingForPathCalculation = true;
 				seeker.CancelCurrentPathRequest();
 				seeker.StartPath(path);
