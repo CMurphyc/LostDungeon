@@ -24,7 +24,12 @@ public class PlayerDataModule
             if (playerToPlayer.ContainsKey(frameInfo[i].Uid))
             {
                 PlayerInGameData Input = playerToPlayer[frameInfo[i].Uid];
-                Vector2 MoveVec = new Vector2(frameInfo[i].MoveDirectionX/10000f, frameInfo[i].MoveDirectionY/10000f).normalized * Global.FrameRate/1000f*5f ;
+                //Vector2 MoveVec = new Vector2(frameInfo[i].MoveDirectionX/10000f, frameInfo[i].MoveDirectionY/10000f).normalized * Global.FrameRate/1000f*5f ;
+
+                FixVector2 MoveVec = new FixVector2(frameInfo[i].MoveDirectionX / (Fix64)100, frameInfo[i].MoveDirectionY / (Fix64)100);
+
+                MoveVec = MoveVec.GetNormalized() * (Fix64)Global.FrameRate / (Fix64)1000 * (Fix64)5;
+
                 FixVector2 Pos = Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
                 if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(MoveVec.x+Pos.x),(Fix64)(MoveVec.y+Pos.y)),Input.RoomID))
                 {
@@ -47,9 +52,23 @@ public class PlayerDataModule
                 {
                     case (int)AttackType.BasicAttack:
                         {
-                            
-                            if ((Mathf.Abs(frameInfo[i].AttackDirectionX / 10000f) >= 0.01f 
-                                && Mathf.Abs(frameInfo[i].AttackDirectionY / 10000f) >= 0.01f))
+
+                            Fix64 AttackDirectionX = (Fix64)(frameInfo[i].AttackDirectionX / (Fix64)100);
+                            Fix64 AttackDirectionY = (Fix64)(frameInfo[i].AttackDirectionY / (Fix64)100);
+
+
+                            //Debug.Log(AttackDirectionX);
+                            //Debug.Log(AttackDirectionY);
+
+                            FixVector2 AttackVec = new FixVector2(AttackDirectionX, AttackDirectionY).GetNormalized();
+
+
+                            if (AttackVec.x != Fix64.Zero
+                                || AttackVec.y != Fix64.Zero)
+
+
+                                //if ((Fix64.Abs(AttackDirectionX) >= (Fix64)0.01f 
+                                //&& Fix64.Abs(AttackDirectionY) >= (Fix64)0.01f))
                             {
                                 //Debug.Log("aaaaaaaa");
                                 if (frame >= Input.NextAttackFrame)
@@ -58,8 +77,7 @@ public class PlayerDataModule
                                     BulletUnion bu = new BulletUnion(_parentManager);
                                     bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
-                                                                        new FixVector2((Fix64)frameInfo[i].AttackDirectionX / 10000f,
-                                                                        (Fix64)frameInfo[i].AttackDirectionY / 10000f),
+                                                                        AttackVec,
                                                                         (Fix64)0.2, (Fix64)2, Input.RoomID,
                                                                         _parentManager.sys._battle._skill.enginerBase.bulletObj
 
@@ -168,7 +186,6 @@ public class PlayerDataModule
                 foreach(var it in bulletList)
                 {
                     it.LogicUpdate();
-                    it.ViewUpdate();
                 }
 
             }
@@ -187,12 +204,16 @@ public class PlayerDataModule
             if (playerToPlayer.ContainsKey(frameInfo[i].Uid))
             {
                 PlayerInGameData Input = playerToPlayer[frameInfo[i].Uid];
-
-                Vector2 MoveVec = new Vector2(frameInfo[i].MoveDirectionX / 10000f, frameInfo[i].MoveDirectionY / 10000f);
                 Input.obj.GetComponent<PlayerView_Component>().RefreshView();
             }
 
         }
+        foreach (var it in bulletList)
+        {
+            it.ViewUpdate();
+
+        }
+
     }
 
     public HashSet<int> GetLiveRoom()

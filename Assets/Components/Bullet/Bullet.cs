@@ -449,6 +449,8 @@ public class BulletUnion : BulletBase
         {
             Bullet bullet = it;
             if (bullet.active == true) bullet.anchor += bullet.toward * bullet.speed;
+
+           
             latestBullet.Add(bullet);
         }
 
@@ -468,7 +470,8 @@ public class BulletUnion : BulletBase
                 //bulletList[i].transform.localScale = Converter.FixVector2ToVector2(spwanedBullet[i].bulletScale);
                 //更新子弹位置
                 //每次移动定位子弹speed的1/5，以免出现step太大导致的移动不平滑的问题
-                bulletList[i].transform.position = Vector2.MoveTowards(bulletList[i].transform.position, Converter.FixVector2ToVector2(spwanedBullet[i].anchor), (float)spwanedBullet[i].speed);
+                //bulletList[i].transform.position = Vector2.MoveTowards(bulletList[i].transform.position, Converter.FixVector2ToVector2(spwanedBullet[i].anchor), (float)spwanedBullet[i].speed);
+                bulletList[i].transform.position = Converter.FixVector2ToVector2(spwanedBullet[i].anchor);
             }
         }
 
@@ -542,7 +545,7 @@ class Converter
 
         FixVector2 rotateVector = new FixVector2(length * Fix64.Cos(originAngle + DegreeToRadian(rotateAngle)), length * Fix64.Sin(originAngle + DegreeToRadian(rotateAngle)));
 
-        return rotateVector;
+        return rotateVector.GetNormalized() ;
     }
 }
 

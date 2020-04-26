@@ -271,7 +271,8 @@ public class MonsterModule
                 {
                     GameObject Monster = MonsterList[i];
 
-                    Vector2 MonsterPos = new Vector2((float)Monster.GetComponent<MonsterModel_Component>().position.x, (float)Monster.GetComponent<MonsterModel_Component>().position.y);
+                    //FixVector2 MonsterPos = new Vector2((float)Monster.GetComponent<MonsterModel_Component>().position.x, (float)Monster.GetComponent<MonsterModel_Component>().position.y);
+                    FixVector2 MonsterPos =PackConverter.FixVector3ToFixVector2(Monster.GetComponent<MonsterModel_Component>().position);
                     GameObject Target = FindClosePlayer(MonsterPos, RoomID);
 
                     //Debug.Log("HP:　"+ Monster.GetComponent<MonsterModel_Component>().HP);
@@ -639,17 +640,18 @@ public class MonsterModule
         return ret;
     }
 
-    GameObject FindClosePlayer(Vector2 MonsterPos, int RoomID )
+    GameObject FindClosePlayer(FixVector2 MonsterPos, int RoomID )
     {
         GameObject ret = null;
-        float Min_Distance = 99999;
+        Fix64 Min_Distance = (Fix64)99999;
 
      
         List<PlayerInGameData> PlayerInRoomList = _parentManager._player.FindPlayerInRoom(RoomID);
         for (int i = 0; i < PlayerInRoomList.Count; i++)
         {
-            Vector2 PlayerPos = new Vector2 ((float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x, (float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y);
-            float distance = Vector2.Distance(PlayerPos, MonsterPos);
+            //Vector2 PlayerPos = new Vector2 ((float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x, (float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y);
+            FixVector2 PlayerPos = PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+            Fix64 distance = FixVector2.Distance(PlayerPos, MonsterPos);
             if (distance< Min_Distance)
             {
                 Min_Distance = distance;
