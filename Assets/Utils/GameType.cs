@@ -116,3 +116,14 @@ public struct DoorData
         transferPos = _transferPos;
     }
 }
+
+public struct TreasureData
+{
+    public int treasureId;
+    public GameObject treasureObejct;
+    public TreasureData(int _treasureId, GameObject _treasureObject)
+    {
+        treasureId = _treasureId;
+        treasureObejct = _treasureObject;
+    }
+}
