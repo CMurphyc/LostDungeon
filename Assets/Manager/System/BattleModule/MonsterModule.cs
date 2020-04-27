@@ -52,6 +52,9 @@ public class MonsterModule
     public List<BulletUnion> bulletList = new List<BulletUnion>();
     //Boss子弹触发帧
     public Dictionary<int, List<FakeBulletUnion>> bulletEvent = new Dictionary<int, List<FakeBulletUnion>>();
+    //Boss持续伤害技能
+    public List<GameObject> BossSkill = new List<GameObject>();
+
 
 
     /// <summary>
@@ -80,9 +83,53 @@ public class MonsterModule
         MonsterAILogic(frame);
         MonsterBeAttackHandler(frame);
         MonsterDeadHandler();
+        UpdateBossSkill();
         UpdateBullet(frame);
         UpdateBossHP();
     }
+    void UpdateBossSkill()
+    {
+        List<GameObject> DeleteQueue = new List<GameObject>();
+
+        for (int i = 0; i < BossSkill.Count;i++)
+        {
+            GameObject Skill = BossSkill[i];
+            SkillType type = Skill.GetComponent<Skill_Component>().SkillType;
+            int RemainingFrame = Skill.GetComponent<Skill_Component>().RemainingFrame;
+            if (RemainingFrame <= 0)
+            {
+                DeleteQueue.Add(Skill);
+            }
+            else
+            {
+                switch (type)
+                {
+                    case SkillType.BossPoison:
+                        {
+
+
+
+                            break;
+                        }
+                }
+
+
+                Skill.GetComponent<Skill_Component>().RemainingFrame--;
+            }
+        }
+
+        for (int i = 0; i < DeleteQueue.Count;i++)
+        {
+            GameObject temp = DeleteQueue[i];
+            if (BossSkill.Contains(temp))
+            {
+                BossSkill.Remove(temp);
+                Object.Destroy(temp);
+            }
+        }
+        DeleteQueue.Clear();
+    }
+
     void UpdateBullet(int frame)
     {
         if (bulletEvent.ContainsKey(frame))
@@ -91,7 +138,10 @@ public class MonsterModule
             {
                 FakeBulletUnion temp = bulletEvent[frame][i];
                 BulletUnion bu = new BulletUnion(_parentManager);
-                bu.BulletInit(temp.tag,temp.anchor,temp.toward,temp.speed,temp.damage,temp.roomid,temp.bulletPrefab,temp.itemList);
+
+                FixVector2 MonsterPos = PackConverter.FixVector3ToFixVector2(temp.boss.GetComponent<MonsterModel_Component>().position);
+
+                bu.BulletInit(temp.tag, MonsterPos, temp.toward,temp.speed,temp.damage,temp.roomid,temp.bulletPrefab,temp.itemList);
                 bulletList.Add(bu);
             }
             bulletEvent.Remove(frame);

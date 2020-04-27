@@ -105,6 +105,27 @@ class AI_Enemy : AI_BehaviorBase
             base.Attack_FrameInterval = attribute.Attack_FrameInterval;
         }
 
+        else if (type == AI_Type.Nomral_Range)
+        {
+            base.AttackDistance = (Fix64)5f;
+            base.Idle_FrameInterval = 1000 / Global.FrameRate;
+            base.Run_FrameInterval = 1;
+            base.Attack_FrameInterval = 20;
+        }
+
+        else if (type == AI_Type.Boss_Wizard)
+        {
+            base.Idle_FrameInterval = 1;
+            base.Run_FrameInterval = 60;
+            base.Attack_FrameInterval = 100;
+            base.DashDistance = (Fix64)7f;
+            base.Teleport_FrameInterval = 1;
+            base.DashToDistance = (Fix64)2f;
+            base.SummoningInterval = 20;
+            base.Skill1_FrameInterval = 1;
+            base.Skill1_Duration = 300;
+
+        }
     }
     public override void BossTPLogic(int frame, GameObject obj , FixVector2 ToPos , bool rot)
     {
@@ -112,7 +133,7 @@ class AI_Enemy : AI_BehaviorBase
         {
             case AI_Type.Boss_Rabit:
                 {
-                    Debug.Log("Rabit TP");
+                    //Debug.Log("Rabit TP");
                     obj.GetComponent<MonsterModel_Component>().position = PackConverter.FixVector2ToFixVector3(ToPos);
                     if (rot)
                     {
@@ -125,6 +146,21 @@ class AI_Enemy : AI_BehaviorBase
                     }
                     break;
                 }
+            case AI_Type.Boss_Wizard:
+                {
+                    obj.GetComponent<MonsterModel_Component>().position = PackConverter.FixVector2ToFixVector3(ToPos);
+                    if (rot)
+                    {
+                        obj.GetComponent<MonsterModel_Component>().Rotation = new Quaternion(0, 0, 0, 0);
+                    }
+                    else
+                    {
+                        obj.GetComponent<MonsterModel_Component>().Rotation = new Quaternion(0, 180f, 0, 0);
+
+                    }
+                    break;
+
+                }
             default:
                 break;
         }
@@ -135,6 +171,26 @@ class AI_Enemy : AI_BehaviorBase
         {
             case AI_Type.Nomral_Range:
                 {
+                    //Debug.Log("Range Attack");
+
+                    List<int> list = new List<int>();
+                    BulletUnion bu = new BulletUnion(sys._battle);
+
+                    FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
+                    FixVector2 toward = ((TargetPosition - MonsPos) * (Fix64)100).GetNormalized();
+
+                    //float degree = obj.transform.Find("engineer_derivative_1_3").transform.eulerAngles.z;
+                    FixVector2 ShootPos = MonsPos + toward;
+
+                    //FixVector2 ShootToward = new FixVector2(Fix64.Cos(degree * Fix64.PI / (Fix64)180f),
+                    //Fix64.Sin(degree * Fix64.PI / (Fix64)180f));
+
+                    bu.BulletInit("Boss_Rabit", ShootPos, toward,
+                                                                  (Fix64)0.1, (Fix64)1, base.RoomID,
+                                                                  Resources.Load("Effects/Prefab/effect_fireball_0") as GameObject
+                                                                  , list);
+                    sys._battle._monster.bulletList.Add(bu);
+
                     break;
                 }
             case AI_Type.Normal_Melee:
@@ -143,7 +199,7 @@ class AI_Enemy : AI_BehaviorBase
                 }
             case AI_Type.Boss_Rabit:
                 {
-                    Debug.Log("Rabit AttackeING");
+                    //Debug.Log("Rabit AttackeING");
                     //int BulletTypeNumber = 4;
                     int Switch = Random.Range(1, 3);
                     if (Switch == 1)
@@ -174,7 +230,7 @@ class AI_Enemy : AI_BehaviorBase
                                 Vector2 toward = new Vector2(Mathf.Cos(CurrentAngle / 180f * Mathf.PI), Mathf.Sin(CurrentAngle / 180f * Mathf.PI));
                                 toward = toward.normalized;
 
-                                FakeBulletUnion bu = new FakeBulletUnion("Boss_Rabit", new FixVector2(obj.GetComponent<MonsterModel_Component>().position.x,
+                                FakeBulletUnion bu = new FakeBulletUnion(obj,"Boss_Rabit", new FixVector2(obj.GetComponent<MonsterModel_Component>().position.x,
                                                                     obj.GetComponent<MonsterModel_Component>().position.y),
                                                                     new FixVector2((Fix64)toward.x,
                                                                     (Fix64)toward.y),
@@ -262,16 +318,179 @@ class AI_Enemy : AI_BehaviorBase
                     sys._battle._monster.bulletList.Add(bu);
                     break;
                 }
+
+            case AI_Type.Boss_Wizard:
+                {
+
+                    //Debug.Log("Wizard Attack:! ");
+
+                    int SkillChosen = Random.Range(0, 2);
+
+                    switch (SkillChosen)
+                    {
+                        case 0:
+                            {
+                                int AttackRate = 10;
+                                int AttackNumber = base.Attack_FrameInterval / AttackRate;
+
+                                int InitAngle = 0;
+                                //BulletUnion bu = new BulletUnion(sys._battle);
+                                for (int i = 0; i < AttackNumber; i++)
+                                {
+                                    int AttackInitFrame = frame + i * AttackRate;
+                                    //Debug.Log("AttackFrame: " + AttackInitFrame);
+
+
+                                    int BulletNumber = 4;
+                                    float angle = 360 / BulletNumber;
+
+                                    List<FakeBulletUnion> bulletList = new List<FakeBulletUnion>();
+
+                                    for (int j = 0; j < BulletNumber; j++)
+                                    {
+                                        List<int> list = new List<int>();
+
+
+                                        float CurrentAngle = InitAngle + angle * j;
+                                        Vector2 toward = new Vector2(Mathf.Cos(CurrentAngle / 180f * Mathf.PI), Mathf.Sin(CurrentAngle / 180f * Mathf.PI));
+                                        toward = toward.normalized;
+
+                                        FakeBulletUnion bu = new FakeBulletUnion(obj, "Boss_Rabit", new FixVector2(obj.GetComponent<MonsterModel_Component>().position.x,
+                                                                            obj.GetComponent<MonsterModel_Component>().position.y),
+                                                                            new FixVector2((Fix64)toward.x,
+                                                                            (Fix64)toward.y),
+                                                                            (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                            Resources.Load("Model/Bullet/Prefab/bullet_90") as GameObject
+                                                                            , list);
+                                        bulletList.Add(bu);
+                                    }
+
+                                    if (!sys._battle._monster.bulletEvent.ContainsKey(AttackInitFrame))
+                                    {
+                                        sys._battle._monster.bulletEvent.Add(AttackInitFrame, bulletList);
+                                    }
+                                    else
+                                    {
+                                        sys._battle._monster.bulletEvent[AttackInitFrame] = bulletList;
+                                    }
+                                }
+
+                                break;
+                            }
+                        case 1:
+                            {
+                                int AttackRate = 20;
+                                int AttackNumber = base.Attack_FrameInterval / AttackRate;
+
+                                int InitAngle = 0;
+                                //BulletUnion bu = new BulletUnion(sys._battle);
+                                for (int i = 0; i < AttackNumber; i++)
+                                {
+                                    int AttackInitFrame = frame + i * AttackRate;
+                                    //Debug.Log("AttackFrame: " + AttackInitFrame);
+
+
+                                    int BulletNumber = 12;
+                                    float angle = 360 / BulletNumber;
+
+                                    List<FakeBulletUnion> bulletList = new List<FakeBulletUnion>();
+
+                                    for (int j = 0; j < BulletNumber; j++)
+                                    {
+                                        List<int> list = new List<int>();
+
+
+                                        float CurrentAngle = InitAngle + angle * j;
+                                        Vector2 toward = new Vector2(Mathf.Cos(CurrentAngle / 180f * Mathf.PI), Mathf.Sin(CurrentAngle / 180f * Mathf.PI));
+                                        toward = toward.normalized;
+
+                                        FakeBulletUnion bu = new FakeBulletUnion(obj, "Boss_Rabit", new FixVector2(obj.GetComponent<MonsterModel_Component>().position.x,
+                                                                            obj.GetComponent<MonsterModel_Component>().position.y),
+                                                                            new FixVector2((Fix64)toward.x,
+                                                                            (Fix64)toward.y),
+                                                                            (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                            Resources.Load("Effects/Prefab/effect_poisonball_0") as GameObject
+                                                                            , list);
+                                        bulletList.Add(bu);
+                                    }
+
+                                    if (!sys._battle._monster.bulletEvent.ContainsKey(AttackInitFrame))
+                                    {
+                                        sys._battle._monster.bulletEvent.Add(AttackInitFrame, bulletList);
+                                    }
+                                    else
+                                    {
+                                        sys._battle._monster.bulletEvent[AttackInitFrame] = bulletList;
+                                    }
+
+
+                                  
+                                }
+
+                                break;
+                            }
+
+                    }
+                    //边攻击边移动
+                    if (!sys._battle._monster.BossMove.ContainsKey(obj))
+                    {
+
+                        sys._battle._monster.BossMove.Add(obj, Attack_FrameInterval);
+                    }
+                    break;
+                }
             default:
                 break;
         }
     }
+    public override void BossSkill1(int frame, GameObject obj, FixVector2 TargetPosition)
+    {
+        //base.BossSkill1(frame, obj, TargetPosition);
+
+
+        switch (type)
+        {
+            case AI_Type.Boss_Wizard:
+                {
+                    GameObject PosionCircle_Prefab = (GameObject)Resources.Load("Effects/Prefab/PoisonCircle");
+
+                    FixVector2 FixVecMonsterPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
+                    Vector3 MonsterPos = PackConverter.FixVector3ToVector3(obj.GetComponent<MonsterModel_Component>().position);
+                    GameObject PosionCircle_Instance = Object.Instantiate(PosionCircle_Prefab, MonsterPos, Quaternion.identity);
+
+                    //初始化BOSS技能
+                    PosionCircle_Instance.GetComponent<Skill_Component>().RemainingFrame = Skill1_Duration;
+                    PosionCircle_Instance.GetComponent<Skill_Component>().Position = FixVecMonsterPos;
+                    PosionCircle_Instance.GetComponent<Skill_Component>().SkillType = SkillType.BossPoison;
+                    sys._battle._monster.BossSkill.Add(PosionCircle_Instance);
+                    //Monster
+
+                    break;
+                }
+
+
+        }
+
+    }
+
     public override void BossRunLogic(int frame, GameObject Boss, FixVector2 TargetPosition)
     {
         switch (type)
         {
             case AI_Type.Nomral_Range:
-                break;
+                {
+                    Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
+                    Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
+                    //获取当前帧位置
+                    Vector3 Pos;
+                    Quaternion Rot;
+                    Boss.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
+
+                    FixVector3 FixMonsterPos = new FixVector3((Fix64)Pos.x, (Fix64)Pos.y, (Fix64)Pos.z);
+                    Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
+                    Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
+                    break;
+                }
             case AI_Type.Normal_Melee:
                 {
 
@@ -319,6 +538,18 @@ class AI_Enemy : AI_BehaviorBase
                     TurnLogic(toward, Boss.transform.Find("engineer_derivative_1_3"), BossConfig.SpinRate);
 
                     break;
+                }
+
+            case AI_Type.Boss_Wizard:
+                {
+                    if (!sys._battle._monster.BossMove.ContainsKey(Boss))
+                    {
+
+                        sys._battle._monster.BossMove.Add(Boss, Run_FrameInterval);
+                    }
+                    break;
+
+                   
                 }
         }
 

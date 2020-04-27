@@ -3006,10 +3006,14 @@ MonoBehaviour:
       type: 3}
     type: 0
     MonsterID: 0
-  BossList:
-  - monsterGameObject: {fileID: 870878452893989547, guid: 35bc7c21a8abe234180c112b64e042bc,
+  - monsterGameObject: {fileID: 3190195646131052432, guid: ec2e16baa0a36ef42a8aa4f00462576b,
       type: 3}
-    type: 2
+    type: 1
+    MonsterID: 0
+  BossList:
+  - monsterGameObject: {fileID: 5090571011054016273, guid: 8d0ed0a092e1ef84287f8fa435e4fbf9,
+      type: 3}
+    type: 5
     MonsterID: 0
   TreasureList:
   - {fileID: 6167147485909967427, guid: 56d7562070ff5fb4e9c3fb4fe146f3f6, type: 3}
@@ -3023,7 +3027,7 @@ MonoBehaviour:
   - {fileID: 1627870031858258325, guid: 42936887183665c4bbbe710c6df2d810, type: 3}
   - {fileID: 4779283928435966377, guid: 1170f59680bc8004990d30f9aff24a0b, type: 3}
   - {fileID: 8273542065605736142, guid: 0ab1cbdc6e6531e44a27ecdade3704fe, type: 3}
-  MonsterInitHP: 05000000050000000500000005000000
+  MonsterInitHP: 0500000005000000050000000500000005000000
   NormalNormalTerrain:
   - {fileID: 2592502930492833309, guid: f1d5c5a0de1d978489050a2f6d36e72f, type: 3}
   - {fileID: 8511737966765212540, guid: acc3315e6fed36948831a8fd447757ff, type: 3}

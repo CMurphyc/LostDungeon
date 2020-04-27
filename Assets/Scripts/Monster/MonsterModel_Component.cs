@@ -49,6 +49,8 @@ public class MonsterModel_Component : MonoBehaviour
     /// 当前Debuff效果
     /// </summary>
 
+    public Buff buff;
+
     public DeBuff Debuff;
     /*
     private Fix64 MaxHP;
@@ -136,6 +138,15 @@ public class MonsterModel_Component : MonoBehaviour
     }
     */
 }
+
+
+public class Buff
+{
+   
+
+
+}
+
 
 public class DeBuff
 {

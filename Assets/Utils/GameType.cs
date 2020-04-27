@@ -9,7 +9,9 @@ enum AI_BehaviorType
     Attack,
     Dead,
     UnderAttack,
-    Dash
+    Dash,
+    BossSkill1,
+    BossSkill2
 
 }
 
@@ -31,6 +33,7 @@ public enum AI_Type
     Boss_Rabit,
     Boss_Rabit_Egg,
     Engineer_TerretTower,
+    Boss_Wizard,
 }
 
 

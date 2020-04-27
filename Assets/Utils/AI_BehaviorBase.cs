@@ -25,7 +25,8 @@ class AI_BehaviorBase
     public int AttackSpeedInterval = 0;
     public Fix64 AttackDistance = (Fix64)0;
     public int SummoningInterval = 0;
-
+    public int Skill1_FrameInterval = 0;
+    public int Skill1_Duration = 0;
     //boss
     
     public Fix64 DashDistance = (Fix64)0;
@@ -88,6 +89,11 @@ class AI_BehaviorBase
                     StaticRangeAILogic(frame, NpcPosition, TargetPosition, obj);
                     break;
                 }
+            case AI_Type.Boss_Wizard:
+                {
+                    WizardAILogic(frame, NpcPosition, TargetPosition, obj);
+                    break;
+                }
             default:
                 break;
 
@@ -143,6 +149,20 @@ class AI_BehaviorBase
                     obj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 93f / 255f, 93f / 255f);
                     break;
                 }
+            case (int)AI_BehaviorType.BossSkill1:
+                {
+
+                    obj.GetComponent<Animator>().SetInteger("MainState", 2);
+
+                    break;
+                }
+            case (int)AI_BehaviorType.BossSkill2:
+                {
+
+                    obj.GetComponent<Animator>().SetInteger("MainState", 2);
+
+                    break;
+                }
             default:
                 break;
         }
@@ -155,7 +175,101 @@ class AI_BehaviorBase
     { }
     public virtual void BossTPLogic(int frame, GameObject obj, FixVector2 ToPos,bool rot)
     { }
+    public virtual void BossSkill1(int frame, GameObject obj, FixVector2 TargetPosition)
+    {
 
+    }
+    private void WizardAILogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
+    {
+        
+        if (CurrentState == (int)AI_BehaviorType.Dead)
+            return;
+        if (frame == NextChangeStateFrame)
+        {
+            if (CurrentState != (int)AI_BehaviorType.Idle)
+            {
+                CurrentState = 0;
+                NextChangeStateFrame = frame + Idle_FrameInterval;
+
+            }
+            else
+            {
+                if (TempState != (int)AI_BehaviorType.Attack)
+                {
+                    //int Skill = 0;
+                    int Skill = Random.Range(0, 2);
+                    switch (Skill)
+                    {
+                        case 0:
+                            {
+                                CurrentState = (int)AI_BehaviorType.Attack;
+                                break;
+                            }
+                        case 1:
+                            {
+                                CurrentState = (int)AI_BehaviorType.BossSkill1;
+                                break;
+                            }
+                    }
+                    TempState = CurrentState;
+                }
+                else
+                {
+                    CurrentState = (int)AI_BehaviorType.Run;
+                    TempState = CurrentState;
+                }
+
+
+                switch(CurrentState)
+                {
+                    case (int)AI_BehaviorType.Run:
+                        {
+                            Fix64 distance2Player = FixVector2.Distance(NpcPosition, TargetPosition);
+                            FixVector2 vec = ((TargetPosition - NpcPosition) * (Fix64)100).GetNormalized() * DashToDistance;
+                            FixVector2 ToPosition = TargetPosition - vec;
+                            if (distance2Player > DashDistance)
+                            {
+                                Dash = true;
+                                BossTPLogic(frame, obj, ToPosition, TargetPosition.x >= NpcPosition.x);
+                                NextChangeStateFrame = frame + Teleport_FrameInterval;
+                            }
+                            else
+                            {
+                                Dash = false;
+                                BossRunLogic(frame, obj, FixVector2.Zero);
+                                NextChangeStateFrame = frame + Run_FrameInterval;
+                            }
+
+
+                            break;
+                        }
+                    case (int)AI_BehaviorType.Attack:
+                        {
+
+                            BossAttackLogic(frame, obj, TargetPosition);
+                            NextChangeStateFrame = frame + Attack_FrameInterval;
+
+                            break;
+                        }
+
+                    case (int)AI_BehaviorType.BossSkill1:
+                        {
+                            BossSkill1(frame, obj, TargetPosition);
+                            NextChangeStateFrame = frame + Skill1_FrameInterval;
+                            break;
+                        }
+                    case (int)AI_BehaviorType.BossSkill2:
+                        {
+
+                            break;
+                        }
+
+                }
+              
+            }
+        }
+
+    }
     private void RaibitLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
     {
         if (CurrentState == (int)AI_BehaviorType.Dead)
@@ -280,13 +394,6 @@ class AI_BehaviorBase
     }
     private void RangeLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
     {
-
-    }
-    private void StaticRangeAILogic (int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
-    {
-
-        //Debug.Log("NextChangeFrame: "+ NextChangeStateFrame);
-        //Debug.Log("CurrentState: " + CurrentState);
         if (obj.GetComponent<MonsterModel_Component>().HP <= Fix64.Zero)
         {
             obj.GetComponent<AIDestinationSetter>().AI_Switch = false;
@@ -295,7 +402,75 @@ class AI_BehaviorBase
         }
         Fix64 distance2Player = FixVector2.Distance(NpcPosition, TargetPosition);
 
-        //if (distance2Player < AttackDistance && TargetPosition!=Vector2.zero && CurrentState!= (int)AI_BehaviorType.Attack )
+        if (distance2Player < AttackDistance && CurrentState != (int)AI_BehaviorType.Attack)
+        {
+            NextChangeStateFrame = frame;
+            Attack = true;
+        }
+        else
+        {
+            Attack = false;
+        }
+
+        if (frame == NextChangeStateFrame)
+        {
+            if (Attack)
+            {
+                CurrentState = (int)AI_BehaviorType.Attack;
+                TempState = CurrentState;
+            }
+            else
+            {
+                if (TempState == (int)AI_BehaviorType.Attack)
+                {
+                    CurrentState = (int)AI_BehaviorType.Run;
+                    TempState = CurrentState;
+                }
+                else
+                {
+                    CurrentState = (int)AI_BehaviorType.Run;
+                    TempState = CurrentState;
+                }
+            }
+
+            if (obj.GetComponent<MonsterModel_Component>().UnderAttack)
+            {
+                CurrentState = (int)AI_BehaviorType.UnderAttack;
+                TempState = CurrentState;
+            }
+
+            if (CurrentState == (int)AI_BehaviorType.Run)
+            {
+                //Debug.Log("Run");
+                BossRunLogic(frame, obj, FixVector2.Zero);
+                NextChangeStateFrame = frame + Run_FrameInterval;
+            }
+            else if (CurrentState == (int)AI_BehaviorType.Attack)
+            {
+                //Debug.Log("Attack");
+                BossAttackLogic(frame, obj, TargetPosition);
+                NextChangeStateFrame = frame + Attack_FrameInterval;
+            }
+            else if (CurrentState == (int)AI_BehaviorType.UnderAttack)
+            {
+                NextChangeStateFrame = frame + 1;
+            }
+
+        }
+    }
+    private void StaticRangeAILogic (int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
+    {
+
+
+        if (obj.GetComponent<MonsterModel_Component>().HP <= Fix64.Zero)
+        {
+            obj.GetComponent<AIDestinationSetter>().AI_Switch = false;
+            CurrentState = (int)AI_BehaviorType.Dead;
+            return;
+        }
+        Fix64 distance2Player = FixVector2.Distance(NpcPosition, TargetPosition);
+
+     
         if (distance2Player < AttackDistance && CurrentState != (int)AI_BehaviorType.Attack && TargetPosition != FixVector2.Zero)
         {
             //Debug.Log("ChangeState " );
