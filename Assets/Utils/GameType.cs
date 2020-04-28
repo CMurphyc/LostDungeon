@@ -34,6 +34,8 @@ public enum AI_Type
     Boss_Rabit_Egg,
     Engineer_TerretTower,
     Boss_Wizard,
+    Boss_DarkKnight,
+    Boss_DarkKnightSword
 }
 
 

@@ -49,7 +49,7 @@ public class MonsterModel_Component : MonoBehaviour
     /// 当前Debuff效果
     /// </summary>
 
-    public Buff buff;
+    public Buff buff = new Buff();
 
     public DeBuff Debuff;
     /*
@@ -142,8 +142,8 @@ public class MonsterModel_Component : MonoBehaviour
 
 public class Buff
 {
-   
-
+    public bool Undefeadted =false ;
+    public int Undefeadted_RemainingFrame ;
 
 }
 

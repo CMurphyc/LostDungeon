@@ -27,8 +27,9 @@ class AI_BehaviorBase
     public int SummoningInterval = 0;
     public int Skill1_FrameInterval = 0;
     public int Skill1_Duration = 0;
+    public int Skill2_FrameInterval = 0;
     //boss
-    
+
     public Fix64 DashDistance = (Fix64)0;
     //传送到距离玩家距离
     public Fix64 DashToDistance = (Fix64)0;
@@ -94,6 +95,18 @@ class AI_BehaviorBase
                     WizardAILogic(frame, NpcPosition, TargetPosition, obj);
                     break;
                 }
+
+            case AI_Type.Boss_DarkKnight:
+                {
+
+                    DarkKnightLogic(frame, NpcPosition, TargetPosition, obj);
+                    break;
+                }
+            case AI_Type.Boss_DarkKnightSword:
+                {
+                    MeleeLogic(frame, NpcPosition, TargetPosition, obj);
+                    break;
+                }
             default:
                 break;
 
@@ -108,6 +121,25 @@ class AI_BehaviorBase
         obj.transform.position = Vector3.SmoothDamp(obj.transform.position, TargetPos, ref Velocity,Global.FrameRate/1000f);
         //obj.transform.position = new Vector2((float)obj.GetComponent<MonsterModel_Component>().position.x, (float)obj.GetComponent<MonsterModel_Component>().position.y);
 
+        obj.transform.rotation = obj.GetComponent<MonsterModel_Component>().Rotation;
+        switch (type)
+        {
+            case AI_Type.Boss_DarkKnight:
+                {
+                    if (obj.GetComponent<MonsterModel_Component>().buff.Undefeadted )
+                    {
+                        obj.transform.Find("boss01_shield").gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                    else
+                    {
+                        obj.transform.Find("boss01_shield").gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                    break;
+                }
+
+
+
+        }
 
         obj.transform.rotation = obj.GetComponent<MonsterModel_Component>().Rotation;
 
@@ -177,6 +209,109 @@ class AI_BehaviorBase
     { }
     public virtual void BossSkill1(int frame, GameObject obj, FixVector2 TargetPosition)
     {
+
+    }
+    public virtual void BossSkill2(int frame, GameObject obj, FixVector2 TargetPosition)
+    {
+
+    }
+
+
+    private void DarkKnightLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
+    {
+        if (CurrentState == (int)AI_BehaviorType.Dead)
+            return;
+        if (frame == NextChangeStateFrame)
+        {
+            if (CurrentState != (int)AI_BehaviorType.Idle)
+            {
+                CurrentState = 0;
+                NextChangeStateFrame = frame + Idle_FrameInterval;
+
+            }
+            else
+            {
+                if (TempState != (int)AI_BehaviorType.Attack)
+                {
+                    //int Skill = 0;
+                    int Skill = Random.Range(0, 3);
+                    switch (Skill)
+                    {
+                        case 0:
+                            {
+                                CurrentState = (int)AI_BehaviorType.Attack;
+                                break;
+                            }
+                        case 1:
+                            {
+                                CurrentState = (int)AI_BehaviorType.BossSkill1;
+                                break;
+                            }
+                        case 2:
+                            {
+                                CurrentState = (int)AI_BehaviorType.BossSkill2;
+                                break;
+
+                            }
+                    }
+                    TempState = CurrentState;
+                }
+                else
+                {
+                    CurrentState = (int)AI_BehaviorType.Run;
+                    TempState = CurrentState;
+                }
+
+
+                switch (CurrentState)
+                {
+                    case (int)AI_BehaviorType.Run:
+                        {
+                            Fix64 distance2Player = FixVector2.Distance(NpcPosition, TargetPosition);
+                            FixVector2 vec = ((TargetPosition - NpcPosition) * (Fix64)100).GetNormalized() * DashToDistance;
+                            FixVector2 ToPosition = TargetPosition - vec;
+                            if (distance2Player > DashDistance)
+                            {
+                                Dash = true;
+                                BossTPLogic(frame, obj, ToPosition, TargetPosition.x >= NpcPosition.x);
+                                NextChangeStateFrame = frame + Teleport_FrameInterval;
+                            }
+                            else
+                            {
+                                Dash = false;
+                                BossRunLogic(frame, obj, FixVector2.Zero);
+                                NextChangeStateFrame = frame + Run_FrameInterval;
+                            }
+
+
+                            break;
+                        }
+                    case (int)AI_BehaviorType.Attack:
+                        {
+
+                            BossAttackLogic(frame, obj, TargetPosition);
+                            NextChangeStateFrame = frame + Attack_FrameInterval;
+
+                            break;
+                        }
+
+                    case (int)AI_BehaviorType.BossSkill1:
+                        {
+                            BossSkill1(frame, obj, TargetPosition);
+                            NextChangeStateFrame = frame + Skill1_FrameInterval;
+                            break;
+                        }
+                    case (int)AI_BehaviorType.BossSkill2:
+                        {
+                            BossSkill2(frame, obj, TargetPosition);
+                            NextChangeStateFrame = frame + Skill2_FrameInterval;
+                            break;
+                        }
+
+                }
+
+            }
+        }
 
     }
     private void WizardAILogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
@@ -376,7 +511,7 @@ class AI_BehaviorBase
             if (CurrentState == (int)AI_BehaviorType.Run)
             {
                 //Debug.Log("Run");
-                BossRunLogic(frame, obj, FixVector2.Zero);
+                BossRunLogic(frame, obj, TargetPosition);
                 NextChangeStateFrame = frame + Run_FrameInterval;
             }
             else if (CurrentState == (int)AI_BehaviorType.Attack)

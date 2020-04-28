@@ -86,7 +86,35 @@ public class MonsterModule
         UpdateBossSkill();
         UpdateBullet(frame);
         UpdateBossHP();
+        UpdateBuff();
     }
+    //目前只针对Boss
+    void UpdateBuff()
+    {
+        if (RoomToMonster.ContainsKey(BossRoom))
+        {
+            for (int i = 0; i < RoomToMonster[BossRoom].Count;i++ )
+            {
+                GameObject boss = RoomToMonster[BossRoom][i];
+                if (boss.tag == "Boss")
+                {
+                    //Debug.Log("Tag: " + boss.tag);
+                    //Debug.Log("Name: " + boss.name);
+                    if (boss.GetComponent<MonsterModel_Component>().buff.Undefeadted && 
+                        boss.GetComponent<MonsterModel_Component>().buff.Undefeadted_RemainingFrame>0)
+                    {
+                        boss.GetComponent<MonsterModel_Component>().buff.Undefeadted_RemainingFrame--;
+                    }
+                    else
+                    {
+                        boss.GetComponent<MonsterModel_Component>().buff.Undefeadted = false;
+                    }
+                }
+            }
+        }
+    }
+
+
     void UpdateBossSkill()
     {
         List<GameObject> DeleteQueue = new List<GameObject>();
@@ -106,7 +134,7 @@ public class MonsterModule
                 {
                     case SkillType.BossPoison:
                         {
-
+                            // to do 判断是否有人在毒里
 
 
                             break;
