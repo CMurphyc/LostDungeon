@@ -402,12 +402,19 @@ class AI_BehaviorTree : AI_BehaviorBase
             case AI_Type.Boss_DarkKnight:
                 {
                     //to do
-                    int SkillChosen = Random.Range(0, 2);
+                    int SkillChosen = Random.Range(0, 3);
 
                     switch (SkillChosen)
                     {
                         case 0:
                             {
+                                //边攻击边移动
+                                if (!sys._battle._monster.BossMove.ContainsKey(obj))
+                                {
+
+                                    sys._battle._monster.BossMove.Add(obj, Attack_FrameInterval);
+                                }
+
                                 int AttackRate = 25;
                                 int AttackNumber = base.Attack_FrameInterval / AttackRate;
 
@@ -458,6 +465,13 @@ class AI_BehaviorTree : AI_BehaviorBase
                             }
                         case 1:
                             {
+                                //边攻击边移动
+                                if (!sys._battle._monster.BossMove.ContainsKey(obj))
+                                {
+
+                                    sys._battle._monster.BossMove.Add(obj, Attack_FrameInterval);
+                                }
+
                                 int AttackRate = 20;
                                 int AttackNumber = base.Attack_FrameInterval / AttackRate;
 
@@ -469,7 +483,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                                     //Debug.Log("AttackFrame: " + AttackInitFrame);
 
 
-                                    int BulletNumber = 6;
+                                    int BulletNumber = 12;
                                     float angle = 360 / BulletNumber;
 
                                     List<FakeBulletUnion> bulletList = new List<FakeBulletUnion>();
@@ -507,13 +521,65 @@ class AI_BehaviorTree : AI_BehaviorBase
                                 break;
                             }
 
-                    }
-                    //边攻击边移动
-                    if (!sys._battle._monster.BossMove.ContainsKey(obj))
-                    {
+                        case 2:
+                            {
 
-                        sys._battle._monster.BossMove.Add(obj, Attack_FrameInterval);
+
+                                int AttackRate = 5;
+                                int AttackNumber = base.Attack_FrameInterval / AttackRate;
+
+                                int InitAngle = Random.Range(1, 30);
+                                //BulletUnion bu = new BulletUnion(sys._battle);
+                                for (int i = 0; i < AttackNumber; i++)
+                                {
+                                    int AttackInitFrame = frame + i * AttackRate;
+                                    //Debug.Log("AttackFrame: " + AttackInitFrame);
+
+                                    InitAngle -= 5;
+                                    int BulletNumber = 12;
+                                    float angle = 360 / BulletNumber;
+
+                                    List<FakeBulletUnion> bulletList = new List<FakeBulletUnion>();
+
+                                    for (int j = 0; j < BulletNumber; j++)
+                                    {
+                                        List<int> list = new List<int>();
+
+
+                                        float CurrentAngle = InitAngle + angle * j;
+                                        Vector2 toward = new Vector2(Mathf.Cos(CurrentAngle / 180f * Mathf.PI), Mathf.Sin(CurrentAngle / 180f * Mathf.PI));
+                                        toward = toward.normalized;
+
+                                        FakeBulletUnion bu = new FakeBulletUnion(obj, "Boss_Rabit", new FixVector2(obj.GetComponent<MonsterModel_Component>().position.x,
+                                                                            obj.GetComponent<MonsterModel_Component>().position.y),
+                                                                            new FixVector2((Fix64)toward.x,
+                                                                            (Fix64)toward.y),
+                                                                            (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                            Resources.Load("Model/Bullet/Prefab/bullet_89") as GameObject
+                                                                            , list);
+
+                                        bulletList.Add(bu);
+                                    }
+
+                                    if (!sys._battle._monster.bulletEvent.ContainsKey(AttackInitFrame))
+                                    {
+                                        sys._battle._monster.bulletEvent.Add(AttackInitFrame, bulletList);
+                                    }
+                                    else
+                                    {
+                                        sys._battle._monster.bulletEvent[AttackInitFrame] = bulletList;
+                                    }
+                                }
+                                break;
+                            }
+
                     }
+                    ////边攻击边移动
+                    //if (!sys._battle._monster.BossMove.ContainsKey(obj))
+                    //{
+
+                    //    sys._battle._monster.BossMove.Add(obj, Attack_FrameInterval);
+                    //}
                     break;
 
                   
@@ -555,6 +621,9 @@ class AI_BehaviorTree : AI_BehaviorBase
                     obj.GetComponent<MonsterModel_Component>().buff.Undefeadted = true;
                     obj.GetComponent<MonsterModel_Component>().buff.Undefeadted_RemainingFrame = 100;
 
+
+
+                    //sys._message.PopText("Boss无敌时间", 2fs);
                     break;
                 }
 
@@ -588,7 +657,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                             sys._battle._monster.RoomToMonster[RoomID].Add(Sword_Instance);
                         }
                     }
-
+                    //sys._message.PopText("Boss释放剑雨，注意躲避", 2f);
 
                     break;
 
@@ -701,8 +770,6 @@ class AI_BehaviorTree : AI_BehaviorBase
                     Vector3 Euler = new Vector3(0,0,(float) (Mathf.Atan2(toward.y, toward.x) / Mathf.PI* 180) );
                   
                     Boss.GetComponent<MonsterModel_Component>().Rotation= Quaternion.Euler(Euler);
-                   
-                
 
                     break;
                 }

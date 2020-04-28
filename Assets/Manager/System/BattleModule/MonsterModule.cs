@@ -432,16 +432,25 @@ public class MonsterModule
                 temp.RemainingFrame = LeftFrame;
                 LiveEvent.Add(temp);
                 GameObject Boss = item.Key;
-                Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
-                Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
-                //获取当前帧位置
-                Vector3 Pos;
-                Quaternion Rot;
-                Boss.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
 
-                FixVector3 FixMonsterPos = new FixVector3((Fix64)Pos.x, (Fix64)Pos.y, (Fix64)Pos.z);
-                Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
-                Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
+                if (Boss != null)
+                {
+                    Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
+                    Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
+                    //获取当前帧位置
+                    Vector3 Pos;
+                    Quaternion Rot;
+                    Boss.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
+
+                    FixVector3 FixMonsterPos = new FixVector3((Fix64)Pos.x, (Fix64)Pos.y, (Fix64)Pos.z);
+                    Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
+                    Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
+                }
+                else
+                {
+                    tempRemove.Add(item.Key);
+                }
+            
             }
             else
             {
