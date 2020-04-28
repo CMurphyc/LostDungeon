@@ -9,6 +9,8 @@ public class SkillModule
     //房间号-抛射物
     public Dictionary<int, List<SkillBase>> RoomToProjectile = new Dictionary<int, List<SkillBase>>();
 
+    //特效-持续帧数
+    public List<KeyValuePair<GameObject, int>> Effects=new List<KeyValuePair<GameObject, int>>();
 
     public EngineerBase enginerBase;
     public MagicianBase magicianBase;
@@ -38,6 +40,24 @@ public class SkillModule
             List<SkillBase> t = new List<SkillBase>();
             foreach(SkillBase x in p.Value)
             {
+                switch (x.tag)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        foreach (var pler in _parentManager._player.FindPlayerInRoom(p.Key))
+                        {
+                            FixVector2 plerpos = pler.obj.transform.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+                            Fix64 dist = FixVector2.Distance(new FixVector2(plerpos.x,plerpos.y), x.center);
+                            if (dist <= x.radius)
+                            {
+                                /*
+                                pler.obj BeAttacked
+                                */
+                            }
+                        }
+                        break;
+                }
                 if(x.frame==frame)
                 {
                     List<GameObject> btt = new List<GameObject>();
@@ -76,10 +96,20 @@ public class SkillModule
         }
         enginerBase.updateLogic(frame);
         magicianBase.updateLogic(frame);
+
+
     }
     public void UpdateView()
     {
-
+        for (int i = Effects.Count - 1; i >= 0; i--)
+        {
+            Effects[i] = new KeyValuePair<GameObject, int>(Effects[i].Key, Effects[i].Value - 1);
+            if (Effects[i].Value == 0)
+            {
+                Object.Destroy(Effects[i].Key);
+                Effects.RemoveAt(i);
+            }
+        }
 
 
     }

@@ -46,7 +46,6 @@ public class ChestModule:MonoBehaviour
     public void UpdateLogic(int Frame)
     {
         PassRoom(Frame);
-
         for (int i = Chest.Count - 1; i >= 0; i--)
         {
             if (Chest[i].ActFrame > Frame) continue;

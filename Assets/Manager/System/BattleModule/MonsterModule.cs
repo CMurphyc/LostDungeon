@@ -110,6 +110,10 @@ public class MonsterModule
 
         foreach (var item in StatusCounter)
         {
+            if(item.Key==null)
+            {
+                continue;
+            }
             int LeftFrame = item.Value - 1;
             if (LeftFrame > 0)
             {
@@ -267,8 +271,13 @@ public class MonsterModule
             if (RoomToMonster.ContainsKey(RoomID))
             {
                 List<GameObject> MonsterList = RoomToMonster[RoomID];
-                for (int i = 0; i < MonsterList.Count; i++)
+                for (int i = MonsterList.Count-1; i >=0; i--)
                 {
+                    if(MonsterList[i]==null)
+                    {
+                        MonsterList.RemoveAt(i);
+                        continue;
+                    }
                     GameObject Monster = MonsterList[i];
 
                     Vector2 MonsterPos = new Vector2((float)Monster.GetComponent<MonsterModel_Component>().position.x, (float)Monster.GetComponent<MonsterModel_Component>().position.y);
@@ -673,5 +682,18 @@ public class MonsterModule
         }
         return ret;
     }
-
+    public int FindRoomIDByMonster(GameObject Monster)
+    {
+        foreach(var i in RoomToMonster)
+        {
+            foreach(var j in i.Value)
+            {
+                if(Monster==j)
+                {
+                    return i.Key;
+                }
+            }
+        }
+        return -1;
+    }
 }
