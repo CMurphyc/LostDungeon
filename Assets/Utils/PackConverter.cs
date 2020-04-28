@@ -10,10 +10,23 @@ public class PackConverter
         return new FixVector3((Fix64)vec3.x, (Fix64)vec3.y, (Fix64)vec3.z);
     }
 
+    public static FixVector2 Vector3ToFixVector2(Vector3 vec3)
+    {
+        return new FixVector2((Fix64)vec3.x, (Fix64)vec3.y);
+    }
+
+
+
     public static Vector3 FixVector3ToVector3(FixVector3 fixvec3)
     {
         return new Vector3((float)fixvec3.x, (float)fixvec3.y, (float)fixvec3.z);
     }
+    public static Vector2 FixVector2ToVector2(FixVector2 fixvec3)
+    {
+        return new Vector2((float)fixvec3.x, (float)fixvec3.y);
+    }
+
+
 
     public static FixVector2 FixVector3ToFixVector2(FixVector3 fixvec3)
     {
