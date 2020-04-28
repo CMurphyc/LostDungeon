@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -488,7 +488,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 3.67343e-40, y: -1.14e-42, z: 7.1e-44, w: 1.1e-44}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -2921,11 +2921,29 @@ MonoBehaviour:
     type: 3}
   DevilRoom: {fileID: 3690445263335616983, guid: d6d88f771d231d14eb19088f93ec8e30,
     type: 3}
-  GameRoom: {fileID: 1697696665630874966, guid: 80987cca60fc6b14b911dc2588583798,
+  GameRoom: {fileID: 1697696665630874966, guid: dbbe51bc2e8e73d4ebd1c68c1f041235,
     type: 3}
   ShopRoom: {fileID: 2796990184978731865, guid: 81a55069dffd4d9448499c1c838864b9,
     type: 3}
   SacrificeRoom: {fileID: 720766872609787681, guid: 1efc14fd90fa7cb46b9b6cf8bc12f5b1,
+    type: 3}
+  BackGround: {fileID: 7564318367910105630, guid: 5500df92a1f3ab846bb4b9cef2a8b747,
+    type: 3}
+  NormalCurtain: {fileID: 7564318367910105630, guid: 67febdae005eb4641a62518d6f6b5a09,
+    type: 3}
+  LargeCurtain: {fileID: 1487511900672990295, guid: 4e8a711d92ed1704a9e272b1463c9937,
+    type: 3}
+  Lshape1Curtain: {fileID: 3736812948333779373, guid: f7efdbe8b4b57bc4c90fc262678fe86b,
+    type: 3}
+  Lshape2Curtain: {fileID: 156627915694522566, guid: cd1a16d4270820547b1039a8d5235ec9,
+    type: 3}
+  Lshape3Curtain: {fileID: 1639199854357128661, guid: 0bec67e78de7fa54cbcd1b88535cfa83,
+    type: 3}
+  Lshape4Curtain: {fileID: 2805548810662849358, guid: 6eb7a4273bba0474db6103d3b10e6bc1,
+    type: 3}
+  LongRoad1Curtain: {fileID: 5217042452866034487, guid: fef336cde4ceddb42b17091c0d23fb9a,
+    type: 3}
+  LongRoad2Curtain: {fileID: 4035856749874751145, guid: d2a013232d66d12418484d5da5a0e568,
     type: 3}
   NormalDoor:
     upDoor: {fileID: 4917385047953394967, guid: 07c229d87e23d654db93cf842de8bd95,
@@ -3015,18 +3033,6 @@ MonoBehaviour:
       type: 3}
     type: 6
     MonsterID: 0
-  TreasureList:
-  - {fileID: 6167147485909967427, guid: 56d7562070ff5fb4e9c3fb4fe146f3f6, type: 3}
-  - {fileID: 1191563592896174228, guid: 85158bb19b0f2c345972861ae34ede21, type: 3}
-  - {fileID: 6548428581073956927, guid: ad6cebce2766ffc4f90fd349abea9124, type: 3}
-  - {fileID: 8887654901604626354, guid: dc2e428e8cd2225458b3a19e622bd3c7, type: 3}
-  - {fileID: 7228520739801652520, guid: 12f796cf506203d418246569e31c6e5c, type: 3}
-  - {fileID: 6909067098567022676, guid: f79384366305e8c43b969c997eb285e0, type: 3}
-  - {fileID: 6520889025348594599, guid: 6799cc6696c599640b6591d35937427a, type: 3}
-  - {fileID: 5139268068570486322, guid: a45dde7a07d02924b82e90588d3c648a, type: 3}
-  - {fileID: 1627870031858258325, guid: 42936887183665c4bbbe710c6df2d810, type: 3}
-  - {fileID: 4779283928435966377, guid: 1170f59680bc8004990d30f9aff24a0b, type: 3}
-  - {fileID: 8273542065605736142, guid: 0ab1cbdc6e6531e44a27ecdade3704fe, type: 3}
   MonsterInitHP: 0500000005000000050000000500000005000000
   NormalNormalTerrain:
   - {fileID: 2592502930492833309, guid: f1d5c5a0de1d978489050a2f6d36e72f, type: 3}
