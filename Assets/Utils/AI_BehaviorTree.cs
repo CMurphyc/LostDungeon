@@ -66,8 +66,8 @@ class AI_BehaviorTree : AI_BehaviorBase
             base.Teleport_FrameInterval = 1;
             base.DashToDistance = (Fix64)2f;
             base.SummoningInterval = 20;
-            base.Skill1_FrameInterval = 1;
-            base.Skill2_FrameInterval = 1;
+            base.Skill1_FrameInterval = 20;
+            base.Skill2_FrameInterval = 20;
         }
     }
     public override void BossTPLogic(int frame, GameObject obj, FixVector2 ToPos, bool rot)
@@ -443,14 +443,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                                         bulletList.Add(bu);
                                     }
 
-                                    if (!sys._battle._monster.bulletEvent.ContainsKey(AttackInitFrame))
-                                    {
-                                        sys._battle._monster.bulletEvent.Add(AttackInitFrame, bulletList);
-                                    }
-                                    else
-                                    {
-                                        sys._battle._monster.bulletEvent[AttackInitFrame] = bulletList;
-                                    }
+
                                 }
 
                                 break;
