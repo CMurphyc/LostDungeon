@@ -120,10 +120,40 @@ public struct DoorData
 public struct TreasureData
 {
     public int treasureId;
+    public TreasureType treasuretType;
     public GameObject treasureObejct;
-    public TreasureData(int _treasureId, GameObject _treasureObject)
+    public TreasureData(int _treasureId, TreasureType _treasureType, GameObject _treasureObject)
     {
         treasureId = _treasureId;
+        treasuretType = _treasureType;
         treasureObejct = _treasureObject;
     }
+}
+
+
+
+[System.Serializable]
+public class Door
+{
+    public GameObject upDoor;
+    public GameObject downDoor;
+    public GameObject leftDoor;
+    public GameObject rightDoor;
+}
+
+public enum TreasureType
+{
+    Buff = 1,
+    Penetrate = 201,
+    Sputtering = 202,
+    LightningChain = 203,
+    Freeze = 204,
+    Poision = 205,
+    Burn = 206,
+    Dizziness = 207,
+    Retard = 208,
+    Bigger = 209,
+    Smaller = 210,
+    Longer = 211,
+    Initiative = 3
 }

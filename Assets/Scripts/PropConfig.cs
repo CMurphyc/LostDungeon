@@ -8,6 +8,8 @@ using System;
 [Serializable]
 public class PropData
 {
+    [Header("道具类别")]
+    public TreasureType propType;
     [Header("道具ID")]
     public int propId;
     [Header("道具实体")]
@@ -22,6 +24,7 @@ public class PropData
     public int changeDamage;
     [Header("改变移动速度")]
     public float changeSpeed;
+    
 }
 
 [CreateAssetMenu(menuName = "Editor/PropConfig")]
