@@ -442,6 +442,14 @@ class AI_BehaviorTree : AI_BehaviorBase
                                                                             , list);
                                         bulletList.Add(bu);
                                     }
+                                    if (!sys._battle._monster.bulletEvent.ContainsKey(AttackInitFrame))
+                                    {
+                                        sys._battle._monster.bulletEvent.Add(AttackInitFrame, bulletList);
+                                    }
+                                    else
+                                    {
+                                        sys._battle._monster.bulletEvent[AttackInitFrame] = bulletList;
+                                    }
 
 
                                 }
