@@ -176,6 +176,7 @@ public class EventListener : MonoBehaviour
             {
                 Debug.Log("开始帧同步");
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.isLoadingCompleted = true;
+                main.GetComponent<GameMain>().WorldSystem._map.CurrentScene = "MapCreate";
             }
             else
             {
@@ -191,7 +192,7 @@ public class EventListener : MonoBehaviour
         {
             if (synPack.Succeed)
             {
-                Debug.Log("进入第" + synPack.FloorNumber + "层");
+                Debug.Log("准备进入第" + synPack.FloorNumber + "层");
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapFloorNumber = synPack.FloorNumber;
                 main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoadingPanel");
             }

@@ -13,7 +13,7 @@ public class MapManager : SceneManager
 
     int SceneIndex = 0;
 
-    string CurrentScene  = "LoginPanel";
+    public string CurrentScene  = "LoginPanel";
 
     SystemManager sys;
 

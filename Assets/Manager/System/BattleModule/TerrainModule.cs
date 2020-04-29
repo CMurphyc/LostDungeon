@@ -104,12 +104,11 @@ public class TerrainModule
                   
                     if (!InGateRange)
                     {
-                        // to do 
-                       GameObject.FindWithTag("GameEntry").GetComponent<GameMain>().socket.sock_c2s.NextFloor(
-                           _parentManager.sys._model._RoomModule.MapFloorNumber
-                        );
-                        Debug.Log("去下一层了！");
                         //发送传送下一层请求
+                        GameObject.FindWithTag("GameEntry").GetComponent<GameMain>().socket.sock_c2s.NextFloor(
+                           _parentManager.sys._model._RoomModule.MapFloorNumber + 1
+                        );
+                        
                         InGateRange = true;
                     }
                 }
