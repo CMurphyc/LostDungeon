@@ -75,7 +75,7 @@ public class RoomListEvent : MonoBehaviour
 
         if (contentSize.y <= messages.Count * itemHeight)//增加内容的高度
         {
-            parent.GetComponent<RectTransform>().sizeDelta = new Vector2(contentSize.x, messages.Count * itemHeight);
+            //parent.GetComponent<RectTransform>().sizeDelta = new Vector2(contentSize.x, messages.Count * itemHeight);
         }
     }
     public void EnterRoom(GameObject t)

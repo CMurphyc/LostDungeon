@@ -27,8 +27,8 @@ public class explode
 
     public explode(FixVector2 anchor)
     {
-        this.centerCircle = Resources.Load("Effects/circle") as GameObject;
-        this.allaroundRect = Resources.Load("Effects/rect") as GameObject;
+        this.centerCircle = Resources.Load("Effects/Prefab/circle") as GameObject;
+        this.allaroundRect = Resources.Load("Effects/Prefab/rect") as GameObject;
         this.anchor = anchor;
         this.circleA = 1;
 
