@@ -135,13 +135,24 @@ public class CollideDetecter
     }
     public bool LineCollideLine(Line line1, Line line2)
     {
-        var crossA = Fix64.Sign((Fix64)Vector3.Cross(Vector2ToFixVector2(line2.p2) - Vector2ToFixVector2(line2.p1), Vector2ToFixVector2(line1.p1) - Vector2ToFixVector2(line2.p1)).y);
-        var crossB = Fix64.Sign((Fix64)Vector3.Cross(Vector2ToFixVector2(line2.p2) - Vector2ToFixVector2(line2.p1), Vector2ToFixVector2(line1.p2) - Vector2ToFixVector2(line2.p1)).y);
+        //var crossA = Fix64.Sign((Fix64)Vector3.Cross(Vector2ToFixVector2(line2.p2) - Vector2ToFixVector2(line2.p1), Vector2ToFixVector2(line1.p1) - Vector2ToFixVector2(line2.p1)).y);
+        //var crossB = Fix64.Sign((Fix64)Vector3.Cross(Vector2ToFixVector2(line2.p2) - Vector2ToFixVector2(line2.p1), Vector2ToFixVector2(line1.p2) - Vector2ToFixVector2(line2.p1)).y);
+
+        //if (Mathf.Approximately(crossA, crossB)) return false;
+
+        //var crossC = Fix64.Sign((Fix64)Vector3.Cross(Vector2ToFixVector2(line1.p2) - Vector2ToFixVector2(line1.p1), Vector2ToFixVector2(line2.p1) - Vector2ToFixVector2(line1.p1)).y);
+        //var crossD = Fix64.Sign((Fix64)Vector3.Cross(Vector2ToFixVector2(line1.p2) - Vector2ToFixVector2(line1.p1), Vector2ToFixVector2(line2.p2) - Vector2ToFixVector2(line1.p1)).y);
+
+
+        //if (Mathf.Approximately(crossC, crossD)) return false;
+
+        var crossA = Fix64.Sign(FixVector3.Cross(PackConverter.FixVector2ToFixVector3(line2.p2 - line2.p1), PackConverter.FixVector2ToFixVector3(line1.p1 - line2.p1)).y);
+        var crossB = Fix64.Sign(FixVector3.Cross(PackConverter.FixVector2ToFixVector3(line2.p2 - line2.p1), PackConverter.FixVector2ToFixVector3(line1.p2 - line2.p1)).y);
 
         if (Mathf.Approximately(crossA, crossB)) return false;
 
-        var crossC = Fix64.Sign((Fix64)Vector3.Cross(Vector2ToFixVector2(line1.p2) - Vector2ToFixVector2(line1.p1), Vector2ToFixVector2(line2.p1) - Vector2ToFixVector2(line1.p1)).y);
-        var crossD = Fix64.Sign((Fix64)Vector3.Cross(Vector2ToFixVector2(line1.p2) - Vector2ToFixVector2(line1.p1), Vector2ToFixVector2(line2.p2) - Vector2ToFixVector2(line1.p1)).y);
+        var crossC = Fix64.Sign(FixVector3.Cross(PackConverter.FixVector2ToFixVector3(line1.p2 - line1.p1), PackConverter.FixVector2ToFixVector3(line2.p1 - line1.p1)).y);
+        var crossD = Fix64.Sign(FixVector3.Cross(PackConverter.FixVector2ToFixVector3(line1.p2 - line1.p1), PackConverter.FixVector2ToFixVector3(line2.p2 - line1.p1)).y);
 
 
         if (Mathf.Approximately(crossC, crossD)) return false;

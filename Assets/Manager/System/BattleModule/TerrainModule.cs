@@ -13,6 +13,9 @@ public class TerrainModule
     public Dictionary<int, DoorData> doorToDoor = new Dictionary<int, DoorData>() ;                     // 一个编号的门传送到的另一个门的编号
     public Dictionary<int, int> doorToRoom = new Dictionary<int, int>() ;                               // 一个编号的门对应的房间编号
     CollideDetecter collideDetecter = new CollideDetecter();
+
+    public FixVector2 BossSpawningPoint = new FixVector2();
+
     public TerrainModule(BattleManager parent)
     {
         _parentManager = parent;

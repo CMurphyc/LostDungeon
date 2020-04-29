@@ -346,6 +346,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                     {
                                         if (BossList[floorNum - 1] != null)
                                         {
+                                            FixVector2 MonsterSpawningPoint = PackConverter.Vector3ToFixVector2(child.transform.position);
+                                            sys._battle._terrain.BossSpawningPoint = MonsterSpawningPoint;
                                             if (BossList[floorNum - 1].type == AI_Type.Boss_Rabit)
                                             {
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
@@ -354,8 +356,32 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
 
                                                 monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom,null);
+                                                monsters.Add(monster);
+                                            }
+                                            else if (BossList[floorNum - 1].type == AI_Type.Boss_Wizard)
+                                            {
+                                                GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
+                                                monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
+                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
+
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
 
                                                 monsters.Add(monster);
+
+                                            }
+
+                                            else if (BossList[floorNum - 1].type == AI_Type.Boss_DarkKnight)
+                                            {
+                                                GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
+                                                monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
+                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
+
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
+
+                                                monsters.Add(monster);
+
                                             }
                                         }
                                     }

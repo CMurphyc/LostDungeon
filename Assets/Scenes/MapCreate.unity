@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 104380077}
   - component: {fileID: 104380076}
   - component: {fileID: 104380075}
-  - component: {fileID: 104380079}
+  - component: {fileID: 104380080}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -526,7 +526,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &104380079
+--- !u!114 &104380080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -535,7 +535,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 104380074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97225bce311cd8c4a81b52768482e1c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f5534ad21bfd3f45a31f2bab7d73850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BossUI: {fileID: 593834535}
@@ -7813,9 +7813,9 @@ MonoBehaviour:
     type: 0
     MonsterID: 0
   BossList:
-  - monsterGameObject: {fileID: 870878452893989547, guid: 35bc7c21a8abe234180c112b64e042bc,
+  - monsterGameObject: {fileID: 318027278806863884, guid: ab1ba0daf5aa06345bd5e212f9266866,
       type: 3}
-    type: 2
+    type: 6
     MonsterID: 0
   TreasureList:
   - {fileID: 6167147485909967427, guid: 56d7562070ff5fb4e9c3fb4fe146f3f6, type: 3}

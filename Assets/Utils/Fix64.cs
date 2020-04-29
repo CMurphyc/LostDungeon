@@ -658,6 +658,15 @@ public struct FixVector3
     {
         return from * (1 - factor) + to * factor;
     }
+    public static FixVector3 Cross(FixVector3 u, FixVector3 v)
+    {
+        FixVector3 ret = new FixVector3();
+
+        ret.x = u.y * v.z - u.z * v.y;
+        ret.y = -(u.x * v.z - u.z * v.x);
+        ret.z = u.x * v.y - u.y * v.x;
+        return ret;
+    }
 #if _CLIENTLOGIC_
     public UnityEngine.Vector3 ToVector3()
     {

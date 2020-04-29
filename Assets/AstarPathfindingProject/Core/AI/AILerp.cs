@@ -384,7 +384,8 @@ namespace Pathfinding {
 		/// <summary>True if the path should be automatically recalculated as soon as possible</summary>
 		protected virtual bool shouldRecalculatePath {
 			get {
-				return Time.time - lastRepath >= repathRate && canSearchAgain && canSearch && !float.IsPositiveInfinity(destination.x);
+				return canSearchAgain && canSearch && !float.IsPositiveInfinity(destination.x);
+				// return Time.time - lastRepath >= repathRate && canSearchAgain && canSearch && !float.IsPositiveInfinity(destination.x);
 			}
 		}
 
@@ -402,7 +403,7 @@ namespace Pathfinding {
 			if (float.IsPositiveInfinity(destination.x)) return;
 			if (onSearchPath != null) onSearchPath();
 
-			lastRepath = Time.time;
+			// lastRepath = Time.time;
 
 			// This is where the path should start to search from
 			var currentPosition = GetFeetPosition();
@@ -520,7 +521,7 @@ namespace Pathfinding {
 				ClearPath();
 			} else if (path.PipelineState == PathState.Created) {
 				// Path has not started calculation yet
-				lastRepath = Time.time;
+				// lastRepath = Time.time;
 				canSearchAgain = false;
 				seeker.CancelCurrentPathRequest();
 				seeker.StartPath(path);
@@ -571,13 +572,13 @@ namespace Pathfinding {
 		}
 
 		protected virtual void Update () {
-			if (shouldRecalculatePath) SearchPath();
-			if (canMove) {
-				Vector3 nextPosition;
-				Quaternion nextRotation;
-				MovementUpdate(Time.deltaTime, out nextPosition, out nextRotation);
-				FinalizeMovement(nextPosition, nextRotation);
-			}
+			// if (shouldRecalculatePath) SearchPath();
+			// if (canMove) {
+			// 	Vector3 nextPosition;
+			// 	Quaternion nextRotation;
+			// 	MovementUpdate(Time.deltaTime, out nextPosition, out nextRotation);
+			// 	FinalizeMovement(nextPosition, nextRotation);
+			// }
 		}
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::MovementUpdate</summary>

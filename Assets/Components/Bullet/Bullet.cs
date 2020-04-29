@@ -5,6 +5,7 @@ using System;
 
 public class FakeBulletUnion
 {
+    public GameObject boss;
     public string tag;
     public FixVector2 anchor;
     public FixVector2 toward;
@@ -13,8 +14,9 @@ public class FakeBulletUnion
     public int roomid;
     public GameObject bulletPrefab;
     public List<int> itemList;
-    public FakeBulletUnion(string tag2, FixVector2 anchor2, FixVector2 toward2, Fix64 speed2, Fix64 damage2, int roomid2, GameObject bulletPrefab2, List<int> itemList2)
+    public FakeBulletUnion(GameObject obj , string tag2, FixVector2 anchor2, FixVector2 toward2, Fix64 speed2, Fix64 damage2, int roomid2, GameObject bulletPrefab2, List<int> itemList2)
     {
+        boss = obj;
         tag = tag2;
         anchor = anchor2;
         toward = toward2;
@@ -449,6 +451,8 @@ public class BulletUnion : BulletBase
         {
             Bullet bullet = it;
             if (bullet.active == true) bullet.anchor += bullet.toward * bullet.speed;
+
+           
             latestBullet.Add(bullet);
         }
 
@@ -468,7 +472,8 @@ public class BulletUnion : BulletBase
                 //bulletList[i].transform.localScale = Converter.FixVector2ToVector2(spwanedBullet[i].bulletScale);
                 //更新子弹位置
                 //每次移动定位子弹speed的1/5，以免出现step太大导致的移动不平滑的问题
-                bulletList[i].transform.position = Vector2.MoveTowards(bulletList[i].transform.position, Converter.FixVector2ToVector2(spwanedBullet[i].anchor), (float)spwanedBullet[i].speed);
+                //bulletList[i].transform.position = Vector2.MoveTowards(bulletList[i].transform.position, Converter.FixVector2ToVector2(spwanedBullet[i].anchor), (float)spwanedBullet[i].speed);
+                bulletList[i].transform.position = Converter.FixVector2ToVector2(spwanedBullet[i].anchor);
             }
         }
 
@@ -517,12 +522,12 @@ class Converter
 {
     public static Fix64 DegreeToRadian(Fix64 degree)
     {
-        return Mathf.PI / 180f * degree;
+        return Fix64.PI / (Fix64)180 * degree;
     }
 
     public static Fix64 RadianToDegree(Fix64 Radian)
     {
-        return Radian * 180 / Mathf.PI;
+        return Radian * (Fix64)180 / Fix64.PI;
     }
 
     public static Vector2 FixVector2ToVector2(FixVector2 v)
@@ -542,7 +547,7 @@ class Converter
 
         FixVector2 rotateVector = new FixVector2(length * Fix64.Cos(originAngle + DegreeToRadian(rotateAngle)), length * Fix64.Sin(originAngle + DegreeToRadian(rotateAngle)));
 
-        return rotateVector;
+        return rotateVector.GetNormalized() ;
     }
 }
 

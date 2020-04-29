@@ -52,6 +52,9 @@ public class MonsterModule
     public List<BulletUnion> bulletList = new List<BulletUnion>();
     //Boss子弹触发帧
     public Dictionary<int, List<FakeBulletUnion>> bulletEvent = new Dictionary<int, List<FakeBulletUnion>>();
+    //Boss持续伤害技能
+    public List<GameObject> BossSkill = new List<GameObject>();
+
 
 
     /// <summary>
@@ -80,9 +83,81 @@ public class MonsterModule
         MonsterAILogic(frame);
         MonsterBeAttackHandler(frame);
         MonsterDeadHandler();
+        UpdateBossSkill();
         UpdateBullet(frame);
         UpdateBossHP();
+        UpdateBuff();
     }
+    //目前只针对Boss
+    void UpdateBuff()
+    {
+        if (RoomToMonster.ContainsKey(BossRoom))
+        {
+            for (int i = 0; i < RoomToMonster[BossRoom].Count;i++ )
+            {
+                GameObject boss = RoomToMonster[BossRoom][i];
+                if (boss.tag == "Boss")
+                {
+                    //Debug.Log("Tag: " + boss.tag);
+                    //Debug.Log("Name: " + boss.name);
+                    if (boss.GetComponent<MonsterModel_Component>().buff.Undefeadted && 
+                        boss.GetComponent<MonsterModel_Component>().buff.Undefeadted_RemainingFrame>0)
+                    {
+                        boss.GetComponent<MonsterModel_Component>().buff.Undefeadted_RemainingFrame--;
+                    }
+                    else
+                    {
+                        boss.GetComponent<MonsterModel_Component>().buff.Undefeadted = false;
+                    }
+                }
+            }
+        }
+    }
+
+
+    void UpdateBossSkill()
+    {
+        List<GameObject> DeleteQueue = new List<GameObject>();
+
+        for (int i = 0; i < BossSkill.Count;i++)
+        {
+            GameObject Skill = BossSkill[i];
+            SkillType type = Skill.GetComponent<Skill_Component>().SkillType;
+            int RemainingFrame = Skill.GetComponent<Skill_Component>().RemainingFrame;
+            if (RemainingFrame <= 0)
+            {
+                DeleteQueue.Add(Skill);
+            }
+            else
+            {
+                switch (type)
+                {
+                    case SkillType.BossPoison:
+                        {
+                            // to do 判断是否有人在毒里
+
+
+                            break;
+                        }
+                }
+
+
+                Skill.GetComponent<Skill_Component>().RemainingFrame--;
+            }
+        }
+
+        for (int i = 0; i < DeleteQueue.Count;i++)
+        {
+            GameObject temp = DeleteQueue[i];
+            if (BossSkill.Contains(temp))
+            {
+                BossSkill.Remove(temp);
+                Object.Destroy(temp);
+            }
+        }
+        DeleteQueue.Clear();
+    }
+
     void UpdateBullet(int frame)
     {
         if (bulletEvent.ContainsKey(frame))
@@ -91,7 +166,10 @@ public class MonsterModule
             {
                 FakeBulletUnion temp = bulletEvent[frame][i];
                 BulletUnion bu = new BulletUnion(_parentManager);
-                bu.BulletInit(temp.tag,temp.anchor,temp.toward,temp.speed,temp.damage,temp.roomid,temp.bulletPrefab,temp.itemList);
+
+                FixVector2 MonsterPos = PackConverter.FixVector3ToFixVector2(temp.boss.GetComponent<MonsterModel_Component>().position);
+
+                bu.BulletInit(temp.tag, MonsterPos, temp.toward,temp.speed,temp.damage,temp.roomid,temp.bulletPrefab,temp.itemList);
                 bulletList.Add(bu);
             }
             bulletEvent.Remove(frame);
@@ -280,7 +358,8 @@ public class MonsterModule
                     }
                     GameObject Monster = MonsterList[i];
 
-                    Vector2 MonsterPos = new Vector2((float)Monster.GetComponent<MonsterModel_Component>().position.x, (float)Monster.GetComponent<MonsterModel_Component>().position.y);
+                    //FixVector2 MonsterPos = new Vector2((float)Monster.GetComponent<MonsterModel_Component>().position.x, (float)Monster.GetComponent<MonsterModel_Component>().position.y);
+                    FixVector2 MonsterPos =PackConverter.FixVector3ToFixVector2(Monster.GetComponent<MonsterModel_Component>().position);
                     GameObject Target = FindClosePlayer(MonsterPos, RoomID);
 
                     //Debug.Log("HP:　"+ Monster.GetComponent<MonsterModel_Component>().HP);
@@ -362,16 +441,25 @@ public class MonsterModule
                 temp.RemainingFrame = LeftFrame;
                 LiveEvent.Add(temp);
                 GameObject Boss = item.Key;
-                Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
-                Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
-                //获取当前帧位置
-                Vector3 Pos;
-                Quaternion Rot;
-                Boss.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
 
-                FixVector3 FixMonsterPos = new FixVector3((Fix64)Pos.x, (Fix64)Pos.y, (Fix64)Pos.z);
-                Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
-                Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
+                if (Boss != null)
+                {
+                    Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
+                    Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
+                    //获取当前帧位置
+                    Vector3 Pos;
+                    Quaternion Rot;
+                    Boss.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
+
+                    FixVector3 FixMonsterPos = new FixVector3((Fix64)Pos.x, (Fix64)Pos.y, (Fix64)Pos.z);
+                    Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
+                    Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
+                }
+                else
+                {
+                    tempRemove.Add(item.Key);
+                }
+            
             }
             else
             {
@@ -648,17 +736,18 @@ public class MonsterModule
         return ret;
     }
 
-    GameObject FindClosePlayer(Vector2 MonsterPos, int RoomID )
+    GameObject FindClosePlayer(FixVector2 MonsterPos, int RoomID )
     {
         GameObject ret = null;
-        float Min_Distance = 99999;
+        Fix64 Min_Distance = (Fix64)99999;
 
      
         List<PlayerInGameData> PlayerInRoomList = _parentManager._player.FindPlayerInRoom(RoomID);
         for (int i = 0; i < PlayerInRoomList.Count; i++)
         {
-            Vector2 PlayerPos = new Vector2 ((float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x, (float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y);
-            float distance = Vector2.Distance(PlayerPos, MonsterPos);
+            //Vector2 PlayerPos = new Vector2 ((float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x, (float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y);
+            FixVector2 PlayerPos = PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+            Fix64 distance = FixVector2.Distance(PlayerPos, MonsterPos);
             if (distance< Min_Distance)
             {
                 Min_Distance = distance;
