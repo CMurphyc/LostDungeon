@@ -14,6 +14,8 @@ public class BattleManager
     public PlayerDataModule _player;
     public SkillModule _skill;
     public TerrainModule _terrain;
+    public ChestModule _chest;
+
 
     public int Seed;
     public int SeverFrame;
@@ -27,6 +29,7 @@ public class BattleManager
         _player = new PlayerDataModule(this);
         _skill = new SkillModule(this);
         _terrain = new TerrainModule(this);
+        _chest = new ChestModule(this);
     }
 
 
@@ -44,6 +47,7 @@ public class BattleManager
         _monster.UpdateLogic(local_frame);
         _skill.UpdateLogic(local_frame);
         _terrain.UpdateLogic(local_frame);
+        _chest.UpdateLogic(local_frame) ;
         local_frame++;
 
 
@@ -56,6 +60,7 @@ public class BattleManager
         _player.UpdateView();
         _skill.UpdateView();
         _terrain.UpdateView();
+        _chest.UpdateView(local_frame);
     }
 
 }

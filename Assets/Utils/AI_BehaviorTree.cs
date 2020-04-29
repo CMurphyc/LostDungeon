@@ -246,6 +246,19 @@ class AI_BehaviorTree : AI_BehaviorBase
             case AI_Type.Boss_Rabit_Egg:
                 {
                     Debug.Log("蛋蛋攻击");
+                    GameObject egg_explosion = Object.Instantiate(Resources.Load("Model/dddppp/Effects/Prefabs/egg_explosion", typeof(GameObject)), obj.transform.position, obj.transform.rotation) as GameObject;
+                    sys._battle._skill.Effects.Add(new KeyValuePair<GameObject, int>(egg_explosion, 10));
+                    //Debug.Log(sys._battle._monster.FindRoomIDByMonster(obj));
+
+                    sys._battle._skill.Add(
+                        new SkillBase(1, 1,
+                        new FixVector2(obj.transform.GetComponent<MonsterModel_Component>().position.x, obj.transform.GetComponent<MonsterModel_Component>().position.y),
+                        Fix64.One,
+                        0,
+                        frame + 5),
+                        sys._battle._monster.FindRoomIDByMonster(obj));
+                    obj.transform.GetComponent<MonsterModel_Component>().HP = Fix64.Zero;
+                    Object.Destroy(obj);
                     break;
                 }
             case AI_Type.Engineer_TerretTower:
