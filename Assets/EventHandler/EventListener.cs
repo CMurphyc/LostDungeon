@@ -21,7 +21,7 @@ public class EventListener : MonoBehaviour
         EventDispatcher.Instance().RegistEventListener(EventMessageType.StartGame, StartGame);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.BattleSyn, BattleSyn);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.StartSync, StartSync);
-    
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.NextFloor, NextFloor);
     }
 
     void BattleSyn(EventBase eb)
@@ -180,6 +180,24 @@ public class EventListener : MonoBehaviour
             else
             {
                 Debug.Log("开始帧同步失败");
+            }
+        }
+    }
+
+    void NextFloor(EventBase eb)
+    {
+        NextFloorS2C synPack = (NextFloorS2C)eb.eventValue;
+        if (synPack.Error == 0)
+        {
+            if (synPack.Succeed)
+            {
+                Debug.Log("进入第" + synPack.FloorNumber + "层");
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapFloorNumber = synPack.FloorNumber;
+                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoadingPanel");
+            }
+            else
+            {
+                Debug.Log("进入下一层失败");
             }
         }
     }

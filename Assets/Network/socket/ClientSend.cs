@@ -156,4 +156,11 @@ public class ClientSend
         StartGameC2S pack = new StartGameC2S();
         Send(pack.ToByteArray(), GeneralType.StartSyncC2S);
     }
+
+    public void NextFloor(int floorNumber)
+    {
+        NextFloorC2S pack = new NextFloorC2S();
+        pack.FloorNumber = floorNumber;
+        Send(pack.ToByteArray(), GeneralType.NextFloorC2S);
+    }
 }
