@@ -263,9 +263,39 @@ public class BulletUnion : BulletBase
         bullet.bulletScale.x *= 1.5f;
     }
 
-    private void Reflection(Bullet bullet, FixVector2 anchor)
+    private void FixBulletPosition(Bullet bullet, Rectangle rect)
     {
-       bullet.toward = Converter.NormalFixVector2Rotate(bullet.toward, (Fix64)(90f));
+        if(rect.horizon < rect.vertical)
+        {
+            //避免刚好切于墙体，在修正子弹位置的时候再偏移一点点
+            if(bullet.toward.x < Fix64.Zero) bullet.anchor.x = rect.anchor.x + (rect.horizon / (Fix64)2f) + (Fix64)0.01f;
+            else if(bullet.toward.x > Fix64.Zero) bullet.anchor.x = rect.anchor.x - (rect.horizon / (Fix64)2f) - (Fix64)0.01f;
+        }
+
+        if(rect.horizon > rect.vertical)
+        {
+            if(bullet.toward.y > Fix64.Zero) bullet.anchor.y = rect.anchor.y - (rect.vertical / (Fix64)2f) - (Fix64)0.01f;
+            else if(bullet.toward.y < Fix64.Zero) bullet.anchor.y = rect.anchor.y + (rect.vertical / (Fix64)2f) + (Fix64)0.01f;
+        }
+    }
+
+    private void Reflection(Bullet bullet, Rectangle rect)
+    {
+        if(rect.horizon < rect.vertical)
+        {
+            // if(bullet.toward.x < Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
+            if(bullet.toward.x < Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
+            else if(bullet.toward.x < Fix64.Zero && bullet.toward.y > Fix64.Zero) bullet.toward = new FixVector2(bullet.toward.y, -bullet.toward.x);
+            else if(bullet.toward.x > Fix64.Zero && bullet.toward.y > Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
+            else if(bullet.toward.x > Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(bullet.toward.y, -bullet.toward.x);
+        }
+        if(rect.horizon > rect.vertical) 
+        {
+            if(bullet.toward.x < Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(bullet.toward.y, -bullet.toward.x);
+            else if(bullet.toward.x < Fix64.Zero && bullet.toward.y > Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
+            else if(bullet.toward.x > Fix64.Zero && bullet.toward.y > Fix64.Zero) bullet.toward = new FixVector2(bullet.toward.y, -bullet.toward.x);
+            else if(bullet.toward.x > Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
+        }
     }
     public override void LogicUpdate()
     {
@@ -394,11 +424,14 @@ public class BulletUnion : BulletBase
 
                 if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                 {
+                    //修正子弹位置，避免子弹因step长度嵌入obstacle的问题
+                    FixBulletPosition(spwanedBullet[i], rect);
                     if(spwanedBullet[i].bounce == true) 
                     {
                         spwanedBullet[i].active = true;
                         spwanedBullet[i].bounce = false;
-                        Reflection(spwanedBullet[i], rect.anchor);
+                        // spwanedBullet[i].toward = Reflection(spwanedBullet[i], rect);
+                        Reflection(spwanedBullet[i], rect);
                     }
                     else spwanedBullet[i].active = false;
                     //理论上一个子弹最多只可能击中一个墙，因为不可能穿墙，但是如果吃了弹射buff，那他就可以弹一次
