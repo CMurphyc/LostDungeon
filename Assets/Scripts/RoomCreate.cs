@@ -434,7 +434,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                             // Debug.Log(treasure.name);
                             Debug.Log(treasure.name + "   " + treasureId);
                             stones.Add(child);
-                            treasures.Add(new TreasureData(treasureId, propToProperty[treasureId].propType, propToProperty[treasureId].propObject));
+                            treasures.Add(new TreasureData(treasureId, propToProperty[treasureId].propType, child, propToProperty[treasureId].propObject, false));
                         }
                     }
                 }

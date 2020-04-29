@@ -124,14 +124,18 @@ public struct DoorData
 
 public struct TreasureData
 {
-    public int treasureId;
-    public TreasureType treasuretType;
-    public GameObject treasureObejct;
-    public TreasureData(int _treasureId, TreasureType _treasureType, GameObject _treasureObject)
+    public int treasureId;   // 道具在配置表中的下标
+    public TreasureType treasuretType;   // 道具的种类   改变人物或子弹属性 / 改变子弹形态 / 主动道具
+    public GameObject treasureTable;   // 道具对应的桌子实体
+    public GameObject treasureObejct;   // 道具实体
+    public bool active;   // 道具是否已经被拾取
+    public TreasureData(int _treasureId, TreasureType _treasureType, GameObject _treasureTable, GameObject _treasureObject, bool _active)
     {
         treasureId = _treasureId;
         treasuretType = _treasureType;
+        treasureTable = _treasureTable;
         treasureObejct = _treasureObject;
+        active = _active;
     }
 }
 
@@ -149,6 +153,12 @@ public class Door
 public enum TreasureType
 {
     Buff = 1,
+    BulletChange = 2,
+    Initiative = 3
+}
+
+public enum BulletChange
+{
     Penetrate = 201,
     Sputtering = 202,
     LightningChain = 203,
@@ -159,6 +169,5 @@ public enum TreasureType
     Retard = 208,
     Bigger = 209,
     Smaller = 210,
-    Longer = 211,
-    Initiative = 3
+    Longer = 211
 }
