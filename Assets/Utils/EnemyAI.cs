@@ -139,6 +139,22 @@ class AI_Enemy : AI_BehaviorBase
                 }
             case AI_Type.Normal_Melee:
                 {
+                    Debug.Log("attacked!!!!!!!!");
+                    foreach(var x in sys._battle._player.playerToPlayer)
+                    {
+                        PlayerInGameData p = x.Value;
+                        Fix64 dist = FixVector2.Distance(p.obj.GetComponent<PlayerModel_Component>().playerPosition,
+                            new FixVector2(obj.GetComponent<MonsterModel_Component>().position.x, obj.GetComponent<MonsterModel_Component>().position.y)
+                            );
+                        if(dist<=(Fix64)0.5f)
+                        {
+                            sys._battle._player.BeAttacked(p.obj, 100, 1);
+                        }
+                        
+                        
+                    }
+
+
                     break;
                 }
             case AI_Type.Boss_Rabit:
@@ -287,7 +303,7 @@ class AI_Enemy : AI_BehaviorBase
                     Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
 
 
-                    Debug.Log("MonterPos: " + FixMonsterPos);
+                    //Debug.Log("MonterPos: " + FixMonsterPos);
                     break;
                 }
             case AI_Type.Boss_Rabit:

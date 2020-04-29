@@ -4,27 +4,129 @@ using UnityEngine;
 
 public class PlayerModel_Component : MonoBehaviour
 {
-    private Fix64 healthPoint;           // 玩家血量
-    private Fix64 playerSpeed;           // 玩家移动速度
-    private Fix64 attackPoint;           // 玩家攻击力
-    private FixVector2 playerPosition;   // 玩家位置
-    private bool playerRotation;         // 玩家朝向
-    private FixVector2 weaponPosition;   // 武器位置
-    private FixVector2 weaponRotation;   // 武器朝向
-    private Fix64 bulletSpeed;           // 玩家射出子弹的速度
+    public int fullHealthPoint { get; set; }           // 玩家血量
+    public int healthPoint { get; set; }                //玩家现在的血量
+    public Fix64 playerSpeed { get; set; }           // 玩家移动速度
+    public Fix64 attackPoint { get; set; }           // 玩家攻击力
+    public Fix64 shootSpeed { get; set; }           //射击速度  1/0.5*20 40
+    public int countDown1 { get; set; }                 //技能1倒计时
+    public int countDown2 { get; set; }                 //技能2倒计时
+    public int countDown3 { get; set; }                 //技能3倒计时
+    public int attackCountDown { get; set; }            //攻击倒计时
+    public int activeCountDown { get; set; }            //主动道具倒计时
+    public Fix64 bulletSpeed { get; set; }              // 玩家射出子弹的速度
+
+
+    public FixVector2 playerPosition { get; set; }   // 玩家位置
+    public bool playerRotation { get; set; }         // 玩家朝向
+    public FixVector2 weaponPosition { get; set; }   // 武器位置
+    public FixVector2 weaponRotation { get; set; }   // 武器朝向
+
+    public List<int> bulletBuff = new List<int>();
+
 
     //void Awake()
     //{
     //    //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
     //    playerPosition = new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y);
     //}
+    public void Init(int FullHealthPoint,Fix64 PlayerSpeed,Fix64 AttackPoint,Fix64 BulletSpeed,Fix64 ShootSpeed,List<int> BulletBuff)
+    {
+        fullHealthPoint = FullHealthPoint;
+        playerSpeed = PlayerSpeed;
+        attackPoint = AttackPoint;
+        bulletBuff = BulletBuff;
+        bulletSpeed = BulletSpeed;
+        shootSpeed = ShootSpeed;
 
-    public void SetHealthPoint(Fix64 _healthPoint)
+        countDown1 = 0;
+        countDown2 = 0;
+        countDown3 = 0;
+        activeCountDown = 0;
+        attackCountDown = 0;
+    }
+
+
+    public void UpdateLogic()
+    {
+        if (countDown1 != 0) countDown1--;
+        if (countDown2 != 0) countDown2--;
+        if (countDown3 != 0) countDown3--;
+        if (attackCountDown != 0) attackCountDown--;
+    }
+
+    public int GetAttackCountDown()
+    {
+        return attackCountDown;
+    }
+
+    public Fix64 GetShootSpeed()
+    {
+        return shootSpeed;
+    }
+
+    public void SetShootSpeed(Fix64 p)
+    {
+        shootSpeed = p;
+    }
+
+
+    public int GetCountDown1()
+    {
+        return countDown1;
+    }
+
+    public void SetCountDown1(int p)
+    {
+        countDown1 = p;
+    }
+
+    public int GetCountDown2()
+    {
+        return countDown2;
+    }
+
+    public void SetCountDown2(int p)
+    {
+        countDown2 = p;
+    }
+    public int GetCountDown3()
+    {
+        return countDown3;
+    }
+
+    public void SetCountDown3(int p)
+    {
+        countDown3 = p;
+    }
+
+    public List<int> GetBulletBuff()
+    {
+        return bulletBuff;
+    }
+
+    public void SetBulletBuff(List<int> x)
+    {
+        bulletBuff = x;
+    }
+
+
+    public void SetFullHealthPoint(int _healthPoint)
+    {
+        fullHealthPoint = _healthPoint;
+    }
+
+    public int GetFullHealthPoint()
+    {
+        return fullHealthPoint;
+    }
+
+    public void SetHealthPoint(int _healthPoint)
     {
         healthPoint = _healthPoint;
     }
 
-    public Fix64 GetHealthPoint()
+    public int GetHealthPoint()
     {
         return healthPoint;
     }
@@ -100,9 +202,7 @@ public class PlayerModel_Component : MonoBehaviour
     }
     public void Move(FixVector2 v)
     {
-        
-        playerPosition.x += v.x;
-        playerPosition.y += v.y;
+        playerPosition = playerPosition + v;
         if (v.x != (Fix64)0)
         {
             playerRotation = v.x < 0 ? true : false;
@@ -110,7 +210,6 @@ public class PlayerModel_Component : MonoBehaviour
     }
     public void SetPosition(FixVector2 v)
     {
-        playerPosition.x = v.x;
-        playerPosition.y = v.y;
+        playerPosition = v;
     }
 }

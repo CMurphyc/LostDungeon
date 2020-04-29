@@ -14,21 +14,39 @@ public enum SkillAreaType
 public class SkillIndiactor : MonoBehaviour
 {
     private Dictionary<SkillAreaType,Transform> indiactor;
-    private SkillJoystick Skill_Joystick;
     private SkillAreaType areaType;      //技能范围类型
 
-    private float SkillRange=1.5f;       //施法距离
-    private float SkillArea=0.5f;        //施法范围
+    private float SkillRange;       //施法距离
+    private float SkillArea;        //施法范围
     private GameObject Target;           //玩家
 
     void Start()
     {
         //Main = GameObject.FindWithTag("GameEntry").GetComponent<GameMain>();
-        indiactor = new Dictionary<SkillAreaType, Transform>();
-        Skill_Joystick = transform.GetComponent<SkillJoystick>();
-        Skill_Joystick.OnSkillJoystickDownEvent += OnSkillJoystickDownEvent;
-        Skill_Joystick.OnSkillJoystickMoveEvent += OnSkillJoystickMoveEvent;
-        Skill_Joystick.OnSkillJoystickUpEvent += OnSkillJoystickUpEvent;
+        indiactor = new Dictionary<SkillAreaType, Transform>();                     //
+
+        if (transform.GetComponent<SkillJoystick>() != null)
+        {
+            SkillJoystick Skill_Joystick = transform.GetComponent<SkillJoystick>();
+            Skill_Joystick.OnSkillJoystickDownEvent += OnSkillJoystickDownEvent;
+            Skill_Joystick.OnSkillJoystickMoveEvent += OnSkillJoystickMoveEvent;
+            Skill_Joystick.OnSkillJoystickUpEvent += OnSkillJoystickUpEvent;
+        }
+        else if(transform.GetComponent<SkillJoystick2>() != null)
+        {
+            SkillJoystick2 Skill_Joystick = transform.GetComponent<SkillJoystick2>();
+            Skill_Joystick.OnSkillJoystickDownEvent += OnSkillJoystickDownEvent;
+            Skill_Joystick.OnSkillJoystickMoveEvent += OnSkillJoystickMoveEvent;
+            Skill_Joystick.OnSkillJoystickUpEvent += OnSkillJoystickUpEvent;
+        }
+        else if(transform.GetComponent<SkillJoystick3>() != null)
+        {
+            SkillJoystick3 Skill_Joystick = transform.GetComponent<SkillJoystick3>();
+            Skill_Joystick.OnSkillJoystickDownEvent += OnSkillJoystickDownEvent;
+            Skill_Joystick.OnSkillJoystickMoveEvent += OnSkillJoystickMoveEvent;
+            Skill_Joystick.OnSkillJoystickUpEvent += OnSkillJoystickUpEvent;
+        }
+        
         areaType = SkillAreaType.Null;
     }
 
@@ -113,8 +131,6 @@ public class SkillIndiactor : MonoBehaviour
                 break;
         }
     }
-
-    
 
     //撤销指示器
     private void DestroySkillIndiactor()

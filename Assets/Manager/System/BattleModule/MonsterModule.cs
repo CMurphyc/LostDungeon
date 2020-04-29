@@ -182,7 +182,7 @@ public class MonsterModule
     public void BeAttacked(GameObject obj, float dmg, int roomid)
     {
 
-        int AttackedTime = 10;
+        int AttackedTime = 2;
         Fix64 hp = obj.GetComponent<MonsterModel_Component>().HP - (Fix64)dmg;
         if (hp > Fix64.Zero)
         {

@@ -15,9 +15,8 @@ public class EngineerBase
     public int fireSpeed;           //射速
     public List<int> bulletEffect;  //子弹附加效果
     public GameObject bulletObj;    //子弹预制体
-    public GameObject gun;          //枪模型
 
-    public float rangSkill1;                    //炮台技能的释放范围
+    public float rangeSkill1;                    //炮台技能的释放范围
     public float areaSkill1;                    //炮台大小
     public float lastTimeSkill1;                //炮台持续帧数
     public float countdownSkill1;               //技能1冷却
@@ -61,9 +60,8 @@ public class EngineerBase
         fireSpeed = x.fireSpeed;
         bulletEffect = x.bulletEffect;
         bulletObj = x.bulletObj;
-        gun = x.gun;
 
-        rangSkill1 =x.rangSkill1;
+        rangeSkill1 =x.rangSkill1;
         areaSkill1 = x.areaSkill1;
         lastTimeSkill1 = x.lastTimeSkill1;
         countdownSkill1 = x.countdownSkill1;
@@ -90,6 +88,27 @@ public class EngineerBase
         skill2Image = x.skill2Image;
 
         _parentManager = parentManager;
+    }
+    public float Skill1Range()
+    {
+        //需要传入获得的player的天赋表
+        return rangeSkill1;
+    }
+
+    public float Skill1Area()
+    {
+        return areaSkill1;
+    }
+
+    public float Skill2Range()
+    {
+        //需要传入获得的player的天赋表
+        return rangeSkill2;
+    }
+
+    public float Skill2Area()
+    {
+        return areaSkill2;
     }
 
     public int Skill1Logic(int frame, int RoomID, List<int> gifted,Vector3 st,Vector3 ed)//返回值就是cd

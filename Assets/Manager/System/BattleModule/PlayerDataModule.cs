@@ -65,8 +65,6 @@ public class PlayerDataModule
 
                             if (AttackVec.x != Fix64.Zero
                                 || AttackVec.y != Fix64.Zero)
-
-
                                 //if ((Fix64.Abs(AttackDirectionX) >= (Fix64)0.01f 
                                 //&& Fix64.Abs(AttackDirectionY) >= (Fix64)0.01f))
                             {
@@ -75,14 +73,35 @@ public class PlayerDataModule
                                 {
                                     List<int> list = new List<int>();
                                     BulletUnion bu = new BulletUnion(_parentManager);
-                                    bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+
+
+                                    CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
+                                    switch (PlayerType)
+                                    {
+                                        case CharacterType.Enginner:
+                                            {
+                                                bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         AttackVec,
                                                                         (Fix64)0.2, (Fix64)2, Input.RoomID,
                                                                         _parentManager.sys._battle._skill.enginerBase.bulletObj
 
                                                                         , list);
+                                                break;
+                                            }
+                                        case CharacterType.Magician:
+                                            {
+                                                bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                                                        (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                                                        AttackVec,
+                                                                        (Fix64)0.2, (Fix64)2, Input.RoomID,
+                                                                        _parentManager.sys._battle._skill.magicianBase.bulletObj
 
+                                                                        , list);
+                                                break;
+                                            }
+                                    }
+                                    
                                     bulletList.Add(bu);
 
                                     Input.NextAttackFrame = frame + AttackInterval;
@@ -195,6 +214,16 @@ public class PlayerDataModule
         {
 
         }
+    }
+
+
+    //obj = 受击OBJECT , dmg = 伤害
+    public void BeAttacked(GameObject obj, int dmg, int roomid)
+    {
+        Debug.Log("tadawo");
+        //int AttackedTime = 10;                  
+        obj.GetComponent<PlayerModel_Component>().SetHealthPoint(
+            obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg);
     }
 
     public void UpdateView()//更新视图

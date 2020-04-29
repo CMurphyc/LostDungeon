@@ -6,7 +6,6 @@ using System;
 
 public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    public GameObject Main;
     private GameObject Cancle_Joystick;
     private Vector2 JoyStickCenter;
     public Action<Vector2, float> OnSkillJoystickDownEvent;  //点下事件
@@ -15,29 +14,16 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public GameObject InnerJoystick;
     public GameObject OuterJoystick;
-    private float maxRadius = 60;                           //内部摇杆最远滑到多远
+    private float maxRadius = 50;                           //内部摇杆最远滑到多远
 
-    private float SkillArea;
-    public GameObject Effect;
-
-
-    public AttackType SkillType;
     JoyStickModule joystick;
     void Start()
     {
-        //Main = GameObject.FindWithTag("GameEntry").GetComponent<GameMain>();
         Cancle_Joystick = transform.parent.Find("CancelStickUI").gameObject;
         JoyStickCenter = transform.position;
         Cancle_Joystick.SetActive(false);
         joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
     }
-
-    public void SetSkill(float area, GameObject e)
-    {
-        Effect = e;
-        SkillArea = area;
-    }
-
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
@@ -67,18 +53,8 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         if (Cancle_Joystick.GetComponent<CancleJoystick>().GetIsIn() == false)
         {
             Vector2 x = transform.GetComponent<SkillIndiactor>().GetSkillPosition();
-            //Debug.Log("技能XY： "+x);
             joystick.Rjoystick = x;
-            if (this.gameObject.name == "SkillStickUI1")
-            {
-                joystick.type = AttackType.Skill1;
-            }
-            else
-            {
-
-                joystick.type = AttackType.Skill2;
-            }
-
+            joystick.type = AttackType.Skill1;
         }
 
         OuterJoystick.SetActive(false);
