@@ -58,7 +58,7 @@ public class ClientSend
         pack.UserName = UserName;
         pack.Password = Passward;
         //pack.Nickname = NickName;
-        Send(pack.ToByteArray(), GeneralType.UserRegister);
+        Send(pack.ToByteArray(), GeneralType.UserRegisterC2S);
 
     }
     public void LoginC2S(string UserName, string Passward)
@@ -66,28 +66,28 @@ public class ClientSend
         LoginC2S pack = new LoginC2S();
         pack.UserName = UserName;
         pack.Password = Passward;
-        Send(pack.ToByteArray(), GeneralType.UserLogin);
+        Send(pack.ToByteArray(), GeneralType.UserLoginC2S);
     }
 
     public void CreateRoomC2S()
     {
         CreateRoomC2S pack = new CreateRoomC2S();
-        Send(pack.ToByteArray(), GeneralType.CreateGame);
+        Send(pack.ToByteArray(), GeneralType.CreateRoomC2S);
     }
 
-    public void ChangeCharacter( CharacterType Type)
+    public void ChangeCharacter(CharacterType Type)
     {
         Debug.Log("Chagne Charcter");
         //Change
         ChangeRoleC2S pack = new ChangeRoleC2S();
         pack.Role = (Role)Type;
-        Send(pack.ToByteArray(), GeneralType.ChangeCharacter);
+        Send(pack.ToByteArray(), GeneralType.ChangeRoleC2S);
 
     }
     public void GetRoomList()
     {
         GetRoomListC2S pack = new GetRoomListC2S();
-        Send(pack.ToByteArray(), GeneralType.GetRoomList);
+        Send(pack.ToByteArray(), GeneralType.GetRoomListC2S);
 
 
     }
@@ -95,27 +95,27 @@ public class ClientSend
     {
         PlayerReadyC2S pack = new PlayerReadyC2S();
 
-        Send(pack.ToByteArray(), GeneralType.PlayerReady);
+        Send(pack.ToByteArray(), GeneralType.PlayerReadyC2S);
 
     }
 
     public void PlayerStartGame()
     {
         StartGameC2S pack = new StartGameC2S();
-        Send(pack.ToByteArray(), GeneralType.StartGame);
+        Send(pack.ToByteArray(), GeneralType.StartGameC2S);
     }
 
     public void PlayerExitRoom()
     {
         LeaveRoomC2S pack = new LeaveRoomC2S();
-        Send(pack.ToByteArray(), GeneralType.PlayerLeaveRoom);
+        Send(pack.ToByteArray(), GeneralType.PlayerLeaveRoomC2S);
     }
 
     public void PlayerEnterRoom(int RoomID)
     {
         EnterRoomC2S pack = new EnterRoomC2S();
         pack.RoomId = RoomID;
-        Send(pack.ToByteArray(), GeneralType.EnterRoom);
+        Send(pack.ToByteArray(), GeneralType.EnterRoomC2S);
     }
 
     public void BattleSynC2S(Vector3 Left, Vector3 Right, AttackType type)
@@ -148,6 +148,12 @@ public class ClientSend
         //    pack.AttackDirectionY = (int)(Right.y * 10000);
         //}
         //pack.AttackType = ;
-        Send(pack.ToByteArray(), GeneralType.BattleSynC2S);
+        Send(pack.ToByteArray(), GeneralType.BattleSyncC2S);
+    }
+
+    public void StartSync()
+    {
+        StartGameC2S pack = new StartGameC2S();
+        Send(pack.ToByteArray(), GeneralType.StartSyncC2S);
     }
 }

@@ -60,6 +60,7 @@ public class EventMessageType
     public static string StartGame = "StartGame";
 
     public static string BattleSyn = "BattleSyn";
+    public static string StartSync = "StartSync";
 }
 
 public enum CharacterType

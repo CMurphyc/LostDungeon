@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -29,6 +28,7 @@ public class MapManager : SceneManager
         SceneList.Add("Scenes/RoomList");
         SceneList.Add("Scenes/HeroSelect");
         SceneList.Add("Scenes/MapCreate");
+        SceneList.Add("Scenes/LoadingPanel");
 
         AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
 
@@ -42,68 +42,70 @@ public class MapManager : SceneManager
             CurrentScene = targetScene;
             Debug.Log("ChangeScene: " + CurrentScene);
             SceneIndex = SceneList.IndexOf(scene_dir + targetScene);
-
-            //if(targetScene == "MapCreate") AudioManager.instance.PlayAudio(AudioName.MainSceneBGM,true);
-            switch (targetScene)
-            {
-                case "LoginPanel":
-                    {
-                        if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
-                        {
-                            AudioManager.instance.MuteAll();
-                            AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
-                        }
-                        break;
-                    }
-                case "Main":
-                    {
-                        if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
-                        {
-                            AudioManager.instance.MuteAll();
-                            AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
-                        }
-                        break;
-                    }
-                case "RoomList":
-                    {
-                        if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
-                        {
-                            AudioManager.instance.MuteAll();
-                            AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
-                        }
-                        break;
-                    }
-                case "HeroSelect":
-                    {
-                        if (!AudioManager.instance.isPlaying(AudioName.TeamBGM))
-                        {
-                            AudioManager.instance.MuteAll();
-                            AudioManager.instance.PlayAudio(AudioName.TeamBGM, true);
-                        }
-                        break;
-                    }
-              
-                case "MapCreate":
-                    {
-                        if (!AudioManager.instance.isPlaying(AudioName.BattleBGM))
-                        {
-                            AudioManager.instance.MuteAll();
-                            AudioManager.instance.PlayAudio(AudioName.BattleBGM, true);
-                        }
-                        break;
-                    }
-
-
-
-
-                default:
-                    {
-                        break;
-                    }
-            }
-          
+            PlayAudioByScene(targetScene);
         }
         
+    }
+
+    public void PlayAudioByScene(string name)
+    {
+        //if(name == "MapCreate") AudioManager.instance.PlayAudio(AudioName.MainSceneBGM,true);
+        switch (name)
+        {
+            case "LoginPanel":
+                {
+                    if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
+                    {
+                        AudioManager.instance.MuteAll();
+                        AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
+                    }
+                    break;
+                }
+            case "Main":
+                {
+                    if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
+                    {
+                        AudioManager.instance.MuteAll();
+                        AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
+                    }
+                    break;
+                }
+            case "RoomList":
+                {
+                    if (!AudioManager.instance.isPlaying(AudioName.MainSceneBGM))
+                    {
+                        AudioManager.instance.MuteAll();
+                        AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
+                    }
+                    break;
+                }
+            case "HeroSelect":
+                {
+                    if (!AudioManager.instance.isPlaying(AudioName.TeamBGM))
+                    {
+                        AudioManager.instance.MuteAll();
+                        AudioManager.instance.PlayAudio(AudioName.TeamBGM, true);
+                    }
+                    break;
+                }
+            
+            case "MapCreate":
+                {
+                    if (!AudioManager.instance.isPlaying(AudioName.BattleBGM))
+                    {
+                        AudioManager.instance.MuteAll();
+                        AudioManager.instance.PlayAudio(AudioName.BattleBGM, true);
+                    }
+                    break;
+                }
+
+
+
+            default:
+                {
+                    break;
+                }
+        }
     }
 
     public int GetCurrentIndex()

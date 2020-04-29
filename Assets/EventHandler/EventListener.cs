@@ -20,7 +20,7 @@ public class EventListener : MonoBehaviour
 
         EventDispatcher.Instance().RegistEventListener(EventMessageType.StartGame, StartGame);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.BattleSyn, BattleSyn);
-
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.StartSync, StartSync);
     
     }
 
@@ -68,7 +68,7 @@ public class EventListener : MonoBehaviour
             {
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapSeed = synPack.Seed;
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapFloorNumber = synPack.FloorNumber;
-                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("MapCreate");
+                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoadingPanel");
             }
             else
             {
@@ -165,6 +165,23 @@ public class EventListener : MonoBehaviour
             }
         }
 
+    }
+
+    void StartSync(EventBase eb)
+    {
+        StartSyncS2C synPack = (StartSyncS2C)eb.eventValue;
+        if (synPack.Error == 0)
+        {
+            if (synPack.Succeed)
+            {
+                Debug.Log("开始帧同步");
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.isLoadingCompleted = true;
+            }
+            else
+            {
+                Debug.Log("开始帧同步失败");
+            }
+        }
     }
 
 
