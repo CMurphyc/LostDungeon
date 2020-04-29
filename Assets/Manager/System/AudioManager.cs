@@ -110,7 +110,7 @@ public class AudioManager : MonoBehaviour
 
         foreach (var sound in sounds)
         {
-            Debug.Log("add sound");
+            //Debug.Log("add sound");
             GameObject temp = new GameObject();
             temp.AddComponent<AudioSource>();
             temp.transform.parent = main.transform;
