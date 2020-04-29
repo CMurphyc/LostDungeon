@@ -263,7 +263,10 @@ public class MonsterModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, float dmg, int roomid)
     {
-
+        if (obj.GetComponent<MonsterModel_Component>().buff.Undefeadted)
+        {
+            return;
+        }
         int AttackedTime = 10;
         Fix64 hp = obj.GetComponent<MonsterModel_Component>().HP - (Fix64)dmg;
         if (hp > Fix64.Zero)
