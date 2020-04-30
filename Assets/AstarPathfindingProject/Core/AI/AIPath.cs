@@ -303,9 +303,9 @@ namespace Pathfinding
         {
             var newGizmoHash = pickNextWaypointDist.GetHashCode() ^ slowdownDistance.GetHashCode() ^ endReachedDistance.GetHashCode();
 
-            if (newGizmoHash != gizmoHash && gizmoHash != 0) lastChangedTime = GameCounter;
+            if (newGizmoHash != gizmoHash && gizmoHash != 0) lastChangedTime = Time.realtimeSinceStartup;
             gizmoHash = newGizmoHash;
-            float alpha = alwaysDrawGizmos ? 1 : Mathf.SmoothStep(1, 0, (GameCounter - lastChangedTime - 5f) / 0.5f) * (UnityEditor.Selection.gameObjects.Length == 1 ? 1 : 0);
+            float alpha = alwaysDrawGizmos ? 1 : Mathf.SmoothStep(1, 0, (Time.realtimeSinceStartup - lastChangedTime - 5f) / 0.5f) * (UnityEditor.Selection.gameObjects.Length == 1 ? 1 : 0);
 
             if (alpha > 0)
             {

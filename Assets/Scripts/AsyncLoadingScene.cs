@@ -18,9 +18,11 @@ public class AsyncLoadingScene : MonoBehaviour {
     
     void Start()
     {
+        
         loadingProgressSlider = GameObject.Find("Canvas/LoadingProgressSlider").GetComponent<Slider>();
         loadingprogressText = GameObject.Find("Canvas/LoadingprogressText").GetComponent<Text>();
         main = GameObject.FindWithTag("GameEntry");
+        main.GetComponent<GameMain>().WorldSystem.ResetBattle();
         StartLoadingScene("MapCreate");
     }
 

@@ -26,7 +26,16 @@ public class TerrainModule
     {
         _parentManager = parent;
     }
-
+    public void Free()
+    {
+        roomToStone.Clear();
+        roomToDoor.Clear();
+        doornumToDoor.Clear();
+        doorToDoor.Clear();
+        doorToRoom.Clear();
+        NextFloorInit = false;
+        InGateRange = false;
+    }
 
     public bool IsMovable(FixVector2 pos,int RoomId)
     {

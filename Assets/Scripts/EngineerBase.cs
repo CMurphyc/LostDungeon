@@ -47,7 +47,12 @@ public class EngineerBase
 
     BattleManager _parentManager;
 
-    public EngineerBase(BattleManager parentManager)
+    public void Free()
+    {
+        grenade.Clear();
+        explosion.Clear();
+    }
+        public EngineerBase(BattleManager parentManager)
     {
         EngineerConfig x =Resources.Load("Configs/Heros/EngineerConfig") as EngineerConfig;
 

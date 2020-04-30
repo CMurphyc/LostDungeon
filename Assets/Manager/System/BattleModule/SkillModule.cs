@@ -22,7 +22,13 @@ public class SkillModule
         enginerBase = new EngineerBase(parent);
         magicianBase = new MagicianBase(parent);
     }
-
+    public void Free()
+    {
+        RoomToProjectile.Clear();
+        Effects.Clear();
+        enginerBase.Free();
+        magicianBase.Free();
+    }
     public void Add(SkillBase x, int roomID)
     {
         if (!RoomToProjectile.ContainsKey(roomID))

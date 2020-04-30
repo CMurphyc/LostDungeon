@@ -17,6 +17,15 @@ public class PlayerDataModule
     {
         _parentManager = parent;
     }
+    public void Free()
+    {
+        playerToPlayer.Clear();
+        if (frameInfo != null)
+        {
+            frameInfo.Clear();
+        }
+        bulletList.Clear();
+    }
     public void UpdateLogic(int frame)//更新某一帧逻辑
     {
         for (int i = 0; i < frameInfo.Count;i++)//更新操作

@@ -59,7 +59,11 @@ public class MagicianBase
         return areaSkill2;
     }
 
-
+    public void Free()
+    {
+        fire.Clear();
+        thunder.Clear();
+    }
     public MagicianBase(BattleManager parentManager)
     {
         MagicianConfig x = Resources.Load("Configs/Heros/MagicianConfig") as MagicianConfig;

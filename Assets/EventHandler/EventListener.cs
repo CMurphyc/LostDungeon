@@ -192,8 +192,11 @@ public class EventListener : MonoBehaviour
         {
             if (synPack.Succeed)
             {
+
                 Debug.Log("准备进入第" + synPack.FloorNumber + "层");
+
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapFloorNumber = synPack.FloorNumber;
+
                 main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoadingPanel");
             }
             else

@@ -76,7 +76,20 @@ public class MonsterModule
         _parentManager = parent;
       
     }
-
+    public void Free()
+    {
+        RoomToMonster.Clear();
+        RoomToAliasUnit.Clear();
+        RemoveCounter.Clear();
+        RemoveWaitFrame.Clear();
+        StatusCounter.Clear();
+        BossMove.Clear();
+        bulletList.Clear();
+        bulletEvent.Clear();
+        BossSkill.Clear();
+        AliasRemoveCounter.Clear();
+        AliasRemoveWaitFrame.Clear();
+    }
 
     public void UpdateLogic(int frame)
     {
@@ -167,10 +180,13 @@ public class MonsterModule
                 FakeBulletUnion temp = bulletEvent[frame][i];
                 BulletUnion bu = new BulletUnion(_parentManager);
 
-                FixVector2 MonsterPos = PackConverter.FixVector3ToFixVector2(temp.boss.GetComponent<MonsterModel_Component>().position);
+                if (temp.boss != null)
+                {
+                    FixVector2 MonsterPos = PackConverter.FixVector3ToFixVector2(temp.boss.GetComponent<MonsterModel_Component>().position);
 
-                bu.BulletInit(temp.tag, MonsterPos, temp.toward,temp.speed,temp.damage,temp.roomid,temp.bulletPrefab,temp.itemList);
-                bulletList.Add(bu);
+                    bu.BulletInit(temp.tag, MonsterPos, temp.toward, temp.speed, temp.damage, temp.roomid, temp.bulletPrefab, temp.itemList);
+                    bulletList.Add(bu);
+                }
             }
             bulletEvent.Remove(frame);
         }

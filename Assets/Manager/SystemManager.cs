@@ -23,6 +23,12 @@ public class SystemManager
         _message = new MessageManager();
     }
     
+    public void ResetBattle()
+    {
+        //to do 释放
+        _battle.ReleaseMemory();
+        _model._JoyStickModule.Free();
+    }
     //void Destory()
     //{
     //    _battle.de

@@ -22,7 +22,9 @@ public class BattleUIUpdate : MonoBehaviour
     }
     void Start()
     {
-      
+
+        Text FloorNum = GameObject.Find("Canvas/Floor/floornum").GetComponent<Text>();
+        FloorNum.text = sys._model._RoomModule.MapFloorNumber.ToString();
     }
 
     // Update is called once per frame
