@@ -20,6 +20,15 @@ public class RoomCreate : MonoBehaviour
     public GameObject GameRoom;
     public GameObject ShopRoom;
     public GameObject SacrificeRoom;
+    public GameObject BackGround;
+    public GameObject NormalCurtain;
+    public GameObject LargeCurtain;
+    public GameObject Lshape1Curtain;
+    public GameObject Lshape2Curtain;
+    public GameObject Lshape3Curtain;
+    public GameObject Lshape4Curtain;
+    public GameObject LongRoad1Curtain;
+    public GameObject LongRoad2Curtain;
     public Door NormalDoor;
     public Door TreasureDoor;
     public Door BossDoor;
@@ -29,7 +38,6 @@ public class RoomCreate : MonoBehaviour
     public Door SacrificeDoor;
     public Monster[] MonsterList;
     public Monster[] BossList;
-    public GameObject[] TreasureList;
     public int[] MonsterInitHP;
 
     public GameObject[] NormalNormalTerrain;
@@ -59,7 +67,10 @@ public class RoomCreate : MonoBehaviour
     public Dictionary<int, PlayerInGameData> playerToPlayer ;   // 玩家编号对应玩家信息
     public Dictionary<int, List<GameObject>> roomToMonster ;   // 房间号对应的怪物列表
 
-    public Dictionary<int, List<GameObject>> roomToTreasure = new Dictionary<int, List<GameObject>>();   // 房间号对应宝物列表
+    public Dictionary<int, List<TreasureData>> roomToTreasure = new Dictionary<int, List<TreasureData>>();   // 房间号对应宝物列表
+    public Dictionary<int, PropData> propToProperty = new Dictionary<int, PropData>();   // 根据道具名称找到对应道具属性
+
+    public Dictionary<int, GameObject> roomToCurtain = new Dictionary<int, GameObject>();   // 房间对应的幕布实体
 
     private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
@@ -86,8 +97,12 @@ public class RoomCreate : MonoBehaviour
         doornumToDoor = sys._battle._terrain.doornumToDoor;
         doorToDoor = sys._battle._terrain.doorToDoor;
         doorToRoom = sys._battle._terrain.doorToRoom;
-       
+
+        // 加载道具信息
+        UploadPropAttr();
+
         int playerNum = sys._model._RoomModule.GetPlayerSize();
+        playerNum = 2;
 
         int seed = sys._model._RoomModule.MapSeed;
         Random.InitState(seed);
@@ -105,11 +120,15 @@ public class RoomCreate : MonoBehaviour
         }
         MakeGraph(array, h, d, playerNum, floorNum);
 
+        // 生成底部黑幕
+        GameObject backGround = Instantiate(BackGround, new Vector3((int)(d / 2 + 1) * xOffset, (int)(h / 2 + 1) * yOffset, 0), Quaternion.identity);
+        backGround.transform.localScale = new Vector3(d + 2, h + 2, 1);
+
         Debug.Log("Astar");
         AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
         int Width = (int)(GetRightTop().x - GetLeftBottom().x + 1);
         int Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
-        AStar.data.gridGraph.center = new Vector3((GetRightTop().x + GetLeftBottom().x)/2+0.5f, (GetRightTop().y + GetLeftBottom().y)/2+0.5f);
+        AStar.data.gridGraph.center = new Vector3((int)((GetRightTop().x + GetLeftBottom().x) / 2 + 1), (int)((GetRightTop().y + GetLeftBottom().y) / 2 + 1));
         AStar.data.gridGraph.SetDimensions(Width, Depth, 1);
         AStar.Scan();
 
@@ -158,8 +177,7 @@ public class RoomCreate : MonoBehaviour
             }
         }
 
-
-
+        
 
 }
 
@@ -185,6 +203,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                 roomToDoorTmp.Add(new List<int>());
                 GameObject room = null;
                 GameObject terrain = null;
+                GameObject curtain = null;
                 if (map[i, j] == 2)  // L形
                 {
                     // test 10330171
@@ -193,12 +212,14 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(Lshape1Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         terrain = Instantiate(NormalLshape1Terrain[Random.Range(0, NormalLshape1Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         roomTag[i, j] = nowRoom; roomTag[i, j + 1] = nowRoom; roomTag[i + 1, j + 1] = nowRoom;
+                        curtain = Instantiate(Lshape1Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                     else if (j + 1 < col && map[i, j + 1] == 2 && i + 1 < row && map[i + 1, j] == 2)  // Lshape2
                     {
                         room = Instantiate(Lshape2Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i, j + 1] = nowRoom; roomTag[i + 1, j] = nowRoom;
                         terrain = Instantiate(NormalLshape2Terrain[Random.Range(0, NormalLshape2Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(Lshape2Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                     // test 10330178
                     else if (i + 1 < col && map[i + 1, j] == 2 && j + 1 < row && map[i + 1, j + 1] == 2)  // Lshape3
@@ -206,6 +227,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(Lshape3Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i + 1, j] = nowRoom; roomTag[i + 1, j + 1] = nowRoom;
                         terrain = Instantiate(NormalLshape3Terrain[Random.Range(0, NormalLshape3Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(Lshape3Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                     // test 10330178
                     else if (i + 1 < col && map[i + 1, j] == 2 && j - 1 < row && map[i + 1, j - 1] == 2)  // Lshape4
@@ -213,6 +235,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(Lshape4Room, new Vector3(xOffset * (j - 1), yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i + 1, j] = nowRoom; roomTag[i + 1, j - 1] = nowRoom;
                         terrain = Instantiate(NormalLshape4Terrain[Random.Range(0, NormalLshape4Terrain.Length)], new Vector3(xOffset * (j - 1), yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(Lshape4Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                 }
                 else if (map[i, j] == 3)  // 长直道
@@ -223,6 +246,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(LongRoad1Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i, j + 1] = nowRoom;
                         terrain = Instantiate(NormalLongRoad1Terrain[Random.Range(0, NormalLongRoad1Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(LongRoad1Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                     // test 10330178
                     else if (i + 1 < row && map[i + 1, j] == 3)  // LongRoad2
@@ -230,6 +254,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         room = Instantiate(LongRoad2Room, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                         roomTag[i, j] = nowRoom; roomTag[i + 1, j] = nowRoom;
                         terrain = Instantiate(NormalLongRoad2Terrain[Random.Range(0, NormalLongRoad2Terrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                        curtain = Instantiate(LongRoad2Curtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     }
                 }
                 else if (map[i, j] == 4)  // 大型
@@ -237,6 +262,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     room = Instantiate(LargeRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Large
                     roomTag[i, j] = nowRoom; roomTag[i, j + 1] = nowRoom; roomTag[i + 1, j] = nowRoom; roomTag[i + 1, j + 1] = nowRoom;
                     terrain = Instantiate(NormalLargeTerrain[Random.Range(0, NormalLargeTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                    curtain = Instantiate(LargeCurtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                 }
                 else  // 普通大小
                 {
@@ -283,22 +309,24 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                             birthY = j;
                             startRoom = nowRoom;
                             //kkkkkkkkkkkkkkkkkkkk
-                            //terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
-                            terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
+                            terrain = Instantiate(NormalNormalTerrain[0], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 空地形
+                            // terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         }
                         else
                         {
                             terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         }
                     }
+                    curtain = Instantiate(NormalCurtain, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);
                     roomTag[i, j] = nowRoom;
                 }
+
                 //
                 //startRoom = bossRoom;
                 //  创建石头对象的列表
                 List<GameObject> stones = new List<GameObject>();
                 List<GameObject> monsters = new List<GameObject>();
-                List<GameObject> treasures = new List<GameObject>();
+                List<TreasureData> treasures = new List<TreasureData>();
 
                 //  获得当前地形下所有的子物体，即所有石头
                 if (room != null)
@@ -346,6 +374,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                     {
                                         if (BossList[floorNum - 1] != null)
                                         {
+                                            FixVector2 MonsterSpawningPoint = PackConverter.Vector3ToFixVector2(child.transform.position);
+                                            sys._battle._terrain.BossSpawningPoint = MonsterSpawningPoint;
                                             if (BossList[floorNum - 1].type == AI_Type.Boss_Rabit)
                                             {
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
@@ -354,8 +384,32 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
 
                                                 monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom,null);
+                                                monsters.Add(monster);
+                                            }
+                                            else if (BossList[floorNum - 1].type == AI_Type.Boss_Wizard)
+                                            {
+                                                GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
+                                                monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
+                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
+
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
 
                                                 monsters.Add(monster);
+
+                                            }
+
+                                            else if (BossList[floorNum - 1].type == AI_Type.Boss_DarkKnight)
+                                            {
+                                                GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
+                                                monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
+                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
+
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
+
+                                                monsters.Add(monster);
+
                                             }
                                         }
                                     }
@@ -374,9 +428,13 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                         }
                         else if (child.tag == "TreasureTable")
                         {
-                            GameObject treasure = Instantiate(TreasureList[Random.Range(0, TreasureList.Length)],child.transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
+                            // 根据随机生成的道具下标来创建道具实体
+                            int treasureId = Random.Range(0, propToProperty.Count);
+                            GameObject treasure = Instantiate(propToProperty[treasureId].propObject, child.transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
+                            // Debug.Log(treasure.name);
+                            Debug.Log(treasure.name + "   " + treasureId);
                             stones.Add(child);
-                            treasures.Add(treasure);
+                            treasures.Add(new TreasureData(treasureId, propToProperty[treasureId].propType, child, propToProperty[treasureId].propObject, false));
                         }
                     }
                 }
@@ -387,6 +445,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                 // Debug.Log(treasures.Count);
                 roomToTreasure.Add(nowRoom, treasures);
 
+                curtain.SetActive(false);
+                roomToCurtain.Add(nowRoom, curtain);
                 
             }
         }
@@ -632,15 +692,19 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
         return new Vector2(RandMap.GetWidth() * xOffset + 9, 4);
     }
-}
-
-
-[System.Serializable]
-public class Door
-{
-    public GameObject upDoor;
-    public GameObject downDoor;
-    public GameObject leftDoor;
-    public GameObject rightDoor;
+    public void UploadPropAttr()
+    {
+        // 根据配置表中的下标来添加对应物体的一系列属性
+        List<PropData> propConfigList = (Resources.Load("Config/PropConfig") as PropConfig).prop_config_list;
+        for (int i = 0; i < propConfigList.Count; i++)
+        {
+            Debug.Log(propConfigList[i].propObject.name + "   " + i);
+            propToProperty.Add(i, propConfigList[i]);
+        }
+        /*foreach (KeyValuePair<int, PropData> kvp in propToProperty)
+        {
+            Debug.Log(kvp.Key);
+        }*/
+    }
 }
 

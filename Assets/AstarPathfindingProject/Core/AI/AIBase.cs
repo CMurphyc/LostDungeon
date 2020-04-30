@@ -170,8 +170,6 @@ namespace Pathfinding {
 
         protected float FrameRate;
 
-        protected float GameCounter;
-
 		/// <summary>Cached Rigidbody component</summary>
 		protected Rigidbody rigid;
 
@@ -297,7 +295,8 @@ namespace Pathfinding {
 		/// <summary>True if the path should be automatically recalculated as soon as possible</summary>
 		protected virtual bool shouldRecalculatePath {
 			get {
-				return GameCounter - lastRepath >= repathRate && !waitingForPathCalculation && canSearch && !float.IsPositiveInfinity(destination.x);
+				return !waitingForPathCalculation && canSearch && !float.IsPositiveInfinity(destination.x);
+				// return Time.time - lastRepath >= repathRate && !waitingForPathCalculation && canSearch && !float.IsPositiveInfinity(destination.x);
 			}
 		}
 
@@ -308,20 +307,18 @@ namespace Pathfinding {
 			destination = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
 		}
 
-        public void InitConfig(Vector3 pos, Quaternion Rot, Vector3 scale, float rate, float counter)
+        public void InitConfig(Vector3 pos, Quaternion Rot, Vector3 scale, float rate)
         {
             Position = pos;
             Rotation = Rot;
             LocalScale = scale;
             FrameRate = rate;
-            GameCounter = counter;
         }
         public  virtual void GetFramePosAndRotation(out Vector3 NextPosition, out Quaternion NextRotation)
         {
 
             if (shouldRecalculatePath) SearchPath();
 
-            
             // If gravity is used depends on a lot of things.
             // For example when a non-kinematic rigidbody is used then the rigidbody will apply the gravity itself
             // Note that the gravity can contain NaN's, which is why the comparison uses !(a==b) instead of just a!=b.
@@ -426,18 +423,18 @@ namespace Pathfinding {
 		/// If no rigidbodies are used then all movement happens here.
 		/// </summary>
 		protected virtual void Update () {
-			if (shouldRecalculatePath) SearchPath();
+			// if (shouldRecalculatePath) SearchPath();
 
 			// If gravity is used depends on a lot of things.
 			// For example when a non-kinematic rigidbody is used then the rigidbody will apply the gravity itself
 			// Note that the gravity can contain NaN's, which is why the comparison uses !(a==b) instead of just a!=b.
-			usingGravity = !(gravity == Vector3.zero) && (!updatePosition || ((rigid == null || rigid.isKinematic) && (rigid2D == null || rigid2D.isKinematic)));
-			if (rigid == null && rigid2D == null && canMove) {
-				Vector3 nextPosition;
-				Quaternion nextRotation;
-				MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
-				//FinalizeMovement(nextPosition, nextRotation);
-			}
+			// usingGravity = !(gravity == Vector3.zero) && (!updatePosition || ((rigid == null || rigid.isKinematic) && (rigid2D == null || rigid2D.isKinematic)));
+			// if (rigid == null && rigid2D == null && canMove) {
+			// 	Vector3 nextPosition;
+			// 	Quaternion nextRotation;
+			// 	MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
+			// 	//FinalizeMovement(nextPosition, nextRotation);
+			// }
 		}
 
      
@@ -448,12 +445,12 @@ namespace Pathfinding {
 		/// If rigidbodies are used then all movement happens here.
 		/// </summary>
 		protected virtual void FixedUpdate () {
-			//if (!(rigid == null && rigid2D == null) && canMove) {
-			//	Vector3 nextPosition;
-			//	Quaternion nextRotation;
-			//	MovementUpdate(Time.fixedDeltaTime, out nextPosition, out nextRotation);
-			//	FinalizeMovement(nextPosition, nextRotation);
-			//}
+			// if (!(rigid == null && rigid2D == null) && canMove) {
+			// 	Vector3 nextPosition;
+			// 	Quaternion nextRotation;
+			// 	MovementUpdate(Time.fixedDeltaTime, out nextPosition, out nextRotation);
+			// 	FinalizeMovement(nextPosition, nextRotation);
+			// }
 		}
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::MovementUpdate</summary>
@@ -481,7 +478,7 @@ namespace Pathfinding {
 			if (float.IsPositiveInfinity(destination.x)) return;
 			if (onSearchPath != null) onSearchPath();
 
-			lastRepath = GameCounter;
+			// lastRepath = Time.time;
 			waitingForPathCalculation = true;
 
 			seeker.CancelCurrentPathRequest();
@@ -534,7 +531,7 @@ namespace Pathfinding {
 				ClearPath();
 			} else if (path.PipelineState == PathState.Created) {
 				// Path has not started calculation yet
-				lastRepath = GameCounter;
+				// lastRepath = Time.time;
 				waitingForPathCalculation = true;
 				seeker.CancelCurrentPathRequest();
 				seeker.StartPath(path);
@@ -687,11 +684,11 @@ namespace Pathfinding {
 		}
 
 		protected void UpdateVelocity () {
-			//var currentFrame = Time.frameCount;
+			var currentFrame = Time.frameCount;
 
-			//if (currentFrame != prevFrame) prevPosition2 = prevPosition1;
-			//prevPosition1 = position;
-			//prevFrame = currentFrame;
+			if (currentFrame != prevFrame) prevPosition2 = prevPosition1;
+			prevPosition1 = position;
+			prevFrame = currentFrame;
 		}
 
 		/// <summary>

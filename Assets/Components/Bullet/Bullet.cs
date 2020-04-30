@@ -5,6 +5,7 @@ using System;
 
 public class FakeBulletUnion
 {
+    public GameObject boss;
     public string tag;
     public FixVector2 anchor;
     public FixVector2 toward;
@@ -13,8 +14,9 @@ public class FakeBulletUnion
     public int roomid;
     public GameObject bulletPrefab;
     public List<int> itemList;
-    public FakeBulletUnion(string tag2, FixVector2 anchor2, FixVector2 toward2, Fix64 speed2, Fix64 damage2, int roomid2, GameObject bulletPrefab2, List<int> itemList2)
+    public FakeBulletUnion(GameObject obj , string tag2, FixVector2 anchor2, FixVector2 toward2, Fix64 speed2, Fix64 damage2, int roomid2, GameObject bulletPrefab2, List<int> itemList2)
     {
+        boss = obj;
         tag = tag2;
         anchor = anchor2;
         toward = toward2;
