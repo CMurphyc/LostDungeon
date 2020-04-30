@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7727,11 +7727,29 @@ MonoBehaviour:
     type: 3}
   DevilRoom: {fileID: 3690445263335616983, guid: d6d88f771d231d14eb19088f93ec8e30,
     type: 3}
-  GameRoom: {fileID: 1697696665630874966, guid: 80987cca60fc6b14b911dc2588583798,
+  GameRoom: {fileID: 1697696665630874966, guid: 1bcba001c96c87947801638c79965472,
     type: 3}
   ShopRoom: {fileID: 2796990184978731865, guid: 81a55069dffd4d9448499c1c838864b9,
     type: 3}
   SacrificeRoom: {fileID: 720766872609787681, guid: 1efc14fd90fa7cb46b9b6cf8bc12f5b1,
+    type: 3}
+  BackGround: {fileID: 7564318367910105630, guid: fae39a0f222d95a49be9414961538657,
+    type: 3}
+  NormalCurtain: {fileID: 7564318367910105630, guid: ef5a87460253acd439ad43f2925d7d1f,
+    type: 3}
+  LargeCurtain: {fileID: 1487511900672990295, guid: 37a77412e3ac8af4a8ea0ce50b9fa223,
+    type: 3}
+  Lshape1Curtain: {fileID: 3736812948333779373, guid: d6b669278f3e669499e365a2539c5a9b,
+    type: 3}
+  Lshape2Curtain: {fileID: 156627915694522566, guid: 37705071cd005e94ab9edf21fd3cd06e,
+    type: 3}
+  Lshape3Curtain: {fileID: 1639199854357128661, guid: 3ff4378b5052530499afd0888a99cd3e,
+    type: 3}
+  Lshape4Curtain: {fileID: 2805548810662849358, guid: a0705d06b4195f44b856d0d430ff0493,
+    type: 3}
+  LongRoad1Curtain: {fileID: 5217042452866034487, guid: c16fb0a54c1a7fd40b39067ca4537eef,
+    type: 3}
+  LongRoad2Curtain: {fileID: 4035856749874751145, guid: 1653ac48be445e546bcd1df811e24452,
     type: 3}
   NormalDoor:
     upDoor: {fileID: 4917385047953394967, guid: 07c229d87e23d654db93cf842de8bd95,
@@ -7812,24 +7830,24 @@ MonoBehaviour:
       type: 3}
     type: 0
     MonsterID: 0
+  - monsterGameObject: {fileID: 3190195646131052432, guid: ec2e16baa0a36ef42a8aa4f00462576b,
+      type: 3}
+    type: 1
+    MonsterID: 0
   BossList:
+  - monsterGameObject: {fileID: 870878452893989547, guid: 35bc7c21a8abe234180c112b64e042bc,
+      type: 3}
+    type: 2
+    MonsterID: 0
+  - monsterGameObject: {fileID: 5090571011054016273, guid: 8d0ed0a092e1ef84287f8fa435e4fbf9,
+      type: 3}
+    type: 5
+    MonsterID: 0
   - monsterGameObject: {fileID: 318027278806863884, guid: ab1ba0daf5aa06345bd5e212f9266866,
       type: 3}
     type: 6
     MonsterID: 0
-  TreasureList:
-  - {fileID: 6167147485909967427, guid: 56d7562070ff5fb4e9c3fb4fe146f3f6, type: 3}
-  - {fileID: 1191563592896174228, guid: 85158bb19b0f2c345972861ae34ede21, type: 3}
-  - {fileID: 6548428581073956927, guid: ad6cebce2766ffc4f90fd349abea9124, type: 3}
-  - {fileID: 8887654901604626354, guid: dc2e428e8cd2225458b3a19e622bd3c7, type: 3}
-  - {fileID: 7228520739801652520, guid: 12f796cf506203d418246569e31c6e5c, type: 3}
-  - {fileID: 6909067098567022676, guid: f79384366305e8c43b969c997eb285e0, type: 3}
-  - {fileID: 6520889025348594599, guid: 6799cc6696c599640b6591d35937427a, type: 3}
-  - {fileID: 5139268068570486322, guid: a45dde7a07d02924b82e90588d3c648a, type: 3}
-  - {fileID: 1627870031858258325, guid: 42936887183665c4bbbe710c6df2d810, type: 3}
-  - {fileID: 4779283928435966377, guid: 1170f59680bc8004990d30f9aff24a0b, type: 3}
-  - {fileID: 8273542065605736142, guid: 0ab1cbdc6e6531e44a27ecdade3704fe, type: 3}
-  MonsterInitHP: 05000000050000000500000005000000
+  MonsterInitHP: 0500000005000000050000000500000005000000
   NormalNormalTerrain:
   - {fileID: 2592502930492833309, guid: f1d5c5a0de1d978489050a2f6d36e72f, type: 3}
   - {fileID: 8511737966765212540, guid: acc3315e6fed36948831a8fd447757ff, type: 3}
@@ -7852,9 +7870,9 @@ MonoBehaviour:
   - {fileID: 8813345613094597950, guid: 5b8c9c1b0945528408c6a25f28d2e513, type: 3}
   TreasureNormalTerrain:
   - {fileID: 5249501342245356832, guid: 42fba292060ea664f8a0303caede56a6, type: 3}
-  - {fileID: 289123865702400714, guid: 8f3e8dc047a2c9b49bba9fb19ef0fb38, type: 3}
-  - {fileID: 5246988086961937036, guid: 182f096c17fdc234e9f3d2919351f01f, type: 3}
-  - {fileID: 3730571030351697457, guid: 0456ec18912367d4694d78f35b694821, type: 3}
+  - {fileID: 289123865702400714, guid: 0bc7ccfdc8f8a8d44a0d4ae06c28bf10, type: 3}
+  - {fileID: 5246988086961937036, guid: c94563855674daa48bd6c77c71d5919f, type: 3}
+  - {fileID: 3730571030351697457, guid: 2346a052bbcf2fd499d45c19e89d14b0, type: 3}
   BossNormalTerrain:
   - {fileID: 7531779408445860602, guid: b4ecf96ce4cd3d543a1d93b709ef080c, type: 3}
   DevilNormalTerrain:
@@ -8299,7 +8317,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1000
+  m_Text: 
 --- !u!222 &2140412217
 CanvasRenderer:
   m_ObjectHideFlags: 0

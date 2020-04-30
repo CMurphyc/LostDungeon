@@ -22,13 +22,13 @@ public static partial class EnterRoomS2CReflection {
   static EnterRoomS2CReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChJFbnRlclJvb21TMkMucHJvdG8aEFBsYXllckluZm8ucHJvdG8iPgoMRW50",
-          "ZXJSb29tUzJDEg0KBWVycm9yGAEgASgFEh8KCnBsYXllckluZm8YAiABKAsy",
-          "Cy5QbGF5ZXJJbmZvYgZwcm90bzM="));
+          "ChJFbnRlclJvb21TMkMucHJvdG8aEFBsYXllckluZm8ucHJvdG8iTwoMRW50",
+          "ZXJSb29tUzJDEg0KBWVycm9yGAEgASgFEg8KB3N1Y2NlZWQYAiABKAgSHwoK",
+          "cGxheWVySW5mbxgDIAEoCzILLlBsYXllckluZm9iBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { global::PlayerInfoReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::EnterRoomS2C), global::EnterRoomS2C.Parser, new[]{ "Error", "PlayerInfo" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::EnterRoomS2C), global::EnterRoomS2C.Parser, new[]{ "Error", "Succeed", "PlayerInfo" }, null, null, null)
         }));
   }
   #endregion
@@ -61,6 +61,7 @@ public sealed partial class EnterRoomS2C : pb::IMessage<EnterRoomS2C> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public EnterRoomS2C(EnterRoomS2C other) : this() {
     error_ = other.error_;
+    succeed_ = other.succeed_;
     PlayerInfo = other.playerInfo_ != null ? other.PlayerInfo.Clone() : null;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
@@ -81,8 +82,19 @@ public sealed partial class EnterRoomS2C : pb::IMessage<EnterRoomS2C> {
     }
   }
 
+  /// <summary>Field number for the "succeed" field.</summary>
+  public const int SucceedFieldNumber = 2;
+  private bool succeed_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public bool Succeed {
+    get { return succeed_; }
+    set {
+      succeed_ = value;
+    }
+  }
+
   /// <summary>Field number for the "playerInfo" field.</summary>
-  public const int PlayerInfoFieldNumber = 2;
+  public const int PlayerInfoFieldNumber = 3;
   private global::PlayerInfo playerInfo_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public global::PlayerInfo PlayerInfo {
@@ -106,6 +118,7 @@ public sealed partial class EnterRoomS2C : pb::IMessage<EnterRoomS2C> {
       return true;
     }
     if (Error != other.Error) return false;
+    if (Succeed != other.Succeed) return false;
     if (!object.Equals(PlayerInfo, other.PlayerInfo)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
@@ -114,6 +127,7 @@ public sealed partial class EnterRoomS2C : pb::IMessage<EnterRoomS2C> {
   public override int GetHashCode() {
     int hash = 1;
     if (Error != 0) hash ^= Error.GetHashCode();
+    if (Succeed != false) hash ^= Succeed.GetHashCode();
     if (playerInfo_ != null) hash ^= PlayerInfo.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
@@ -132,8 +146,12 @@ public sealed partial class EnterRoomS2C : pb::IMessage<EnterRoomS2C> {
       output.WriteRawTag(8);
       output.WriteInt32(Error);
     }
+    if (Succeed != false) {
+      output.WriteRawTag(16);
+      output.WriteBool(Succeed);
+    }
     if (playerInfo_ != null) {
-      output.WriteRawTag(18);
+      output.WriteRawTag(26);
       output.WriteMessage(PlayerInfo);
     }
     if (_unknownFields != null) {
@@ -146,6 +164,9 @@ public sealed partial class EnterRoomS2C : pb::IMessage<EnterRoomS2C> {
     int size = 0;
     if (Error != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(Error);
+    }
+    if (Succeed != false) {
+      size += 1 + 1;
     }
     if (playerInfo_ != null) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerInfo);
@@ -163,6 +184,9 @@ public sealed partial class EnterRoomS2C : pb::IMessage<EnterRoomS2C> {
     }
     if (other.Error != 0) {
       Error = other.Error;
+    }
+    if (other.Succeed != false) {
+      Succeed = other.Succeed;
     }
     if (other.playerInfo_ != null) {
       if (playerInfo_ == null) {
@@ -185,7 +209,11 @@ public sealed partial class EnterRoomS2C : pb::IMessage<EnterRoomS2C> {
           Error = input.ReadInt32();
           break;
         }
-        case 18: {
+        case 16: {
+          Succeed = input.ReadBool();
+          break;
+        }
+        case 26: {
           if (playerInfo_ == null) {
             playerInfo_ = new global::PlayerInfo();
           }

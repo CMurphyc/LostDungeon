@@ -43,6 +43,13 @@ public class ChestModule
         OpenedChests = new List<GameObject>();
         HandledCoins = new List<GameObject>();
     }
+    public void Free()
+    {
+        Room.Clear();
+        Chest.Clear();
+        OpenedChests.Clear();
+        HandledCoins.Clear();
+    }
     public void UpdateLogic(int Frame)
     {
         PassRoom(Frame);

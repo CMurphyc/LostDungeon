@@ -10,23 +10,34 @@ public class LoginEvent : MonoBehaviour
     void Start()
     {
         main = GameObject.FindWithTag("GameEntry");
-       
+
     }
 
     public void OnBtnLogin()
     {
-        string UserName = GameObject.Find("Canvas/username").GetComponent<InputField>().text;
-        string Passward = GameObject.Find("Canvas/passward").GetComponent<InputField>().text;
-
-        if (UserName.Length == 0 || Passward.Length == 0)
+        string NickName = GameObject.Find("Canvas/username").GetComponent<InputField>().text;
+        if (NickName.Length == 0)
         {
-            print("账户或密码不能为空");
-            return;
+            NickName = "x10";
         }
-
-        main.GetComponent<GameMain>().socket.sock_c2s.LoginC2S(UserName, Passward);
+        main.GetComponent<GameMain>().socket.sock_c2s.LoginC2S(NickName, "");
         print("Login Request Send");
     }
+
+    // public void OnBtnLogin()
+    // {
+    //     string UserName = GameObject.Find("Canvas/username").GetComponent<InputField>().text;
+    //     string Passward = GameObject.Find("Canvas/passward").GetComponent<InputField>().text;
+
+    //     if (UserName.Length == 0 || Passward.Length == 0)
+    //     {
+    //         print("账户或密码不能为空");
+    //         return;
+    //     }
+
+    //     main.GetComponent<GameMain>().socket.sock_c2s.LoginC2S(UserName, Passward);
+    //     print("Login Request Send");
+    // }
 
     public void OnBtnRegister()
     {

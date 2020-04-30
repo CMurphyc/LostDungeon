@@ -14,5 +14,4 @@ public class BaseConfig: ScriptableObject
     public int fireSpeed;           //射速
     public List<int> bulletEffect;  //子弹附加效果
     public GameObject bulletObj;    //子弹预制体
-    public GameObject gun;          //枪模型
 }

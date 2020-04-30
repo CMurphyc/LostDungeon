@@ -6,7 +6,7 @@ public class RoomModule
 {
     public int MapSeed ;
     public int MapFloorNumber;
-
+    public bool isLoadingCompleted = false;
     public bool NeedUpdate = false;
     ModelManager model;
     public RoomModule(ModelManager parent)
@@ -165,6 +165,16 @@ public class RoomModule
                 return PlayerList[i].type;
        }
         return CharacterType.None;
+    }
+
+    public bool IsLoadingCompleted()
+    {
+        if (isLoadingCompleted)
+        {
+            isLoadingCompleted = false;
+            return true;
+        }
+        return false;
     }
 
 }

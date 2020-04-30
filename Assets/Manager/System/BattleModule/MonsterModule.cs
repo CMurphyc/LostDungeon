@@ -76,7 +76,20 @@ public class MonsterModule
         _parentManager = parent;
       
     }
-
+    public void Free()
+    {
+        RoomToMonster.Clear();
+        RoomToAliasUnit.Clear();
+        RemoveCounter.Clear();
+        RemoveWaitFrame.Clear();
+        StatusCounter.Clear();
+        BossMove.Clear();
+        bulletList.Clear();
+        bulletEvent.Clear();
+        BossSkill.Clear();
+        AliasRemoveCounter.Clear();
+        AliasRemoveWaitFrame.Clear();
+    }
 
     public void UpdateLogic(int frame)
     {
@@ -167,10 +180,13 @@ public class MonsterModule
                 FakeBulletUnion temp = bulletEvent[frame][i];
                 BulletUnion bu = new BulletUnion(_parentManager);
 
-                FixVector2 MonsterPos = PackConverter.FixVector3ToFixVector2(temp.boss.GetComponent<MonsterModel_Component>().position);
+                if (temp.boss != null)
+                {
+                    FixVector2 MonsterPos = PackConverter.FixVector3ToFixVector2(temp.boss.GetComponent<MonsterModel_Component>().position);
 
-                bu.BulletInit(temp.tag, MonsterPos, temp.toward,temp.speed,temp.damage,temp.roomid,temp.bulletPrefab,temp.itemList);
-                bulletList.Add(bu);
+                    bu.BulletInit(temp.tag, MonsterPos, temp.toward, temp.speed, temp.damage, temp.roomid, temp.bulletPrefab, temp.itemList);
+                    bulletList.Add(bu);
+                }
             }
             bulletEvent.Remove(frame);
         }
@@ -263,7 +279,10 @@ public class MonsterModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, float dmg, int roomid)
     {
-
+        if (obj.GetComponent<MonsterModel_Component>().buff.Undefeadted)
+        {
+            return;
+        }
         int AttackedTime = 10;
         Fix64 hp = obj.GetComponent<MonsterModel_Component>().HP - (Fix64)dmg;
         if (hp > Fix64.Zero)

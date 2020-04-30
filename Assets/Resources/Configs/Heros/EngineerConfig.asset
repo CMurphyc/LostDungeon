@@ -14,17 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 
   obj: {fileID: 5528144218637167087, guid: 38290e90198553148a604b45f209865e, type: 3}
-  HP: 0
-  moveSpeed: 0
-  damge: 0
-  bulletSpeed: 0
-  fireSpeed: 0
+  HP: 100
+  moveSpeed: 1
+  damge: 20
+  bulletSpeed: 2
+  fireSpeed: 1
   bulletEffect: 
   bulletObj: {fileID: 1448932100947966840, guid: 55ab81b59c7565c41b28d2334af496fb,
     type: 3}
-  gun: {fileID: 0}
-  rangSkill1: 2
-  areaSkill1: 1
+  rangSkill1: 1
+  areaSkill1: 0.1
   lastTimeSkill1: 0
   countdownSkill1: 0
   HPSkill1: 100
@@ -35,7 +34,7 @@ MonoBehaviour:
   bulletEffectSkill1: 
   bulletObjSkill1: {fileID: 0}
   rangeSkill2: 2
-  areaSkill2: 1
+  areaSkill2: 0.5
   throwTime: 1.5
   damgeSkill2: 2
   controlTimeSkill2: 1

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5215799739965653660}
   - component: {fileID: 1777269905342223942}
   m_Layer: 5
-  m_Name: thumb
+  m_Name: innerThumb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,8 +86,8 @@ GameObject:
   - component: {fileID: 5798393961559274695}
   - component: {fileID: 6173002646265223556}
   - component: {fileID: 8647985160979511268}
-  - component: {fileID: 7152225100542282558}
   - component: {fileID: 8873104566031364186}
+  - component: {fileID: 8363674654630672233}
   m_Layer: 5
   m_Name: SkillStickUI2
   m_TagString: Untagged
@@ -114,7 +114,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 60}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6173002646265223556
 CanvasRenderer:
@@ -144,7 +144,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 1663541dce2d15247a2af217f94e45d8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 343e165ddf514d744b02b668ef4bfa91, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -154,23 +154,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7152225100542282558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4173382997366014464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b45db5985ea48864aa1741ab12297e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Main: {fileID: 0}
-  InnerJoystick: {fileID: 2447805229863517551}
-  OuterJoystick: {fileID: 6350123505924484245}
-  Effect: {fileID: 0}
-  SkillType: 0
 --- !u!114 &8873104566031364186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +166,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2681b15c8f4a4478c5642dd3c32a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8363674654630672233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173382997366014464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e75b6af163f3f41886ae8b9f059a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InnerJoystick: {fileID: 2447805229863517551}
+  OuterJoystick: {fileID: 6350123505924484245}
+  Effect: {fileID: 0}
+  SkillType: 0
 --- !u!1 &6350123505924484245
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +194,7 @@ GameObject:
   - component: {fileID: 7619162953856296432}
   - component: {fileID: 6373054308442210755}
   m_Layer: 5
-  m_Name: thumb1
+  m_Name: thumb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

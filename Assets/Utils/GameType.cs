@@ -65,6 +65,8 @@ public class EventMessageType
     public static string StartGame = "StartGame";
 
     public static string BattleSyn = "BattleSyn";
+    public static string StartSync = "StartSync";
+    public static string NextFloor = "NextFloor";
 }
 
 public enum CharacterType
@@ -120,4 +122,54 @@ public struct DoorData
         doorNum = _doorNum;
         transferPos = _transferPos;
     }
+}
+
+public struct TreasureData
+{
+    public int treasureId;   // 道具在配置表中的下标
+    public TreasureType treasuretType;   // 道具的种类   改变人物或子弹属性 / 改变子弹形态 / 主动道具
+    public GameObject treasureTable;   // 道具对应的桌子实体
+    public GameObject treasureObejct;   // 道具实体
+    public bool active;   // 道具是否已经被拾取
+    public TreasureData(int _treasureId, TreasureType _treasureType, GameObject _treasureTable, GameObject _treasureObject, bool _active)
+    {
+        treasureId = _treasureId;
+        treasuretType = _treasureType;
+        treasureTable = _treasureTable;
+        treasureObejct = _treasureObject;
+        active = _active;
+    }
+}
+
+
+
+[System.Serializable]
+public class Door
+{
+    public GameObject upDoor;
+    public GameObject downDoor;
+    public GameObject leftDoor;
+    public GameObject rightDoor;
+}
+
+public enum TreasureType
+{
+    Buff = 1,
+    BulletChange = 2,
+    Initiative = 3
+}
+
+public enum BulletChange
+{
+    Penetrate = 201,
+    Sputtering = 202,
+    LightningChain = 203,
+    Freeze = 204,
+    Poision = 205,
+    Burn = 206,
+    Dizziness = 207,
+    Retard = 208,
+    Bigger = 209,
+    Smaller = 210,
+    Longer = 211
 }
