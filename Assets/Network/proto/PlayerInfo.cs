@@ -22,14 +22,14 @@ public static partial class PlayerInfoReflection {
   static PlayerInfoReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChBQbGF5ZXJJbmZvLnByb3RvIlYKClBsYXllckluZm8SEAoIcGxheWVySWQY",
+          "ChBQbGF5ZXJJbmZvLnByb3RvImUKClBsYXllckluZm8SEAoIcGxheWVySWQY",
           "ASABKAUSEAoIdXNlck5hbWUYAiABKAkSEwoEcm9sZRgDIAEoDjIFLlJvbGUS",
-          "DwoHaXNSZWFkeRgEIAEoCCowCgRSb2xlEgwKCEVOR0lORUVSEAASDAoIR1VB",
-          "UkRJQU4QARIMCghNQUdJQ0lBThACYgZwcm90bzM="));
+          "DwoHaXNSZWFkeRgEIAEoCBINCgVydW5lcxgFIAEoBSowCgRSb2xlEgwKCEVO",
+          "R0lORUVSEAASDAoIR1VBUkRJQU4QARIMCghNQUdJQ0lBThACYgZwcm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Role), }, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::PlayerInfo), global::PlayerInfo.Parser, new[]{ "PlayerId", "UserName", "Role", "IsReady" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::PlayerInfo), global::PlayerInfo.Parser, new[]{ "PlayerId", "UserName", "Role", "IsReady", "Runes" }, null, null, null)
         }));
   }
   #endregion
@@ -74,6 +74,7 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     userName_ = other.userName_;
     role_ = other.role_;
     isReady_ = other.isReady_;
+    runes_ = other.runes_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -126,6 +127,17 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     }
   }
 
+  /// <summary>Field number for the "runes" field.</summary>
+  public const int RunesFieldNumber = 5;
+  private int runes_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Runes {
+    get { return runes_; }
+    set {
+      runes_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as PlayerInfo);
@@ -143,6 +155,7 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     if (UserName != other.UserName) return false;
     if (Role != other.Role) return false;
     if (IsReady != other.IsReady) return false;
+    if (Runes != other.Runes) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -153,6 +166,7 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     if (UserName.Length != 0) hash ^= UserName.GetHashCode();
     if (Role != 0) hash ^= Role.GetHashCode();
     if (IsReady != false) hash ^= IsReady.GetHashCode();
+    if (Runes != 0) hash ^= Runes.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -182,6 +196,10 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
       output.WriteRawTag(32);
       output.WriteBool(IsReady);
     }
+    if (Runes != 0) {
+      output.WriteRawTag(40);
+      output.WriteInt32(Runes);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -201,6 +219,9 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     }
     if (IsReady != false) {
       size += 1 + 1;
+    }
+    if (Runes != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Runes);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -224,6 +245,9 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     }
     if (other.IsReady != false) {
       IsReady = other.IsReady;
+    }
+    if (other.Runes != 0) {
+      Runes = other.Runes;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -250,6 +274,10 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
         }
         case 32: {
           IsReady = input.ReadBool();
+          break;
+        }
+        case 40: {
+          Runes = input.ReadInt32();
           break;
         }
       }
