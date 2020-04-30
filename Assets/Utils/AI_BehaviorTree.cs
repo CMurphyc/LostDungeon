@@ -284,8 +284,8 @@ class AI_BehaviorTree : AI_BehaviorBase
 
 
                     bu.BulletInit("AliasAI", ShootPos, ShootToward,
-                                                                  (Fix64)0.1, (Fix64)1, base.RoomID,
-                                                                  Resources.Load("Model/Boss/Boss_Rabit/bullet/bullet_30") as GameObject
+                                                                  (Fix64)0.2, (Fix64)1, base.RoomID,
+                                                                  Resources.Load("Model/Bullet/Prefab/bullet_87") as GameObject
                                                                   , list);
                     sys._battle._monster.bulletList.Add(bu);
                     break;
