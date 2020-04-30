@@ -241,38 +241,44 @@ public class MonsterModule
 
     }
     public void UpdateBossHP()
-
     {
         BattleUIUpdate BattleUI = GameObject.Find("Canvas").GetComponent<BattleUIUpdate>();
-        GameObject BossUI = BattleUI.BossUI;
-        int CurrnetUID = _parentManager._player.FindCurrentPlayerUID();
-        int CurrnetRoomID = _parentManager._player.playerToPlayer[CurrnetUID].RoomID;
-        if (CurrnetRoomID == BossRoom)
+        if (BattleUI != null)
         {
-            if (!BossUI.activeSelf)
+            GameObject BossUI = BattleUI.BossUI;
+
+            if (BossUI != null)
             {
-                BossUI.SetActive(true);
-            }
-            else
-            {
-                List<GameObject> ListObj = _parentManager._monster.RoomToMonster[BossRoom];
-                for (int i = 0; i < ListObj.Count; i++)
+                int CurrnetUID = _parentManager._player.FindCurrentPlayerUID();
+                int CurrnetRoomID = _parentManager._player.playerToPlayer[CurrnetUID].RoomID;
+                if (CurrnetRoomID == BossRoom)
                 {
-                    if (ListObj[i].tag == "Boss")
+                    if (!BossUI.activeSelf)
                     {
-                        bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
-                        BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
-                        BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
-                        break;
+                        BossUI.SetActive(true);
+                    }
+                    else
+                    {
+                        List<GameObject> ListObj = _parentManager._monster.RoomToMonster[BossRoom];
+                        for (int i = 0; i < ListObj.Count; i++)
+                        {
+                            if (ListObj[i].tag == "Boss")
+                            {
+                                bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
+                                BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
+                                BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
+                                break;
+                            }
+                        }
                     }
                 }
+
+
+                Text MonsterNum = GameObject.Find("Canvas/MonsterLeft/monsternum").GetComponent<Text>();
+                MonsterNum.text = _parentManager._monster.RoomToMonster[CurrnetRoomID].Count.ToString();
+
             }
         }
-        Text MonsterNum = GameObject.Find("Canvas/MonsterLeft/monsternum").GetComponent<Text>();
-        MonsterNum.text = _parentManager._monster.RoomToMonster[CurrnetRoomID].Count.ToString();
-
-
-
 
     }
 
