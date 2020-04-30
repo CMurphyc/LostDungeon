@@ -3,7 +3,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Pathfinding.Legacy {
+namespace Pathfinding.Legacy
+{
 	using Pathfinding;
 	using Pathfinding.RVO;
 
@@ -41,7 +42,8 @@ namespace Pathfinding.Legacy {
 	[RequireComponent(typeof(Seeker))]
 	[AddComponentMenu("Pathfinding/Legacy/AI/Legacy AIPath (3D)")]
 	[HelpURL("http://arongranberg.com/astar/docs/class_pathfinding_1_1_legacy_1_1_legacy_a_i_path.php")]
-	public class LegacyAIPath : AIPath {
+	public class LegacyAIPath : AIPath
+	{
 		/// <summary>
 		/// Target point is Interpolated on the current segment in the path so that it has a distance of <see cref="forwardLook"/> from the AI.
 		/// See the detailed description of AIPath for an illustrative image
@@ -66,7 +68,8 @@ namespace Pathfinding.Legacy {
 		protected Vector3 lastFoundWaypointPosition;
 		protected float lastFoundWaypointTime = -9999;
 
-		protected override void Awake () {
+		protected override void Awake()
+		{
 			base.Awake();
 		}
 
@@ -75,7 +78,8 @@ namespace Pathfinding.Legacy {
 		/// A path is first requested by <see cref="SearchPath"/>, it is then calculated, probably in the same or the next frame.
 		/// Finally it is returned to the seeker which forwards it to this function.\n
 		/// </summary>
-		protected override void OnPathComplete (Path _p) {
+		protected override void OnPathComplete(Path _p)
+		{
 			ABPath p = _p as ABPath;
 
 			if (p == null) throw new System.Exception("This function only handles ABPaths, do not use special path types");
@@ -87,7 +91,8 @@ namespace Pathfinding.Legacy {
 
 			// Path couldn't be calculated of some reason.
 			// More info in p.errorLog (debug string)
-			if (p.error) {
+			if (p.error)
+			{
 				p.Release(this);
 				return;
 			}
@@ -107,7 +112,8 @@ namespace Pathfinding.Legacy {
 			//however it can also be got using p.errorLog
 			//if (p.error)
 
-			if (closestOnPathCheck) {
+			if (closestOnPathCheck)
+			{
 				// Simulate movement from the point where the path was requested
 				// to where we are right now. This reduces the risk that the agent
 				// gets confused because the first point in the path is far away
@@ -115,23 +121,25 @@ namespace Pathfinding.Legacy {
 				// the agent to turn around, and that looks pretty bad).
 				Vector3 p1 = Time.time - lastFoundWaypointTime < 0.3f ? lastFoundWaypointPosition : p.originalStartPoint;
 				Vector3 p2 = GetFeetPosition();
-				Vector3 dir = p2-p1;
+				Vector3 dir = p2 - p1;
 				float magn = dir.magnitude;
 				dir /= magn;
-				int steps = (int)(magn/pickNextWaypointDist);
+				int steps = (int)(magn / pickNextWaypointDist);
 
 #if ASTARDEBUG
 				Debug.DrawLine(p1, p2, Color.red, 1);
 #endif
 
-				for (int i = 0; i <= steps; i++) {
+				for (int i = 0; i <= steps; i++)
+				{
 					CalculateVelocity(p1);
 					p1 += dir;
 				}
 			}
 		}
 
-		protected override void Update () {
+		protected override void Update()
+		{
 			//if (!canMove) { return; }
 
 			//Vector3 dir = CalculateVelocity(GetFeetPosition());
@@ -154,11 +162,12 @@ namespace Pathfinding.Legacy {
 		/// </summary>
 		protected new Vector3 targetDirection;
 
-		protected float XZSqrMagnitude (Vector3 a, Vector3 b) {
-			float dx = b.x-a.x;
-			float dz = b.z-a.z;
+		protected float XZSqrMagnitude(Vector3 a, Vector3 b)
+		{
+			float dx = b.x - a.x;
+			float dz = b.z - a.z;
 
-			return dx*dx + dz*dz;
+			return dx * dx + dz * dz;
 		}
 
 		/// <summary>
@@ -174,41 +183,50 @@ namespace Pathfinding.Legacy {
 		/// /see targetDirection
 		/// /see currentWaypointIndex
 		/// </summary>
-		protected new Vector3 CalculateVelocity (Vector3 currentPosition) {
+		protected new Vector3 CalculateVelocity(Vector3 currentPosition)
+		{
 			if (path == null || path.vectorPath == null || path.vectorPath.Count == 0) return Vector3.zero;
 
 			List<Vector3> vPath = path.vectorPath;
 
-			if (vPath.Count == 1) {
+			if (vPath.Count == 1)
+			{
 				vPath.Insert(0, currentPosition);
 			}
 
-			if (currentWaypointIndex >= vPath.Count) { currentWaypointIndex = vPath.Count-1; }
+			if (currentWaypointIndex >= vPath.Count) { currentWaypointIndex = vPath.Count - 1; }
 
 			if (currentWaypointIndex <= 1) currentWaypointIndex = 1;
 
-			while (true) {
-				if (currentWaypointIndex < vPath.Count-1) {
+			while (true)
+			{
+				if (currentWaypointIndex < vPath.Count - 1)
+				{
 					//There is a "next path segment"
 					float dist = XZSqrMagnitude(vPath[currentWaypointIndex], currentPosition);
 					//Mathfx.DistancePointSegmentStrict (vPath[currentWaypointIndex+1],vPath[currentWaypointIndex+2],currentPosition);
-					if (dist < pickNextWaypointDist*pickNextWaypointDist) {
+					if (dist < pickNextWaypointDist * pickNextWaypointDist)
+					{
 						lastFoundWaypointPosition = currentPosition;
 						lastFoundWaypointTime = Time.time;
 						currentWaypointIndex++;
-					} else {
+					}
+					else
+					{
 						break;
 					}
-				} else {
+				}
+				else
+				{
 					break;
 				}
 			}
 
-			Vector3 dir = vPath[currentWaypointIndex] - vPath[currentWaypointIndex-1];
-			Vector3 targetPosition = CalculateTargetPoint(currentPosition, vPath[currentWaypointIndex-1], vPath[currentWaypointIndex]);
+			Vector3 dir = vPath[currentWaypointIndex] - vPath[currentWaypointIndex - 1];
+			Vector3 targetPosition = CalculateTargetPoint(currentPosition, vPath[currentWaypointIndex - 1], vPath[currentWaypointIndex]);
 
 
-			dir = targetPosition-currentPosition;
+			dir = targetPosition - currentPosition;
 			dir.y = 0;
 			float targetDist = dir.magnitude;
 
@@ -216,14 +234,15 @@ namespace Pathfinding.Legacy {
 
 			this.targetDirection = dir;
 
-			if (currentWaypointIndex == vPath.Count-1 && targetDist <= endReachedDistance) {
+			if (currentWaypointIndex == vPath.Count - 1 && targetDist <= endReachedDistance)
+			{
 				if (!reachedEndOfPath) { reachedEndOfPath = true; OnTargetReached(); }
 
 				//Send a move request, this ensures gravity is applied
 				return Vector3.zero;
 			}
 
-			Vector3 forward = Rotation*Vector3.forward;
+			Vector3 forward = Rotation * Vector3.forward;
 			float dot = Vector3.Dot(dir.normalized, forward);
 			float sp = maxSpeed * Mathf.Max(dot, minMoveScale) * slowdown;
 
@@ -235,11 +254,12 @@ namespace Pathfinding.Legacy {
 			Debug.DrawRay(GetFeetPosition(), forward*sp, Color.cyan);
 #endif
 
-			if ( FrameRate/1000f > 0) {
-				sp = Mathf.Clamp(sp, 0, targetDist/(FrameRate/1000f * 2));
+			if (FrameRate / 1000f > 0)
+			{
+				sp = Mathf.Clamp(sp, 0, targetDist / (FrameRate / 1000f * 2));
 			}
 
-			return forward*sp;
+			return forward * sp;
 		}
 
 		/// <summary>
@@ -247,13 +267,14 @@ namespace Pathfinding.Legacy {
 		/// Rotates around the Y-axis.
 		/// See: turningSpeed
 		/// </summary>
-		protected void RotateTowards (Vector3 dir) {
+		protected void RotateTowards(Vector3 dir)
+		{
 			if (dir == Vector3.zero) return;
 
 			Quaternion rot = Rotation;
 			Quaternion toTarget = Quaternion.LookRotation(dir);
 
-			rot = Quaternion.Slerp(rot, toTarget, turningSpeed*  FrameRate/1000f);
+			rot = Quaternion.Slerp(rot, toTarget, turningSpeed * FrameRate / 1000f);
 			Vector3 euler = rot.eulerAngles;
 			euler.z = 0;
 			euler.x = 0;
@@ -271,22 +292,23 @@ namespace Pathfinding.Legacy {
 		/// <param name="a">Line segment start</param>
 		/// <param name="b">Line segment end
 		/// The returned point will lie somewhere on the line segment.</param>
-		protected Vector3 CalculateTargetPoint (Vector3 p, Vector3 a, Vector3 b) {
+		protected Vector3 CalculateTargetPoint(Vector3 p, Vector3 a, Vector3 b)
+		{
 			a.y = p.y;
 			b.y = p.y;
 
-			float magn = (a-b).magnitude;
+			float magn = (a - b).magnitude;
 			if (magn == 0) return a;
 
 			float closest = Mathf.Clamp01(VectorMath.ClosestPointOnLineFactor(a, b, p));
-			Vector3 point = (b-a)*closest + a;
-			float distance = (point-p).magnitude;
+			Vector3 point = (b - a) * closest + a;
+			float distance = (point - p).magnitude;
 
 			float lookAhead = Mathf.Clamp(forwardLook - distance, 0.0F, forwardLook);
 
 			float offset = lookAhead / magn;
-			offset = Mathf.Clamp(offset+closest, 0.0F, 1.0F);
-			return (b-a)*offset + a;
+			offset = Mathf.Clamp(offset + closest, 0.0F, 1.0F);
+			return (b - a) * offset + a;
 		}
 	}
 }

@@ -32,7 +32,6 @@ public class BattleManager
         _chest = new ChestModule(this);
     }
 
-
     public void UpdateFrame()
     {
         UpdateLogicByFrame();
@@ -49,9 +48,6 @@ public class BattleManager
         _terrain.UpdateLogic(local_frame);
         _chest.UpdateLogic(local_frame) ;
         local_frame++;
-
-
-
     }
 
     void UpdateView()
@@ -61,6 +57,15 @@ public class BattleManager
         _skill.UpdateView();
         _terrain.UpdateView();
         _chest.UpdateView(local_frame);
+    }
+
+    public void ReleaseMemory()
+    {
+        _monster.Free();
+        _player.Free();
+        _skill.Free();
+        _terrain.Free();
+        _chest.Free();
     }
 
 }

@@ -148,7 +148,7 @@ MonoBehaviour:
   version: 2
   radius: 0.3
   height: 0.3
-  repathRate: 0.2
+  repathRate: 1
   canSearch: 1
   canMove: 1
   maxSpeed: 2
@@ -164,7 +164,7 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 0.6
   pickNextWaypointDist: 0.1
-  endReachedDistance: 0.4
+  endReachedDistance: 0.5
   alwaysDrawGizmos: 1
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0

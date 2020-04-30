@@ -604,27 +604,39 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
         {
             case CharacterType.Enginner:
                 {
+                    GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
                     js1.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill1Range(),
+                                                sys._battle._skill.enginerBase.Skill1Area(), PlayerObject);
                     js2.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill2Image;
+
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill2Range(),
+                                                sys._battle._skill.enginerBase.Skill2Area(), PlayerObject);
                     break;
                 }
             case CharacterType.Magician:
                 {
+                    GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
                     js1.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill1Range(),
+                                                sys._battle._skill.magicianBase.Skill1Area(), PlayerObject);
                     js2.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill2Image;
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill2Range(),
+                                                sys._battle._skill.magicianBase.Skill2Area(), PlayerObject);
                     break;
                 }
             default:
                 break;
         }
-        GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
-        js1.GetComponent<SkillIndiactor>().Init(2,0.5f, PlayerObject);
-        js2.GetComponent<SkillIndiactor>().Init(2,0.5f, PlayerObject);
+       
+        
+        
 
     }
 
     public void CreatePlayer(int playerNum , int uid,CharacterType type)
     {
+        FixVector2 SpwanPos = new FixVector2((Fix64)xOffset * birthY + startPosition[playerNum * 2], (Fix64)yOffset * birthX + startPosition[playerNum * 2 + 1]);
         //  创建玩家实体并根据玩家编号来决定出生位置
         switch(type)
         {
@@ -636,6 +648,15 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
 
                 playerTmp.transform.localScale = new Vector3(3, 3, 1);
 
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.enginerBase.HP,
+                        (Fix64)sys._battle._skill.enginerBase.moveSpeed,
+                        (Fix64)sys._battle._skill.enginerBase.damge,
+                        (Fix64)sys._battle._skill.enginerBase.bulletSpeed,
+                        (Fix64)sys._battle._skill.enginerBase.fireSpeed,
+                        sys._battle._skill.enginerBase.bulletEffect
+                        );
+
+                playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
                 PlayerInGameData data = new PlayerInGameData();
                 data.obj = playerTmp;
                 data.RoomID = startRoom;
@@ -650,7 +671,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     Quaternion.identity);
 
                     playerTmp.transform.localScale = new Vector3(3, 3, 1);
-
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
                     PlayerInGameData data = new PlayerInGameData();
                     data.obj = playerTmp;
                     data.RoomID = startRoom;

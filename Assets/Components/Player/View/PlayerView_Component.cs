@@ -33,7 +33,16 @@ public class PlayerView_Component : MonoBehaviour
 
     private void UpdateRotation()
     {
-        GetComponent<SpriteRenderer>().flipX = GetComponent<PlayerModel_Component>().GetPlayerRotation();
+        if(GetComponent<PlayerModel_Component>().GetPlayerRotation())
+        {
+            this.transform.rotation = new Quaternion(0, 180, 0, 0);
+            //this.transform.Rotate(0, 180, 0);
+        }
+        else
+        {
+            this.transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+        //GetComponent<SpriteRenderer>().flipX = GetComponent<PlayerModel_Component>().GetPlayerRotation();
     }
 
     public void Play(string animation)

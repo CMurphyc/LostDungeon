@@ -199,17 +199,17 @@ public class CollideDetecter
     }
     public void GetRectPoint(ref FixVector2 upperLeft, ref FixVector2 upperRight, ref FixVector2 bottomLeft, ref FixVector2 bottomRight, Rectangle Rect)
     {
-        upperLeft.x = Rect.anchor.x - Rect.horizon / 2f;
-        upperLeft.y = Rect.anchor.y + Rect.vertical / 2f;
+        upperLeft.x = Rect.anchor.x - Rect.horizon / (Fix64)2f;
+        upperLeft.y = Rect.anchor.y + Rect.vertical / (Fix64)2f;
 
-        upperRight.x = Rect.anchor.x + Rect.horizon / 2f;
-        upperRight.y = Rect.anchor.y + Rect.vertical / 2f;
+        upperRight.x = Rect.anchor.x + Rect.horizon / (Fix64)2f;
+        upperRight.y = Rect.anchor.y + Rect.vertical / (Fix64)2f;
 
-        bottomLeft.x = Rect.anchor.x - Rect.horizon / 2f;
-        bottomLeft.y = Rect.anchor.y - Rect.vertical / 2f;
+        bottomLeft.x = Rect.anchor.x - Rect.horizon / (Fix64)2f;
+        bottomLeft.y = Rect.anchor.y - Rect.vertical / (Fix64)2f;
 
-        bottomRight.x = Rect.anchor.x + Rect.horizon / 2f;
-        bottomRight.y = Rect.anchor.y - Rect.vertical / 2f;
+        bottomRight.x = Rect.anchor.x + Rect.horizon / (Fix64)2f;
+        bottomRight.y = Rect.anchor.y - Rect.vertical / (Fix64)2f;
         /*
         Debug.Log("upperleft is " + upperLeft.x + " " + upperLeft.y);
         Debug.Log("upperright is " + upperRight.x + " " + upperRight.y);

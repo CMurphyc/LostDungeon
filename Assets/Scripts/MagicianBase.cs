@@ -14,7 +14,6 @@ public class MagicianBase
     public int fireSpeed;           //射速
     public List<int> bulletEffect;  //子弹附加效果
     public GameObject bulletObj;    //子弹预制体
-    public GameObject gun;          //枪模型
 
     public float rangeSkill1;                  //火魔法范围
     public float areaSkill1;                  //火魔法大小
@@ -40,6 +39,31 @@ public class MagicianBase
 
     BattleManager _parentManager;
 
+    public float Skill1Range()
+    {
+        return rangeSkill1;
+    }
+
+    public float Skill1Area()
+    {
+        return areaSkill1;
+    }
+
+    public float Skill2Range()
+    {
+        return rangeSkill2;
+    }
+
+    public float Skill2Area()
+    {
+        return areaSkill2;
+    }
+
+    public void Free()
+    {
+        fire.Clear();
+        thunder.Clear();
+    }
     public MagicianBase(BattleManager parentManager)
     {
         MagicianConfig x = Resources.Load("Configs/Heros/MagicianConfig") as MagicianConfig;
@@ -53,7 +77,6 @@ public class MagicianBase
         fireSpeed = x.fireSpeed;
         bulletEffect = x.bulletEffect;
         bulletObj = x.bulletObj;
-        gun = x.gun;
 
 
         rangeSkill1 = x.rangeSkill1;
