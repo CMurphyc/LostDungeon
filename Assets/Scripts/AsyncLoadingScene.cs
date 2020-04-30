@@ -6,15 +6,15 @@ using UnityEngine.SceneManagement;
 public class AsyncLoadingScene : MonoBehaviour {
 
     // 加载的进度条
-    public Slider loadingProgressSlider;
+    private Slider loadingProgressSlider;
     // 加载的百分比显示
-    public Text loadingprogressText;
+    private Text loadingprogressText;
 
-    public float targetProgress;
+    private float targetProgress;
 
-    public float currentProgress;
-    GameObject main;
-    AsyncOperation operation;
+    private float currentProgress;
+    private GameObject main;
+    private AsyncOperation operation;
     
     void Start()
     {

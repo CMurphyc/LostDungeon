@@ -219,7 +219,7 @@ public class ClientListen : MonoBehaviour
             IMessage IMPlayersPack = new NextFloorS2C();
             NextFloorS2C synPack = new NextFloorS2C();
             synPack = (NextFloorS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
-            
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.NextFloor, synPack);
         }
 
         //else if (tag == GeneralType.UserRegister+ 100)
