@@ -38,23 +38,23 @@ public class testtest : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
-        x++;
-        eb.updateLogic(x);
+    //void FixedUpdate()
+    //{
+    //    x++;
+    //    eb.updateLogic(x);
 
-        if (did != 0)
-        {
-            if (did == 1)
-            {
-                eb.Skill1Logic(x, 1, tl,new Vector3(xx, yy, 0));
-                did = 0;
-            }
-            else
-            {
-                eb.Skill2Logic(x, 1, tl,new Vector3(xx, yy, 0));
-                did = 0;
-            }
-        }
-    }
+    //    if (did != 0)
+    //    {
+    //        if (did == 1)
+    //        {
+    //            eb.Skill1Logic(x, 1, tl,new Vector3(xx, yy, 0));
+    //            did = 0;
+    //        }
+    //        else
+    //        {
+    //            eb.Skill2Logic(x, 1, tl,new Vector3(xx, yy, 0));
+    //            did = 0;
+    //        }
+    //    }
+    //}
 }

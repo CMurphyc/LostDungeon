@@ -10,9 +10,9 @@ public class SkillBase
     public Fix64 radius;                //技能伤害半径
     public int controlTime;             //控制帧数
     public int frame;                   //生效帧
+    public int DmgSrcPlayerUID;                     //技能释放人ID
 
-
-    public SkillBase(int Tag,int Damage,FixVector2 Center,Fix64 Radius,int ControlTime,int Frame)
+    public SkillBase(int Tag,int Damage,FixVector2 Center,Fix64 Radius,int ControlTime,int Frame,int dmgsrc=0)
     {
         tag = Tag;
         damage = Damage;
@@ -20,6 +20,7 @@ public class SkillBase
         radius = Radius;
         controlTime = ControlTime;
         frame = Frame;
+        DmgSrcPlayerUID = dmgsrc;
     }
 
 }
