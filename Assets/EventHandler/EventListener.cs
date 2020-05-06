@@ -95,7 +95,7 @@ public class EventListener : MonoBehaviour
     void GetRoomList(EventBase eb)
     {
         GetRoomListS2C synPack = (GetRoomListS2C)eb.eventValue;
-        Debug.Log("Error: "+synPack.Error);
+        // Debug.Log("Error: "+synPack.Error);
         if (synPack.Error==0)
         {
             main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.RoomListPack = synPack;
@@ -213,6 +213,7 @@ public class EventListener : MonoBehaviour
             {
                 Debug.Log("游戏结束了");
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.isOver = true;
+                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Overview");
             }
             else
             {
