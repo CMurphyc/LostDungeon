@@ -28,21 +28,31 @@ public class PlayerDataModule
     }
     public void UpdateLogic(int frame)//更新某一帧逻辑
     {
-        for (int i = 0; i < frameInfo.Count;i++)//更新操作
+        UpdateMovement(frame);
+        foreach(var p in playerToPlayer)
+        {
+            Debug.Log(p.Value.obj.GetComponent<PlayerModel_Component>().healthPoint);
+            p.Value.obj.GetComponent<PlayerModel_Component>().UpdateLogic();
+        }
+    }
+
+    public void UpdateMovement(int frame)
+    {
+        for (int i = 0; i < frameInfo.Count; i++)//更新操作
         {
             if (playerToPlayer.ContainsKey(frameInfo[i].Uid))
             {
                 PlayerInGameData Input = playerToPlayer[frameInfo[i].Uid];
-                Vector2 MoveVec = new Vector2(frameInfo[i].MoveDirectionX/10000f, frameInfo[i].MoveDirectionY/10000f).normalized * Global.FrameRate/1000f*5f ;
+                Vector2 MoveVec = new Vector2(frameInfo[i].MoveDirectionX / 10000f, frameInfo[i].MoveDirectionY / 10000f).normalized * Global.FrameRate / 1000f * 5f;
 
                 //FixVector2 MoveVec = new FixVector2(frameInfo[i].MoveDirectionX / (Fix64)100, frameInfo[i].MoveDirectionY / (Fix64)100);
 
                 //MoveVec = MoveVec.GetNormalized() * (Fix64)Global.FrameRate / (Fix64)1000 * (Fix64)5;
 
                 FixVector2 Pos = Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
-                if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(MoveVec.x+Pos.x),(Fix64)(MoveVec.y+Pos.y)),Input.RoomID))
+                if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(MoveVec.x + Pos.x), (Fix64)(MoveVec.y + Pos.y)), Input.RoomID))
                 {
-                    Input.obj.GetComponent<PlayerModel_Component>().Move( new FixVector2((Fix64)MoveVec.x,(Fix64)MoveVec.y));
+                    Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)MoveVec.x, (Fix64)MoveVec.y));
                 }
                 else
                 {
@@ -50,7 +60,7 @@ public class PlayerDataModule
                     {
                         Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)MoveVec.x, (Fix64)0));
                     }
-                    else if(_parentManager._terrain.IsMovable(new FixVector2((Fix64)(Pos.x), (Fix64)(MoveVec.y + Pos.y)), Input.RoomID))
+                    else if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(Pos.x), (Fix64)(MoveVec.y + Pos.y)), Input.RoomID))
                     {
                         Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)0, (Fix64)MoveVec.y));
                     }
@@ -74,8 +84,8 @@ public class PlayerDataModule
 
                             if (AttackVec.x != Fix64.Zero
                                 || AttackVec.y != Fix64.Zero)
-                                //if ((Fix64.Abs(AttackDirectionX) >= (Fix64)0.01f 
-                                //&& Fix64.Abs(AttackDirectionY) >= (Fix64)0.01f))
+                            //if ((Fix64.Abs(AttackDirectionX) >= (Fix64)0.01f 
+                            //&& Fix64.Abs(AttackDirectionY) >= (Fix64)0.01f))
                             {
                                 //Debug.Log("aaaaaaaa");
                                 if (frame >= Input.NextAttackFrame)
@@ -110,7 +120,7 @@ public class PlayerDataModule
                                                 break;
                                             }
                                     }
-                                    
+
                                     bulletList.Add(bu);
 
                                     Input.NextAttackFrame = frame + AttackInterval;
@@ -210,8 +220,8 @@ public class PlayerDataModule
 
 
                 }
-                
-                foreach(var it in bulletList)
+
+                foreach (var it in bulletList)
                 {
                     it.LogicUpdate();
                 }
@@ -219,7 +229,7 @@ public class PlayerDataModule
             }
         }
 
-        foreach(KeyValuePair<int,PlayerInGameData> x in playerToPlayer)//buff 
+        foreach (KeyValuePair<int, PlayerInGameData> x in playerToPlayer)//buff 
         {
 
         }
@@ -227,7 +237,7 @@ public class PlayerDataModule
 
 
     //obj = 受击OBJECT , dmg = 伤害
-    public void BeAttacked(GameObject obj, int dmg, int roomid)
+    public void BeAttacked(GameObject obj, int dmg)
     {
         Debug.Log("tadawo");
         //int AttackedTime = 10;                  

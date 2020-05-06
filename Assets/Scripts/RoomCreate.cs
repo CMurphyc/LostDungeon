@@ -451,6 +451,12 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
             }
         }
 
+        foreach(var x in roomToCurtain)
+        {
+            x.Value.SetActive(true);
+        }
+
+
         // 生成门
         for (int i = 0; i < row; i++)
         {

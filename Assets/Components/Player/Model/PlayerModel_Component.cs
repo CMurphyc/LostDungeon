@@ -33,6 +33,7 @@ public class PlayerModel_Component : MonoBehaviour
     public void Init(int FullHealthPoint,Fix64 PlayerSpeed,Fix64 AttackPoint,Fix64 BulletSpeed,Fix64 ShootSpeed,List<int> BulletBuff)
     {
         fullHealthPoint = FullHealthPoint;
+        healthPoint = FullHealthPoint;
         playerSpeed = PlayerSpeed;
         attackPoint = AttackPoint;
         bulletBuff = BulletBuff;
