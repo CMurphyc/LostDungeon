@@ -21,7 +21,7 @@ public class VirtualJoystick2 : MonoBehaviour, IDragHandler, IPointerDownHandler
         bgImg = GetComponent<Image>();
         joystickImg = transform.GetChild(0).gameObject;
         pickImg = transform.GetChild(1).gameObject;
-        //joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
+        joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
     }
     
     public void pickIcon()

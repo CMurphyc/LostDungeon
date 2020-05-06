@@ -116,7 +116,7 @@ public class EngineerBase
         return areaSkill2;
     }
 
-    public int Skill1Logic(int frame, int RoomID, List<int> gifted,Vector3 st,Vector3 ed)//返回值就是cd
+    public int Skill1Logic(int frame, int RoomID, List<int> gifted,Vector3 st,Vector3 ed, int dmgSrc)//返回值就是cd
     {
         /*
             FixVector2 PlayerPos = battle._player.playerToPlayer[UID].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
@@ -138,9 +138,9 @@ public class EngineerBase
             attribute.SpinRate = 3;
             TerretInstance.GetComponent<EnemyAI>().InitAI(AI_Type.Engineer_TerretTower, RoomID, attribute);
             TerretInstance.GetComponent<MonsterModel_Component>().HP = (Fix64)10;
+            TerretInstance.GetComponent<MonsterModel_Component>().OwnderUID = dmgSrc;
             temp.obj = TerretInstance;
             temp.RemainingFrame = 200;
-
             if (!_parentManager._monster.RoomToAliasUnit.ContainsKey(RoomID))
             {
                 List<AliasMonsterPack> ListAlias = new List<AliasMonsterPack>();
@@ -155,7 +155,7 @@ public class EngineerBase
         return 7*1000/Global.FrameRate;
     }
 
-    public int Skill2Logic(int frame,int RoomID, List<int> gifted, Vector3 st, Vector3 ed)
+    public int Skill2Logic(int frame,int RoomID, List<int> gifted, Vector3 st, Vector3 ed , int dmgSrc)
     {
 
         int damageFrame = frame;
@@ -210,7 +210,7 @@ public class EngineerBase
         SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)ed.x, (Fix64)ed.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate),
 
 
-            damageFrame);
+            damageFrame, dmgSrc);
 
         _parentManager._skill.Add(tmp, RoomID);
         

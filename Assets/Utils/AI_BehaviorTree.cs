@@ -280,10 +280,6 @@ class AI_BehaviorTree : AI_BehaviorBase
                     }
 
 
-
-
-
-
                     sys._battle._skill.Add(
                         new SkillBase(1, 1,
                         new FixVector2(obj.transform.GetComponent<MonsterModel_Component>().position.x, obj.transform.GetComponent<MonsterModel_Component>().position.y),
@@ -315,12 +311,12 @@ class AI_BehaviorTree : AI_BehaviorBase
                     FixVector2 ShootToward = new FixVector2(Fix64.Cos(degree * Fix64.PI / (Fix64)180f),
                                             Fix64.Sin(degree * Fix64.PI / (Fix64)180f));
 
-
+                   
 
                     bu.BulletInit("AliasAI", ShootPos, ShootToward,
                                                                   (Fix64)0.2, (Fix64)1, base.RoomID,
                                                                   Resources.Load("Model/Bullet/Prefab/bullet_87") as GameObject
-                                                                  , list);
+                                                                  , list, obj.GetComponent<MonsterModel_Component>().OwnderUID);
                     sys._battle._monster.bulletList.Add(bu);
                     break;
                 }

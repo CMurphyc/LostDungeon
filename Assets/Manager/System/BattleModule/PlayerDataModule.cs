@@ -59,7 +59,7 @@ public class PlayerDataModule
         UpdateMovement(frame);
         foreach(var p in playerToPlayer)
         {
-            Debug.Log(p.Value.obj.GetComponent<PlayerModel_Component>().healthPoint);
+            //Debug.Log(p.Value.obj.GetComponent<PlayerModel_Component>().healthPoint);
             p.Value.obj.GetComponent<PlayerModel_Component>().UpdateLogic();
         }
     }
@@ -133,7 +133,7 @@ public class PlayerDataModule
                                                                         (Fix64)0.2, (Fix64)2, Input.RoomID,
                                                                         _parentManager.sys._battle._skill.enginerBase.bulletObj
 
-                                                                        , list);
+                                                                        , list, frameInfo[i].Uid);
                                                 break;
                                             }
                                         case CharacterType.Magician:
@@ -144,7 +144,7 @@ public class PlayerDataModule
                                                                         (Fix64)0.2, (Fix64)2, Input.RoomID,
                                                                         _parentManager.sys._battle._skill.magicianBase.bulletObj
 
-                                                                        , list);
+                                                                        , list, frameInfo[i].Uid);
                                                 break;
                                             }
                                     }
@@ -180,7 +180,7 @@ public class PlayerDataModule
                                             (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
-                                            )
+                                            ),frameInfo[i].Uid
                                             );
                                         break;
                                     }
@@ -190,7 +190,7 @@ public class PlayerDataModule
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
-                                            )
+                                            ),frameInfo[i].Uid
                                             );
                                         break;
                                     }
@@ -224,7 +224,7 @@ public class PlayerDataModule
                                             (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
-                                            )
+                                            ), frameInfo[i].Uid
                                             );
                                         break;
                                     }
@@ -234,7 +234,7 @@ public class PlayerDataModule
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
-                                            )
+                                            ), frameInfo[i].Uid
                                             );
                                         break;
                                     }
@@ -267,7 +267,7 @@ public class PlayerDataModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, int dmg,int roomid)
     {
-        Debug.Log("tadawo");
+        //Debug.Log("tadawo");
         //int AttackedTime = 10;                  
         obj.GetComponent<PlayerModel_Component>().SetHealthPoint(
             obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg);

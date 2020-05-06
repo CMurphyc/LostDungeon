@@ -20,6 +20,7 @@ public class AliasMonsterPack
 {
     public int RemainingFrame;
     public GameObject obj;
+
 }
 
 public class MonsterModule
@@ -206,7 +207,7 @@ public class MonsterModule
                 {
                     FixVector2 MonsterPos = PackConverter.FixVector3ToFixVector2(temp.boss.GetComponent<MonsterModel_Component>().position);
 
-                    bu.BulletInit(temp.tag, MonsterPos, temp.toward, temp.speed, temp.damage, temp.roomid, temp.bulletPrefab, temp.itemList);
+                    bu.BulletInit(temp.tag, MonsterPos, temp.toward, temp.speed, temp.damage, temp.roomid, temp.bulletPrefab, temp.itemList,0);
                     bulletList.Add(bu);
                 }
             }
@@ -309,7 +310,7 @@ public class MonsterModule
     }
 
     //obj = 受击OBJECT , dmg = 伤害
-    public void BeAttacked(GameObject obj, float dmg, int roomid)
+    public void BeAttacked(GameObject obj, float dmg, int roomid, int dmg_srcUID)
     {
         if (obj.GetComponent<MonsterModel_Component>().buff.Undefeadted)
         {
@@ -333,6 +334,29 @@ public class MonsterModule
         }
         else
         {
+            if (dmg_srcUID!=0)
+            {
+                if (!_parentManager.sys._model._RoomModule.PVEResult.ContainsKey(dmg_srcUID))
+                {
+                    PVEData data = new PVEData();
+                    data.kills = 1;
+                    _parentManager.sys._model._RoomModule.PVEResult.Add(dmg_srcUID, data);
+                        }
+                else
+                {
+                    _parentManager.sys._model._RoomModule.PVEResult[dmg_srcUID].kills++;
+                }
+
+                Debug.Log("Match OverView");
+                foreach(var item in _parentManager.sys._model._RoomModule.PVEResult)
+                {
+                    Debug.Log("Player: " + item.Key);
+                    Debug.Log("Kills: " + item.Value.kills);
+                }
+
+
+            }
+
             obj.GetComponent<MonsterModel_Component>().HP = Fix64.Zero;
 
             if (RoomToMonster[roomid].Contains(obj))

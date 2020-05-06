@@ -63,13 +63,13 @@ public class Bullet
     public List<int> attackEffectList;
     public List<int> debuffList;
     public List<int> scaleEffectList;
+    public int dmgSrcUID;
 
 
-
-    public Bullet(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList)
+    public Bullet(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList, int dmgSrcUid)
     {
         BulletContainerInit();
-
+        dmgSrcUID = dmgSrcUid;
         this.tag = tag;
         this.anchor = anchor;
 
@@ -129,7 +129,7 @@ public class BulletBase
     protected List<explode> explodeList;
     //子弹类型（这里直接传一个GameObject，实例化的都是它的拷贝）
     protected GameObject bulletPrefab;
-    public virtual void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList) { }
+    public virtual void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList, int DmgSrcUid) { }
     public virtual void LogicUpdate() { }
     public virtual void ViewUpdate() { }
     public virtual void ContainerInit() { }
@@ -151,7 +151,7 @@ public class BulletUnion : BulletBase
     }
 
     //初始化所有子弹逻辑层logic的信息以及视图层prefab的信息
-    public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList)
+    public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList, int DmgSrcUid=0)
     {
 
         this.bulletPrefab = bulletPrefab;
@@ -160,19 +160,19 @@ public class BulletUnion : BulletBase
         //逻辑层信息初始化
 
         //中心作为基准的子弹
-        Bullet midBullet = new Bullet(tag, anchor, toward, speed, damage, roomid, bulletPrefab, itemList);
+        Bullet midBullet = new Bullet(tag, anchor, toward, speed, damage, roomid, bulletPrefab, itemList, DmgSrcUid);
 
         //子弹偏移数量
         int splitNum = midBullet.GetSplitNum();
 
         //左侧偏移的子弹
-        for (int i = 1; i <= splitNum; ++i) spwanedBullet.Add(new Bullet(tag, anchor, Converter.NormalFixVector2Rotate(toward, (Fix64)(-15f * i)), speed, damage, roomid, bulletPrefab, itemList));
+        for (int i = 1; i <= splitNum; ++i) spwanedBullet.Add(new Bullet(tag, anchor, Converter.NormalFixVector2Rotate(toward, (Fix64)(-15f * i)), speed, damage, roomid, bulletPrefab, itemList, DmgSrcUid));
 
         //中央的子弹
         if (midBullet.toward != FixVector2.Zero) spwanedBullet.Add(midBullet);
 
         //右侧偏移的子弹
-        for (int i = 1; i <= splitNum; ++i) spwanedBullet.Add(new Bullet(tag, anchor, Converter.NormalFixVector2Rotate(toward, (Fix64)(15f * i)), speed, damage, roomid, bulletPrefab, itemList));
+        for (int i = 1; i <= splitNum; ++i) spwanedBullet.Add(new Bullet(tag, anchor, Converter.NormalFixVector2Rotate(toward, (Fix64)(15f * i)), speed, damage, roomid, bulletPrefab, itemList, DmgSrcUid));
 
         //视图层信息初始化
         //根据信息量实例化对应信息的子弹实体
@@ -205,7 +205,7 @@ public class BulletUnion : BulletBase
             //在溅射范围内
             if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position) <= 20)
             {
-                _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid);
+                _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid,bullet.dmgSrcUID);
             }
         }
     }
@@ -231,7 +231,7 @@ public class BulletUnion : BulletBase
                 //获取真实的敌对单位位置
                 if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)) == it)
                 {
-                    _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid);
+                    _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid, bullet.dmgSrcUID);
                 }
             }
         }
@@ -309,7 +309,7 @@ public class BulletUnion : BulletBase
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
 
-                        _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], 1f, spwanedBullet[i].roomid);
+                        _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], 1f, spwanedBullet[i].roomid, spwanedBullet[i].dmgSrcUID);
                         spwanedBullet[i].active = false;
                         //attackEffect逻辑层面的实现
                         foreach (var effect in spwanedBullet[i].attackEffectList)
