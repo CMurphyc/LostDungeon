@@ -8,7 +8,7 @@ public class misc : MonoBehaviour
     private bool damaged;
     private GameObject damageImage;
     private Color flashColour;
-    private float flashSpeed = 10f;
+    private float flashSpeed = 1f;
     private float full = 155f;
     void Start()
     {
@@ -21,7 +21,7 @@ public class misc : MonoBehaviour
     {
         if(damaged)
         {
-            damageImage.GetComponent<Image>().color = flashColour;
+            damageImage.GetComponent<Image>().color = Color.Lerp(flashColour, damageImage.GetComponent<Image>().color, flashSpeed * Time.deltaTime);
         }
         else
         {

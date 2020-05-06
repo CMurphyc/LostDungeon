@@ -23,7 +23,7 @@ public class ChestInfo
     }
 }
 
-public class ChestModule:MonoBehaviour
+public class ChestModule
 {
     BattleManager _parentManager;
 
@@ -34,14 +34,14 @@ public class ChestModule:MonoBehaviour
     //开过的宝箱
     public List<GameObject> OpenedChests;
     //被拾取的金币
-    public List<GameObject> HandledCoins;
+    public List<KeyValuePair<GameObject,float> > HandledCoins;
     public ChestModule(BattleManager _parentManager)
     {
         this._parentManager = _parentManager;
         Room = new HashSet<int>();
         Chest = new List<ChestInfo>();
         OpenedChests = new List<GameObject>();
-        HandledCoins = new List<GameObject>();
+        HandledCoins = new List<KeyValuePair<GameObject, float>>();
     }
     public void Free()
     {
@@ -65,10 +65,10 @@ public class ChestModule:MonoBehaviour
                         playerpos = j.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
                         if (FixVector2.Distance(playerpos, Chest[i].Position) <= (Fix64)1)
                         {
-                            GameObject it = Instantiate(Resources.Load("UI/UIPrefabs/Openedchest"), Chest[i].thing.transform.position, Chest[i].thing.transform.rotation) as GameObject;
+                            GameObject it =Object.Instantiate(Resources.Load("UI/UIPrefabs/Openedchest"), Chest[i].thing.transform.position, Chest[i].thing.transform.rotation) as GameObject;
                             OpenedChests.Add(it);
                             SCCoins(Chest[i].Position, Frame);
-                            Destroy(Chest[i].thing);
+                            Object.Destroy(Chest[i].thing);
                             Chest.RemoveAt(i);
                         }
                     }
@@ -77,30 +77,35 @@ public class ChestModule:MonoBehaviour
                     GameObject pler = _parentManager._player.FindPlayerObjByUID(_parentManager._player.FindCurrentPlayerUID());
                     playerpos = pler.GetComponent<PlayerModel_Component>().GetPlayerPosition();
                     FixVector2 coinspos = Chest[i].Position;
-                    if (FixVector2.Distance(playerpos, coinspos) <= (Fix64)2)
+                    if (FixVector2.Distance(playerpos, coinspos) <= (Fix64)4)
                     {
-                        HandledCoins.Add(Chest[i].thing);
+                        HandledCoins.Add(new KeyValuePair<GameObject, float>(Chest[i].thing,0.05f));
                         Chest.RemoveAt(i);
-
+                        if(_parentManager.sys._model._RoomModule.PVEResult.ContainsKey(_parentManager._player.FindCurrentPlayerUID())==false)
+                        {
+                            _parentManager.sys._model._RoomModule.PVEResult.Add(_parentManager._player.FindCurrentPlayerUID(),new PVEData());
+                        }
+                        _parentManager.sys._model._RoomModule.PVEResult[_parentManager._player.FindCurrentPlayerUID()].coins++;
                     }
                     break;
             }
         }
     }
-    public void UpdateView(int Frame)
+    public void UpdateView()
     {
         for(int i=HandledCoins.Count-1;i>=0;i--)
         {
             GameObject pler = _parentManager._player.FindPlayerObjByUID(_parentManager._player.FindCurrentPlayerUID());
-            GameObject coin = HandledCoins[i];
+            GameObject coin = HandledCoins[i].Key;
             if (Vector2.Distance(coin.transform.position,pler.transform.position)<=0.1)
             {
-                Destroy(coin);
+                Object.Destroy(coin);
                 HandledCoins.RemoveAt(i);
             }
             else
             {
-                coin.transform.position=Vector2.Lerp(coin.transform.position, pler.transform.position,0.2f);
+                coin.transform.position=Vector2.Lerp(coin.transform.position, pler.transform.position, HandledCoins[i].Value);
+                HandledCoins[i] = new KeyValuePair<GameObject, float>(coin, HandledCoins[i].Value+Time.deltaTime);
             }
         }
     }
@@ -110,7 +115,7 @@ public class ChestModule:MonoBehaviour
     /// </summary>
     void SCChest(int Frame)
     {
-        GameObject it=Instantiate(Resources.Load("UI/UIPrefabs/chest")) as GameObject;
+        GameObject it= Object.Instantiate(Resources.Load("UI/UIPrefabs/chest")) as GameObject;
         it.transform.position = _parentManager._player.FindPlayerObjByUID(_parentManager._player.FindCurrentPlayerUID()).transform.position;
         Chest.Add(new ChestInfo(it,ThingsType.Chest,Frame+20,
             new FixVector2((Fix64)it.transform.position.x,(Fix64)it.transform.position.y)));
@@ -122,7 +127,7 @@ public class ChestModule:MonoBehaviour
     {
         for(int i=1;i<=5;i++)
         {
-            GameObject it=Instantiate(Resources.Load("UI/Scene'sPictures/MapCreat/Prefabs/coin")) as GameObject;
+            GameObject it= Object.Instantiate(Resources.Load("UI/Scene'sPictures/MapCreat/Prefabs/coin")) as GameObject;
             it.transform.position = new Vector2((float)chestpos.x,(float)chestpos.y)+Random.insideUnitCircle;
             Chest.Add(new ChestInfo(it,ThingsType.Coin,Frame+10,new FixVector2((Fix64)it.transform.position.x,(Fix64)it.transform.position.y)));
         }
