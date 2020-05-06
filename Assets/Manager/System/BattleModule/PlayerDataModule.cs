@@ -271,6 +271,18 @@ public class PlayerDataModule
         //int AttackedTime = 10;                  
         obj.GetComponent<PlayerModel_Component>().SetHealthPoint(
             obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg);
+        int PlayerUID = _parentManager.sys._model._PlayerModule.uid;
+
+        foreach(var x in _parentManager.sys._battle._player.playerToPlayer)
+        {
+            if(x.Value.obj==obj)
+            {
+                if(x.Key==PlayerUID)
+                {
+                    misc.ScreenFlash();
+                }
+            }
+        }
     }
 
     public void UpdateView()//更新视图

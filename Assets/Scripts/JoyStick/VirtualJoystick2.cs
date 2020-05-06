@@ -7,8 +7,8 @@ using UnityEngine;
 public class VirtualJoystick2 : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     private Image bgImg;
-    private Image joystickImg;
-    private Image pickImg;
+    private GameObject joystickImg;
+    private GameObject pickImg;
     private Vector3 inputVector3;
     private bool pick;
 
@@ -19,11 +19,33 @@ public class VirtualJoystick2 : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         pick = false;
         bgImg = GetComponent<Image>();
-        joystickImg = transform.GetChild(0).GetComponent<Image>();
-        pickImg = transform.GetChild(1).GetComponent<Image>();
-        joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
+        joystickImg = transform.GetChild(0).gameObject;
+        pickImg = transform.GetChild(1).gameObject;
+        //joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
     }
     
+    public void pickIcon()
+    {
+        pickImg.SetActive(true) ;
+        joystickImg.SetActive(false) ;
+        pickImg.transform.localScale = Vector3.zero;
+        pick = true;
+    }
+
+    public void bigger(GameObject x)
+    {
+        x.transform.localScale = Vector3.Lerp(x.transform.localScale, new Vector3(1, 1, 1),0.4f);
+    }
+
+    public void attackIcon()
+    {
+        pickImg.SetActive(false);
+        joystickImg.SetActive(true);
+        joystickImg.transform.localScale = Vector3.zero;
+        pick = false;
+    }
+
+
     public virtual void OnPointerDown(PointerEventData ped)
     {
         OnDrag(ped);
@@ -31,10 +53,8 @@ public class VirtualJoystick2 : MonoBehaviour, IDragHandler, IPointerDownHandler
     public virtual void OnPointerUp(PointerEventData ped)
     {
         inputVector3 = Vector3.zero;
-        joystickImg.rectTransform.anchoredPosition = inputVector3;
-
-            joystick.Rjoystick = new Vector3(inputVector3.x, inputVector3.z, 0);
-        
+        joystickImg.GetComponent<Image>().rectTransform.anchoredPosition = inputVector3;
+        joystick.Rjoystick = new Vector3(inputVector3.x, inputVector3.z, 0);
     }
 
     public virtual void OnDrag(PointerEventData ped)
@@ -57,12 +77,25 @@ public class VirtualJoystick2 : MonoBehaviour, IDragHandler, IPointerDownHandler
             inputVector3 = (inputVector3.magnitude > 1.0f) ? inputVector3.normalized : inputVector3;
             //inputVector = inputVector.normalized;
 
-            joystickImg.rectTransform.anchoredPosition = 
+            joystickImg.GetComponent<Image>().rectTransform.anchoredPosition = 
                 new Vector3(inputVector3.x * (bgImg.rectTransform.sizeDelta.x / 3), inputVector3.z * (bgImg.rectTransform.sizeDelta.y / 3), 0);
         }
 
         joystick.type = AttackType.BasicAttack;
         joystick.Rjoystick = new Vector3(inputVector3.x, inputVector3.z, 0);
+
+    }
+
+    public void Update()
+    {
+        if(pick)
+        {
+            bigger(pickImg);
+        }
+        else
+        {
+            bigger(joystickImg);
+        }
 
     }
 

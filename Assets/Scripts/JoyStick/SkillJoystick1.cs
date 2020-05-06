@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
-public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class SkillJoystick1 : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     private GameObject Cancle_Joystick;
     private Vector2 JoyStickCenter;
@@ -14,6 +14,9 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
 
     public GameObject InnerJoystick;
     public GameObject OuterJoystick;
+    public GameObject slider;
+
+
     private float maxRadius = 50;                           //内部摇杆最远滑到多远
 
     JoyStickModule joystick;
@@ -23,6 +26,7 @@ public class SkillJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, I
         JoyStickCenter = transform.position;
         Cancle_Joystick.SetActive(false);
         joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
+        //slider = this.transform.Find("a").gameObject;
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)

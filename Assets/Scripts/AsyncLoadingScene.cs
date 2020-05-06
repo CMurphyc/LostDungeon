@@ -85,6 +85,7 @@ public class AsyncLoadingScene : MonoBehaviour {
             Debug.Log("异步加载场景完成");
             SetProgress(1f);
             operation.allowSceneActivation = true;
+            main.GetComponent<GameMain>().WorldSystem._map.PlayAudioByScene("MapCreate");
         }
         
     }

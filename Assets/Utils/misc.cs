@@ -8,13 +8,14 @@ public class misc : MonoBehaviour
     private bool damaged;
     private GameObject damageImage;
     private Color flashColour;
-    private float flashSpeed = 3f;
+    private float flashSpeed = 10f;
+    private float full = 155f;
     void Start()
     {
         damaged = false;
         damageImage = gameObject;
-        flashColour = new Color(255, 255, 255, 255);
-        ScreenFlash();
+        flashColour = new Color(100, 100, 100, 0.5f);
+        damageImage.GetComponent<Image>().color = Color.clear;
     }
     void Update ()
     {
@@ -26,7 +27,7 @@ public class misc : MonoBehaviour
         {
             damageImage.GetComponent<Image>().color = Color.Lerp (damageImage.GetComponent<Image>().color, Color.clear, flashSpeed * Time.deltaTime);
         }
-        damaged = false;
+        damaged = false; 
     }
 
     private void PlayerBeAttacked()
