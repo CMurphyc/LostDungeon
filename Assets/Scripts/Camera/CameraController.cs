@@ -34,10 +34,14 @@ public class CameraController : MonoBehaviour
     }
     void trackPlayer()
     {
-        Vector3 currCamPos = transform.position;       
-        Vector3 currPlayerPos = playerObject.transform.position;
-        lastTargetPosition = currCamPos;
-        currTargetPosition = currPlayerPos;
-        currTargetPosition.z = currCamPos.z;                          //保证摄像头z轴方向上的值不变
+        Vector3 currCamPos = transform.position;
+        if (playerObject != null)
+        {
+            Vector3 currPlayerPos = playerObject.transform.position;
+            lastTargetPosition = currCamPos;
+            currTargetPosition = currPlayerPos;
+            currTargetPosition.z = currCamPos.z;
+        }
+       
      }
 }

@@ -43,6 +43,7 @@ public class MapManager : SceneManager
             CurrentScene = targetScene;
             Debug.Log("ChangeScene: " + CurrentScene);
             SceneIndex = SceneList.IndexOf(scene_dir + targetScene);
+            Debug.Log(targetScene);
             PlayAudioByScene(targetScene);
         }
         

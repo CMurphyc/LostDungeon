@@ -25,9 +25,9 @@ public class SkillIndiactor : MonoBehaviour
         //Main = GameObject.FindWithTag("GameEntry").GetComponent<GameMain>();
         indiactor = new Dictionary<SkillAreaType, Transform>();                     //
 
-        if (transform.GetComponent<SkillJoystick>() != null)
+        if (transform.GetComponent<SkillJoystick1>() != null)
         {
-            SkillJoystick Skill_Joystick = transform.GetComponent<SkillJoystick>();
+            SkillJoystick1 Skill_Joystick = transform.GetComponent<SkillJoystick1>();
             Skill_Joystick.OnSkillJoystickDownEvent += OnSkillJoystickDownEvent;
             Skill_Joystick.OnSkillJoystickMoveEvent += OnSkillJoystickMoveEvent;
             Skill_Joystick.OnSkillJoystickUpEvent += OnSkillJoystickUpEvent;

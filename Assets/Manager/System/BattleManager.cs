@@ -56,7 +56,7 @@ public class BattleManager
         _player.UpdateView();
         _skill.UpdateView();
         _terrain.UpdateView();
-        _chest.UpdateView(local_frame);
+        _chest.UpdateView();
     }
 
     public void ReleaseMemory()

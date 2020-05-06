@@ -52,6 +52,8 @@ public class MonsterModel_Component : MonoBehaviour
     public Buff buff = new Buff();
 
     public DeBuff Debuff;
+
+    public int OwnderUID;
     /*
     private Fix64 MaxHP;
     private Fix64 HP;

@@ -112,7 +112,12 @@ public struct PlayerData
     }
 
 }
+public class PVEData
+{
+    public int kills;
+    public int coins;
 
+}
 
 public struct DoorData
 {

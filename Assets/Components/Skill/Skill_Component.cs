@@ -14,6 +14,6 @@ public class Skill_Component : MonoBehaviour
     public SkillType SkillType;
 
     //检测半径
-    public int Radius;
+    public Fix64 Radius;
    
 }

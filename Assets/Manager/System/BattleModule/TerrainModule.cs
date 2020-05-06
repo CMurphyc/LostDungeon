@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainModule 
+public class TerrainModule
 {
     BattleManager _parentManager;
 
 
     public Dictionary<int, List<GameObject>> roomToStone = new Dictionary<int, List<GameObject>>();     // 房间号对应的石头列表
     public Dictionary<int, List<int>> roomToDoor = new Dictionary<int, List<int>>();                    // 房间号对应的门列表
-    public Dictionary<int, GameObject> doornumToDoor = new Dictionary<int, GameObject>() ;              // 门号对应门的实体
-    public Dictionary<int, DoorData> doorToDoor = new Dictionary<int, DoorData>() ;                     // 一个编号的门传送到的另一个门的编号
-    public Dictionary<int, int> doorToRoom = new Dictionary<int, int>() ;                               // 一个编号的门对应的房间编号
+    public Dictionary<int, GameObject> doornumToDoor = new Dictionary<int, GameObject>();              // 门号对应门的实体
+    public Dictionary<int, DoorData> doorToDoor = new Dictionary<int, DoorData>();                     // 一个编号的门传送到的另一个门的编号
+    public Dictionary<int, int> doorToRoom = new Dictionary<int, int>();                               // 一个编号的门对应的房间编号
     CollideDetecter collideDetecter = new CollideDetecter();
 
     public FixVector2 BossSpawningPoint = new FixVector2();
@@ -20,7 +20,8 @@ public class TerrainModule
     private GameObject NextFloor_Instance;
 
     bool InGateRange = false;
-
+    bool GameOverInit = false;
+    
 
     public TerrainModule(BattleManager parent)
     {
@@ -35,15 +36,16 @@ public class TerrainModule
         doorToRoom.Clear();
         NextFloorInit = false;
         InGateRange = false;
+        GameOverInit = false;
     }
 
-    public bool IsMovable(FixVector2 pos,int RoomId)
+    public bool IsMovable(FixVector2 pos, int RoomId)
     {
 
         foreach (GameObject stone in roomToStone[RoomId])
         {
             BoxCollider2D collider = stone.GetComponent<BoxCollider2D>();
-            Rectangle rect = new Rectangle(new FixVector2((Fix64)stone.transform.position.x + (Fix64)collider.offset.x, 
+            Rectangle rect = new Rectangle(new FixVector2((Fix64)stone.transform.position.x + (Fix64)collider.offset.x,
                                                           (Fix64)stone.transform.position.y + (Fix64)collider.offset.y),
                 new FixVector2((Fix64)stone.transform.rotation.x, (Fix64)stone.transform.rotation.y),
                 (Fix64)(stone.GetComponent<BoxCollider2D>().size.x),
@@ -70,8 +72,35 @@ public class TerrainModule
     {
         DoorTeleport();
         NextFloorLogic();
-
+        updateCurtain();
+        ToPVEResult();
     }
+    /*
+    public void getTreasure()
+    {
+        int PlayerUID = _parentManager.sys._model._PlayerModule.uid;
+        GameObject p = _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj;
+        foreach
+    }
+    */
+    public void updateCurtain()
+    {
+        GameObject t = GameObject.Find("RoomCreate");
+        foreach(var x in _parentManager.sys._battle._player.playerToPlayer)
+        {
+            int PlayerUID = x.Key;
+            int roomID = _parentManager.sys._battle._player.playerToPlayer[PlayerUID].RoomID;
+            if (t != null)
+            {
+                foreach (var px in t.GetComponent<RoomCreate>().roomToCurtain)
+                {
+                    if (px.Key == roomID) px.Value.SetActive(false);
+                }
+            }
+        }
+    }
+    
+
     public void UpdateView()
     {
 
@@ -79,9 +108,37 @@ public class TerrainModule
 
     }
 
+    void ToPVEResult()
+    {
+        if (_parentManager.sys._model._RoomModule.MaxMapFloorNumber == _parentManager.sys._model._RoomModule.MapFloorNumber)
+        {
+            //切换结算页面
+            int BossRoom = _parentManager._monster.BossRoom;
+            if (_parentManager._monster.RoomToMonster.ContainsKey(BossRoom))
+            {
+                int BossRoomCount = _parentManager._monster.RoomToMonster[BossRoom].Count;
+
+                if (BossRoomCount == 0 && !GameOverInit)
+                {
+                    GameOverInit = true;
+
+                    if (GameObject.Find("GameEntry") != null)
+                    {
+                        GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
+
+                    }
+                }
+            }
+        }
+
+    }
+
 
     void NextFloorLogic()
     {
+        //到达最高层则不进入下一层
+        if (_parentManager.sys._model._RoomModule.MaxMapFloorNumber == _parentManager.sys._model._RoomModule.MapFloorNumber)
+            return;
         //生成传送门
         int BossRoom = _parentManager._monster.BossRoom;
         if (_parentManager._monster.RoomToMonster.ContainsKey(BossRoom))

@@ -56,6 +56,7 @@ class AI_BehaviorTree : AI_BehaviorBase
             base.SummoningInterval = 20;
             base.Skill1_FrameInterval = 1;
             base.Skill1_Duration = 300;
+            base.Skill1_Radius = (Fix64)2.3;
         }
         else if (type == AI_Type.Boss_DarkKnight)
         {
@@ -154,6 +155,19 @@ class AI_BehaviorTree : AI_BehaviorBase
                 }
             case AI_Type.Normal_Melee:
                 {
+                    FixVector2 MonsPos =PackConverter.FixVector3ToFixVector2( obj.GetComponent<MonsterModel_Component>().position);
+                    foreach (var item in sys._battle._player.playerToPlayer)
+                    {
+                        GameObject Player = item.Value.obj;
+                        FixVector2 PlayerPos = Player.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+
+
+                        Fix64 MonsD2P = FixVector2.Distance(MonsPos, PlayerPos);
+                        if (MonsD2P <= AttackDistance)
+                        {
+                            sys._battle._player.BeAttacked(Player, 5, item.Value.RoomID);
+                        }
+                    }
                     break;
                 }
             case AI_Type.Boss_Rabit:
@@ -209,8 +223,6 @@ class AI_BehaviorTree : AI_BehaviorBase
                                 sys._battle._monster.bulletEvent[AttackInitFrame] = bulletList;
                             }
                         }
-
-
                     }
                     else
                     {
@@ -250,6 +262,24 @@ class AI_BehaviorTree : AI_BehaviorBase
                     sys._battle._skill.Effects.Add(new KeyValuePair<GameObject, int>(egg_explosion, 10));
                     //Debug.Log(sys._battle._monster.FindRoomIDByMonster(obj));
 
+
+
+                    //伤害判定
+                    FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
+                    foreach (var item in sys._battle._player.playerToPlayer)
+                    {
+                        GameObject Player = item.Value.obj;
+                        FixVector2 PlayerPos = Player.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+
+
+                        Fix64 MonsD2P = FixVector2.Distance(MonsPos, PlayerPos);
+                        if (MonsD2P <= AttackDistance)
+                        {
+                            sys._battle._player.BeAttacked(Player, 10, item.Value.RoomID);
+                        }
+                    }
+
+
                     sys._battle._skill.Add(
                         new SkillBase(1, 1,
                         new FixVector2(obj.transform.GetComponent<MonsterModel_Component>().position.x, obj.transform.GetComponent<MonsterModel_Component>().position.y),
@@ -281,12 +311,12 @@ class AI_BehaviorTree : AI_BehaviorBase
                     FixVector2 ShootToward = new FixVector2(Fix64.Cos(degree * Fix64.PI / (Fix64)180f),
                                             Fix64.Sin(degree * Fix64.PI / (Fix64)180f));
 
-
+                   
 
                     bu.BulletInit("AliasAI", ShootPos, ShootToward,
-                                                                  (Fix64)0.1, (Fix64)1, base.RoomID,
-                                                                  Resources.Load("Model/Boss/Boss_Rabit/bullet/bullet_30") as GameObject
-                                                                  , list);
+                                                                  (Fix64)0.2, (Fix64)1, base.RoomID,
+                                                                  Resources.Load("Model/Bullet/Prefab/bullet_87") as GameObject
+                                                                  , list, obj.GetComponent<MonsterModel_Component>().OwnderUID);
                     sys._battle._monster.bulletList.Add(bu);
                     break;
                 }
@@ -331,7 +361,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                                                                             obj.GetComponent<MonsterModel_Component>().position.y),
                                                                             new FixVector2((Fix64)toward.x,
                                                                             (Fix64)toward.y),
-                                                                            (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                            (Fix64)0.1, (Fix64)5, sys._battle._monster.BossRoom,
                                                                             Resources.Load("Model/Bullet/Prefab/bullet_90") as GameObject
                                                                             , list);
                                         bulletList.Add(bu);
@@ -380,7 +410,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                                                                             obj.GetComponent<MonsterModel_Component>().position.y),
                                                                             new FixVector2((Fix64)toward.x,
                                                                             (Fix64)toward.y),
-                                                                            (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                            (Fix64)0.1, (Fix64)5, sys._battle._monster.BossRoom,
                                                                             Resources.Load("Effects/Prefab/effect_poisonball_0") as GameObject
                                                                             , list);
                                         bulletList.Add(bu);
@@ -457,7 +487,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                                                                             obj.GetComponent<MonsterModel_Component>().position.y),
                                                                             new FixVector2((Fix64)toward.x,
                                                                             (Fix64)toward.y),
-                                                                            (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                            (Fix64)0.1, (Fix64)20, sys._battle._monster.BossRoom,
                                                                             Resources.Load("Model/Bullet/Prefab/bullet_97") as GameObject
                                                                             , list);
                                         bulletList.Add(bu);
@@ -512,7 +542,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                                                                             obj.GetComponent<MonsterModel_Component>().position.y),
                                                                             new FixVector2((Fix64)toward.x,
                                                                             (Fix64)toward.y),
-                                                                            (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                            (Fix64)0.1, (Fix64)5, sys._battle._monster.BossRoom,
                                                                             Resources.Load("Model/Bullet/Prefab/bullet_92") as GameObject
                                                                             , list);
                                         bulletList.Add(bu);
@@ -567,7 +597,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                                                                             obj.GetComponent<MonsterModel_Component>().position.y),
                                                                             new FixVector2((Fix64)toward.x,
                                                                             (Fix64)toward.y),
-                                                                            (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                            (Fix64)0.1, (Fix64)5, sys._battle._monster.BossRoom,
                                                                             Resources.Load("Model/Bullet/Prefab/bullet_89") as GameObject
                                                                             , list);
 
@@ -601,6 +631,21 @@ class AI_BehaviorTree : AI_BehaviorBase
             case AI_Type.Boss_DarkKnightSword:
                 {
                     Debug.Log("剑剑攻击");
+
+                    FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
+                    foreach (var item in sys._battle._player.playerToPlayer)
+                    {
+                        GameObject Player = item.Value.obj;
+                        FixVector2 PlayerPos = Player.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+
+
+                        Fix64 MonsD2P = FixVector2.Distance(MonsPos, PlayerPos);
+                        if (MonsD2P <= AttackDistance)
+                        {
+                            sys._battle._player.BeAttacked(Player, 5, item.Value.RoomID);
+                        }
+                    }
+
                     break;
                 }
             default:
@@ -623,6 +668,8 @@ class AI_BehaviorTree : AI_BehaviorBase
                     PosionCircle_Instance.GetComponent<Skill_Component>().RemainingFrame = Skill1_Duration;
                     PosionCircle_Instance.GetComponent<Skill_Component>().Position = FixVecMonsterPos;
                     PosionCircle_Instance.GetComponent<Skill_Component>().SkillType = SkillType.BossPoison;
+
+                    PosionCircle_Instance.GetComponent<Skill_Component>().Radius = Skill1_Radius;
                     sys._battle._monster.BossSkill.Add(PosionCircle_Instance);
                     //Monster
 
