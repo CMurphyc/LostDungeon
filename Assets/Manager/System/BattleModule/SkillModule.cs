@@ -83,7 +83,7 @@ public class SkillModule
                     foreach (var mon in btt)
                     {
                         Debug.Log("damage:" + x.damage);
-                        _parentManager._monster.BeAttacked(mon, x.damage, p.Key);
+                        _parentManager._monster.BeAttacked(mon, x.damage, p.Key,x.DmgSrcPlayerUID);
                     }
                     btt.Clear();
 

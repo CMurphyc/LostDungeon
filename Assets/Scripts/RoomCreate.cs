@@ -451,6 +451,12 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
             }
         }
 
+        foreach(var x in roomToCurtain)
+        {
+            x.Value.SetActive(true);
+        }
+
+
         // 生成门
         for (int i = 0; i < row; i++)
         {
@@ -698,7 +704,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
         List<PropData> propConfigList = (Resources.Load("Config/PropConfig") as PropConfig).prop_config_list;
         for (int i = 0; i < propConfigList.Count; i++)
         {
-            Debug.Log(propConfigList[i].propObject.name + "   " + i);
+            //Debug.Log(propConfigList[i].propObject.name + "   " + i);
             propToProperty.Add(i, propConfigList[i]);
         }
         /*foreach (KeyValuePair<int, PropData> kvp in propToProperty)

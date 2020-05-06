@@ -21,6 +21,7 @@ public class RoomModule
 
     public List<GameObject> PlayerAnimation = new List<GameObject>();
 
+    public Dictionary<int, PVEData> PVEResult = new Dictionary<int, PVEData>();
 
     public int GetPlayerSize()
     {

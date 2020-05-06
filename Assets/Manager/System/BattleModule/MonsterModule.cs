@@ -20,6 +20,7 @@ public class AliasMonsterPack
 {
     public int RemainingFrame;
     public GameObject obj;
+
 }
 
 public class MonsterModule
@@ -136,6 +137,8 @@ public class MonsterModule
         {
             GameObject Skill = BossSkill[i];
             SkillType type = Skill.GetComponent<Skill_Component>().SkillType;
+            FixVector2 BufPos = Skill.GetComponent<Skill_Component>().Position;
+            Fix64 Radius = Skill.GetComponent<Skill_Component>().Radius;
             int RemainingFrame = Skill.GetComponent<Skill_Component>().RemainingFrame;
             if (RemainingFrame <= 0)
             {
@@ -148,6 +151,26 @@ public class MonsterModule
                     case SkillType.BossPoison:
                         {
                             // to do 判断是否有人在毒里
+
+                            foreach(var item in _parentManager._player.playerToPlayer)
+                            {
+                                FixVector2 PlayerPos = item.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+
+                                Fix64 D2P = FixVector2.Distance(BufPos, PlayerPos);
+                                if (D2P<= Radius)
+                                {
+                                    //刷新 毒Debuff
+
+                                    if (!item.Value.obj.GetComponent<PlayerModel_Component>().debuff.Poison)
+                                    {
+                                        Debug.Log("刷新毒BUFF");
+                                        item.Value.obj.GetComponent<PlayerModel_Component>().debuff.Poison = true;
+                                        item.Value.obj.GetComponent<PlayerModel_Component>().debuff.PoisonRemainingFrame = item.Value.obj.GetComponent<PlayerModel_Component>().debuff.PoisonFrameDuration;
+
+                                    }
+
+                                }
+                            }
 
 
                             break;
@@ -184,7 +207,7 @@ public class MonsterModule
                 {
                     FixVector2 MonsterPos = PackConverter.FixVector3ToFixVector2(temp.boss.GetComponent<MonsterModel_Component>().position);
 
-                    bu.BulletInit(temp.tag, MonsterPos, temp.toward, temp.speed, temp.damage, temp.roomid, temp.bulletPrefab, temp.itemList);
+                    bu.BulletInit(temp.tag, MonsterPos, temp.toward, temp.speed, temp.damage, temp.roomid, temp.bulletPrefab, temp.itemList,0);
                     bulletList.Add(bu);
                 }
             }
@@ -242,48 +265,52 @@ public class MonsterModule
     }
     public void UpdateBossHP()
     {
-        BattleUIUpdate BattleUI = GameObject.Find("Canvas").GetComponent<BattleUIUpdate>();
-        if (BattleUI != null)
-        {
-            GameObject BossUI = BattleUI.BossUI;
 
-            if (BossUI != null)
+        if (GameObject.Find("Canvas") != null)
+        {
+            BattleUIUpdate BattleUI = GameObject.Find("Canvas").GetComponent<BattleUIUpdate>();
+            if (BattleUI != null)
             {
-                int CurrnetUID = _parentManager._player.FindCurrentPlayerUID();
-                int CurrnetRoomID = _parentManager._player.playerToPlayer[CurrnetUID].RoomID;
-                if (CurrnetRoomID == BossRoom)
+                GameObject BossUI = BattleUI.BossUI;
+
+                if (BossUI != null)
                 {
-                    if (!BossUI.activeSelf)
+                    int CurrnetUID = _parentManager._player.FindCurrentPlayerUID();
+                    int CurrnetRoomID = _parentManager._player.playerToPlayer[CurrnetUID].RoomID;
+                    if (CurrnetRoomID == BossRoom)
                     {
-                        BossUI.SetActive(true);
-                    }
-                    else
-                    {
-                        List<GameObject> ListObj = _parentManager._monster.RoomToMonster[BossRoom];
-                        for (int i = 0; i < ListObj.Count; i++)
+                        if (!BossUI.activeSelf)
                         {
-                            if (ListObj[i].tag == "Boss")
+                            BossUI.SetActive(true);
+                        }
+                        else
+                        {
+                            List<GameObject> ListObj = _parentManager._monster.RoomToMonster[BossRoom];
+                            for (int i = 0; i < ListObj.Count; i++)
                             {
-                                bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
-                                BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
-                                BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
-                                break;
+                                if (ListObj[i].tag == "Boss")
+                                {
+                                    bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
+                                    BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
+                                    BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
+                                    break;
+                                }
                             }
                         }
                     }
+
+
+                    Text MonsterNum = GameObject.Find("Canvas/MonsterLeft/monsternum").GetComponent<Text>();
+                    MonsterNum.text = _parentManager._monster.RoomToMonster[CurrnetRoomID].Count.ToString();
+
                 }
-
-
-                Text MonsterNum = GameObject.Find("Canvas/MonsterLeft/monsternum").GetComponent<Text>();
-                MonsterNum.text = _parentManager._monster.RoomToMonster[CurrnetRoomID].Count.ToString();
-
             }
         }
 
     }
 
     //obj = 受击OBJECT , dmg = 伤害
-    public void BeAttacked(GameObject obj, float dmg, int roomid)
+    public void BeAttacked(GameObject obj, float dmg, int roomid, int dmg_srcUID)
     {
         if (obj.GetComponent<MonsterModel_Component>().buff.Undefeadted)
         {
@@ -307,6 +334,29 @@ public class MonsterModule
         }
         else
         {
+            if (dmg_srcUID!=0)
+            {
+                if (!_parentManager.sys._model._RoomModule.PVEResult.ContainsKey(dmg_srcUID))
+                {
+                    PVEData data = new PVEData();
+                    data.kills = 1;
+                    _parentManager.sys._model._RoomModule.PVEResult.Add(dmg_srcUID, data);
+                        }
+                else
+                {
+                    _parentManager.sys._model._RoomModule.PVEResult[dmg_srcUID].kills++;
+                }
+
+                Debug.Log("Match OverView");
+                foreach(var item in _parentManager.sys._model._RoomModule.PVEResult)
+                {
+                    Debug.Log("Player: " + item.Key);
+                    Debug.Log("Kills: " + item.Value.kills);
+                }
+
+
+            }
+
             obj.GetComponent<MonsterModel_Component>().HP = Fix64.Zero;
 
             if (RoomToMonster[roomid].Contains(obj))
@@ -360,8 +410,6 @@ public class MonsterModule
         }
 
         obj.GetComponent<MonsterModel_Component>().UnderAttack = true;
-
-
 
         //Debug.Log("MONSTER HP: " + obj.GetComponent<MonsterModel_Component>().HP);
     }

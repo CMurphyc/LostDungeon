@@ -15,10 +15,23 @@ public class PlayerView_Component : MonoBehaviour
 
     public void RefreshView()
     {
+        UpdateBuff();
         UpdatePosition();
         UpdateRotation();
     }
 
+    private void UpdateBuff()
+    {
+        PlayerModel_Component PlayerComp = GetComponent<PlayerModel_Component>();
+        if (PlayerComp.debuff.Poison)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(134f / 255f, 255f / 255f, 100f / 255f);
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f);
+        }
+    }
     private void UpdatePosition()
     {
         FixVector2 FloatPos = GetComponent<PlayerModel_Component>().GetPlayerPosition();

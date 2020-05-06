@@ -101,7 +101,7 @@ public class MagicianBase
         _parentManager = parentManager;
     }
 
-    public int Skill1Logic(int frame, int RoomID, List<int> gifted, Vector3 pos)//返回值就是cd
+    public int Skill1Logic(int frame, int RoomID, List<int> gifted, Vector3 pos, int dmgSrc)//返回值就是cd
     {
         //火焰特效
         GameObject ge = GameObject.Instantiate(effectFire);
@@ -140,7 +140,7 @@ public class MagicianBase
         for(float i=0;i<=lastTimeSkill1;i+=0.5f)
         {
             SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), 
-                frame+(int)(i*1000/Global.FrameRate));
+                frame+(int)(i*1000/Global.FrameRate), dmgSrc);
             _parentManager._skill.Add(tmp, RoomID);
         }
         if (gifted[1] == 1)
@@ -153,7 +153,7 @@ public class MagicianBase
         }
     }
 
-    public int Skill2Logic(int frame, int RoomID, List<int> gifted, Vector3 pos)
+    public int Skill2Logic(int frame, int RoomID, List<int> gifted, Vector3 pos, int dmgSrc)
     {
         //闪电特效
         GameObject ge = GameObject.Instantiate(effectThunder);
@@ -184,7 +184,7 @@ public class MagicianBase
 
         Debug.Log("woshele");
 
-        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), frame);
+        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), frame, dmgSrc);
 
         _parentManager._skill.Add(tmp, RoomID);
 

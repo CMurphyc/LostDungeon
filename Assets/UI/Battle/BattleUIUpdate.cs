@@ -10,6 +10,7 @@ public class BattleUIUpdate : MonoBehaviour
     Text MonsterNum;
     bl_ProgressBar BossHP;
     int CurrnetUID;
+    GameObject HP_bar;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -17,6 +18,10 @@ public class BattleUIUpdate : MonoBehaviour
 
         CurrnetUID = sys._battle._player.FindCurrentPlayerUID();
         BossUI = GameObject.Find("Canvas/BossHint");
+
+        HP_bar =  GameObject.Find("Canvas/PlayerHPUI");
+
+
 
         BossUI.SetActive(false);
     }
@@ -30,6 +35,18 @@ public class BattleUIUpdate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (sys._battle._player.playerToPlayer.ContainsKey(CurrnetUID))
+        {
+            PlayerInGameData data = sys._battle._player.playerToPlayer[CurrnetUID];
+
+            HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/"+ data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
+
+            HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
+
+        }
+      
+  
+
+
     }
 }
