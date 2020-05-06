@@ -87,7 +87,7 @@ public class ChestModule
             }
         }
     }
-    public void UpdateView(int Frame)
+    public void UpdateView()
     {
         for(int i=HandledCoins.Count-1;i>=0;i--)
         {
