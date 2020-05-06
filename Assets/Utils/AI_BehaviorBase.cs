@@ -28,6 +28,7 @@ class AI_BehaviorBase
     public int Skill1_FrameInterval = 0;
     public int Skill1_Duration = 0;
     public int Skill2_FrameInterval = 0;
+    public Fix64 Skill1_Radius =(Fix64)0;
     //boss
 
     public Fix64 DashDistance = (Fix64)0;

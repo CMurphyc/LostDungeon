@@ -334,7 +334,7 @@ public class BulletUnion : BulletBase
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
                         //Debug.Log("玩家受到攻击");
-                        // _parentManager._player.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], 1f, spwanedBullet[i].roomid);
+                         _parentManager._player.BeAttacked(item.Value.obj, 1, spwanedBullet[i].roomid);
                         spwanedBullet[i].active = false;
                         //attackEffect逻辑层面的实现
                         //foreach (var effect in spwanedBullet[i].attackEffectList)
