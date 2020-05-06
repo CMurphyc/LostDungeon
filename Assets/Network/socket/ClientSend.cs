@@ -163,4 +163,10 @@ public class ClientSend
         pack.FloorNumber = floorNumber;
         Send(pack.ToByteArray(), GeneralType.NextFloorC2S);
     }
+
+    public void GameOver()
+    {
+        GameOverC2S pack = new GameOverC2S();
+        Send(pack.ToByteArray(), GeneralType.GameOverC2S);
+    }
 }

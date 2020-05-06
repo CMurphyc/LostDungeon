@@ -29,6 +29,7 @@ public class MapManager : SceneManager
         SceneList.Add("Scenes/HeroSelect");
         SceneList.Add("Scenes/MapCreate");
         SceneList.Add("Scenes/LoadingPanel");
+        SceneList.Add("Scenes/Overview");
 
         AudioManager.instance.PlayAudio(AudioName.MainSceneBGM, true);
 

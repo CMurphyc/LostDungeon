@@ -20,7 +20,8 @@ public class TerrainModule
     private GameObject NextFloor_Instance;
 
     bool InGateRange = false;
-
+    bool GameOverInit = false;
+    
 
     public TerrainModule(BattleManager parent)
     {
@@ -35,6 +36,7 @@ public class TerrainModule
         doorToRoom.Clear();
         NextFloorInit = false;
         InGateRange = false;
+        GameOverInit = false;
     }
 
     public bool IsMovable(FixVector2 pos, int RoomId)
@@ -71,6 +73,7 @@ public class TerrainModule
         DoorTeleport();
         NextFloorLogic();
         updateCurtain();
+        ToPVEResult();
     }
     /*
     public void getTreasure()
@@ -105,9 +108,37 @@ public class TerrainModule
 
     }
 
+    void ToPVEResult()
+    {
+        if (_parentManager.sys._model._RoomModule.MaxMapFloorNumber == _parentManager.sys._model._RoomModule.MapFloorNumber)
+        {
+            //切换结算页面
+            int BossRoom = _parentManager._monster.BossRoom;
+            if (_parentManager._monster.RoomToMonster.ContainsKey(BossRoom))
+            {
+                int BossRoomCount = _parentManager._monster.RoomToMonster[BossRoom].Count;
+
+                if (BossRoomCount == 0 && !GameOverInit)
+                {
+                    GameOverInit = true;
+
+                    if (GameObject.Find("GameEntry") != null)
+                    {
+                        GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
+
+                    }
+                }
+            }
+        }
+
+    }
+
 
     void NextFloorLogic()
     {
+        //到达最高层则不进入下一层
+        if (_parentManager.sys._model._RoomModule.MaxMapFloorNumber == _parentManager.sys._model._RoomModule.MapFloorNumber)
+            return;
         //生成传送门
         int BossRoom = _parentManager._monster.BossRoom;
         if (_parentManager._monster.RoomToMonster.ContainsKey(BossRoom))
