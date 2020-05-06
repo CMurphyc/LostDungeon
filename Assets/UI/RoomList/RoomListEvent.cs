@@ -14,7 +14,7 @@ public class RoomListEvent : MonoBehaviour
     Vector2 contentSize;
     float itemHeight;
     GameObject main;
-
+    float timer = 0;
     int Counter = 0;
     private void Awake()
     {
@@ -34,6 +34,8 @@ public class RoomListEvent : MonoBehaviour
 
     void Update()
     {
+        // RefreshRoomList();
+        // timer += Time.deltaTime;
 
         Counter++;
 
@@ -54,6 +56,16 @@ public class RoomListEvent : MonoBehaviour
             string size_Str = item.Currentsize.ToString() + "/" + item.Maxsize.ToString();
             AddItem(item.Roomid.ToString(), size_Str);
         }
+    }
+
+    void RefreshRoomList()
+    {
+        // if (timer >= 3f)
+        // {
+        //     RemoveAllItem();
+        //     main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList();
+        //     timer = 0;
+        // }
     }
 
     ////添加列表项
@@ -78,6 +90,16 @@ public class RoomListEvent : MonoBehaviour
             //parent.GetComponent<RectTransform>().sizeDelta = new Vector2(contentSize.x, messages.Count * itemHeight);
         }
     }
+
+    public void RemoveAllItem()
+    {
+        GameObject[] items = GameObject.FindGameObjectsWithTag("ListRoom");
+        for (int i = 0; i < items.Length; ++i)
+        {
+            Destroy(items[i]);
+        }
+    }
+
     public void EnterRoom(GameObject t)
     {
         print("Enter Room Request");
