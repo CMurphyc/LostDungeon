@@ -67,6 +67,7 @@ public class EventMessageType
     public static string BattleSyn = "BattleSyn";
     public static string StartSync = "StartSync";
     public static string NextFloor = "NextFloor";
+    public static string GameOver = "GameOver";
 }
 
 public enum CharacterType

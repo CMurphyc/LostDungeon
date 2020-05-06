@@ -22,6 +22,7 @@ public class EventListener : MonoBehaviour
         EventDispatcher.Instance().RegistEventListener(EventMessageType.BattleSyn, BattleSyn);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.StartSync, StartSync);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.NextFloor, NextFloor);
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.GameOver, GameOver);
     }
 
     void BattleSyn(EventBase eb)
@@ -94,7 +95,7 @@ public class EventListener : MonoBehaviour
     void GetRoomList(EventBase eb)
     {
         GetRoomListS2C synPack = (GetRoomListS2C)eb.eventValue;
-        Debug.Log("Error: "+synPack.Error);
+        // Debug.Log("Error: "+synPack.Error);
         if (synPack.Error==0)
         {
             main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.RoomListPack = synPack;
@@ -192,16 +193,31 @@ public class EventListener : MonoBehaviour
         {
             if (synPack.Succeed)
             {
-
                 Debug.Log("准备进入第" + synPack.FloorNumber + "层");
-
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapFloorNumber = synPack.FloorNumber;
-
                 main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoadingPanel");
             }
             else
             {
                 Debug.Log("进入下一层失败");
+            }
+        }
+    }
+
+    void GameOver(EventBase eb)
+    {
+        GameOverS2C synPack = (GameOverS2C)eb.eventValue;
+        if (synPack.Error == 0)
+        {
+            if (synPack.Succeed)
+            {
+                Debug.Log("游戏结束了");
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.isOver = true;
+                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Overview");
+            }
+            else
+            {
+                Debug.Log("结束游戏失败");
             }
         }
     }

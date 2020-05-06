@@ -221,6 +221,13 @@ public class ClientListen : MonoBehaviour
             synPack = (NextFloorS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
             EventDispatcher.Instance().DispatchEvent(EventMessageType.NextFloor, synPack);
         }
+        else if(tag == GeneralType.GameOverS2C)
+        {
+            IMessage IMPlayersPack = new GameOverS2C();
+            GameOverS2C synPack = new GameOverS2C();
+            synPack = (GameOverS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.GameOver, synPack);
+        }
 
         //else if (tag == GeneralType.UserRegister+ 100)
         //{
