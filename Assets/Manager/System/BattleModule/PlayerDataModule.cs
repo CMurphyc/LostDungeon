@@ -26,6 +26,34 @@ public class PlayerDataModule
         }
         bulletList.Clear();
     }
+    void UpdateBuff()
+    {
+        foreach (KeyValuePair<int, PlayerInGameData> x in playerToPlayer)//buff 
+        {
+            PlayerModel_Component PlayerComp = x.Value.obj.GetComponent<PlayerModel_Component>();
+            if (PlayerComp.debuff.Poison && PlayerComp.debuff.PoisonRemainingFrame>0)
+            {
+               
+
+                if (PlayerComp.debuff.PoisonRemainingFrame % 20 ==0)
+                {
+                    Debug.Log("触发毒BUFF伤害：" );
+                    BeAttacked(x.Value.obj, 1, x.Value.RoomID);
+                }
+
+                PlayerComp.debuff.PoisonRemainingFrame--;
+            }
+            else
+            {
+                PlayerComp.debuff.Poison = false;
+            }
+        }
+
+
+
+
+
+    }
     public void UpdateLogic(int frame)//更新某一帧逻辑
     {
         UpdateMovement(frame);
@@ -229,15 +257,15 @@ public class PlayerDataModule
             }
         }
 
-        foreach (KeyValuePair<int, PlayerInGameData> x in playerToPlayer)//buff 
-        {
 
-        }
+
+        UpdateBuff();
+
     }
 
 
     //obj = 受击OBJECT , dmg = 伤害
-    public void BeAttacked(GameObject obj, int dmg)
+    public void BeAttacked(GameObject obj, int dmg,int roomid)
     {
         Debug.Log("tadawo");
         //int AttackedTime = 10;                  

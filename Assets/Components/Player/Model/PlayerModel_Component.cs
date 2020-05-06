@@ -24,7 +24,7 @@ public class PlayerModel_Component : MonoBehaviour
 
     public List<int> bulletBuff = new List<int>();
 
-
+    public DeBuff debuff = new DeBuff();
     //void Awake()
     //{
     //    //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
@@ -213,4 +213,26 @@ public class PlayerModel_Component : MonoBehaviour
     {
         playerPosition = v;
     }
+
+
+
+    public class DeBuff
+    {
+        public bool Poison = false;
+        public int PoisonRemainingFrame;
+        public int PoisonFrameDuration =100;
+        /*
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        public bool dd{get;set;}
+        */
+    }
+
 }
