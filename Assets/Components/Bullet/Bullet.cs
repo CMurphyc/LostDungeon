@@ -54,6 +54,7 @@ public class Bullet
     public Fix64 damage;
     public int roomid;
     public bool active;
+    public bool bounce;
     public FixVector2 bulletScale;
     public CommonCollider collider;
     public GameObject bulletPrefab;
@@ -77,16 +78,21 @@ public class Bullet
         this.speed = speed;
         this.damage = damage;
         this.roomid = roomid;
+
         this.bulletPrefab = bulletPrefab;
         this.bulletPrefab.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((float)toward.y, (float)toward.x) * 180f / Mathf.PI);
 
         this.itemList = itemList;
 
         this.active = true;
+        this.bounce = true;
+
         this.bulletScale = new FixVector2(1, 1);
 
-        GetBulletCollider((Fix64)5f);
         GetAllEffect();
+
+        //测试buff用
+        // attackEffectList.Add((int)bulletType.LightningChain);
     }
     private void BulletContainerInit()
     {
@@ -95,10 +101,6 @@ public class Bullet
         attackEffectList = new List<int>();
         debuffList = new List<int>();
         scaleEffectList = new List<int>();
-    }
-    private void GetBulletCollider(Fix64 radius)
-    {
-        //collider.BuildCircleCollider(anchor, toward, radius);
     }
     private void GetAllEffect()
     {
@@ -113,6 +115,7 @@ public class Bullet
 
     public int GetSplitNum()
     {
+        // return 3;
         return splitEffectList.Count;
     }
 }
@@ -150,6 +153,9 @@ public class BulletUnion : BulletBase
     //初始化所有子弹逻辑层logic的信息以及视图层prefab的信息
     public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList)
     {
+
+        this.bulletPrefab = bulletPrefab;
+
         ContainerInit();
         //逻辑层信息初始化
 
@@ -170,17 +176,17 @@ public class BulletUnion : BulletBase
 
         //视图层信息初始化
         //根据信息量实例化对应信息的子弹实体
+        BulletInstiate(anchor);
+    }
 
-
+    private void BulletInstiate(FixVector2 anchor)
+    {
         foreach (var it in spwanedBullet)
         {
             //Debug.Log("bullet toward is " + it.toward);
             GameObject bulletInstance = GameObject.Instantiate(bulletPrefab, Converter.FixVector2ToVector2(anchor), bulletPrefab.transform.rotation);
             bulletList.Add(bulletInstance);
         }
-
-
-
     }
 
     private bool CollideCheck(Bullet bullet, MonsterModel_Component monster)
@@ -199,9 +205,7 @@ public class BulletUnion : BulletBase
             //在溅射范围内
             if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position) <= 20)
             {
-                //敌对单位受击接口，待对接
-                //MonsterModule MonsterModule = _parentManager._monster.RoomToMonster[bullet.roomid][i].GetComponent<MonsterModule>();
-                //MonsterModule.BeAttacked(bullet.damage);
+                _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid);
             }
         }
     }
@@ -214,24 +218,21 @@ public class BulletUnion : BulletBase
             //获取真实的敌对单位位置的接口，待对接
             enemyDistance.Add(FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)));
         }
+
         enemyDistance.Sort();
 
-        //移除不需要的distance
-        for (int i = enemyDistance.Count; i >= 3; --i)
-        {
-            enemyDistance.RemoveAt(i);
-        }
+        List<Fix64> beLightnedEnemy = new List<Fix64>();
+        for(int i = 0; i < Mathf.Min(3, enemyDistance.Count); ++i) beLightnedEnemy.Add(enemyDistance[i]);
 
         for (int i = 0; i < _parentManager._monster.RoomToMonster[bullet.roomid].Count; ++i)
         {
-            //获取真实的敌对单位位置的接口，待对接
-            if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)) == enemyDistance[0] ||
-               FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)) == enemyDistance[1] ||
-               FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)) == enemyDistance[2])
+            foreach(var it in beLightnedEnemy)
             {
-                //敌对单位受击接口，待对接
-                //MonsterModule MonsterModule = _parentManager._monster.RoomToMonster[bullet.roomid][i].GetComponent<MonsterModule>();
-                //MonsterModule.BeAttacked(bullet.damage);
+                //获取真实的敌对单位位置
+                if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)) == it)
+                {
+                    _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid);
+                }
             }
         }
 
@@ -240,6 +241,11 @@ public class BulletUnion : BulletBase
     private void Penetrate(Bullet bullet)
     {
         bullet.active = true;
+    }
+
+    private void Bounce(Bullet bullet)
+    {
+        bullet.bounce = true;
     }
 
     private void BiggerBullet(Bullet bullet)
@@ -257,6 +263,28 @@ public class BulletUnion : BulletBase
         bullet.bulletScale.x *= 1.5f;
     }
 
+    private void FixBulletPosition(Bullet bullet, Rectangle rect)
+    {
+        if(rect.horizon < rect.vertical)
+        {
+            //避免刚好切于墙体，在修正子弹位置的时候再偏移一点点
+            if(bullet.toward.x < Fix64.Zero) bullet.anchor.x = rect.anchor.x + (rect.horizon / (Fix64)2f) + (Fix64)0.01f;
+            else if(bullet.toward.x > Fix64.Zero) bullet.anchor.x = rect.anchor.x - (rect.horizon / (Fix64)2f) - (Fix64)0.01f;
+        }
+
+        if(rect.horizon > rect.vertical)
+        {
+            if(bullet.toward.y > Fix64.Zero) bullet.anchor.y = rect.anchor.y - (rect.vertical / (Fix64)2f) - (Fix64)0.01f;
+            else if(bullet.toward.y < Fix64.Zero) bullet.anchor.y = rect.anchor.y + (rect.vertical / (Fix64)2f) + (Fix64)0.01f;
+        }
+    }
+
+    private void Reflection(Bullet bullet, Rectangle rect)
+    {
+        if(rect.horizon < rect.vertical) bullet.toward = new FixVector2(-bullet.toward.x, bullet.toward.y);
+        if(rect.horizon > rect.vertical) bullet.toward = new FixVector2(bullet.toward.x, -bullet.toward.y);
+    }
+
     public override void LogicUpdate()
     {
 
@@ -271,9 +299,9 @@ public class BulletUnion : BulletBase
                     CollideDetecter collideDetecter = new CollideDetecter();
                     Rectangle rect = new Rectangle(new FixVector2((Fix64)MonsterModule.position.x, (Fix64)MonsterModule.position.y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
 
-                    if(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][i].tag == "Boss")
+                    if(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].tag == "Boss")
                     {
-                        BoxCollider2D bc = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][i].GetComponent<BoxCollider2D>();
+                        BoxCollider2D bc = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>();
                         rect.horizon = (Fix64)bc.size.x;
                         rect.vertical = (Fix64)bc.size.y;
                     }
@@ -300,22 +328,8 @@ public class BulletUnion : BulletBase
                             }
                         }
 
-                        //debuff传递逻辑层面的实现
-                        // foreach (var debuff in spwanedBullet[i].debuffList)
-                        // {
-                        //待对接敌方单位的debuff接口
-                        // switch(debuff)
-                        // {
-                        //     case : (int)bulletType.Freeze
-                        // }
-                        // if(debuff == (int)bulletType.Freeze)
-                        // else if(debuff == (int)bulletType.Poision)
-                        // else if(debuff == (int)bulletType.Burn)
-                        // else if(debuff == (int)bulletType.Dizziness)
-                        // else if(debuff == (int)bulletType.Retard)
-                        // }
                         //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
-                        if (spwanedBullet[i].active == false) break;
+                        break;
                     }
                 }
             }
@@ -382,11 +396,9 @@ public class BulletUnion : BulletBase
         //遍历墙体
         for (int i = 0; i < spwanedBullet.Count; ++i)
         {
-            //Debug.Log("stone sz " + _parentManager._terrain.roomToStone[spwanedBullet[i].roomid].Count);
             for (int j = 0; j < _parentManager._terrain.roomToStone[spwanedBullet[i].roomid].Count; ++j)
             {
-                //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取，待对接
-
+                //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取
                 Vector2 Pos = _parentManager._terrain.roomToStone[spwanedBullet[i].roomid][j].transform.position;
                 FixVector2 vv = new FixVector2((Fix64)_parentManager._terrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>().size.x,
                                                (Fix64)_parentManager._terrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>().size.y);
@@ -397,52 +409,26 @@ public class BulletUnion : BulletBase
                 Rectangle rect = new Rectangle(new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)), new FixVector2((Fix64)1, (Fix64)1),
                     (Fix64)collider.size.x,
                     (Fix64)collider.size.y);
-                //Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
+
                 if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                 {
-                    //Debug.Log("wall anchor is " + new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)));
-                    spwanedBullet[i].active = false;
-                    //attackEffect逻辑层面的实现
-                    foreach (var effect in spwanedBullet[i].attackEffectList)
+                    //修正子弹位置，避免子弹因step长度嵌入obstacle的问题
+                    FixBulletPosition(spwanedBullet[i], rect);
+                    if(spwanedBullet[i].bounce == true) 
                     {
-                        switch (effect)
-                        {
-                            case (int)bulletType.Penetrate:
-                                Penetrate(spwanedBullet[i]);
-                                break;
-                            case (int)bulletType.Sputtering:
-                                Sputtering(spwanedBullet[i]);
-                                break;
-                            case (int)bulletType.LightningChain:
-                                LightningChain(spwanedBullet[i]);
-                                break;
-                        }
-                        // if(effect == (int)bulletType.Penetrate) Penetrate(spwanedBullet[i]);
-                        // else if(effect == (int)bulletType.Sputtering) Sputtering(spwanedBullet[i]);
-                        // else if(effect == (int)bulletType.LightningChain) LightningChain(spwanedBullet[i]);
+                        spwanedBullet[i].active = true;
+                        spwanedBullet[i].bounce = false;
+                        // spwanedBullet[i].toward = Reflection(spwanedBullet[i], rect);
+                        Reflection(spwanedBullet[i], rect);
                     }
-
-                    //debuff传递逻辑层面的实现
-                    // foreach (var debuff in spwanedBullet[i].debuffList)
-                    // {
-                    //待对接敌方单位的debuff接口
-                    // switch(debuff)
-                    // {
-                    //     case : (int)bulletType.Freeze
-                    // }
-                    // if(debuff == (int)bulletType.Freeze)
-                    // else if(debuff == (int)bulletType.Poision)
-                    // else if(debuff == (int)bulletType.Burn)
-                    // else if(debuff == (int)bulletType.Dizziness)
-                    // else if(debuff == (int)bulletType.Retard)
-                    // }
-                    //理论上一个子弹最多只可能击中一个墙，因为不可能穿墙，所以找到一个碰撞的就可以停止遍历
+                    else spwanedBullet[i].active = false;
+                    //理论上一个子弹最多只可能击中一个墙，因为不可能穿墙，但是如果吃了弹射buff，那他就可以弹一次
                     break;
                 }
             }
         }
 
-
+        //更新爆炸
         for (int i = 0; i < explodeList.Count; ++i) explodeList[i].LogicUpdate();
 
         //更新逻辑层子弹的位置
@@ -468,12 +454,8 @@ public class BulletUnion : BulletBase
         {
             if (spwanedBullet[i].active == true)
             {
-                //更新子弹scale
-                //bulletList[i].transform.localScale = Converter.FixVector2ToVector2(spwanedBullet[i].bulletScale);
-                //更新子弹位置
-                //每次移动定位子弹speed的1/5，以免出现step太大导致的移动不平滑的问题
-                //bulletList[i].transform.position = Vector2.MoveTowards(bulletList[i].transform.position, Converter.FixVector2ToVector2(spwanedBullet[i].anchor), (float)spwanedBullet[i].speed);
                 bulletList[i].transform.position = Converter.FixVector2ToVector2(spwanedBullet[i].anchor);
+                bulletList[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((float)spwanedBullet[i].toward.y, (float)spwanedBullet[i].toward.x) * 180f / Mathf.PI);
             }
         }
 
@@ -545,6 +527,8 @@ class Converter
         Fix64 length = Fix64.Sqrt(v.x * v.x + v.y * v.y);
         Fix64 originAngle = Fix64.Atan(v.y / v.x);
 
+        if(v.x < Fix64.Zero) originAngle += Fix64.PI;
+        
         FixVector2 rotateVector = new FixVector2(length * Fix64.Cos(originAngle + DegreeToRadian(rotateAngle)), length * Fix64.Sin(originAngle + DegreeToRadian(rotateAngle)));
 
         return rotateVector.GetNormalized() ;
