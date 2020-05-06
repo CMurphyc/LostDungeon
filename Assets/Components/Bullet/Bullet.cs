@@ -281,22 +281,10 @@ public class BulletUnion : BulletBase
 
     private void Reflection(Bullet bullet, Rectangle rect)
     {
-        if(rect.horizon < rect.vertical)
-        {
-            // if(bullet.toward.x < Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
-            if(bullet.toward.x < Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
-            else if(bullet.toward.x < Fix64.Zero && bullet.toward.y > Fix64.Zero) bullet.toward = new FixVector2(bullet.toward.y, -bullet.toward.x);
-            else if(bullet.toward.x > Fix64.Zero && bullet.toward.y > Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
-            else if(bullet.toward.x > Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(bullet.toward.y, -bullet.toward.x);
-        }
-        if(rect.horizon > rect.vertical) 
-        {
-            if(bullet.toward.x < Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(bullet.toward.y, -bullet.toward.x);
-            else if(bullet.toward.x < Fix64.Zero && bullet.toward.y > Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
-            else if(bullet.toward.x > Fix64.Zero && bullet.toward.y > Fix64.Zero) bullet.toward = new FixVector2(bullet.toward.y, -bullet.toward.x);
-            else if(bullet.toward.x > Fix64.Zero && bullet.toward.y < Fix64.Zero) bullet.toward = new FixVector2(-bullet.toward.y, bullet.toward.x);
-        }
+        if(rect.horizon < rect.vertical) bullet.toward = new FixVector2(-bullet.toward.x, bullet.toward.y);
+        if(rect.horizon > rect.vertical) bullet.toward = new FixVector2(bullet.toward.x, -bullet.toward.y);
     }
+
     public override void LogicUpdate()
     {
 
@@ -467,6 +455,7 @@ public class BulletUnion : BulletBase
             if (spwanedBullet[i].active == true)
             {
                 bulletList[i].transform.position = Converter.FixVector2ToVector2(spwanedBullet[i].anchor);
+                bulletList[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((float)spwanedBullet[i].toward.y, (float)spwanedBullet[i].toward.x) * 180f / Mathf.PI);
             }
         }
 
