@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerDataModule
 {
@@ -13,8 +14,16 @@ public class PlayerDataModule
 
     int AttackInterval = 5;
 
+    public GameObject CD1=null;
+    public GameObject CD2 = null;
+
+
+
     public PlayerDataModule(BattleManager parent)
     {
+        
+
+
         _parentManager = parent;
     }
     public void Free()
@@ -61,6 +70,50 @@ public class PlayerDataModule
         {
             //Debug.Log(p.Value.obj.GetComponent<PlayerModel_Component>().healthPoint);
             p.Value.obj.GetComponent<PlayerModel_Component>().UpdateLogic();
+            int PlayerUID =_parentManager.sys._model._PlayerModule.uid;
+            if (p.Key== PlayerUID)
+            {
+                if(CD1==null)
+                {
+                    CD1 = GameObject.Find("SkillStickUI1").transform.GetChild(2).gameObject;
+                    CD1.GetComponent<Slider>().maxValue = 0;
+                }
+
+                int kp = p.Value.obj.GetComponent<PlayerModel_Component>().GetCountDown1();
+                if(kp>CD1.GetComponent<Slider>().maxValue)
+                {
+                    CD1.GetComponent<Slider>().maxValue = kp;
+                    CD1.SetActive(true);
+                }
+                if(kp==0)
+                {
+                    CD1.GetComponent<Slider>().maxValue = kp;
+                    CD1.SetActive(false);
+                }
+                CD1.GetComponent<Slider>().value = kp;
+
+
+
+                if (CD2 == null)
+                {
+                    CD2 = GameObject.Find("SkillStickUI2").transform.GetChild(2).gameObject;
+                    CD2.GetComponent<Slider>().maxValue = 0;
+                }
+
+                kp = p.Value.obj.GetComponent<PlayerModel_Component>().GetCountDown2();
+                if (kp > CD2.GetComponent<Slider>().maxValue)
+                {
+                    CD2.GetComponent<Slider>().maxValue = kp;
+                    CD2.SetActive(true);
+                }
+                if (kp == 0)
+                {
+                    CD2.GetComponent<Slider>().maxValue = kp;
+                    CD2.SetActive(false);
+                }
+                CD2.GetComponent<Slider>().value = kp;
+
+            }
         }
     }
 
@@ -174,7 +227,7 @@ public class PlayerDataModule
                             {
                                 case CharacterType.Enginner:
                                     {
-                                        _parentManager._skill.enginerBase.Skill1Logic(frame,
+                                        int cd=_parentManager._skill.enginerBase.Skill1Logic(frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                             (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
@@ -182,16 +235,18 @@ public class PlayerDataModule
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ),frameInfo[i].Uid
                                             );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
                                         break;
                                     }
                                 case CharacterType.Magician:
                                     {
-                                        _parentManager._skill.magicianBase.Skill1Logic(frame,
+                                        int cd=_parentManager._skill.magicianBase.Skill1Logic(frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ),frameInfo[i].Uid
                                             );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
                                         break;
                                     }
                                 default:
@@ -218,7 +273,7 @@ public class PlayerDataModule
                                     {
                                         //Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
                                         //Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
-                                        _parentManager._skill.enginerBase.Skill2Logic(frame,
+                                        int cd=_parentManager._skill.enginerBase.Skill2Logic(frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                             (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
@@ -226,16 +281,19 @@ public class PlayerDataModule
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
                                             );
+                                        Debug.Log("aaaaaa" + cd);
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
                                         break;
                                     }
                                 case CharacterType.Magician:
                                     {
-                                        _parentManager._skill.magicianBase.Skill2Logic(frame,
+                                        int cd=_parentManager._skill.magicianBase.Skill2Logic(frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
                                             );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
                                         break;
                                     }
                                 default:
@@ -270,7 +328,10 @@ public class PlayerDataModule
         //Debug.Log("tadawo");
         //int AttackedTime = 10;                  
         obj.GetComponent<PlayerModel_Component>().SetHealthPoint(
-            obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg);
+        obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg);
+
+        obj.GetComponent<PlayerModel_Component>().SetHealthPoint(Mathf.Max(0, obj.GetComponent<PlayerModel_Component>().GetHealthPoint()));
+
         int PlayerUID = _parentManager.sys._model._PlayerModule.uid;
 
         foreach(var x in _parentManager.sys._battle._player.playerToPlayer)

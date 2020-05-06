@@ -205,6 +205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InnerJoystick: {fileID: 2447805229863517551}
   OuterJoystick: {fileID: 6350123505924484245}
+  slider: {fileID: 0}
 --- !u!114 &8873104566031364186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.6006255, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.20377354, b: 0.33962262, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -367,7 +368,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 7254850743764991478}
   m_HandleRect: {fileID: 0}

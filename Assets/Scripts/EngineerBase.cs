@@ -152,7 +152,7 @@ public class EngineerBase
                 _parentManager._monster.RoomToAliasUnit[RoomID].Add(temp);
 
             }
-        return 7*1000/Global.FrameRate;
+        return (int)(countdownSkill1*1000/Global.FrameRate);
     }
 
     public int Skill2Logic(int frame,int RoomID, List<int> gifted, Vector3 st, Vector3 ed , int dmgSrc)
@@ -217,11 +217,11 @@ public class EngineerBase
 
         if (gifted[3] == 1)
         {
-            return (int)(1000 / Global.FrameRate * (countdownSkill1 - 2));
+            return (int)(1000 / Global.FrameRate * (countdownSkill2 - 2));
         }
         else
         {
-            return (int)(1000 / Global.FrameRate * (countdownSkill1));
+            return (int)(1000 / Global.FrameRate * (countdownSkill2));
         }
     }
 

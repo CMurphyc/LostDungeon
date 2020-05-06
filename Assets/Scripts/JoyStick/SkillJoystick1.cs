@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.UI;
 
 public class SkillJoystick1 : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
@@ -20,14 +21,17 @@ public class SkillJoystick1 : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     private float maxRadius = 50;                           //内部摇杆最远滑到多远
 
     JoyStickModule joystick;
+
     void Start()
     {
         Cancle_Joystick = transform.parent.Find("CancelStickUI").gameObject;
         JoyStickCenter = transform.position;
         Cancle_Joystick.SetActive(false);
         joystick = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._JoyStickModule;
-        //slider = this.transform.Find("a").gameObject;
+
     }
+
+
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
