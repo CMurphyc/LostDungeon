@@ -20,11 +20,14 @@ public class PlayerDataModule
 
     public Dictionary<int, GameObject> playerToRevival = new Dictionary<int, GameObject>();   // 玩家编号对应复活框
     Vector3 Revival_Offset = new Vector3(0, 0.8f, 0);
-   
+    bool DeathCamInit = false;
+    GameObject Panel;
 
     public PlayerDataModule(BattleManager parent)
     {
         _parentManager = parent;
+
+        
     }
     public void Free()
     {
@@ -169,14 +172,36 @@ public class PlayerDataModule
 
                     Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos + Revival_Offset);
                     item.Value.transform.position = ScreenPos;
+
+                    if (item.Key == FindCurrentPlayerUID() && !DeathCamInit)
+                    {
+
+                        //添加遮罩
+                        //to do
+                        GameObject Panel_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/DeathCam");
+                        Panel = Object.Instantiate(Panel_Prefab, GameObject.Find("Canvas").transform);
+                  
+                        DeathCamInit = true;
+                    }
+
                 }
                 else
                 {
+                    if (item.Key == FindCurrentPlayerUID())
+                    {
+                        //删除遮罩
+                        //to do
+                        Object.Destroy(Panel);
+                        DeathCamInit = false;
+                    }
                     DeleteList.Add(item.Key);
                 }
                 //更新复活条数值
                 int Revival = player.GetComponent<PlayerModel_Component>().revival;
                 item.Value.GetComponent<Slider>().value = (float)Revival / (float)player.GetComponent<PlayerModel_Component>().MaxRevival;
+
+
+
 
             }
         }
