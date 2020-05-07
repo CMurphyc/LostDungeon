@@ -170,17 +170,12 @@ public class PlayerDataModule
                     }
                 }
 
-
                 switch (frameInfo[i].AttackType)
                 {
                     case (int)AttackType.BasicAttack:
                         {
-
                             Fix64 AttackDirectionX = (Fix64)(frameInfo[i].AttackDirectionX / (Fix64)100);
                             Fix64 AttackDirectionY = (Fix64)(frameInfo[i].AttackDirectionY / (Fix64)100);
-
-                            //Debug.Log(AttackDirectionX);
-                            //Debug.Log(AttackDirectionY);
 
                             FixVector2 AttackVec = new FixVector2(AttackDirectionX, AttackDirectionY).GetNormalized();
 
@@ -235,7 +230,7 @@ public class PlayerDataModule
                         }
                     case (int)AttackType.Skill1:
                         {
-                            //Debug.Log("bbbbbbbbbb");
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown1() != 0) break;
                             CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
 
                             List<int> tmp = new List<int>();
@@ -278,9 +273,8 @@ public class PlayerDataModule
                         }
                     case (int)AttackType.Skill2:
                         {
-                            //Debug.Log("ccccccccc");
-                            int PlayerUID = frameInfo[i].Uid;
-                            CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(PlayerUID);
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown2() != 0) break;
+                            CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
 
                             List<int> tmp = new List<int>();
                             tmp.Add(1);
@@ -321,6 +315,42 @@ public class PlayerDataModule
                                 default:
                                     break;
                             }
+                            break;
+                        }
+                    case (int)AttackType.Pick:
+                        {
+                            int PlayerUID = frameInfo[i].Uid;
+                            int roomid = _parentManager.sys._battle._player.playerToPlayer[PlayerUID].RoomID;
+                            
+                            foreach(var x in _parentManager.sys._battle._chest.roomToTreasure[roomid])
+                            {
+                                if (x.active) continue;
+
+                                FixVector2 tmp = new FixVector2((Fix64)x.treasureTable.transform.position.x, (Fix64)x.treasureTable.transform.position.y);
+
+                                if(FixVector2.Distance(tmp,
+                                    _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
+                                    GetComponent<PlayerModel_Component>().GetPlayerPosition())<=(Fix64)1.4f)
+                                {
+                                    Debug.Log(x.treasureObejct.name);
+                                    x.treasureObejct.SetActive(false);
+                                    x.SetActive(true);
+                                    _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
+                                        GetComponent<PlayerModel_Component>().Change(
+                                        20,
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletFrequency,
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletSpeed,
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeDamage,
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed
+                                        );
+                                    //chile
+                                    break;
+                                }
+
+                            }
+                            
+                           
+
                             break;
                         }
                     default:

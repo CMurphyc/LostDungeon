@@ -26,9 +26,11 @@ public class VirtualJoystick2 : MonoBehaviour, IDragHandler, IPointerDownHandler
     
     public void pickIcon()
     {
+        if(!pick)
+            pickImg.transform.localScale = Vector3.zero;
         pickImg.SetActive(true) ;
         joystickImg.SetActive(false) ;
-        pickImg.transform.localScale = Vector3.zero;
+        
         pick = true;
     }
 
@@ -39,22 +41,32 @@ public class VirtualJoystick2 : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     public void attackIcon()
     {
+        if(pick) joystickImg.transform.localScale = Vector3.zero;
         pickImg.SetActive(false);
         joystickImg.SetActive(true);
-        joystickImg.transform.localScale = Vector3.zero;
+        
         pick = false;
     }
 
 
     public virtual void OnPointerDown(PointerEventData ped)
     {
+        if(!pick)
         OnDrag(ped);
     }
     public virtual void OnPointerUp(PointerEventData ped)
     {
-        inputVector3 = Vector3.zero;
-        joystickImg.GetComponent<Image>().rectTransform.anchoredPosition = inputVector3;
-        joystick.Rjoystick = new Vector3(inputVector3.x, inputVector3.z, 0);
+        if (!pick)
+        {
+            inputVector3 = Vector3.zero;
+            joystickImg.GetComponent<Image>().rectTransform.anchoredPosition = inputVector3;
+            joystick.Rjoystick = new Vector3(inputVector3.x, inputVector3.z, 0);
+        }
+        else
+        {
+            joystick.type = AttackType.Pick;
+
+        }
     }
 
     public virtual void OnDrag(PointerEventData ped)

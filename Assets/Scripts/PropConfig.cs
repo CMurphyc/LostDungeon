@@ -21,7 +21,7 @@ public class PropData
     [Header("改变子弹速度")]
     public float changeBulletSpeed;
     [Header("改变子弹伤害")]
-    public int changeDamage;
+    public float changeDamage;
     [Header("改变移动速度")]
     public float changeSpeed;
     [Header("改变子弹效果")]

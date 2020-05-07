@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prop_config_list:
   - propType: 2
-    propId: 0
+    propId: 1001
     propObject: {fileID: 6167147485909967427, guid: 56d7562070ff5fb4e9c3fb4fe146f3f6,
       type: 3}
     changeHP: 2
@@ -23,8 +23,8 @@ MonoBehaviour:
     changeDamage: -1
     changeSpeed: 0
     bulletType: 
-  - propType: 202
-    propId: 0
+  - propType: 2
+    propId: 1002
     propObject: {fileID: 1191563592896174228, guid: 85158bb19b0f2c345972861ae34ede21,
       type: 3}
     changeHP: 1
@@ -33,8 +33,8 @@ MonoBehaviour:
     changeDamage: 0
     changeSpeed: 0
     bulletType: 
-  - propType: 203
-    propId: 0
+  - propType: 2
+    propId: 1003
     propObject: {fileID: 6548428581073956927, guid: ad6cebce2766ffc4f90fd349abea9124,
       type: 3}
     changeHP: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 204
-    propId: 0
+    propId: 1004
     propObject: {fileID: 8887654901604626354, guid: dc2e428e8cd2225458b3a19e622bd3c7,
       type: 3}
     changeHP: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 205
-    propId: 0
+    propId: 1005
     propObject: {fileID: 7228520739801652520, guid: 12f796cf506203d418246569e31c6e5c,
       type: 3}
     changeHP: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 206
-    propId: 0
+    propId: 1006
     propObject: {fileID: 6909067098567022676, guid: f79384366305e8c43b969c997eb285e0,
       type: 3}
     changeHP: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 207
-    propId: 0
+    propId: 1007
     propObject: {fileID: 6520889025348594599, guid: 6799cc6696c599640b6591d35937427a,
       type: 3}
     changeHP: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 208
-    propId: 0
+    propId: 1008
     propObject: {fileID: 5139268068570486322, guid: a45dde7a07d02924b82e90588d3c648a,
       type: 3}
     changeHP: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 209
-    propId: 0
+    propId: 1009
     propObject: {fileID: 1627870031858258325, guid: 42936887183665c4bbbe710c6df2d810,
       type: 3}
     changeHP: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 210
-    propId: 0
+    propId: 1010
     propObject: {fileID: 4779283928435966377, guid: 1170f59680bc8004990d30f9aff24a0b,
       type: 3}
     changeHP: 0
@@ -114,7 +114,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 211
-    propId: 0
+    propId: 1011
     propObject: {fileID: 8273542065605736142, guid: 0ab1cbdc6e6531e44a27ecdade3704fe,
       type: 3}
     changeHP: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1012
     propObject: {fileID: 7519791111285181669, guid: ba7ef407b4331134f98a24734d92e69e,
       type: 3}
     changeHP: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1013
     propObject: {fileID: 6943820462202251492, guid: 3599256aee0013a439b71618be5107fd,
       type: 3}
     changeHP: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1014
     propObject: {fileID: 3646814297627522181, guid: 04ccb3ead2d03e1458ada9ed1b57fb65,
       type: 3}
     changeHP: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1015
     propObject: {fileID: 8226167971143287274, guid: ea76eec4f3de57447987908bc816da9c,
       type: 3}
     changeHP: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1016
     propObject: {fileID: 2602976450917912883, guid: 40be04559f0b34e409f8240b817518cd,
       type: 3}
     changeHP: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1017
     propObject: {fileID: 265656363127464557, guid: 65358805f7669644aa950c9873843975,
       type: 3}
     changeHP: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1018
     propObject: {fileID: 1933633060500049801, guid: d750e9009fb564949afdd560ff35a7b0,
       type: 3}
     changeHP: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1019
     propObject: {fileID: 2419953923107807081, guid: 175dcbd587d05b24ea3e4a0c76dff635,
       type: 3}
     changeHP: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1020
     propObject: {fileID: 8430640835479074558, guid: a696658dee912c84ab03920921c71e4f,
       type: 3}
     changeHP: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1021
     propObject: {fileID: 84718397059743785, guid: fe362c859cdf9a0488fabec7796add87,
       type: 3}
     changeHP: 0
@@ -224,7 +224,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1022
     propObject: {fileID: 2775964456127320009, guid: f9839efb5374e7b45904d408437bf33d,
       type: 3}
     changeHP: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1023
     propObject: {fileID: 5669055545595788384, guid: 7fbcee1c6a1709847b6847d751e83f4a,
       type: 3}
     changeHP: 0
@@ -244,7 +244,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1024
     propObject: {fileID: 4088182594065292997, guid: 3e6025e75978aa24da8047de8d43bc24,
       type: 3}
     changeHP: 0
@@ -254,7 +254,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1025
     propObject: {fileID: 6981204542837277244, guid: 4af2d21b61b690141bfc9707a264bb02,
       type: 3}
     changeHP: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
     changeSpeed: 0
     bulletType: 
   - propType: 1
-    propId: 0
+    propId: 1026
     propObject: {fileID: 630070126976491902, guid: 7f8802fe255cdc6408e43e88f9501596,
       type: 3}
     changeHP: 0

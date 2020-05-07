@@ -135,7 +135,7 @@ public struct DoorData
     }
 }
 
-public struct TreasureData
+public class TreasureData
 {
     public int treasureId;   // 道具在配置表中的下标
     public TreasureType treasuretType;   // 道具的种类   改变人物或子弹属性 / 改变子弹形态 / 主动道具
@@ -149,6 +149,11 @@ public struct TreasureData
         treasureTable = _treasureTable;
         treasureObejct = _treasureObject;
         active = _active;
+    }
+
+    public void SetActive(bool state)
+    {
+        active = state;
     }
 }
 
