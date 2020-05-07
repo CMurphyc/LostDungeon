@@ -34,8 +34,6 @@ public class MonsterModule
     //房间号-己方怪物列表
     public Dictionary<int, List<AliasMonsterPack>> RoomToAliasUnit = new Dictionary<int, List<AliasMonsterPack>>();
 
-
-
     /// <summary>
     /// 敌方单位
     /// </summary>
@@ -105,6 +103,7 @@ public class MonsterModule
     //目前只针对Boss
     void UpdateBuff()
     {
+        //无敌BUFF
         if (RoomToMonster.ContainsKey(BossRoom))
         {
             for (int i = 0; i < RoomToMonster[BossRoom].Count;i++ )
@@ -126,9 +125,27 @@ public class MonsterModule
                 }
             }
         }
+        //冰冻buff
+        foreach (int roomid in _parentManager._player.GetLiveRoom())
+        {
+            if (RoomToMonster.ContainsKey(roomid))
+            {
+                for (int i = 0; i < RoomToMonster[roomid].Count;i++)
+                {
+                    if (RoomToMonster[roomid][i].GetComponent<MonsterModel_Component>().Debuff.Freeze.isFreeze 
+                        && RoomToMonster[roomid][i].GetComponent<MonsterModel_Component>().Debuff.Freeze.RemainingFrame>0)
+                    {
+                        RoomToMonster[roomid][i].GetComponent<MonsterModel_Component>().Debuff.Freeze.RemainingFrame--;
+
+                    }
+                    else
+                    {
+                        RoomToMonster[roomid][i].GetComponent<MonsterModel_Component>().Debuff.Freeze.isFreeze = false;
+                    }
+                }
+            }
+        }
     }
-
-
     void UpdateBossSkill()
     {
         List<GameObject> DeleteQueue = new List<GameObject>();
@@ -316,6 +333,8 @@ public class MonsterModule
         {
             return;
         }
+       
+
         int AttackedTime = 10;
         Fix64 hp = obj.GetComponent<MonsterModel_Component>().HP - (Fix64)dmg;
         if (hp > Fix64.Zero)
@@ -434,8 +453,6 @@ public class MonsterModule
                     //FixVector2 MonsterPos = new Vector2((float)Monster.GetComponent<MonsterModel_Component>().position.x, (float)Monster.GetComponent<MonsterModel_Component>().position.y);
                     FixVector2 MonsterPos =PackConverter.FixVector3ToFixVector2(Monster.GetComponent<MonsterModel_Component>().position);
                     GameObject Target = FindClosePlayer(MonsterPos, RoomID);
-
-                    //Debug.Log("HP:　"+ Monster.GetComponent<MonsterModel_Component>().HP);
 
                     Monster.GetComponent<EnemyAI>().UpdateLogic(Target, frame, Monster,true);
                     if (Target != null)
@@ -785,6 +802,10 @@ public class MonsterModule
         }
     }
     
+
+
+
+    //helper functions
     GameObject FindCloseMonster(Vector2 AliasPos, int RoomID)
     {
         GameObject ret = null;
@@ -808,7 +829,6 @@ public class MonsterModule
         }
         return ret;
     }
-
     GameObject FindClosePlayer(FixVector2 MonsterPos, int RoomID )
     {
         GameObject ret = null;
@@ -829,11 +849,6 @@ public class MonsterModule
         }
         return ret;
     }
-
-
-   
-
-
     public int GetMonsterNumber( int roomID)
     {
         int ret = -1;

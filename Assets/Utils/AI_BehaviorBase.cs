@@ -64,7 +64,17 @@ class AI_BehaviorBase
 
     public void LogicUpdate(int frame , FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
     {
-        switch(type)
+        // void UpdateBuffLogic() 待封装
+        //debuff静止
+        if (obj.GetComponent<MonsterModel_Component>().Debuff.Freeze.isFreeze)
+        {
+            //静止状态
+            return;
+        }
+
+
+
+        switch (type)
         {
             case AI_Type.Normal_Melee:
                 {
@@ -120,9 +130,12 @@ class AI_BehaviorBase
     {
         Vector3 TargetPos = new Vector2((float)obj.GetComponent<MonsterModel_Component>().position.x, (float)obj.GetComponent<MonsterModel_Component>().position.y);
         obj.transform.position = Vector3.SmoothDamp(obj.transform.position, TargetPos, ref Velocity,Global.FrameRate/1000f);
-        //obj.transform.position = new Vector2((float)obj.GetComponent<MonsterModel_Component>().position.x, (float)obj.GetComponent<MonsterModel_Component>().position.y);
-
         obj.transform.rotation = obj.GetComponent<MonsterModel_Component>().Rotation;
+
+
+
+
+        //怪物Buff动画更新
         switch (type)
         {
             case AI_Type.Boss_DarkKnight:
@@ -137,21 +150,34 @@ class AI_BehaviorBase
                     }
                     break;
                 }
-
-
-
         }
 
-        obj.transform.rotation = obj.GetComponent<MonsterModel_Component>().Rotation;
-
+        //怪物受击动画
         if (CurrentState != (int)AI_BehaviorType.UnderAttack)
         {
             obj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f);
         }
-        if (obj.tag == "Boss" && obj.GetComponent<MonsterModel_Component>().UnderAttack)
+        //if (obj.tag == "Boss" && obj.GetComponent<MonsterModel_Component>().UnderAttack)
+        //{
+        //    obj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 93f / 255f, 93f / 255f);
+        //}
+        if ( obj.GetComponent<MonsterModel_Component>().UnderAttack)
         {
             obj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 93f / 255f, 93f / 255f);
         }
+
+        if (obj.GetComponent<MonsterModel_Component>().Debuff.Freeze.isFreeze)
+        {
+
+            //静止状态 不更新状态机
+            obj.GetComponent<Animator>().speed = 0;
+            return;
+        }
+        else
+        {
+            obj.GetComponent<Animator>().speed = 1;
+        }
+
         switch (CurrentState)
         {
             case (int)AI_BehaviorType.Idle:
