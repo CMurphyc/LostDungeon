@@ -128,7 +128,7 @@ public class PlayerDataModule
             foreach (var player in playerToPlayer)
             {
                 //不是同个玩家
-                if (player.Key!=item.Key)
+                if (!playerToRevival.ContainsKey(player.Key))
                 {
                     FixVector2 OtherPos = player.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
                     Fix64 P2P = FixVector2.Distance(Body_Pos, OtherPos);
