@@ -35,9 +35,15 @@ public class PlayerView_Component : MonoBehaviour
     private void UpdatePosition()
     {
         FixVector2 FloatPos = GetComponent<PlayerModel_Component>().GetPlayerPosition();
-        if (FloatPos == new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y)) SetRun(false);
+        Vector2 p = new Vector2((float)FloatPos.x,(float)FloatPos.y);
+        if (Mathf.Abs(p.x - transform.position.x) <= 0.0001f && Mathf.Abs(p.y - transform.position.y) <= 0.0001f)
+            SetRun(false);
         else SetRun(true);
 
+        if (this.GetComponent<PlayerModel_Component>().GetDead() == 1) SetDead(true);
+        else SetDead(false);
+        
+        
         //transform.position = new Vector3((float)FloatPos.x, (float)FloatPos.y);
         FixVector2 FixedVec = GetComponent<PlayerModel_Component>().GetPlayerPosition();
         Vector2 CurrentPos = new Vector2((float)FixedVec.x, (float)FixedVec.y);
@@ -58,13 +64,14 @@ public class PlayerView_Component : MonoBehaviour
         //GetComponent<SpriteRenderer>().flipX = GetComponent<PlayerModel_Component>().GetPlayerRotation();
     }
 
-    public void Play(string animation)
-    {
-        anim.Play(animation);
-    }
-
     public void SetRun(bool state)
     {
         anim.SetBool("IsRun", state);
     }
+
+    public void SetDead(bool state)
+    {
+        anim.SetBool("dead", state);
+    }
+
 }

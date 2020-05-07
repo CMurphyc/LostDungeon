@@ -26,6 +26,11 @@ public class PlayerModel_Component : MonoBehaviour
 
     public DeBuff debuff = new DeBuff();
 
+    public int muteki;
+
+    public int dead;
+
+    public int revival;
 
     //void Awake()
     //{
@@ -34,6 +39,9 @@ public class PlayerModel_Component : MonoBehaviour
     //}
     public void Init(int FullHealthPoint,Fix64 PlayerSpeed,Fix64 AttackPoint,Fix64 BulletSpeed,Fix64 ShootSpeed,List<int> BulletBuff)
     {
+        muteki = 0;
+        dead = 0;
+        revival = 0;
 
         fullHealthPoint = FullHealthPoint;
         healthPoint = FullHealthPoint;
@@ -57,6 +65,25 @@ public class PlayerModel_Component : MonoBehaviour
         if (countDown2 != 0) countDown2--;
         if (countDown3 != 0) countDown3--;
         if (attackCountDown != 0) attackCountDown--;
+        if (muteki != 0) muteki--;
+
+        if (healthPoint == 0) dead = 1;
+        else dead = 0;
+    }
+
+    public int GetRevival()
+    {
+        return revival;
+    }
+
+    public void SetRevival(int p)
+    {
+        revival = p;
+        if(revival>=100)
+        {
+            healthPoint = (int)(0.1f * fullHealthPoint);
+            revival = 0;
+        }
     }
 
     public int GetAttackCountDown()
@@ -74,6 +101,30 @@ public class PlayerModel_Component : MonoBehaviour
         shootSpeed = p;
     }
 
+    public int GetMuteki()
+    {
+        return muteki;
+    }
+
+    public void SetMuteki(int p)
+    {
+        muteki = p;
+    }
+
+    public int GetDead()
+    {
+        return dead;
+    }
+
+    public void Dead()
+    {
+        dead = 1;
+    }
+
+    public void Revival()
+    {
+        dead = 0;
+    }
 
     public int GetCountDown1()
     {

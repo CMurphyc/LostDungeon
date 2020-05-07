@@ -677,6 +677,15 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     Quaternion.identity);
 
                     playerTmp.transform.localScale = new Vector3(3, 3, 1);
+
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.magicianBase.HP,
+                        (Fix64)sys._battle._skill.magicianBase.moveSpeed,
+                        (Fix64)sys._battle._skill.magicianBase.damge,
+                        (Fix64)sys._battle._skill.magicianBase.bulletSpeed,
+                        (Fix64)sys._battle._skill.magicianBase.fireSpeed,
+                        sys._battle._skill.magicianBase.bulletEffect
+                        );
+
                     playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
                     PlayerInGameData data = new PlayerInGameData();
                     data.obj = playerTmp;

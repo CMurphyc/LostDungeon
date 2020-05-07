@@ -24,6 +24,7 @@ public class SkillJoystick1 : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     void Start()
     {
+
         Cancle_Joystick = transform.parent.Find("CancelStickUI").gameObject;
         JoyStickCenter = transform.position;
         Cancle_Joystick.SetActive(false);

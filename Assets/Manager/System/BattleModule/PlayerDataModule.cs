@@ -121,9 +121,13 @@ public class PlayerDataModule
     {
         for (int i = 0; i < frameInfo.Count; i++)//更新操作
         {
-            if (playerToPlayer.ContainsKey(frameInfo[i].Uid))
+            if (playerToPlayer.ContainsKey(frameInfo[i].Uid))//有玩家
             {
+
                 PlayerInGameData Input = playerToPlayer[frameInfo[i].Uid];
+
+                if (Input.obj.GetComponent<PlayerModel_Component>().GetDead() == 1) continue;
+
                 Vector2 MoveVec = new Vector2(frameInfo[i].MoveDirectionX / 10000f, frameInfo[i].MoveDirectionY / 10000f).normalized * Global.FrameRate / 1000f * 5f;
 
                 //FixVector2 MoveVec = new FixVector2(frameInfo[i].MoveDirectionX / (Fix64)100, frameInfo[i].MoveDirectionY / (Fix64)100);
@@ -155,7 +159,6 @@ public class PlayerDataModule
 
                             Fix64 AttackDirectionX = (Fix64)(frameInfo[i].AttackDirectionX / (Fix64)100);
                             Fix64 AttackDirectionY = (Fix64)(frameInfo[i].AttackDirectionY / (Fix64)100);
-
 
                             //Debug.Log(AttackDirectionX);
                             //Debug.Log(AttackDirectionY);
@@ -326,7 +329,10 @@ public class PlayerDataModule
     public void BeAttacked(GameObject obj, int dmg,int roomid)
     {
         //Debug.Log("tadawo");
-        //int AttackedTime = 10;                  
+        //int AttackedTime = 10;
+
+        if (obj.GetComponent<PlayerModel_Component>().GetMuteki() != 0) return;
+
         obj.GetComponent<PlayerModel_Component>().SetHealthPoint(
         obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg);
 
