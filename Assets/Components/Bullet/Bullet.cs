@@ -292,8 +292,13 @@ public class BulletUnion : BulletBase
         {
             if (spwanedBullet[i].tag == "Player" || spwanedBullet[i].tag == "AliasAI")
             {
-                for (int j = 0; j < _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid].Count; ++j)
+                for (int j = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid].Count-1; j>=0; j--)
                 {
+                    if(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j]==null)
+                    {
+                        _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid].RemoveAt(j);
+                        continue;
+                    }
                     //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取，待对接
                     MonsterModel_Component MonsterModule = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].GetComponent<MonsterModel_Component>();
                     CollideDetecter collideDetecter = new CollideDetecter();

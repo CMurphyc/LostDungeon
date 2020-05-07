@@ -112,6 +112,11 @@ public class RoomModule
                 temp.username = playerinfo.UserName;
                 PlayerList[i] = temp;
 
+                if(PVEResult.ContainsKey(playerinfo.PlayerId))
+                {
+                    PVEResult.Remove(playerinfo.PlayerId);
+                }
+                PVEResult.Add(playerinfo.PlayerId,new PVEData());
 
                 //Debug.Log("PlayerUid: " + temp.uid);
                 //Debug.Log("PlayerReady: " + temp.ready);

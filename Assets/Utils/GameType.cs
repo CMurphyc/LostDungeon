@@ -117,6 +117,11 @@ public class PVEData
     public int kills;
     public int coins;
 
+    public PVEData()
+    {
+        kills = 0;
+        coins = 0;
+    }
 }
 
 public struct DoorData

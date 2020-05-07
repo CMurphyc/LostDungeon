@@ -125,7 +125,8 @@ public class ChestModule
     /// </summary>
     void SCCoins(FixVector2 chestpos,int Frame)
     {
-        for(int i=1;i<=5;i++)
+        int cnt = Random.Range(3, 7);
+        for(int i=0;i<cnt;i++)
         {
             GameObject it= Object.Instantiate(Resources.Load("UI/Scene'sPictures/MapCreat/Prefabs/coin")) as GameObject;
             it.transform.position = new Vector2((float)chestpos.x,(float)chestpos.y)+Random.insideUnitCircle;
