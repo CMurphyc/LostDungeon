@@ -139,7 +139,7 @@ public class PlayerDataModule
                     {
                         InSave = true;
                         Debug.Log("正在复活玩家： " + item.Key);
-                        item.Value.GetComponent<PlayerModel_Component>().revival++;
+                        FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival++;
                     }
                 }
             }
