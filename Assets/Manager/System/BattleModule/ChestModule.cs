@@ -169,11 +169,18 @@ public class ChestModule
     /// <param name="RoomID">房间ID</param>
     void PassRoom(int Frame)
     {
+        foreach(var i in _parentManager._monster.RoomToMonster)
+        {
+            if (i.Value.Count > 0)
+            {
+                Room.Add(i.Key);
+            }
+        }
         int CurrentRoomID = _parentManager._player.playerToPlayer[_parentManager._player.FindCurrentPlayerUID()].RoomID;
-        if(_parentManager._monster.GetMonsterNumber(CurrentRoomID)==0&&Room.Contains(CurrentRoomID)==false)
+        if(Room.Contains(CurrentRoomID)&& _parentManager._monster.GetMonsterNumber(CurrentRoomID)==0)
         {
             SCChest(Frame);
-            Room.Add(CurrentRoomID);
+            Room.Remove(CurrentRoomID);
         }
     }
 }

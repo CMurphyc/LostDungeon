@@ -20,14 +20,14 @@ public class PlayerDataModule
 
     public Dictionary<int, GameObject> playerToRevival = new Dictionary<int, GameObject>();   // 玩家编号对应复活框
     Vector3 Revival_Offset = new Vector3(0, 0.8f, 0);
-   
+    bool DeathCamInit = false;
+    GameObject Panel;
 
     public PlayerDataModule(BattleManager parent)
     {
-        
-
-
         _parentManager = parent;
+
+        
     }
     public void Free()
     {
@@ -68,7 +68,6 @@ public class PlayerDataModule
     }
     public void UpdateLogic(int frame)//更新某一帧逻辑
     {
-       
         UpdateMovement(frame);
         foreach(var p in playerToPlayer)
         {
@@ -119,20 +118,124 @@ public class PlayerDataModule
 
             }
         }
+        //复活检测
+        CheckRevial();
+        //全体玩家去世跳转结算
+        CheckGameEnd();
     }
-    void UpdateRevivalPos()
+    void CheckGameEnd()
     {
+        bool Over = true;
+        foreach (var item in playerToPlayer)
+        {
+            int HP = item.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint();
+            if (HP>0)
+            {
+                Over = false;
+            }
+        }
+        if (Over)
+        {
+            //发送游戏结束
+            if (GameObject.Find("GameEntry") != null)
+            {
+                GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
+
+            }
+        }
+    }
+
+    void CheckRevial()
+    {
+        foreach(var item in playerToRevival)
+        {
+            GameObject PlayerObj = FindPlayerObjByUID(item.Key);
+            FixVector2 Body_Pos = PlayerObj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+            bool InSave = false;
+            foreach (var player in playerToPlayer)
+            {
+                //不是同个玩家
+                if (!playerToRevival.ContainsKey(player.Key))
+                {
+                    FixVector2 OtherPos = player.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+                    Fix64 P2P = FixVector2.Distance(Body_Pos, OtherPos);
+
+                    //救人判定距离
+                    Fix64 SaveDistance =(Fix64)1.3;
+                    if (P2P<= SaveDistance)
+                    {
+                        InSave = true;
+                        Debug.Log("正在复活玩家： " + item.Key);
+                        FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival++;
+                    }
+                }
+            }
+            //无人则重置复活条
+            if (!InSave)
+            {
+                FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival=0;
+            }
+        }
+    }
+    void UpdateRevivalBar()
+    {
+        List<int> DeleteList = new List<int>();
+
+        //更新血条位置
         foreach(var item in playerToRevival)
         {
             GameObject player = FindPlayerObjByUID(item.Key);
             if (player != null)
             {
-                //Vector3 PlayerPos = PackConverter.FixVector2ToVector2(player.GetComponent<PlayerModel_Component>().GetPlayerPosition());
-                Vector3 PlayerPos = player.transform.position;
+                int HP = player.GetComponent<PlayerModel_Component>().GetHealthPoint();
 
-                Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos+ Revival_Offset);
-                item.Value.transform.position = ScreenPos;
+                if (HP <= 0)
+                {
+                    //Vector3 PlayerPos = PackConverter.FixVector2ToVector2(player.GetComponent<PlayerModel_Component>().GetPlayerPosition());
+                    Vector3 PlayerPos = player.transform.position;
+
+                    Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos + Revival_Offset);
+                    item.Value.transform.position = ScreenPos;
+
+                    if (item.Key == FindCurrentPlayerUID() && !DeathCamInit)
+                    {
+
+                        //添加遮罩
+                        //to do
+                        GameObject Panel_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/DeathCam");
+                        Panel = Object.Instantiate(Panel_Prefab, GameObject.Find("Canvas").transform);
+                  
+                        DeathCamInit = true;
+                    }
+
+                }
+                else
+                {
+                    if (item.Key == FindCurrentPlayerUID())
+                    {
+                        //删除遮罩
+                        //to do
+                        Object.Destroy(Panel);
+                        DeathCamInit = false;
+                    }
+                    DeleteList.Add(item.Key);
+                }
+                //更新复活条数值
+                int Revival = player.GetComponent<PlayerModel_Component>().revival;
+                item.Value.GetComponent<Slider>().value = (float)Revival / (float)player.GetComponent<PlayerModel_Component>().MaxRevival;
+
+
+
+
             }
+        }
+    
+
+        //销毁
+        foreach(int item in DeleteList)
+        {
+            Object.Destroy(playerToRevival[item]);
+            playerToRevival.Remove(item);
         }
 
     }
@@ -396,14 +499,16 @@ public class PlayerDataModule
             {
                 GameObject Revival_Instance = Object.Instantiate(Revival_Prefab, Canvas.transform);
                 Revival_Instance.transform.position = ScreenPos;
-
-
                 if (FindPlayerUIDbyObject(obj)!=-1)
                 {
                     int uid = FindPlayerUIDbyObject(obj);
                     if (!playerToRevival.ContainsKey(uid))
                     {
                         playerToRevival.Add(uid, Revival_Instance);
+                    }
+                    else
+                    {
+                        playerToRevival[uid] = Revival_Instance;
                     }
                 }
 
@@ -446,7 +551,7 @@ public class PlayerDataModule
         }
 
         //更新复活框位置
-        UpdateRevivalPos();
+        UpdateRevivalBar();
     }
 
     public HashSet<int> GetLiveRoom()

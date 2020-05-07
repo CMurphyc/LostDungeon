@@ -24,7 +24,7 @@ public class RoomListEvent : MonoBehaviour
     void Start()
     {
      
-        parent = GameObject.Find("Canvas/content");
+        parent = GameObject.Find("Canvas/content/Viewport/Content");
         contentSize = parent.GetComponent<RectTransform>().sizeDelta;
         itemHeight = item.GetComponent<RectTransform>().rect.height;
         itemLocalPos = item.transform.localPosition;
@@ -70,11 +70,14 @@ public class RoomListEvent : MonoBehaviour
             }
         );
         a.GetComponent<Transform>().SetParent(parent.GetComponent<Transform>(), false);
-        a.transform.localPosition = new Vector3(itemLocalPos.x, itemLocalPos.y - messages.Count * itemHeight, 0);
-        messages.Add(a);
+        //a.transform.localPosition = new Vector3(itemLocalPos.x, itemLocalPos.y - messages.Count * itemHeight, 0);
 
+        a.GetComponent<RectTransform>().anchoredPosition =new Vector2(9.152496f, -42.1f- messages.Count* itemHeight);
+        
+        messages.Add(a);
         if (contentSize.y <= messages.Count * itemHeight)//增加内容的高度
         {
+            
             //parent.GetComponent<RectTransform>().sizeDelta = new Vector2(contentSize.x, messages.Count * itemHeight);
         }
     }

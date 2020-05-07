@@ -31,7 +31,7 @@ public class PlayerModel_Component : MonoBehaviour
     public int dead;
 
     public int revival;
-
+    public int MaxRevival=100;
     //void Awake()
     //{
     //    //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
@@ -67,8 +67,16 @@ public class PlayerModel_Component : MonoBehaviour
         if (attackCountDown != 0) attackCountDown--;
         if (muteki != 0) muteki--;
 
+        if (revival >= MaxRevival)
+        {
+            healthPoint = (int)(0.1f * fullHealthPoint);
+            revival = 0;
+        }
+
         if (healthPoint == 0) dead = 1;
         else dead = 0;
+
+
     }
 
     public void Change(int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed)
@@ -92,7 +100,7 @@ public class PlayerModel_Component : MonoBehaviour
     public void SetRevival(int p)
     {
         revival = p;
-        if(revival>=100)
+        if(revival>= MaxRevival)
         {
             healthPoint = (int)(0.1f * fullHealthPoint);
             revival = 0;
