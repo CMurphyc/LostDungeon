@@ -34,15 +34,15 @@ public class OverViewWindowUpdate : MonoBehaviour
             switch(PlayerList[i].type)
             {
                 case CharacterType.Enginner:
-                    Canvas.transform.Find("Player" + i.ToString() + "/" + "Player" + i.ToString() + "/Image").GetComponent<Image>().sprite =
+                    Canvas.transform.Find("Player" + i.ToString() + "/" + "Player0/Image").GetComponent<Image>().sprite =
                     Instantiate( Resources.Load("Model/Player/Sprites/Engineer/c06_s1_4",typeof(Sprite))) as Sprite;
                     break;
                 case CharacterType.Magician:
-                    Canvas.transform.Find("Player" + i.ToString() + "/" + "Player" + i.ToString() + "/Image").GetComponent<Image>().sprite =
+                    Canvas.transform.Find("Player" + i.ToString() + "/" + "Player0/Image").GetComponent<Image>().sprite =
                     Instantiate( Resources.Load("Model/Player/Sprites/Magician/c03_4",typeof(Sprite))) as Sprite;
                     break;
                 case CharacterType.Warrior:
-                    Canvas.transform.Find("Player" + i.ToString() + "/" + "Player" + i.ToString() + "/Image").GetComponent<Image>().sprite =
+                    Canvas.transform.Find("Player" + i.ToString() + "/" + "Player0/Image").GetComponent<Image>().sprite =
                     Instantiate( Resources.Load("Model/Player/Sprites/Guardian/c08_s2_4",typeof(Sprite))) as Sprite;
                     break;
             }
