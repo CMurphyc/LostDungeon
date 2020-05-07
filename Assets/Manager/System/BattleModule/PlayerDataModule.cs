@@ -422,7 +422,7 @@ public class PlayerDataModule
             {
                 if(x.Key==PlayerUID)
                 {
-                    misc.ScreenFlash();
+                    misc.ScreenFlash(misc.color.RED);
                 }
             }
         }

@@ -8,7 +8,7 @@ public class misc : MonoBehaviour
     private bool damaged;
     private GameObject damageImage;
     private Color flashColour;
-    private float flashSpeed = 3f;
+    private float flashSpeed = 1f;
 
     public enum color
     {
