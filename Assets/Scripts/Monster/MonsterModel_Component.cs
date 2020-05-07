@@ -51,7 +51,7 @@ public class MonsterModel_Component : MonoBehaviour
 
     public Buff buff = new Buff();
 
-    public DeBuff Debuff;
+    public DeBuff Debuff = new DeBuff();
 
     public int OwnderUID;
     /*
@@ -142,26 +142,3 @@ public class MonsterModel_Component : MonoBehaviour
 }
 
 
-public class Buff
-{
-    public bool Undefeadted =false ;
-    public int Undefeadted_RemainingFrame ;
-
-}
-
-
-public class DeBuff
-{
-    /*
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    public bool dd{get;set;}
-    */
-}
