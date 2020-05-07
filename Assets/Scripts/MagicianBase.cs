@@ -191,11 +191,11 @@ public class MagicianBase
 
         if (gifted[2] == 1)
         {
-            return (int)(1000 / Global.FrameRate * (countdownSkill1 - 2));
+            return (int)(1000 / Global.FrameRate * (countdownSkill2 - 2));
         }
         else
         {
-            return (int)(1000 / Global.FrameRate * (countdownSkill1));
+            return (int)(1000 / Global.FrameRate * (countdownSkill2));
         }
     }
 

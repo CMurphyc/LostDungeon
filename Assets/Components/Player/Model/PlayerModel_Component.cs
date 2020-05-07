@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerModel_Component : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class PlayerModel_Component : MonoBehaviour
     public int activeCountDown { get; set; }            //主动道具倒计时
     public Fix64 bulletSpeed { get; set; }              // 玩家射出子弹的速度
 
-
     public FixVector2 playerPosition { get; set; }   // 玩家位置
     public bool playerRotation { get; set; }         // 玩家朝向
     public FixVector2 weaponPosition { get; set; }   // 武器位置
@@ -25,6 +25,8 @@ public class PlayerModel_Component : MonoBehaviour
     public List<int> bulletBuff = new List<int>();
 
     public DeBuff debuff = new DeBuff();
+
+
     //void Awake()
     //{
     //    //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
@@ -32,6 +34,7 @@ public class PlayerModel_Component : MonoBehaviour
     //}
     public void Init(int FullHealthPoint,Fix64 PlayerSpeed,Fix64 AttackPoint,Fix64 BulletSpeed,Fix64 ShootSpeed,List<int> BulletBuff)
     {
+
         fullHealthPoint = FullHealthPoint;
         healthPoint = FullHealthPoint;
         playerSpeed = PlayerSpeed;
