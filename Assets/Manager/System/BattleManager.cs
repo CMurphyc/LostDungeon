@@ -14,6 +14,7 @@ public class BattleManager
     public PlayerDataModule _player;
     public SkillModule _skill;
     public TerrainModule _terrain;
+    public ItemLogicModule _itemlogic;
 
     public int Seed;
     public int SeverFrame;
@@ -27,6 +28,7 @@ public class BattleManager
         _player = new PlayerDataModule(this);
         _skill = new SkillModule(this);
         _terrain = new TerrainModule(this);
+        _itemlogic = new ItemLogicModule(this);
     }
 
 
