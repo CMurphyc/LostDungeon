@@ -18,6 +18,9 @@ public class PlayerDataModule
     public GameObject CD2 = null;
 
 
+    public Dictionary<int, GameObject> playerToRevival = new Dictionary<int, GameObject>();   // 玩家编号对应复活框
+    Vector3 Revival_Offset = new Vector3(0, 0.8f, 0);
+   
 
     public PlayerDataModule(BattleManager parent)
     {
@@ -65,6 +68,7 @@ public class PlayerDataModule
     }
     public void UpdateLogic(int frame)//更新某一帧逻辑
     {
+       
         UpdateMovement(frame);
         foreach(var p in playerToPlayer)
         {
@@ -116,7 +120,22 @@ public class PlayerDataModule
             }
         }
     }
+    void UpdateRevivalPos()
+    {
+        foreach(var item in playerToRevival)
+        {
+            GameObject player = FindPlayerObjByUID(item.Key);
+            if (player != null)
+            {
+                //Vector3 PlayerPos = PackConverter.FixVector2ToVector2(player.GetComponent<PlayerModel_Component>().GetPlayerPosition());
+                Vector3 PlayerPos = player.transform.position;
 
+                Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos+ Revival_Offset);
+                item.Value.transform.position = ScreenPos;
+            }
+        }
+
+    }
     public void UpdateMovement(int frame)
     {
         for (int i = 0; i < frameInfo.Count; i++)//更新操作
@@ -325,16 +344,46 @@ public class PlayerDataModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, int dmg,int roomid)
     {
-        //Debug.Log("tadawo");
-        //int AttackedTime = 10;                  
-        obj.GetComponent<PlayerModel_Component>().SetHealthPoint(
-        obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg);
+        if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint()<=0)
+        {
+            return;
+        }
 
-        obj.GetComponent<PlayerModel_Component>().SetHealthPoint(Mathf.Max(0, obj.GetComponent<PlayerModel_Component>().GetHealthPoint()));
 
+        int LeftHealthPoint = obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg;
+        if (LeftHealthPoint<=0)
+        {
+            obj.GetComponent<PlayerModel_Component>().SetHealthPoint(0);
+          
+            Vector3 PlayerPos = PackConverter.FixVector2ToVector2( obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
+            Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos+ Revival_Offset);
+            Debug.Log("ScreenPos: " + ScreenPos);
+            GameObject Revival_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/Revival");
+            GameObject Canvas = GameObject.Find("Canvas");
+            if (Canvas != null)
+            {
+                GameObject Revival_Instance = Object.Instantiate(Revival_Prefab, Canvas.transform);
+                Revival_Instance.transform.position = ScreenPos;
+
+                if (FindPlayerUIDbyObject(obj)!=-1)
+                {
+                    int uid = FindPlayerUIDbyObject(obj);
+                    if (!playerToRevival.ContainsKey(uid))
+                    {
+                        playerToRevival.Add(uid, Revival_Instance);
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            obj.GetComponent<PlayerModel_Component>().SetHealthPoint(LeftHealthPoint);
+        }
+ 
         int PlayerUID = _parentManager.sys._model._PlayerModule.uid;
 
-        foreach(var x in _parentManager.sys._battle._player.playerToPlayer)
+        foreach(var x in playerToPlayer)
         {
             if(x.Value.obj==obj)
             {
@@ -363,6 +412,8 @@ public class PlayerDataModule
 
         }
 
+        //更新复活框位置
+        UpdateRevivalPos();
     }
 
     public HashSet<int> GetLiveRoom()
@@ -403,6 +454,18 @@ public class PlayerDataModule
         return _parentManager.sys._model._PlayerModule.uid;
     }
    
+    int FindPlayerUIDbyObject(GameObject obj)
+    {
+        int ret = -1;
 
+        foreach(var item in playerToPlayer)
+        {
+            if (item.Value.obj== obj)
+            {
+                return item.Key;
+            }
+        }
+        return ret;
+    }
 
 }
