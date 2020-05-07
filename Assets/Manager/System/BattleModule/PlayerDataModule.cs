@@ -118,7 +118,31 @@ public class PlayerDataModule
 
             }
         }
+        //复活检测
         CheckRevial();
+        //全体玩家去世跳转结算
+        CheckGameEnd();
+    }
+    void CheckGameEnd()
+    {
+        bool Over = true;
+        foreach (var item in playerToPlayer)
+        {
+            int HP = item.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint();
+            if (HP>0)
+            {
+                Over = false;
+            }
+        }
+        if (Over)
+        {
+            //发送游戏结束
+            if (GameObject.Find("GameEntry") != null)
+            {
+                GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
+
+            }
+        }
     }
 
     void CheckRevial()
