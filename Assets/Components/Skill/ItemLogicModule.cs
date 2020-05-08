@@ -40,7 +40,7 @@ public class ItemLogicModule
 
         GameObject buster = Resources.Load("Assets/Resources/Model/Bullet/Prefab/buster") as GameObject;
 
-        List<int> list = new List<int>();
+        List<bulletType> list = new List<bulletType>();
                                     BulletUnion bu = new BulletUnion(_parentManager);
                                     bu.BulletInit("Player", new FixVector2((Fix64)stand.transform.position.x,
                                                                         (Fix64)stand.transform.position.y),

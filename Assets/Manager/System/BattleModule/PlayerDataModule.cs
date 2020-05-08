@@ -260,20 +260,23 @@ public class PlayerDataModule
 
                 //MoveVec = MoveVec.GetNormalized() * (Fix64)Global.FrameRate / (Fix64)1000 * (Fix64)5;
 
+                FixVector2 tmove = new FixVector2((Fix64)MoveVec.x * Input.obj.GetComponent<PlayerModel_Component>().playerSpeed, 
+                    (Fix64)MoveVec.y * Input.obj.GetComponent<PlayerModel_Component>().playerSpeed);
+
                 FixVector2 Pos = Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
-                if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(MoveVec.x + Pos.x), (Fix64)(MoveVec.y + Pos.y)), Input.RoomID))
+                if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
                 {
-                    Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)MoveVec.x, (Fix64)MoveVec.y));
+                    Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)tmove.x, (Fix64)tmove.y));
                 }
                 else
                 {
-                    if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(MoveVec.x + Pos.x), (Fix64)(Pos.y)), Input.RoomID))
+                    if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(Pos.y)), Input.RoomID))
                     {
-                        Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)MoveVec.x, (Fix64)0));
+                        Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)tmove.x, (Fix64)0));
                     }
-                    else if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(Pos.x), (Fix64)(MoveVec.y + Pos.y)), Input.RoomID))
+                    else if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
                     {
-                        Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)0, (Fix64)MoveVec.y));
+                        Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)0, (Fix64)tmove.y));
                     }
                 }
 
@@ -295,7 +298,6 @@ public class PlayerDataModule
                                 //Debug.Log("aaaaaaaa");
                                 if (frame >= Input.NextAttackFrame)
                                 {
-                                    List<int> list = new List<int>();
                                     BulletUnion bu = new BulletUnion(_parentManager);
 
 
@@ -307,10 +309,18 @@ public class PlayerDataModule
                                                 bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         AttackVec,
-                                                                        (Fix64)0.2, (Fix64)2, Input.RoomID,
+                                                                        _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().bulletSpeed
+                                                                        , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().attackPoint
+                                                                        ,
+                                                                        Input.RoomID,
                                                                         _parentManager.sys._battle._skill.enginerBase.bulletObj
 
-                                                                        , list, frameInfo[i].Uid);
+                                                                        ,_parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().bulletBuff
+                                                                        
+                                                                        , frameInfo[i].Uid);
                                                 break;
                                             }
                                         case CharacterType.Magician:
@@ -318,10 +328,15 @@ public class PlayerDataModule
                                                 bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         AttackVec,
-                                                                        (Fix64)0.2, (Fix64)2, Input.RoomID,
+                                                                        _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().bulletSpeed
+                                                                        , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().attackPoint
+                                                                        , Input.RoomID,
                                                                         _parentManager.sys._battle._skill.magicianBase.bulletObj
 
-                                                                        , list, frameInfo[i].Uid);
+                                                                        , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
                                                 break;
                                             }
                                     }
@@ -449,10 +464,10 @@ public class PlayerDataModule
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletFrequency,
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletSpeed,
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeDamage,
-                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed,
+                                        _parentManager.sys._battle._chest.propToProperty[x.treasureId].bulletType
                                         );
 
-                                    Debug.Log("aaaaaaa" + x.treasureId);
                                     Item titem = new Item();
                                     titem.ItemID = x.treasureId;
                                     titem.ItemNumber = 1;

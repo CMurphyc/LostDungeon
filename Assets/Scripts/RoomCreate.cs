@@ -155,7 +155,8 @@ public class RoomCreate : MonoBehaviour
                             (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletFrequency,
                             (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletSpeed,
                             (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeDamage,
-                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed,
+                            sys._battle._chest.propToProperty[x.ItemID].bulletType
                             );
 
                     Debug.Log("bbbbbbb"+x.ItemID);

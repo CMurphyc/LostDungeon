@@ -13,8 +13,8 @@ public class FakeBulletUnion
     public Fix64 damage;
     public int roomid;
     public GameObject bulletPrefab;
-    public List<int> itemList;
-    public FakeBulletUnion(GameObject obj , string tag2, FixVector2 anchor2, FixVector2 toward2, Fix64 speed2, Fix64 damage2, int roomid2, GameObject bulletPrefab2, List<int> itemList2)
+    public List<bulletType> itemList;
+    public FakeBulletUnion(GameObject obj , string tag2, FixVector2 anchor2, FixVector2 toward2, Fix64 speed2, Fix64 damage2, int roomid2, GameObject bulletPrefab2, List<bulletType> itemList2)
     {
         boss = obj;
         tag = tag2;
@@ -29,9 +29,23 @@ public class FakeBulletUnion
 
 
 }
+//分裂    0
+//穿刺    1
+//溅射    2
+//闪电链   3
+//冻结    11
+//中毒    12
+//烧伤    13
+//眩晕    14
+//缓速    15
+//变大    21
+//变小    22
+//边长    23
+//弹射
 
 public enum bulletType
 {
+    Split = 0,
     Penetrate = 1,
     Sputtering = 2,
     LightningChain = 3,
@@ -42,7 +56,8 @@ public enum bulletType
     Retard = 15,
     Bigger = 21,
     Smaller = 22,
-    Longer = 23
+    Longer = 23,
+    Bounce = 24
 
 }
 public class Bullet
@@ -59,7 +74,7 @@ public class Bullet
     public CommonCollider collider;
     public GameObject bulletPrefab;
     public GameObject lightningPrefab;
-    public List<int> itemList;
+    public List<bulletType> itemList;
     public List<int> splitEffectList;
     public List<int> attackEffectList;
     public List<int> debuffList;
@@ -67,7 +82,7 @@ public class Bullet
     public int dmgSrcUID;
 
 
-    public Bullet(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList, int dmgSrcUid)
+    public Bullet(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<bulletType> itemList, int dmgSrcUid)
     {
         BulletContainerInit();
         dmgSrcUID = dmgSrcUid;
@@ -96,11 +111,11 @@ public class Bullet
         this.lightningPrefab = Resources.Load("Model/Bullet/Prefab/thunder") as GameObject;
 
         //测试buff用
-        attackEffectList.Add((int)bulletType.LightningChain);
+        //attackEffectList.Add((int)bulletType.LightningChain);
     }
     private void BulletContainerInit()
     {
-        itemList = new List<int>();
+        itemList = new List<bulletType>();
         splitEffectList = new List<int>();
         attackEffectList = new List<int>();
         debuffList = new List<int>();
@@ -110,10 +125,10 @@ public class Bullet
     {
         foreach (var it in itemList)
         {
-            if (it == 0) splitEffectList.Add(it);
-            else if (it < 10) attackEffectList.Add(it);
-            else if (it < 20) debuffList.Add(it);
-            else if (it < 30) scaleEffectList.Add(it);
+            if ((int)it == 0) splitEffectList.Add((int)it);
+            else if ((int)it < 10) attackEffectList.Add((int)it);
+            else if ((int)it < 20) debuffList.Add((int)it);
+            else if ((int)it < 30) scaleEffectList.Add((int)it);
         }
     }
 
@@ -133,7 +148,7 @@ public class BulletBase
     protected List<explode> explodeList;
     //子弹类型（这里直接传一个GameObject，实例化的都是它的拷贝）
     protected GameObject bulletPrefab;
-    public virtual void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList, int DmgSrcUid) { }
+    public virtual void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<bulletType> itemList, int DmgSrcUid) { }
     public virtual void LogicUpdate() { }
     public virtual void ViewUpdate() { }
     public virtual void ContainerInit() { }
@@ -155,7 +170,7 @@ public class BulletUnion : BulletBase
     }
 
     //初始化所有子弹逻辑层logic的信息以及视图层prefab的信息
-    public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<int> itemList, int DmgSrcUid=0)
+    public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<bulletType> itemList, int DmgSrcUid=0)
     {
 
         this.bulletPrefab = bulletPrefab;
