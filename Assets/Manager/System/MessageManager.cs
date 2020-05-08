@@ -11,7 +11,7 @@ public class MessageManager
 
     }
 
-    public void PopText(string text, float time)
+    public void PopText(string text, float time=2f)
     {
         GameObject PopUpText_Prefab = (GameObject)Resources.Load("UI/MessagePopup/Hint");
         GameObject Canvas = GameObject.Find("Canvas");
