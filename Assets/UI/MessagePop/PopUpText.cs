@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PopUpText : MonoBehaviour
 {
     private Text textToUse;
-    private float TimeToFade = 1.2f;
+    private float TimeToFade = 0.2f;
 
     private bool dp = false;
     private float Counter = 0;
