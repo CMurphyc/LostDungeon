@@ -22,7 +22,7 @@ public class PlayerDataModule
     Vector3 Revival_Offset = new Vector3(0, 0.8f, 0);
     bool DeathCamInit = false;
     GameObject Panel;
-
+    bool GameOverSend = false;
     public PlayerDataModule(BattleManager parent)
     {
         _parentManager = parent;
@@ -37,6 +37,9 @@ public class PlayerDataModule
             frameInfo.Clear();
         }
         bulletList.Clear();
+        playerToRevival.Clear();
+        DeathCamInit = false;
+        GameOverSend = false;
     }
     void UpdateBuff()
     {
@@ -60,11 +63,6 @@ public class PlayerDataModule
                 PlayerComp.debuff.Poison = false;
             }
         }
-
-
-
-
-
     }
     public void UpdateLogic(int frame)//更新某一帧逻辑
     {
@@ -126,6 +124,11 @@ public class PlayerDataModule
     void CheckGameEnd()
     {
         bool Over = true;
+        //玩家数没加载时候直接跳结算的问题
+        if (playerToPlayer.Count==0)
+        {
+            Over = false;
+        }
         foreach (var item in playerToPlayer)
         {
             int HP = item.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint();
@@ -134,12 +137,13 @@ public class PlayerDataModule
                 Over = false;
             }
         }
-        if (Over)
+        if (Over && !GameOverSend)
         {
             //发送游戏结束
             if (GameObject.Find("GameEntry") != null)
             {
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
+                GameOverSend = true;
 
             }
         }
@@ -273,17 +277,12 @@ public class PlayerDataModule
                     }
                 }
 
-
                 switch (frameInfo[i].AttackType)
                 {
                     case (int)AttackType.BasicAttack:
                         {
-
                             Fix64 AttackDirectionX = (Fix64)(frameInfo[i].AttackDirectionX / (Fix64)100);
                             Fix64 AttackDirectionY = (Fix64)(frameInfo[i].AttackDirectionY / (Fix64)100);
-
-                            //Debug.Log(AttackDirectionX);
-                            //Debug.Log(AttackDirectionY);
 
                             FixVector2 AttackVec = new FixVector2(AttackDirectionX, AttackDirectionY).GetNormalized();
 
@@ -338,7 +337,7 @@ public class PlayerDataModule
                         }
                     case (int)AttackType.Skill1:
                         {
-                            //Debug.Log("bbbbbbbbbb");
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown1() != 0) break;
                             CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
 
                             List<int> tmp = new List<int>();
@@ -381,9 +380,8 @@ public class PlayerDataModule
                         }
                     case (int)AttackType.Skill2:
                         {
-                            //Debug.Log("ccccccccc");
-                            int PlayerUID = frameInfo[i].Uid;
-                            CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(PlayerUID);
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown2() != 0) break;
+                            CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
 
                             List<int> tmp = new List<int>();
                             tmp.Add(1);
@@ -424,6 +422,43 @@ public class PlayerDataModule
                                 default:
                                     break;
                             }
+                            break;
+                        }
+                    case (int)AttackType.Pick:
+                        {
+                            int PlayerUID = frameInfo[i].Uid;
+                            int roomid = _parentManager.sys._battle._player.playerToPlayer[PlayerUID].RoomID;
+                            
+                            foreach(var x in _parentManager.sys._battle._chest.roomToTreasure[roomid])
+                            {
+                                if (x.active) continue;
+
+                                FixVector2 tmp = new FixVector2((Fix64)x.treasureTable.transform.position.x, (Fix64)x.treasureTable.transform.position.y);
+
+                                if(FixVector2.Distance(tmp,
+                                    _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
+                                    GetComponent<PlayerModel_Component>().GetPlayerPosition())<=(Fix64)1.4f)
+                                {
+                                    Debug.Log(x.treasureObejct.name);
+                                    x.treasureObejct.SetActive(false);
+                                    x.SetActive(true);
+                                    _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
+                                        GetComponent<PlayerModel_Component>().Change(
+                                        _parentManager.sys._battle._chest.propToProperty[x.treasureId].changefullHP,
+                                        _parentManager.sys._battle._chest.propToProperty[x.treasureId].changeHP,
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletFrequency,
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletSpeed,
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeDamage,
+                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed
+                                        );
+                                    //chile
+                                    break;
+                                }
+
+                            }
+                            
+                           
+
                             break;
                         }
                     default:
@@ -497,7 +532,7 @@ public class PlayerDataModule
             {
                 if(x.Key==PlayerUID)
                 {
-                    misc.ScreenFlash();
+                    misc.ScreenFlash(misc.color.RED);
                 }
             }
         }
@@ -511,6 +546,33 @@ public class PlayerDataModule
             {
                 PlayerInGameData Input = playerToPlayer[frameInfo[i].Uid];
                 Input.obj.GetComponent<PlayerView_Component>().RefreshView();
+                //工程师
+                if (frameInfo[i].AttackType == (int)AttackType.BasicAttack)
+                {
+                    if (_parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid) == CharacterType.Enginner)
+                    {
+                        Vector2 GunToward = new Vector2(frameInfo[i].AttackDirectionX, frameInfo[i].AttackDirectionY).normalized;
+                        GameObject player = playerToPlayer[frameInfo[i].Uid].obj;
+                        GameObject Gun = player.transform.Find("weapon").gameObject;
+                        float degree = Mathf.Atan2(GunToward.y, GunToward.x) * 180f / Mathf.PI;
+
+                        if (90f>=degree && degree>=-90f)
+                        {
+                            Gun.transform.eulerAngles = new Vector3(0, 0, degree);
+                        }
+                        else if (degree>90 && degree<=180)
+                        {
+                            Gun.transform.eulerAngles = new Vector3(0, 180, 180 -degree);
+                        }
+                        else if (degree>=-180 && degree < -90)
+                        {
+                          
+                            Gun.transform.eulerAngles = new Vector3(0, 180,  -180 - degree);
+                        }
+                           
+                    }
+                }
+
             }
 
         }

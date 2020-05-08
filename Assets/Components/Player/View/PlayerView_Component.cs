@@ -36,7 +36,7 @@ public class PlayerView_Component : MonoBehaviour
     {
         FixVector2 FloatPos = GetComponent<PlayerModel_Component>().GetPlayerPosition();
         Vector2 p = new Vector2((float)FloatPos.x,(float)FloatPos.y);
-        if (Mathf.Abs(p.x - transform.position.x) <= 0.0001f && Mathf.Abs(p.y - transform.position.y) <= 0.0001f)
+        if (Mathf.Abs(p.x - transform.position.x) <= 0.1f && Mathf.Abs(p.y - transform.position.y) <= 0.1f)
             SetRun(false);
         else SetRun(true);
 
@@ -47,7 +47,8 @@ public class PlayerView_Component : MonoBehaviour
         //transform.position = new Vector3((float)FloatPos.x, (float)FloatPos.y);
         FixVector2 FixedVec = GetComponent<PlayerModel_Component>().GetPlayerPosition();
         Vector2 CurrentPos = new Vector2((float)FixedVec.x, (float)FixedVec.y);
-        transform.position = Vector3.SmoothDamp(transform.position, CurrentPos, ref Velocity, Global.FrameRate/1000f);
+        transform.position = new Vector3(CurrentPos.x, CurrentPos.y);
+        //transform.position = Vector3.SmoothDamp(transform.position, CurrentPos, ref Velocity, Global.FrameRate/1000f);
     }
 
     private void UpdateRotation()

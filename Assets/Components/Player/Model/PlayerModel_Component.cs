@@ -9,7 +9,7 @@ public class PlayerModel_Component : MonoBehaviour
     public int healthPoint { get; set; }                //玩家现在的血量
     public Fix64 playerSpeed { get; set; }           // 玩家移动速度
     public Fix64 attackPoint { get; set; }           // 玩家攻击力
-    public Fix64 shootSpeed { get; set; }           //射击速度  1/0.5*20 40
+    public Fix64 shootSpeed { get; set; }           //射击速度 就是间隔  1/0.5*20 40
     public int countDown1 { get; set; }                 //技能1倒计时
     public int countDown2 { get; set; }                 //技能2倒计时
     public int countDown3 { get; set; }                 //技能3倒计时
@@ -78,6 +78,19 @@ public class PlayerModel_Component : MonoBehaviour
 
 
     }
+
+    public void Change(int fullHP,int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed)
+    {
+        fullHealthPoint += fullHP;
+        healthPoint += HP;
+        healthPoint = Mathf.Max(healthPoint, 0);
+        shootSpeed = shootSpeed * ShootSpeed;
+        bulletSpeed = bulletSpeed * BulletSpeed;
+        attackPoint = attackPoint * AttackPoint;
+        playerSpeed = playerSpeed * PlayerSpeed;
+    }
+
+
 
     public int GetRevival()
     {

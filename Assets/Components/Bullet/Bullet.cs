@@ -58,6 +58,7 @@ public class Bullet
     public FixVector2 bulletScale;
     public CommonCollider collider;
     public GameObject bulletPrefab;
+    public GameObject lightningPrefab;
     public List<int> itemList;
     public List<int> splitEffectList;
     public List<int> attackEffectList;
@@ -85,14 +86,17 @@ public class Bullet
         this.itemList = itemList;
 
         this.active = true;
-        this.bounce = true;
+        this.bounce = false;
 
         this.bulletScale = new FixVector2(1, 1);
 
         GetAllEffect();
 
+        //预载雷电prefab
+        this.lightningPrefab = Resources.Load("Model/Bullet/Prefab/thunder") as GameObject;
+
         //测试buff用
-        // attackEffectList.Add((int)bulletType.LightningChain);
+        attackEffectList.Add((int)bulletType.LightningChain);
     }
     private void BulletContainerInit()
     {
@@ -224,6 +228,7 @@ public class BulletUnion : BulletBase
         List<Fix64> beLightnedEnemy = new List<Fix64>();
         for(int i = 0; i < Mathf.Min(3, enemyDistance.Count); ++i) beLightnedEnemy.Add(enemyDistance[i]);
 
+
         for (int i = 0; i < _parentManager._monster.RoomToMonster[bullet.roomid].Count; ++i)
         {
             foreach(var it in beLightnedEnemy)
@@ -231,7 +236,14 @@ public class BulletUnion : BulletBase
                 //获取真实的敌对单位位置
                 if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)) == it)
                 {
+
+                    GameObject lightning = GameObject.Instantiate(bullet.lightningPrefab);
+                    lightning.transform.parent = _parentManager._monster.RoomToMonster[bullet.roomid][i].transform;
+                    lightning.transform.position = _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position;
+                    UnityEngine.Object.Destroy(lightning, 1f);
+
                     _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid, bullet.dmgSrcUID);
+
                 }
             }
         }
@@ -353,7 +365,7 @@ public class BulletUnion : BulletBase
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
                         //Debug.Log("玩家受到攻击");
-                         _parentManager._player.BeAttacked(item.Value.obj, 1, spwanedBullet[i].roomid);
+                         _parentManager._player.BeAttacked(item.Value.obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
                         spwanedBullet[i].active = false;
                         //attackEffect逻辑层面的实现
                         //foreach (var effect in spwanedBullet[i].attackEffectList)

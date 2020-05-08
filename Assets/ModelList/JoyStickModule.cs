@@ -6,7 +6,9 @@ public enum AttackType
     BasicAttack,
     Skill1,
     Skill2,
-   
+    Skill3,
+    ActiveSkill,
+    Pick,
 
 }
 

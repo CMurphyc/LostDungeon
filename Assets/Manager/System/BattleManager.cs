@@ -15,7 +15,8 @@ public class BattleManager
     public SkillModule _skill;
     public TerrainModule _terrain;
     public ChestModule _chest;
-
+    public ItemLogicModule _itemlogic;
+    public TextJumpModule _textjump;
 
     public int Seed;
     public int SeverFrame;
@@ -30,6 +31,9 @@ public class BattleManager
         _skill = new SkillModule(this);
         _terrain = new TerrainModule(this);
         _chest = new ChestModule(this);
+        _textjump = new TextJumpModule();
+        _itemlogic = new ItemLogicModule(this);
+
     }
 
     public void UpdateFrame()
@@ -57,6 +61,7 @@ public class BattleManager
         _skill.UpdateView();
         _terrain.UpdateView();
         _chest.UpdateView();
+        _textjump.UpdateView();
     }
 
     public void ReleaseMemory()
@@ -66,6 +71,7 @@ public class BattleManager
         _skill.Free();
         _terrain.Free();
         _chest.Free();
+        _textjump.Free();
     }
 
 }
