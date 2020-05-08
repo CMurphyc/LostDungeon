@@ -412,12 +412,12 @@ public class MonsterModule
                     _parentManager.sys._model._RoomModule.PVEResult[dmg_srcUID].kills++;
                 }
 
-                Debug.Log("Match OverView");
-                foreach(var item in _parentManager.sys._model._RoomModule.PVEResult)
-                {
-                    Debug.Log("Player: " + item.Key);
-                    Debug.Log("Kills: " + item.Value.kills);
-                }
+                //Debug.Log("Match OverView");
+                //foreach(var item in _parentManager.sys._model._RoomModule.PVEResult)
+                //{
+                //    Debug.Log("Player: " + item.Key);
+                //    Debug.Log("Kills: " + item.Value.kills);
+                //}
 
 
             }
