@@ -69,7 +69,8 @@ public class MonsterModule
 
     private Color Attacked = new Color(255f/255f, 93f / 255f, 93f / 255f);
     private Color Normal = new Color(255f / 255f, 255f / 255f, 255f / 255f);
-    
+
+    private bool BossUIInited = false;
     public MonsterModule(BattleManager parent)
     {
         _parentManager = parent;
@@ -88,6 +89,7 @@ public class MonsterModule
         BossSkill.Clear();
         AliasRemoveCounter.Clear();
         AliasRemoveWaitFrame.Clear();
+        BossUIInited = false;
     }
 
     public void UpdateLogic(int frame)
@@ -99,6 +101,7 @@ public class MonsterModule
         UpdateBullet(frame);
         UpdateBossHP();
         UpdateBuff();
+        UpdateBossIcon();
     }
     //目前只针对Boss
     void UpdateBuff()
@@ -280,6 +283,49 @@ public class MonsterModule
        
 
     }
+
+    //UI 
+    void UpdateBossIcon()
+    {
+
+        //刷新BOSS ICon 名字
+        BattleUIUpdate BattleUI = GameObject.Find("Canvas").GetComponent<BattleUIUpdate>();
+        GameObject BossUI = BattleUI.BossUI;
+        if (!BossUIInited)
+        {
+            switch (_parentManager.sys._model._RoomModule.MapFloorNumber)
+            {
+                case 1:
+                    {
+
+                        break;
+                    }
+
+                case 2:
+                    {
+                        BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
+                        BattleUI.boss2;
+                        BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
+                       "Dark Wizard";
+
+                        break;
+                    }
+                case 3:
+                    {
+                        BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
+                         BattleUI.boss3;
+                        BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
+                      "Black Knight";
+                        break;
+                    }
+            }
+
+            BossUIInited = true;
+        }
+    }
+
+
+
     public void UpdateBossHP()
     {
 
@@ -839,6 +885,10 @@ public class MonsterModule
         for (int i = 0; i < PlayerInRoomList.Count; i++)
         {
             //Vector2 PlayerPos = new Vector2 ((float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x, (float)PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y);
+            if (PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().dead == 1)
+            {
+                continue;
+            }
             FixVector2 PlayerPos = PlayerInRoomList[i].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
             Fix64 distance = FixVector2.Distance(PlayerPos, MonsterPos);
             if (distance< Min_Distance)

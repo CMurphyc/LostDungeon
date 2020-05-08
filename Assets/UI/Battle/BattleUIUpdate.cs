@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class BattleUIUpdate : MonoBehaviour
 {
+    public Sprite boss2;
+    public Sprite boss3;
+
+
     SystemManager sys;
     public GameObject BossUI;
     Text MonsterNum;
