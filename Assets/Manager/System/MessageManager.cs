@@ -18,8 +18,7 @@ public class MessageManager
         if (Canvas != null)
         { 
             GameObject PopUpText_Instance = Object.Instantiate(PopUpText_Prefab, PopUpText_Prefab.transform.position,
-            PopUpText_Prefab.transform.rotation);
-            PopUpText_Instance.transform.parent = Canvas.transform;
+            PopUpText_Prefab.transform.rotation, Canvas.transform);
             PopUpText_Instance.transform.localPosition = Vector3.zero;
             
             PopUpText_Instance.GetComponent<PopUpText>().Init(text, time);
