@@ -22,7 +22,7 @@ public class PlayerDataModule
     Vector3 Revival_Offset = new Vector3(0, 0.8f, 0);
     bool DeathCamInit = false;
     GameObject Panel;
-    bool Over = true;
+    bool GameOverSend = false;
     public PlayerDataModule(BattleManager parent)
     {
         _parentManager = parent;
@@ -39,7 +39,7 @@ public class PlayerDataModule
         bulletList.Clear();
         playerToRevival.Clear();
         DeathCamInit = false;
-        Over = true;
+        GameOverSend = false;
     }
     void UpdateBuff()
     {
@@ -128,6 +128,7 @@ public class PlayerDataModule
     }
     void CheckGameEnd()
     {
+        bool Over = true;
         //玩家数没加载时候直接跳结算的问题
         if (playerToPlayer.Count==0)
         {
@@ -141,12 +142,13 @@ public class PlayerDataModule
                 Over = false;
             }
         }
-        if (Over)
+        if (Over && !GameOverSend)
         {
             //发送游戏结束
             if (GameObject.Find("GameEntry") != null)
             {
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
+                GameOverSend = true;
 
             }
         }
