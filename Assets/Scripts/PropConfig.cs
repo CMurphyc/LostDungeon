@@ -14,6 +14,8 @@ public class PropData
     public int propId;
     [Header("道具实体")]
     public GameObject propObject;
+    [Header("改变总血量")]
+    public int changefullHP;
     [Header("改变血量")]
     public int changeHP;
     [Header("改变子弹发射频率")]

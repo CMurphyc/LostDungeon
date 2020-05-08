@@ -60,11 +60,6 @@ public class PlayerDataModule
                 PlayerComp.debuff.Poison = false;
             }
         }
-
-
-
-
-
     }
     public void UpdateLogic(int frame)//更新某一帧逻辑
     {
@@ -440,7 +435,8 @@ public class PlayerDataModule
                                     x.SetActive(true);
                                     _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
                                         GetComponent<PlayerModel_Component>().Change(
-                                        20,
+                                        _parentManager.sys._battle._chest.propToProperty[x.treasureId].changefullHP,
+                                        _parentManager.sys._battle._chest.propToProperty[x.treasureId].changeHP,
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletFrequency,
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletSpeed,
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeDamage,

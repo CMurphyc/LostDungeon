@@ -79,9 +79,9 @@ public class PlayerModel_Component : MonoBehaviour
 
     }
 
-    public void Change(int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed)
+    public void Change(int fullHP,int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed)
     {
-        fullHealthPoint += HP;
+        fullHealthPoint += fullHP;
         healthPoint += HP;
         healthPoint = Mathf.Max(healthPoint, 0);
         shootSpeed = shootSpeed * ShootSpeed;
