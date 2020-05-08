@@ -36,6 +36,9 @@ public class ChestModule
     //被拾取的金币
     public List<KeyValuePair<GameObject,float> > HandledCoins;
 
+    public int CoinValue = 0;
+    public int LastTime = 0;
+
 
     public Dictionary<int, List<TreasureData>> roomToTreasure;   // 房间号对应宝物列表
     public Dictionary<int, PropData> propToProperty;   // 根据道具名称找到对应道具属性
@@ -104,14 +107,18 @@ public class ChestModule
     }
     public void UpdateView()
     {
-        for(int i=HandledCoins.Count-1;i>=0;i--)
+        GameObject pler = _parentManager._player.FindPlayerObjByUID(_parentManager._player.FindCurrentPlayerUID());
+        LastTime++;
+        for (int i=HandledCoins.Count-1;i>=0;i--)
         {
-            GameObject pler = _parentManager._player.FindPlayerObjByUID(_parentManager._player.FindCurrentPlayerUID());
             GameObject coin = HandledCoins[i].Key;
-            if (Vector2.Distance(coin.transform.position,pler.transform.position)<=0.1)
+            if (Vector2.Distance(coin.transform.position,pler.transform.position)<=0.8f)
             {
+
                 Object.Destroy(coin);
                 HandledCoins.RemoveAt(i);
+                CoinValue++;
+                LastTime = 0;
             }
             else
             {
@@ -119,6 +126,13 @@ public class ChestModule
                 HandledCoins[i] = new KeyValuePair<GameObject, float>(coin, HandledCoins[i].Value+Time.deltaTime);
             }
         }
+        if (LastTime>=6&&CoinValue>0)
+        {
+            _parentManager._textjump.AddCoinText(pler.transform.position, CoinValue);
+            CoinValue = 0;
+            LastTime = 0;
+        }
+
 
         GameObject tobj = GameObject.Find("AttackStickUI");
         bool has = false;
