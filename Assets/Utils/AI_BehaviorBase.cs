@@ -200,6 +200,7 @@ class AI_BehaviorBase
                 }
             case (int)AI_BehaviorType.Dead:
                 {
+       
                     obj.GetComponent<Animator>().SetInteger("MainState", 3);
                     break;
                 }
@@ -246,8 +247,15 @@ class AI_BehaviorBase
 
     private void DarkKnightLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
     {
-        if (CurrentState == (int)AI_BehaviorType.Dead)
+        if (obj.GetComponent<MonsterModel_Component>().HP <= Fix64.Zero)
+        {
+            obj.GetComponent<AIDestinationSetter>().AI_Switch = false;
+            CurrentState = (int)AI_BehaviorType.Dead;
             return;
+        }
+
+        //if (CurrentState == (int)AI_BehaviorType.Dead)
+        //    return;
         if (frame == NextChangeStateFrame)
         {
             if (CurrentState != (int)AI_BehaviorType.Idle)
@@ -343,9 +351,14 @@ class AI_BehaviorBase
     }
     private void WizardAILogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
     {
-        
-        if (CurrentState == (int)AI_BehaviorType.Dead)
+        if (obj.GetComponent<MonsterModel_Component>().HP <= Fix64.Zero)
+        {
+            obj.GetComponent<AIDestinationSetter>().AI_Switch = false;
+            CurrentState = (int)AI_BehaviorType.Dead;
             return;
+        }
+        //if (CurrentState == (int)AI_BehaviorType.Dead)
+        //    return;
         if (frame == NextChangeStateFrame)
         {
             if (CurrentState != (int)AI_BehaviorType.Idle)
@@ -434,8 +447,19 @@ class AI_BehaviorBase
     }
     private void RaibitLogic(int frame, FixVector2 NpcPosition, FixVector2 TargetPosition, GameObject obj)
     {
-        if (CurrentState == (int)AI_BehaviorType.Dead)
+        if (obj.GetComponent<MonsterModel_Component>().HP <= Fix64.Zero)
+        {
+            obj.GetComponent<AIDestinationSetter>().AI_Switch = false;
+            CurrentState = (int)AI_BehaviorType.Dead;
             return;
+        }
+
+
+        //if (CurrentState == (int)AI_BehaviorType.Dead)
+        //{
+        //    Debug.Log("Rabit dead");
+        //    return;
+        //}
         if (frame == NextChangeStateFrame)
         {
             if (CurrentState != (int)AI_BehaviorType.Idle)
