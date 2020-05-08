@@ -49,6 +49,8 @@ public class PlayerView_Component : MonoBehaviour
         Vector2 CurrentPos = new Vector2((float)FixedVec.x, (float)FixedVec.y);
         transform.position = new Vector3(CurrentPos.x, CurrentPos.y);
         //transform.position = Vector3.SmoothDamp(transform.position, CurrentPos, ref Velocity, Global.FrameRate/1000f);
+
+        Camera.main.GetComponent<CameraController>().ViewUpdate();
     }
 
     private void UpdateRotation()
