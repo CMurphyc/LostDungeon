@@ -211,6 +211,9 @@ public class EventListener : MonoBehaviour
                 Debug.Log("游戏结束了");
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.isOver = true;
                 main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Overview");
+
+                //清除背包数据
+                main.GetComponent<GameMain>().WorldSystem._model._BagModule.Free();
             }
             else
             {
