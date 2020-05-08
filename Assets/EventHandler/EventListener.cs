@@ -69,6 +69,7 @@ public class EventListener : MonoBehaviour
             {
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapSeed = synPack.Seed;
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapFloorNumber = synPack.FloorNumber;
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MaxMapFloorNumber = synPack.MaxFloorNumber;
                 main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoadingPanel");
             }
             else
