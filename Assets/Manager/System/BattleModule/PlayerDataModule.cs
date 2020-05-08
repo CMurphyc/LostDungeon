@@ -575,6 +575,33 @@ public class PlayerDataModule
             {
                 PlayerInGameData Input = playerToPlayer[frameInfo[i].Uid];
                 Input.obj.GetComponent<PlayerView_Component>().RefreshView();
+                //工程师
+                if (frameInfo[i].AttackType == (int)AttackType.BasicAttack)
+                {
+                    if (_parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid) == CharacterType.Enginner)
+                    {
+                        Vector2 GunToward = new Vector2(frameInfo[i].AttackDirectionX, frameInfo[i].AttackDirectionY).normalized;
+                        GameObject player = playerToPlayer[frameInfo[i].Uid].obj;
+                        GameObject Gun = player.transform.Find("weapon").gameObject;
+                        float degree = Mathf.Atan2(GunToward.y, GunToward.x) * 180f / Mathf.PI;
+
+                        if (90f>=degree && degree>=-90f)
+                        {
+                            Gun.transform.eulerAngles = new Vector3(0, 0, degree);
+                        }
+                        else if (degree>90 && degree<=180)
+                        {
+                            Gun.transform.eulerAngles = new Vector3(0, 180, 180 -degree);
+                        }
+                        else if (degree>=-180 && degree < -90)
+                        {
+                          
+                            Gun.transform.eulerAngles = new Vector3(0, 180,  -180 - degree);
+                        }
+                           
+                    }
+                }
+
             }
 
         }
