@@ -17,27 +17,41 @@ public class CameraController : MonoBehaviour
     {
         playerObject = tar;
         Vector3 playerPos = playerObject.transform.position;
+
+        //Vector3 playerPos =PackConverter.FixVector2ToVector2( playerObject.GetComponent<PlayerModel_Component>().GetPlayerPosition());
         Vector3 cameraPos = transform.position;                                               //记录摄像机的位置
         Vector3 startTargPos = playerPos;
         lastTargetPosition = startTargPos;
         currTargetPosition = startTargPos;
     }
-
-    void LateUpdate()
+    public void ViewUpdate()
     {
-        //依据当前精灵的动画状态，实时更新
         trackPlayer();
         //将摄像头移动到目标位置
         currLerpDistance += cameraTrackingSpeed;
         //transform.position = Vector3.Lerp(lastTargetPosition, currTargetPosition, currLerpDistance);
-        transform.position = Vector3.SmoothDamp(lastTargetPosition, currTargetPosition, ref CurrentVelocity, 0.001f);
+        transform.position = Vector3.SmoothDamp(lastTargetPosition, currTargetPosition, ref CurrentVelocity, Global.FrameRate/1000f);
+
     }
+
+    //void LateUpdate()
+    //{
+    //    //依据当前精灵的动画状态，实时更新
+    //    trackPlayer();
+    //    //将摄像头移动到目标位置
+    //    currLerpDistance += cameraTrackingSpeed;
+    //    //transform.position = Vector3.Lerp(lastTargetPosition, currTargetPosition, currLerpDistance);
+    //    transform.position = Vector3.SmoothDamp(lastTargetPosition, currTargetPosition, ref CurrentVelocity, 0.005f);
+
+
+    //}
     void trackPlayer()
     {
         Vector3 currCamPos = transform.position;
         if (playerObject != null)
         {
-            Vector3 currPlayerPos = playerObject.transform.position;
+            //Vector3 currPlayerPos = playerObject.transform.position;
+            Vector3 currPlayerPos = PackConverter.FixVector2ToVector2(playerObject.GetComponent<PlayerModel_Component>().GetPlayerPosition());
             lastTargetPosition = currCamPos;
             currTargetPosition = currPlayerPos;
             currTargetPosition.z = currCamPos.z;

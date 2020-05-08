@@ -288,39 +288,46 @@ public class MonsterModule
     void UpdateBossIcon()
     {
 
-        //刷新BOSS ICon 名字
-        BattleUIUpdate BattleUI = GameObject.Find("Canvas").GetComponent<BattleUIUpdate>();
-        GameObject BossUI = BattleUI.BossUI;
-        if (!BossUIInited)
+        GameObject Canvas = GameObject.Find("Canvas");
+        if (Canvas != null)
         {
-            switch (_parentManager.sys._model._RoomModule.MapFloorNumber)
+            //刷新BOSS ICon 名字
+            BattleUIUpdate BattleUI = Canvas.GetComponent<BattleUIUpdate>();
+            GameObject BossUI = BattleUI.BossUI;
+            if (BossUI != null)
             {
-                case 1:
+                if (!BossUIInited)
+                {
+                    switch (_parentManager.sys._model._RoomModule.MapFloorNumber)
                     {
+                        case 1:
+                            {
 
-                        break;
+                                break;
+                            }
+
+                        case 2:
+                            {
+                                BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
+                                BattleUI.boss2;
+                                BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
+                               "Dark Wizard";
+
+                                break;
+                            }
+                        case 3:
+                            {
+                                BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
+                                 BattleUI.boss3;
+                                BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
+                              "Black Knight";
+                                break;
+                            }
                     }
 
-                case 2:
-                    {
-                        BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
-                        BattleUI.boss2;
-                        BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
-                       "Dark Wizard";
-
-                        break;
-                    }
-                case 3:
-                    {
-                        BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
-                         BattleUI.boss3;
-                        BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
-                      "Black Knight";
-                        break;
-                    }
+                    BossUIInited = true;
+                }
             }
-
-            BossUIInited = true;
         }
     }
 
