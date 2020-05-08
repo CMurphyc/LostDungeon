@@ -251,7 +251,7 @@ public class PlayerDataModule
             {
 
                 PlayerInGameData Input = playerToPlayer[frameInfo[i].Uid];
-
+                if (Input.obj == null) continue;
                 if (Input.obj.GetComponent<PlayerModel_Component>().GetDead() == 1) continue;
 
                 Vector2 MoveVec = new Vector2(frameInfo[i].MoveDirectionX / 10000f, frameInfo[i].MoveDirectionY / 10000f).normalized * Global.FrameRate / 1000f * 5f;
@@ -508,6 +508,7 @@ public class PlayerDataModule
     {
         foreach(var x in _parentManager.sys._battle._player.playerToPlayer)
         {
+            if (x.Value.obj == null) continue;
             _parentManager.sys._model._BagModule.ChangeHP(x.Key, x.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint());
         }
     }
