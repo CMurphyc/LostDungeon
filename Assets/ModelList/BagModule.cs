@@ -14,11 +14,24 @@ public class BagModule
 {
 
     public Dictionary<int, List<Item>> PlayerBag = new Dictionary<int, List<Item>>();
-
+    public Dictionary<int, int> PlayerHP = new Dictionary<int, int>();
 
     public void Free()
     {
         PlayerBag.Clear();
+        PlayerHP.Clear();
+    }
+
+    public void ChangeHP(int UID,int HP)
+    {
+        if(!PlayerHP.ContainsKey(UID))
+        {
+            PlayerHP.Add(UID, HP);
+        }
+        else
+        {
+            PlayerHP[UID]= HP;
+        }
     }
 
     //添加道具
@@ -27,6 +40,7 @@ public class BagModule
         if (!PlayerBag.ContainsKey(UID))
         {
             List<Item> newList = new List<Item>();
+            newList.Add(it);
             PlayerBag.Add(UID, newList);
         }
         else

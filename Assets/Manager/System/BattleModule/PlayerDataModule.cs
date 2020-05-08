@@ -451,14 +451,19 @@ public class PlayerDataModule
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeDamage,
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed
                                         );
-                                    //chile
+
+                                    Debug.Log("aaaaaaa" + x.treasureId);
+                                    Item titem = new Item();
+                                    titem.ItemID = x.treasureId;
+                                    titem.ItemNumber = 1;
+                                    _parentManager.sys._model._BagModule.AddItem(PlayerUID, titem);
+
+
+
                                     break;
                                 }
 
                             }
-                            
-                           
-
                             break;
                         }
                     default:
@@ -476,9 +481,18 @@ public class PlayerDataModule
         }
 
 
-
+        UpdateHP();
         UpdateBuff();
 
+    }
+
+
+    public void UpdateHP()
+    {
+        foreach(var x in _parentManager.sys._battle._player.playerToPlayer)
+        {
+            _parentManager.sys._model._BagModule.ChangeHP(x.Key, x.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint());
+        }
     }
 
 
