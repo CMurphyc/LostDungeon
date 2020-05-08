@@ -86,8 +86,8 @@ public class EventListener : MonoBehaviour
         {
             Debug.Log("返回成功");
             //main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
-
-            main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList();
+            RoomType roomType = main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType;
+            main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList(roomType);
         }
 
     }
@@ -103,6 +103,7 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
         }
     }
+    
     void GetRoomInfo(EventBase eb)
     {
         GetRoomInfoS2C synPack = (GetRoomInfoS2C)eb.eventValue;
