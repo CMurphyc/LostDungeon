@@ -57,6 +57,8 @@ public class ChestModule
         Chest.Clear();
         OpenedChests.Clear();
         HandledCoins.Clear();
+        roomToTreasure.Clear();
+        propToProperty.Clear();
     }
     public void UpdateLogic(int Frame)
     {

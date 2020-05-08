@@ -146,7 +146,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                     //Fix64.Sin(degree * Fix64.PI / (Fix64)180f));
 
                     bu.BulletInit("Boss_Rabit", ShootPos, toward,
-                                                                  (Fix64)0.1, (Fix64)1, base.RoomID,
+                                                                  (Fix64)0.1, (Fix64)5, base.RoomID,
                                                                   Resources.Load("Effects/Prefab/effect_fireball_0") as GameObject
                                                                   , list);
                     sys._battle._monster.bulletList.Add(bu);
@@ -207,7 +207,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                                                                     obj.GetComponent<MonsterModel_Component>().position.y),
                                                                     new FixVector2((Fix64)toward.x,
                                                                     (Fix64)toward.y),
-                                                                    (Fix64)0.1, (Fix64)1, sys._battle._monster.BossRoom,
+                                                                    (Fix64)0.1, (Fix64)3, sys._battle._monster.BossRoom,
                                                                     Resources.Load("Model/Boss/Boss_Rabit/bullet/bullet_30") as GameObject
                                                                     , list);
 
@@ -314,7 +314,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                    
 
                     bu.BulletInit("AliasAI", ShootPos, ShootToward,
-                                                                  (Fix64)0.2, (Fix64)1, base.RoomID,
+                                                                  (Fix64)0.2, (Fix64)2, base.RoomID,
                                                                   Resources.Load("Model/Bullet/Prefab/bullet_87") as GameObject
                                                                   , list, obj.GetComponent<MonsterModel_Component>().OwnderUID);
                     sys._battle._monster.bulletList.Add(bu);

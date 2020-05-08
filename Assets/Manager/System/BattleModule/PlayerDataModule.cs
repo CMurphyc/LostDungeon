@@ -22,7 +22,7 @@ public class PlayerDataModule
     Vector3 Revival_Offset = new Vector3(0, 0.8f, 0);
     bool DeathCamInit = false;
     GameObject Panel;
-
+    bool Over = true;
     public PlayerDataModule(BattleManager parent)
     {
         _parentManager = parent;
@@ -37,6 +37,9 @@ public class PlayerDataModule
             frameInfo.Clear();
         }
         bulletList.Clear();
+        playerToRevival.Clear();
+        DeathCamInit = false;
+        Over = true;
     }
     void UpdateBuff()
     {
@@ -125,7 +128,11 @@ public class PlayerDataModule
     }
     void CheckGameEnd()
     {
-        bool Over = true;
+        //玩家数没加载时候直接跳结算的问题
+        if (playerToPlayer.Count==0)
+        {
+            Over = false;
+        }
         foreach (var item in playerToPlayer)
         {
             int HP = item.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint();
