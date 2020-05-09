@@ -15,6 +15,9 @@ public class EventDispatcher
         }
         return sinstance;
     }
+
+
+
     //  object m_objLock = new object();
     //  object m_objLock2 = new object();
     public delegate void EventCallback(EventBase eb);
@@ -100,9 +103,10 @@ public class EventDispatcher
     }
     private void testPendingEvents()
     {
-        foreach (EventBase eb in lPendingEvents)
+        for (int i = 0; i < lPendingEvents.Count;i++ )
         {
-            lEvents.Add(eb);
+            lEvents.Add(lPendingEvents[i]);
+
         }
         lPendingEvents.Clear();
     }
@@ -111,6 +115,7 @@ public class EventDispatcher
     {
         lock (this)
         {
+           
             if (lEvents.Count == 0)
             {
                 foreach (string sEventName in registedCallbacksPending.Keys)
@@ -124,18 +129,25 @@ public class EventDispatcher
                 testPendingEvents();
                 return;
             }
-            isEnuming = true;
-            foreach (EventBase eb in lEvents)
+            if (lPendingEvents.Count > 0)
             {
-                for (int i = 0; i < registedCallbacks[eb.sEventName].Count; i++)// EventCallback ecb in registedCallbacks[eb.sEventName])
+                testPendingEvents();
+                return;
+            }
+
+            isEnuming = true;
+            for (int j=0;j< lEvents.Count;j++ )
+            {
+                for (int i = 0; i < registedCallbacks[lEvents[j].sEventName].Count; i++)// EventCallback ecb in registedCallbacks[eb.sEventName])
                 {
-                    EventCallback ecb = registedCallbacks[eb.sEventName][i];
+                    EventCallback ecb = registedCallbacks[lEvents[j].sEventName][i];
                     if (ecb == null)
                     {
                         continue;
                     }
-                    ecb(eb);
+                    ecb(lEvents[j]);
                 }
+
             }
             lEvents.Clear();
         }
