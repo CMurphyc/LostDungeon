@@ -105,7 +105,6 @@ public class RoomCreate : MonoBehaviour
         UploadPropAttr();
 
         int playerNum = sys._model._RoomModule.GetPlayerSize();
-        playerNum = 2;
 
         int seed = sys._model._RoomModule.MapSeed;
         Random.InitState(seed);
@@ -142,6 +141,30 @@ public class RoomCreate : MonoBehaviour
             if (!PlayerList[i].empty)
             {
                 CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
+                GameObject tplayer = sys._battle._player.playerToPlayer[PlayerList[i].uid].obj;
+
+                if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
+
+                foreach(var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
+                {
+                    for (int j = 0; j < x.ItemNumber; j++)
+                        tplayer.GetComponent<PlayerModel_Component>().Change(
+                            sys._battle._chest.propToProperty[x.ItemID].changefullHP,
+                            sys._battle._chest.propToProperty[x.ItemID].changeHP,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletFrequency,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletSpeed,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeDamage,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed,
+                            sys._battle._chest.propToProperty[x.ItemID].bulletType
+                            );
+
+                    Debug.Log("bbbbbbb"+x.ItemID);
+                }
+                if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+
+
+
             }
         }
 
@@ -183,9 +206,9 @@ public class RoomCreate : MonoBehaviour
                 break;
             }
         }
-}
+    }
 
-void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
+    void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
 
         // 根据传入的矩阵生成整体房间地图

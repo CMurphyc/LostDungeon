@@ -22,7 +22,7 @@ public class PlayerModel_Component : MonoBehaviour
     public FixVector2 weaponPosition { get; set; }   // 武器位置
     public FixVector2 weaponRotation { get; set; }   // 武器朝向
 
-    public List<int> bulletBuff = new List<int>();
+    public List<bulletType> bulletBuff = new List<bulletType>();
 
     public DeBuff debuff = new DeBuff();
 
@@ -37,7 +37,7 @@ public class PlayerModel_Component : MonoBehaviour
     //    //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
     //    playerPosition = new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y);
     //}
-    public void Init(int FullHealthPoint,Fix64 PlayerSpeed,Fix64 AttackPoint,Fix64 BulletSpeed,Fix64 ShootSpeed,List<int> BulletBuff)
+    public void Init(int FullHealthPoint,Fix64 PlayerSpeed,Fix64 AttackPoint,Fix64 BulletSpeed,Fix64 ShootSpeed,List<bulletType> BulletBuff)
     {
         muteki = 0;
         dead = 0;
@@ -79,7 +79,7 @@ public class PlayerModel_Component : MonoBehaviour
 
     }
 
-    public void Change(int fullHP,int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed)
+    public void Change(int fullHP,int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed,List<bulletType> buff)
     {
         fullHealthPoint += fullHP;
         healthPoint += HP;
@@ -88,6 +88,10 @@ public class PlayerModel_Component : MonoBehaviour
         bulletSpeed = bulletSpeed * BulletSpeed;
         attackPoint = attackPoint * AttackPoint;
         playerSpeed = playerSpeed * PlayerSpeed;
+        foreach(var x in buff)
+        {
+            bulletBuff.Add(x);
+        }
     }
 
 
@@ -176,12 +180,12 @@ public class PlayerModel_Component : MonoBehaviour
         countDown3 = p;
     }
 
-    public List<int> GetBulletBuff()
+    public List<bulletType> GetBulletBuff()
     {
         return bulletBuff;
     }
 
-    public void SetBulletBuff(List<int> x)
+    public void SetBulletBuff(List<bulletType> x)
     {
         bulletBuff = x;
     }
