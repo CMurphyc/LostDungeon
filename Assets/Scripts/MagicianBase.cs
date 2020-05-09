@@ -12,7 +12,7 @@ public class MagicianBase
     public float damge;             //伤害
     public float bulletSpeed;       //子弹速度
     public int fireSpeed;           //射速
-    public List<int> bulletEffect;  //子弹附加效果
+    public List<bulletType> bulletEffect;  //子弹附加效果
     public GameObject bulletObj;    //子弹预制体
 
     public float rangeSkill1;                  //火魔法范围

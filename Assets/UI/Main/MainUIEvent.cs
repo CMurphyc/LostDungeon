@@ -22,7 +22,8 @@ public class MainUIEvent : MonoBehaviour
     {
       
         //send request
-        main.GetComponent<GameMain>().socket.sock_c2s.CreateRoomC2S();
+        RoomType roomType = main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType;
+        main.GetComponent<GameMain>().socket.sock_c2s.CreateRoomC2S(roomType);
         print("Create Room Request Send");
 
         //if (main != null)
@@ -34,14 +35,26 @@ public class MainUIEvent : MonoBehaviour
 
     }
 
-    public void OnBtnGetRoomList()
+    public void OnBtnSelectPVE()
     {
         //send request
-        main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList();
-        print("GetRoomList Request Send");
+        RoomType roomType = RoomType.Pve;
+        main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType = roomType;
+        main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList(roomType);
+        print("Select PVE and GetRoomList Request Send");
     }
+
+    public void OnBtnSelectPVP()
+    {
+        //send request
+        RoomType roomType = RoomType.Pvp;
+        main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType = roomType;
+        main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList(roomType);
+        print("Select PVP and GetRoomList Request Send");
+    }
+
     public void OnBtnReturn()
     {
-        main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoginPanel");
+        // main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoginPanel");
     }
 }

@@ -133,7 +133,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                 {
                     //Debug.Log("Range Attack");
 
-                    List<int> list = new List<int>();
+                    List<bulletType> list = new List<bulletType>();
                     BulletUnion bu = new BulletUnion(sys._battle);
 
                     FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
@@ -196,7 +196,7 @@ class AI_BehaviorTree : AI_BehaviorBase
 
                             for (int j = 0; j < BulletNumber; j++)
                             {
-                                List<int> list = new List<int>();
+                                List<bulletType> list = new List<bulletType>();
 
 
                                 float CurrentAngle = InitAngle + angle * j;
@@ -295,7 +295,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                 {
                     //Debug.Log("Terret Attack");
                     //Debug.Log("Frame: "+ frame);
-                    List<int> list = new List<int>();
+                    List<bulletType> list = new List<bulletType>();
                     BulletUnion bu = new BulletUnion(sys._battle);
 
                     FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
@@ -350,7 +350,7 @@ class AI_BehaviorTree : AI_BehaviorBase
 
                                     for (int j = 0; j < BulletNumber; j++)
                                     {
-                                        List<int> list = new List<int>();
+                                        List<bulletType> list = new List<bulletType>();
 
 
                                         float CurrentAngle = InitAngle + angle * j;
@@ -399,7 +399,7 @@ class AI_BehaviorTree : AI_BehaviorBase
 
                                     for (int j = 0; j < BulletNumber; j++)
                                     {
-                                        List<int> list = new List<int>();
+                                        List<bulletType> list = new List<bulletType>();
 
 
                                         float CurrentAngle = InitAngle + angle * j;
@@ -476,7 +476,7 @@ class AI_BehaviorTree : AI_BehaviorBase
 
                                     for (int j = 0; j < BulletNumber; j++)
                                     {
-                                        List<int> list = new List<int>();
+                                        List<bulletType> list = new List<bulletType>();
 
 
                                         float CurrentAngle = InitAngle + angle * j;
@@ -533,7 +533,7 @@ class AI_BehaviorTree : AI_BehaviorBase
 
                                     for (int j = 0; j < BulletNumber; j++)
                                     {
-                                        List<int> list = new List<int>();
+                                        List<bulletType> list = new List<bulletType>();
                                         float CurrentAngle = InitAngle + angle * j;
                                         Vector2 toward = new Vector2(Mathf.Cos(CurrentAngle / 180f * Mathf.PI), Mathf.Sin(CurrentAngle / 180f * Mathf.PI));
                                         toward = toward.normalized;
@@ -586,7 +586,7 @@ class AI_BehaviorTree : AI_BehaviorBase
 
                                     for (int j = 0; j < BulletNumber; j++)
                                     {
-                                        List<int> list = new List<int>();
+                                        List<bulletType> list = new List<bulletType>();
 
 
                                         float CurrentAngle = InitAngle + angle * j;

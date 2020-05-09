@@ -16,7 +16,7 @@ public class EngineerConfig : BaseConfig
     public float bulletSpeedSkill1;             //炮台子弹速度
     public float fireSpeedSkill1;               //炮台射速
     public float controlTimeSkill1;             //炮台打中的敌人晕眩时间
-    public List<int> bulletEffectSkill1;        //炮台子弹附加效果
+    public List<bulletType> bulletEffectSkill1;        //炮台子弹附加效果
     public GameObject bulletObjSkill1;          //子弹预制体
 
     public float rangeSkill2;                   //手雷范围

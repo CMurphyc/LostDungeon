@@ -6,7 +6,7 @@ public class RoomModule
 {
     public int MapSeed ;
     public int MapFloorNumber;
-    public int MaxMapFloorNumber = 3;
+    public int MaxMapFloorNumber;
     public bool isLoadingCompleted = false;
     public bool isOver = false;
     public bool NeedUpdate = false;
