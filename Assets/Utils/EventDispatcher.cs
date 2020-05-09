@@ -98,6 +98,12 @@ public class EventDispatcher
                 Debug.Log("Cannot dispatch event this moment!");
                 return;
             }
+
+            if (lPendingEvents.Count > 0)
+            {
+                testPendingEvents();
+            }
+
             lEvents.Add(new EventBase(eventName, eventValue));
         }
     }
@@ -115,7 +121,6 @@ public class EventDispatcher
     {
         lock (this)
         {
-           
             if (lEvents.Count == 0)
             {
                 foreach (string sEventName in registedCallbacksPending.Keys)
@@ -129,13 +134,14 @@ public class EventDispatcher
                 testPendingEvents();
                 return;
             }
+
             if (lPendingEvents.Count > 0)
             {
                 testPendingEvents();
                 return;
             }
-
             isEnuming = true;
+          
             for (int j=0;j< lEvents.Count;j++ )
             {
                 for (int i = 0; i < registedCallbacks[lEvents[j].sEventName].Count; i++)// EventCallback ecb in registedCallbacks[eb.sEventName])

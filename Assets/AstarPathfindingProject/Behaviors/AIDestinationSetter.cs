@@ -15,16 +15,17 @@ namespace Pathfinding
         void OnEnable()
         {
             ai = GetComponent<IAstarAI>();
-            if (ai != null) ai.onSearchPath += Update;
+            // if (ai != null) ai.onSearchPath += FakeFixedUpdate;
         }
 
         void OnDisable()
         {
-            if (ai != null) ai.onSearchPath -= Update;
+            // if (ai != null) ai.onSearchPath -= FakeFixedUpdate;
         }
 
-        void Update()
+        public void FakeFixedUpdate()
         {
+            // Debug.Log("Target is " + target)
             if (AI_Switch && ai != null)
                 ai.destination = Target;
             else
