@@ -70,7 +70,7 @@ public class SmallMap : MonoBehaviour
                 array[i, j] = RandMap.GetValue(i, j);
             }
         }
-        Debug.Log("true");
+        Debug.Log("d = " + d + ", h = " + h);
         CreateSmallMap(array, h, d);
     }
 
@@ -471,13 +471,13 @@ public class SmallMap : MonoBehaviour
             }
             
         }
-        Debug.Log(birthRoom);
         ChangeRoom(birthRoom, birthRoom);
     }
 
     void ChangePosition(Image image, int row, int col, int i, int j)
     {
-        image.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, offset * (col - j - 2f), offset);
+        image.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        image.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, offset * (col - j - 1f), offset);
         image.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, offset * (i + 1 - 1f), offset);
     }
 
