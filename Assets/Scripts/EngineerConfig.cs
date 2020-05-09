@@ -30,8 +30,20 @@ public class EngineerConfig : BaseConfig
     public GameObject effectGernade;            //手雷预制体
     public GameObject effectGernadeExplosion;   //手雷爆炸特效
 
+    public GameObject effectRocket;
+    public float radiusSkill3;                  //火箭爆炸半径
+    public float speedSkill3;                   //火箭飞行速度
+    public int damageSkill3;                     //火箭伤害
+    public float rangeSkill3;                   //指示器范围
+    public float areaSkill3;                    
+
     public Sprite skill1Image;
     public Sprite skill2Image;
+    public Sprite skill3Image;
+
+    public SkillAreaType skill1Type;
+    public SkillAreaType skill2Type;
+    public SkillAreaType skill3Type;
 
 }
 

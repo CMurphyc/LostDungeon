@@ -39,11 +39,24 @@ public class EngineerBase
     public GameObject effectGernade;            //手雷预制体
     public GameObject effectGernadeExplosion;   //手雷爆炸特效
 
+    public GameObject effectRocket;
+    public float radiusSkill3;                  //火箭爆炸半径
+    public float speedSkill3;                   //火箭飞行速度
+    public int damageSkill3;                     //火箭伤害
+    public float rangeSkill3;                   //指示器范围
+    public float areaSkill3;
+
     public Sprite skill1Image;
     public Sprite skill2Image;
+    public Sprite skill3Image;
+
+    public SkillAreaType skill1Type;
+    public SkillAreaType skill2Type;
+    public SkillAreaType skill3Type;
 
     List <GameObject> grenade=new List<GameObject>();
     List <GameObject> explosion = new List<GameObject>();
+    List<GameObject> rokcet = new List<GameObject>();
 
     BattleManager _parentManager;
 
@@ -89,10 +102,23 @@ public class EngineerBase
         effectGernade = x.effectGernade;
         effectGernadeExplosion = x.effectGernadeExplosion;
 
+
+        effectRocket = x.effectRocket;
+        radiusSkill3 = x.radiusSkill3;
+        speedSkill3 = x.speedSkill3;
+        damageSkill3 = x.damageSkill3;
+        rangeSkill3 = x.rangeSkill3;
+        areaSkill3 = x.areaSkill3;
+
         skill1Image = x.skill1Image;
         skill2Image = x.skill2Image;
+        skill3Image = x.skill3Image;
 
-        _parentManager = parentManager;
+        skill1Type = x.skill1Type;
+        skill2Type = x.skill2Type;
+        skill3Type = x.skill3Type;
+
+    _parentManager = parentManager;
     }
     public float Skill1Range()
     {
@@ -114,6 +140,15 @@ public class EngineerBase
     public float Skill2Area()
     {
         return areaSkill2;
+    }
+
+    public float Skill3Area()
+    {
+        return areaSkill3;
+    }
+    public float Skill3Range()
+    {
+        return rangeSkill3;
     }
 
     public int Skill1Logic(int frame, int RoomID, List<int> gifted,Vector3 st,Vector3 ed, int dmgSrc)//返回值就是cd
@@ -214,6 +249,76 @@ public class EngineerBase
 
         _parentManager._skill.Add(tmp, RoomID);
         
+
+        if (gifted[3] == 1)
+        {
+            return (int)(1000 / Global.FrameRate * (countdownSkill2 - 2));
+        }
+        else
+        {
+            return (int)(1000 / Global.FrameRate * (countdownSkill2));
+        }
+    }
+
+
+    public int Skill3Logic(int frame, int RoomID, List<int> gifted, Vector3 st, Vector3 ed, int dmgSrc)
+    {
+        int damageFrame = frame;
+
+        //手雷投出
+        GameObject p = GameObject.Instantiate(effectGernade);
+        if (gifted[0] == 1)//天赋点了第一个减投掷时间
+        {
+            damageFrame += (int)(0.6f * 1000 / Global.FrameRate * throwTime);
+            p.GetComponent<GrenadeTrail>().init(frame, (int)(0.6f * 1000 / Global.FrameRate * throwTime), st, ed);//这里修改天赋快了多少
+        }
+        else
+        {
+            damageFrame += (int)(1000 / Global.FrameRate * throwTime);
+            p.GetComponent<GrenadeTrail>().init(frame, (int)(1000 / Global.FrameRate * throwTime), st, ed);
+        }
+        grenade.Add(p);
+        //爆炸特效
+        GameObject ge = GameObject.Instantiate(effectGernadeExplosion);
+
+        if (gifted[0] == 1)
+        {
+            ge.GetComponent<ExplosionControl>().init(frame + (int)(0.6f * 1000 / Global.FrameRate * throwTime),
+                (int)(0.7f * 1000 / Global.FrameRate), ed);
+        }
+        else
+        {
+            ge.GetComponent<ExplosionControl>().init(frame + (int)(1000 / Global.FrameRate * throwTime),
+                (int)(0.7f * 1000 / Global.FrameRate), ed);
+        }
+        explosion.Add(ge);
+        //伤害判定产生
+
+        int tda = damgeSkill2;
+        float tc = controlTimeSkill2;
+        float tr = areaSkill2;
+        if (gifted[4] == 1)
+        {
+            tda *= 2;
+        }
+
+        if (gifted[2] == 1)
+        {
+            tc *= 2;
+        }
+
+        if (gifted[1] == 1)
+        {
+            tr *= 1.5f;
+        }
+
+        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)ed.x, (Fix64)ed.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate),
+
+
+            damageFrame, dmgSrc);
+
+        _parentManager._skill.Add(tmp, RoomID);
+
 
         if (gifted[3] == 1)
         {

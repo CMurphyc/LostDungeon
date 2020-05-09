@@ -632,7 +632,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
         int PlayerUID = sys._model._PlayerModule.uid;
         CharacterType PlayerType = sys._model._RoomModule.GetCharacterType(PlayerUID);
 
-        GameObject js1 = GameObject.Find("SkillStickUI1"), js2=GameObject.Find("SkillStickUI2");
+        GameObject js1 = GameObject.Find("SkillStickUI1"), js2=GameObject.Find("SkillStickUI2"),js3 = GameObject.Find("SkillStickUI3");
 
         switch (PlayerType)
         {
@@ -641,11 +641,16 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
                     js1.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill1Image;
                     js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill1Range(),
-                                                sys._battle._skill.enginerBase.Skill1Area(), PlayerObject);
-                    js2.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill2Image;
+                                                sys._battle._skill.enginerBase.Skill1Area(), PlayerObject,sys._battle._skill.enginerBase.skill1Type);
 
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill2Range(),
-                                                sys._battle._skill.enginerBase.Skill2Area(), PlayerObject);
+                                                sys._battle._skill.enginerBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill2Type);
+
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill3Range(),
+                                                sys._battle._skill.enginerBase.Skill3Area(), PlayerObject, sys._battle._skill.enginerBase.skill3Type);
+
                     break;
                 }
             case CharacterType.Magician:
@@ -653,10 +658,10 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
                     js1.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill1Image;
                     js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill1Range(),
-                                                sys._battle._skill.magicianBase.Skill1Area(), PlayerObject);
+                                                sys._battle._skill.magicianBase.Skill1Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
                     js2.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill2Range(),
-                                                sys._battle._skill.magicianBase.Skill2Area(), PlayerObject);
+                                                sys._battle._skill.magicianBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill2Type);
                     break;
                 }
             default:
