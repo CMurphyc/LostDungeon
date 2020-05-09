@@ -22,12 +22,13 @@ public static partial class CreateRoomC2SReflection {
   static CreateRoomC2SReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChNDcmVhdGVSb29tQzJTLnByb3RvIiEKDUNyZWF0ZVJvb21DMlMSEAoIcm9v",
-          "bVNpemUYASABKAViBnByb3RvMw=="));
+          "ChNDcmVhdGVSb29tQzJTLnByb3RvGg5Sb29tSW5mby5wcm90byI+Cg1DcmVh",
+          "dGVSb29tQzJTEhAKCHJvb21TaXplGAEgASgFEhsKCHJvb21UeXBlGAIgASgO",
+          "MgkuUm9vbVR5cGViBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
+        new pbr::FileDescriptor[] { global::RoomInfoReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::CreateRoomC2S), global::CreateRoomC2S.Parser, new[]{ "RoomSize" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::CreateRoomC2S), global::CreateRoomC2S.Parser, new[]{ "RoomSize", "RoomType" }, null, null, null)
         }));
   }
   #endregion
@@ -60,6 +61,7 @@ public sealed partial class CreateRoomC2S : pb::IMessage<CreateRoomC2S> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public CreateRoomC2S(CreateRoomC2S other) : this() {
     roomSize_ = other.roomSize_;
+    roomType_ = other.roomType_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -79,6 +81,17 @@ public sealed partial class CreateRoomC2S : pb::IMessage<CreateRoomC2S> {
     }
   }
 
+  /// <summary>Field number for the "roomType" field.</summary>
+  public const int RoomTypeFieldNumber = 2;
+  private global::RoomType roomType_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::RoomType RoomType {
+    get { return roomType_; }
+    set {
+      roomType_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as CreateRoomC2S);
@@ -93,6 +106,7 @@ public sealed partial class CreateRoomC2S : pb::IMessage<CreateRoomC2S> {
       return true;
     }
     if (RoomSize != other.RoomSize) return false;
+    if (RoomType != other.RoomType) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -100,6 +114,7 @@ public sealed partial class CreateRoomC2S : pb::IMessage<CreateRoomC2S> {
   public override int GetHashCode() {
     int hash = 1;
     if (RoomSize != 0) hash ^= RoomSize.GetHashCode();
+    if (RoomType != 0) hash ^= RoomType.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -117,6 +132,10 @@ public sealed partial class CreateRoomC2S : pb::IMessage<CreateRoomC2S> {
       output.WriteRawTag(8);
       output.WriteInt32(RoomSize);
     }
+    if (RoomType != 0) {
+      output.WriteRawTag(16);
+      output.WriteEnum((int) RoomType);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -127,6 +146,9 @@ public sealed partial class CreateRoomC2S : pb::IMessage<CreateRoomC2S> {
     int size = 0;
     if (RoomSize != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomSize);
+    }
+    if (RoomType != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) RoomType);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -142,6 +164,9 @@ public sealed partial class CreateRoomC2S : pb::IMessage<CreateRoomC2S> {
     if (other.RoomSize != 0) {
       RoomSize = other.RoomSize;
     }
+    if (other.RoomType != 0) {
+      RoomType = other.RoomType;
+    }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -155,6 +180,10 @@ public sealed partial class CreateRoomC2S : pb::IMessage<CreateRoomC2S> {
           break;
         case 8: {
           RoomSize = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          roomType_ = (global::RoomType) input.ReadEnum();
           break;
         }
       }

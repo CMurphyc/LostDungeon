@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -40.700012, y: 0}
+  m_AnchoredPosition: {x: -40.69995, y: 0}
   m_SizeDelta: {x: 81.400024, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8815268095634905383
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 4348072095915296688}
   - component: {fileID: 7937606425846418020}
   m_Layer: 5
-  m_Name: RoomName
+  m_Name: Owner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 8632048252184196981}
   m_Layer: 5
   m_Name: ListRoom
-  m_TagString: Untagged
+  m_TagString: ListRoom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -472,7 +472,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5.100008, y: 117.3}
+  m_AnchoredPosition: {x: 5.0999756, y: 117.29999}
   m_SizeDelta: {x: -21.400003, y: 57.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8632048252184196981

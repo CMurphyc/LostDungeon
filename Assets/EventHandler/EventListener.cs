@@ -66,6 +66,7 @@ public class EventListener : MonoBehaviour
             {
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapSeed = synPack.Seed;
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MapFloorNumber = synPack.FloorNumber;
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.MaxMapFloorNumber = synPack.MaxFloorNumber;
                 main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoadingPanel");
             }
             else
@@ -84,8 +85,8 @@ public class EventListener : MonoBehaviour
         {
             Debug.Log("返回成功");
             //main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("RoomList");
-
-            main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList();
+            RoomType roomType = main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType;
+            main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList(roomType);
         }
         else
         {
@@ -109,6 +110,7 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._message.PopText("Get RoomList Faield");
         }
     }
+    
     void GetRoomInfo(EventBase eb)
     {
         GetRoomInfoS2C synPack = (GetRoomInfoS2C)eb.eventValue;
