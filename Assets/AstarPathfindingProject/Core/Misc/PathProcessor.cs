@@ -286,6 +286,10 @@ namespace Pathfinding {
 		/// See: StartPath
 		/// </summary>
 		void CalculatePathsThreaded (PathHandler pathHandler) {
+
+		Debug.Log("Problem maybe occur!");
+
+
 #if UNITY_2017_3_OR_NEWER
 			UnityEngine.Profiling.Profiler.BeginThreadProfiling("Pathfinding", "Pathfinding thread #" + (pathHandler.threadID+1));
 #endif
@@ -299,6 +303,7 @@ namespace Pathfinding {
 			// We need to check once in a while if the thread should be stopped.
 			long maxTicks = (long)(10*10000);
 			long targetTick = System.DateTime.UtcNow.Ticks + maxTicks;
+			// Debug.Log("test111"); is not being used
 			while (true) {
 				// The path we are currently calculating
 				Path path = queue.Pop();
@@ -431,6 +436,8 @@ namespace Pathfinding {
 		/// See: StartPath
 		/// </summary>
 		IEnumerator CalculatePaths (PathHandler pathHandler) {
+
+			// Debug.Log("CalculatePath"); is not being used
 			// Max number of ticks before yielding/sleeping
 			long maxTicks = (long)(astar.maxFrameTime*10000);
 			long targetTick = System.DateTime.UtcNow.Ticks + maxTicks;
@@ -540,6 +547,7 @@ namespace Pathfinding {
 						}
 
 						targetTick = System.DateTime.UtcNow.Ticks + maxTicks;
+						Debug.Log("target tick is " + targetTick);
 					}
 
 					totalTicks += System.DateTime.UtcNow.Ticks-startTicks;

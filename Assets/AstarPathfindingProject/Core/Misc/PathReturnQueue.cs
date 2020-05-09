@@ -35,11 +35,12 @@ namespace Pathfinding {
 		/// </summary>
 		/// <param name="timeSlice">Do not return all paths at once if it takes a long time, instead return some and wait until the next call.</param>
 		public void ReturnPaths (bool timeSlice) {
+			// Debug.Log("ReturnPath"); is being used
 			Profiler.BeginSample("Calling Path Callbacks");
 
 			// Hard coded limit on 1.0 ms
-			long targetTick = timeSlice ? System.DateTime.UtcNow.Ticks + 1 * 10000 : 0;
-
+			//这里大概也有问题，先改掉
+			// long targetTick = timeSlice ? System.DateTime.UtcNow.Ticks + 1 * 10000 : 0;
 			int counter = 0;
 			// Loop through the linked list and return all paths
 			while (true) {
@@ -62,9 +63,9 @@ namespace Pathfinding {
 				// At least 5 paths will be returned, even if timeSlice is enabled
 				if (counter > 5 && timeSlice) {
 					counter = 0;
-					if (System.DateTime.UtcNow.Ticks >= targetTick) {
-						break;
-					}
+					// if (System.DateTime.UtcNow.Ticks >= targetTick) {
+					// 	break;
+					// }
 				}
 			}
 			Profiler.EndSample();

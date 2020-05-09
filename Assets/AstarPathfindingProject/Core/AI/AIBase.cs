@@ -200,7 +200,7 @@ namespace Pathfinding {
 		/// See: <see cref="updateRotation"/>
 		/// </summary>
 		[System.NonSerialized]
-		public bool updatePosition = true;
+		public bool updatePosition = false;
 
 		/// <summary>
 		/// Determines if the character's rotation should be coupled to the Transform's rotation.
@@ -274,6 +274,7 @@ namespace Pathfinding {
 		public Vector3 destination { get; set; }
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::velocity</summary>
+		/// 这边看样子对视图层也没有什么影响，大概
 		public Vector3 velocity {
 			get {
 				return lastDeltaTime > 0.000001f ? (prevPosition1 - prevPosition2) / lastDeltaTime : Vector3.zero;
@@ -309,27 +310,36 @@ namespace Pathfinding {
 
         public void InitConfig(Vector3 pos, Quaternion Rot, Vector3 scale, float rate)
         {
-            Position = pos;
+            // Position = pos;
+			simulatedPosition = pos;
+			simulatedRotation = Rot;
             Rotation = Rot;
             LocalScale = scale;
             FrameRate = rate;
         }
         public  virtual void GetFramePosAndRotation(out Vector3 NextPosition, out Quaternion NextRotation)
         {
+			// Debug.Log("GetFramePosAndRot"); is being used
+            // if (shouldRecalculatePath) 
+			// {
+			// 	Debug.Log("reCalPath");
+			// 	SearchPath();
+			// }
 
-            if (shouldRecalculatePath) SearchPath();
-
+			SearchPath();
             // If gravity is used depends on a lot of things.
             // For example when a non-kinematic rigidbody is used then the rigidbody will apply the gravity itself
             // Note that the gravity can contain NaN's, which is why the comparison uses !(a==b) instead of just a!=b.
-            usingGravity = !(gravity == Vector3.zero) && (!updatePosition || ((rigid == null || rigid.isKinematic) && (rigid2D == null || rigid2D.isKinematic)));
+            // usingGravity = !(gravity == Vector3.zero) && (!updatePosition || ((rigid == null || rigid.isKinematic) && (rigid2D == null || rigid2D.isKinematic)));
 
             Vector3 nextPosition = new Vector3();
             Quaternion nextRotation = new Quaternion();
-            if (rigid == null && rigid2D == null && canMove)
-            {
-                MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
-            }
+            // if (rigid == null && rigid2D == null && canMove)
+            // {
+            //     MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
+            // }
+
+			MovementUpdate(FrameRate/1000f, out nextPosition, out nextRotation);
            
             NextPosition = nextPosition;
             NextPosition.z = 0;
@@ -344,7 +354,8 @@ namespace Pathfinding {
                 NextRotation.y = 0;
 
             }
-                  
+
+			Position = NextPosition;     
 
         }
         /// <summary>
@@ -386,17 +397,20 @@ namespace Pathfinding {
 			if (startHasRun) {
 				// Clamp the agent to the navmesh (which is what the Teleport call will do essentially. Though only some movement scripts require this, like RichAI).
 				// The Teleport call will also make sure some variables are properly initialized (like #prevPosition1 and #prevPosition2)
-				Teleport(position, false);
+				// Teleport(position, true);
 				lastRepath = float.NegativeInfinity;
-				if (shouldRecalculatePath) SearchPath();
+				// if (shouldRecalculatePath) SearchPath();
+				// SearchPath();
 			}
 		}
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::Teleport</summary>
 		public virtual void Teleport (Vector3 newPosition, bool clearPath = true) {
+			Debug.Log("Teleport!!!!!!!!!!!");
 			if (clearPath) ClearPath();
 			prevPosition1 = prevPosition2 = simulatedPosition = newPosition;
 			if (updatePosition) Position = newPosition;
+			// Debug.Log("Position is " + Position);
 			if (clearPath) SearchPath();
 		}
 
@@ -526,6 +540,7 @@ namespace Pathfinding {
 
 		/// <summary>\copydoc Pathfinding::IAstarAI::SetPath</summary>
 		public void SetPath (Path path) {
+			Debug.Log("set path");
 			if (path == null) {
 				CancelCurrentPathRequest();
 				ClearPath();
@@ -642,53 +657,56 @@ namespace Pathfinding {
 
 		void FinalizePosition (Vector3 nextPosition) {
 			// Use a local variable, it is significantly faster
-			Vector3 currentPosition = simulatedPosition;
-			bool positionDirty1 = false;
+			// Vector3 currentPosition = simulatedPosition;
+			// bool positionDirty1 = false;
 
-			if (controller != null && controller.enabled && updatePosition) {
-                // Use CharacterController
-                // The Transform may not be at #position if it was outside the navmesh and had to be moved to the closest valid position
-                Position = currentPosition;
-				controller.Move((nextPosition - currentPosition) + accumulatedMovementDelta);
-				// Grab the position after the movement to be able to take physics into account
-				// TODO: Add this into the clampedPosition calculation below to make RVO better respond to physics
-				currentPosition = Position;
-				if (controller.isGrounded) verticalVelocity = 0;
-			} else {
-				// Use Transform, Rigidbody, Rigidbody2D or nothing at all (if updatePosition = false)
-				float lastElevation;
-				movementPlane.ToPlane(currentPosition, out lastElevation);
-				currentPosition = nextPosition + accumulatedMovementDelta;
+			// if (controller != null && controller.enabled && updatePosition) {
+            //     // Use CharacterController
+            //     // The Transform may not be at #position if it was outside the navmesh and had to be moved to the closest valid position
+            //     Position = currentPosition;
+			// 	controller.Move((nextPosition - currentPosition) + accumulatedMovementDelta);
+			// 	// Grab the position after the movement to be able to take physics into account
+			// 	// TODO: Add this into the clampedPosition calculation below to make RVO better respond to physics
+			// 	currentPosition = Position;
+			// 	if (controller.isGrounded) verticalVelocity = 0;
+			// } else {
+			// 	// Use Transform, Rigidbody, Rigidbody2D or nothing at all (if updatePosition = false)
+			// 	float lastElevation;
+			// 	movementPlane.ToPlane(currentPosition, out lastElevation);
+			// 	currentPosition = nextPosition + accumulatedMovementDelta;
 
-				// Position the character on the ground
-				if (usingGravity) currentPosition = RaycastPosition(currentPosition, lastElevation);
-				positionDirty1 = true;
-			}
+			// 	// Position the character on the ground
+			// 	if (usingGravity) currentPosition = RaycastPosition(currentPosition, lastElevation);
+			// 	positionDirty1 = true;
+			// }
 
-			// Clamp the position to the navmesh after movement is done
-			bool positionDirty2 = false;
-			currentPosition = ClampToNavmesh(currentPosition, out positionDirty2);
+			// // Clamp the position to the navmesh after movement is done
+			// bool positionDirty2 = false;
+			// currentPosition = ClampToNavmesh(currentPosition, out positionDirty2);
 
-			// Assign the final position to the character if we haven't already set it (mostly for performance, setting the position can be slow)
-			if ((positionDirty1 || positionDirty2) && updatePosition) {
-				// Note that rigid.MovePosition may or may not move the character immediately.
-				// Check the Unity documentation for the special cases.
-				if (rigid != null) rigid.MovePosition(currentPosition);
-				else if (rigid2D != null) rigid2D.MovePosition(currentPosition);
-				else Position = currentPosition;
-			}
+			// // Assign the final position to the character if we haven't already set it (mostly for performance, setting the position can be slow)
+			// if ((positionDirty1 || positionDirty2) && updatePosition) {
+			// 	// Note that rigid.MovePosition may or may not move the character immediately.
+			// 	// Check the Unity documentation for the special cases.
+			// 	if (rigid != null) rigid.MovePosition(currentPosition);
+			// 	else if (rigid2D != null) rigid2D.MovePosition(currentPosition);
+			// 	else Position = currentPosition;
+			// }
 
-			accumulatedMovementDelta = Vector3.zero;
-			simulatedPosition = currentPosition;
-			UpdateVelocity();
+			// accumulatedMovementDelta = Vector3.zero;
+			// simulatedPosition = currentPosition;
+			// UpdateVelocity();
 		}
 
 		protected void UpdateVelocity () {
-			var currentFrame = Time.frameCount;
+			//可能出问题的地方
+			// var currentFrame = Time.frameCount;
 
-			if (currentFrame != prevFrame) prevPosition2 = prevPosition1;
-			prevPosition1 = position;
-			prevFrame = currentFrame;
+			// if (currentFrame != prevFrame) prevPosition2 = prevPosition1;
+			// prevPosition1 = position;
+			// prevFrame = currentFrame;
+
+			prevPosition2 = prevPosition1;
 		}
 
 		/// <summary>
