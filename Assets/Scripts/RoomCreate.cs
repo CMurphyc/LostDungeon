@@ -105,7 +105,6 @@ public class RoomCreate : MonoBehaviour
         UploadPropAttr();
 
         int playerNum = sys._model._RoomModule.GetPlayerSize();
-        playerNum = 2;
 
         int seed = sys._model._RoomModule.MapSeed;
         Random.InitState(seed);
@@ -207,9 +206,9 @@ public class RoomCreate : MonoBehaviour
                 break;
             }
         }
-}
+    }
 
-void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
+    void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
 
         // 根据传入的矩阵生成整体房间地图
