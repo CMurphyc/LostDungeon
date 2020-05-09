@@ -16,6 +16,7 @@ public class PlayerDataModule
 
     public GameObject CD1=null;
     public GameObject CD2 = null;
+    public GameObject CD3 = null;
 
 
     public Dictionary<int, GameObject> playerToRevival = new Dictionary<int, GameObject>();   // 玩家编号对应复活框
@@ -113,6 +114,26 @@ public class PlayerDataModule
                     CD2.SetActive(false);
                 }
                 CD2.GetComponent<Slider>().value = kp;
+
+
+                if (CD3 == null)
+                {
+                    CD3 = GameObject.Find("SkillStickUI3").transform.GetChild(2).gameObject;
+                    CD3.GetComponent<Slider>().maxValue = 0;
+                }
+
+                kp = p.Value.obj.GetComponent<PlayerModel_Component>().GetCountDown3();
+                if (kp > CD3.GetComponent<Slider>().maxValue)
+                {
+                    CD3.GetComponent<Slider>().maxValue = kp;
+                    CD3.SetActive(true);
+                }
+                if (kp == 0)
+                {
+                    CD3.GetComponent<Slider>().maxValue = kp;
+                    CD3.SetActive(false);
+                }
+                CD3.GetComponent<Slider>().value = kp;
 
             }
         }
@@ -478,6 +499,56 @@ public class PlayerDataModule
                                     break;
                                 }
 
+                            }
+                            break;
+                        }
+                    case (int)AttackType.Skill3:
+                        {
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown3() != 0) break;
+                            CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
+
+                            List<int> tmp = new List<int>();
+                            tmp.Add(1);
+                            tmp.Add(1);
+                            tmp.Add(1);
+                            tmp.Add(1);
+                            tmp.Add(1);
+
+                            switch (PlayerType)
+                            {
+                                case CharacterType.Enginner:
+                                    {
+                                        Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
+                                        Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
+                                        
+                                        int cd = _parentManager._skill.enginerBase.Skill3Logic(frame,
+                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                            new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                            (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                            new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
+                                            (float)frameInfo[i].AttackDirectionY / 10000f
+                                            ), frameInfo[i].Uid
+                                            );
+                                        Debug.Log("aaaaaa" + cd);
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown3(cd);
+                                        
+                                        break;
+                                    }
+                                case CharacterType.Magician:
+                                    {
+                                        /*
+                                        int cd = _parentManager._skill.magicianBase.Skill2Logic(frame,
+                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                            new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
+                                            (float)frameInfo[i].AttackDirectionY / 10000f
+                                            ), frameInfo[i].Uid
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
+                                        */
+                                        break;
+                                    }
+                                default:
+                                    break;
                             }
                             break;
                         }

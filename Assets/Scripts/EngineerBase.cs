@@ -45,6 +45,7 @@ public class EngineerBase
     public int damageSkill3;                     //火箭伤害
     public float rangeSkill3;                   //指示器范围
     public float areaSkill3;
+    public float countdownSkill3;
 
     public Sprite skill1Image;
     public Sprite skill2Image;
@@ -56,7 +57,7 @@ public class EngineerBase
 
     List <GameObject> grenade=new List<GameObject>();
     List <GameObject> explosion = new List<GameObject>();
-    List<GameObject> rokcet = new List<GameObject>();
+    List<GameObject> Rocket = new List<GameObject>();
 
     BattleManager _parentManager;
 
@@ -64,6 +65,8 @@ public class EngineerBase
     {
         grenade.Clear();
         explosion.Clear();
+
+        Rocket.Clear();
     }
         public EngineerBase(BattleManager parentManager)
     {
@@ -109,6 +112,7 @@ public class EngineerBase
         damageSkill3 = x.damageSkill3;
         rangeSkill3 = x.rangeSkill3;
         areaSkill3 = x.areaSkill3;
+        countdownSkill3 = x.countdownSkill3;
 
         skill1Image = x.skill1Image;
         skill2Image = x.skill2Image;
@@ -261,72 +265,27 @@ public class EngineerBase
     }
 
 
-    public int Skill3Logic(int frame, int RoomID, List<int> gifted, Vector3 st, Vector3 ed, int dmgSrc)
+    public int Skill3Logic(int frame, int RoomID, List<int> gifted, Vector3 st, Vector3 dir, int dmgSrc)
     {
-        int damageFrame = frame;
+        dir -= st;
+        dir.Normalize();
+        dir*=0.1f;
+        //火箭投出
+        GameObject p = GameObject.Instantiate(effectRocket);
 
-        //手雷投出
-        GameObject p = GameObject.Instantiate(effectGernade);
-        if (gifted[0] == 1)//天赋点了第一个减投掷时间
-        {
-            damageFrame += (int)(0.6f * 1000 / Global.FrameRate * throwTime);
-            p.GetComponent<GrenadeTrail>().init(frame, (int)(0.6f * 1000 / Global.FrameRate * throwTime), st, ed);//这里修改天赋快了多少
-        }
-        else
-        {
-            damageFrame += (int)(1000 / Global.FrameRate * throwTime);
-            p.GetComponent<GrenadeTrail>().init(frame, (int)(1000 / Global.FrameRate * throwTime), st, ed);
-        }
-        grenade.Add(p);
-        //爆炸特效
-        GameObject ge = GameObject.Instantiate(effectGernadeExplosion);
-
-        if (gifted[0] == 1)
-        {
-            ge.GetComponent<ExplosionControl>().init(frame + (int)(0.6f * 1000 / Global.FrameRate * throwTime),
-                (int)(0.7f * 1000 / Global.FrameRate), ed);
-        }
-        else
-        {
-            ge.GetComponent<ExplosionControl>().init(frame + (int)(1000 / Global.FrameRate * throwTime),
-                (int)(0.7f * 1000 / Global.FrameRate), ed);
-        }
-        explosion.Add(ge);
-        //伤害判定产生
-
-        int tda = damgeSkill2;
-        float tc = controlTimeSkill2;
-        float tr = areaSkill2;
-        if (gifted[4] == 1)
-        {
-            tda *= 2;
-        }
-
-        if (gifted[2] == 1)
-        {
-            tc *= 2;
-        }
-
-        if (gifted[1] == 1)
-        {
-            tr *= 1.5f;
-        }
-
-        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)ed.x, (Fix64)ed.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate),
-
-
-            damageFrame, dmgSrc);
-
-        _parentManager._skill.Add(tmp, RoomID);
-
+        p.GetComponent<RocketControl>().init(new FixVector2((Fix64)st.x, (Fix64)st.y),
+            new FixVector2((Fix64)dir.x, (Fix64)dir.y),
+            (Fix64)radiusSkill3,RoomID,damageSkill3,dmgSrc,_parentManager
+            );
+        Rocket.Add(p);
 
         if (gifted[3] == 1)
         {
-            return (int)(1000 / Global.FrameRate * (countdownSkill2 - 2));
+            return (int)(1000 / Global.FrameRate * (countdownSkill3 - 2));
         }
         else
         {
-            return (int)(1000 / Global.FrameRate * (countdownSkill2));
+            return (int)(1000 / Global.FrameRate * (countdownSkill3));
         }
     }
 
@@ -370,6 +329,24 @@ public class EngineerBase
         {
             explosion.Add(p);
         }
-        //
+
+        tg.Clear();
+        foreach(GameObject p in Rocket)
+        {
+            if(p.GetComponent<RocketControl>().updateLogic(frame))
+            {
+                GameObject.Destroy(p);
+            }
+            else
+            {
+                tg.Add(p);
+            }
+        }
+        Rocket.Clear();
+        foreach(var p in tg)
+        {
+            Rocket.Add(p);
+        }
+        tg.Clear();
     }
 }

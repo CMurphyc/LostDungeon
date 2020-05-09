@@ -109,6 +109,7 @@ public class SkillIndiactor : MonoBehaviour
                     indiactor[areaType].GetChild(0).localScale = new Vector2(SkillArea, SkillArea);
                     indiactor[areaType].GetChild(0).localPosition = new Vector2(0, 0);
                     indiactor[areaType].gameObject.SetActive(true);
+                    
                 }
                 else
                 {
@@ -118,17 +119,18 @@ public class SkillIndiactor : MonoBehaviour
                     it = Instantiate(Resources.Load("Model/Player/Circle")) as GameObject;              //小环
                     it.transform.SetParent(indiactor[areaType]);
                     it.transform.localScale = new Vector2(SkillArea, SkillArea);
+                    indiactor[areaType].position = Target.transform.position;
                 }
                 break;
             case SkillAreaType.OuterCircle_InnerCube:
                 {
-                    
                     if (indiactor.ContainsKey(areaType))
                     {
                         indiactor[areaType].localScale = new Vector2(SkillRange, SkillRange);
-                        indiactor[areaType].GetChild(0).localScale = new Vector2(SkillArea, SkillArea);
+                        indiactor[areaType].GetChild(0).localScale = new Vector2(0.1f, SkillArea);
                         indiactor[areaType].GetChild(0).localPosition = new Vector2(0, 0);
                         indiactor[areaType].gameObject.SetActive(true);
+                        
                     }
                     else
                     {
@@ -137,7 +139,8 @@ public class SkillIndiactor : MonoBehaviour
                         indiactor.Add(areaType, it.transform);
                         it = Instantiate(Resources.Load("Model/Player/rect")) as GameObject;//内部
                         it.transform.SetParent(indiactor[areaType]);
-                        it.transform.localScale = new Vector2(SkillArea, SkillArea);
+                        it.transform.localScale = new Vector2(0.1f,SkillArea);
+                        indiactor[areaType].position = Target.transform.position;
                     }
                     break;
                 }
@@ -222,6 +225,9 @@ public class SkillIndiactor : MonoBehaviour
     }
     public Vector2 GetSkillPosition()
     {
-        return indiactor[areaType].GetChild(0).position;
+        if (areaType == SkillAreaType.OuterCircle_InnerCircle)
+            return indiactor[areaType].GetChild(0).position;
+        else 
+            return indiactor[areaType].GetChild(0).transform.GetChild(0).transform.GetChild(0).position;
     }
 }

@@ -35,7 +35,8 @@ public class EngineerConfig : BaseConfig
     public float speedSkill3;                   //火箭飞行速度
     public int damageSkill3;                     //火箭伤害
     public float rangeSkill3;                   //指示器范围
-    public float areaSkill3;                    
+    public float areaSkill3;
+    public float countdownSkill3;           //lengque
 
     public Sprite skill1Image;
     public Sprite skill2Image;

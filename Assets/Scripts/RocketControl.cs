@@ -21,6 +21,14 @@ public class RocketControl : MonoBehaviour
         damage = Damage;
         radius = Radius;
         userID = userid;
+        if (Dir.x >= Fix64.Zero)
+        {
+            this.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan((float)(dir.y / dir.x)) * 180 / Mathf.PI);
+        }
+        else
+        {
+            this.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan((float)(dir.y / dir.x)) * 180 / Mathf.PI+180);
+        }
     }
 
     public bool updateLogic(int frame)
