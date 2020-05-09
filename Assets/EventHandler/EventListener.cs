@@ -70,7 +70,7 @@ public class EventListener : MonoBehaviour
             }
             else
             {
-                main.GetComponent<GameMain>().WorldSystem._message.PopText("开始游戏失败,有玩家未准备");
+                main.GetComponent<GameMain>().WorldSystem._message.PopText("Start Failed,All Players Need to Be Ready");
                Debug.Log("开始游戏失败,有玩家未准备");
             }
 
@@ -89,7 +89,7 @@ public class EventListener : MonoBehaviour
         }
         else
         {
-            main.GetComponent<GameMain>().WorldSystem._message.PopText("离开房间请求失败");
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("Leave Room Request Failed");
         }
 
     }
@@ -106,7 +106,7 @@ public class EventListener : MonoBehaviour
         }
         else
         {
-            main.GetComponent<GameMain>().WorldSystem._message.PopText("获取房间列表失败");
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("Get RoomList Faield");
         }
     }
     void GetRoomInfo(EventBase eb)
@@ -133,7 +133,7 @@ public class EventListener : MonoBehaviour
         }
         else
         {
-            main.GetComponent<GameMain>().WorldSystem._message.PopText("进入房间失败");
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("Enter Room Failed");
         }
 
     }
@@ -170,8 +170,12 @@ public class EventListener : MonoBehaviour
             else
             {
                 Debug.Log("房间数量超出限制");
-                main.GetComponent<GameMain>().WorldSystem._message.PopText("房间数量超出限制");
+                main.GetComponent<GameMain>().WorldSystem._message.PopText("Exceed Max Room Number");
             }
+        }
+        else
+        {
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("Sever Error");
         }
 
     }
@@ -190,8 +194,12 @@ public class EventListener : MonoBehaviour
             else
             {
                 Debug.Log("开始帧同步失败");
-                main.GetComponent<GameMain>().WorldSystem._message.PopText("开始帧同步失败");
+                main.GetComponent<GameMain>().WorldSystem._message.PopText("Start Game Failed");
             }
+        }
+        else
+        {
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("Sever Error");
         }
     }
 
@@ -209,8 +217,12 @@ public class EventListener : MonoBehaviour
             else
             {
                 Debug.Log("进入下一层失败");
-                main.GetComponent<GameMain>().WorldSystem._message.PopText("进入下一层失败");
+                main.GetComponent<GameMain>().WorldSystem._message.PopText("Enter Next Floor Failed");
             }
+        }
+        else
+        {
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("Sever Error");
         }
     }
 
@@ -231,8 +243,12 @@ public class EventListener : MonoBehaviour
             else
             {
                 Debug.Log("结束游戏失败");
-                main.GetComponent<GameMain>().WorldSystem._message.PopText("结束游戏失败");
+                main.GetComponent<GameMain>().WorldSystem._message.PopText("GameOver Failed");
             }
+        }
+        else
+        {
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("Sever Error");
         }
     }
 

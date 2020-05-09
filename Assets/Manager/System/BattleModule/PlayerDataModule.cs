@@ -456,9 +456,6 @@ public class PlayerDataModule
                                 }
 
                             }
-                            
-                           
-
                             break;
                         }
                     default:
@@ -474,8 +471,6 @@ public class PlayerDataModule
 
             }
         }
-
-
 
         UpdateBuff();
 
@@ -591,8 +586,6 @@ public class PlayerDataModule
         HashSet<int> RoomList  = new HashSet<int>();
         foreach (var item in playerToPlayer)
         {
-            //Debug.Log("Live Room Number: " + item.Value.RoomID);
-
             RoomList.Add(item.Value.RoomID);
         }
         return RoomList;

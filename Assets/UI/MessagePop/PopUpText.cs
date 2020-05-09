@@ -25,18 +25,19 @@ public class PopUpText : MonoBehaviour
         {
             Counter -= Time.deltaTime;
             textToUse.color = new Color(textToUse.color.r, textToUse.color.g, textToUse.color.b, Counter / TimeToFade);
+            transform.GetComponent<Image>().color = new Color(transform.GetComponent<Image>().color.r, transform.GetComponent<Image>().color.g, transform.GetComponent<Image>().color.b, Counter / TimeToFade);
         }
         else
         {
             Destroy(gameObject);
         }
 
-      
+
     }
     public void Init(string text, float time)
     {
 
-        textToUse = GetComponent<Text>();
+        textToUse = transform.Find("Text").GetComponent<Text>();
         textToUse.color = new Color(textToUse.color.r, textToUse.color.g, textToUse.color.b, 0);
 
         textToUse.text = text;
