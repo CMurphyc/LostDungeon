@@ -120,6 +120,7 @@ MonoBehaviour:
   muteki: 0
   dead: 0
   revival: 0
+  MaxRevival: 100
 --- !u!114 &8268409054021503221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,7 +243,7 @@ PrefabInstance:
     - target: {fileID: 3444688630862906915, guid: 331a0e7d0e570c84cb61555e81d84e0e,
         type: 3}
       propertyPath: m_Name
-      value: weapons_117_0
+      value: weapon
       objectReference: {fileID: 0}
     - target: {fileID: 8015807065711100064, guid: 331a0e7d0e570c84cb61555e81d84e0e,
         type: 3}

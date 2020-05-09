@@ -69,10 +69,12 @@ public class ClientSend
         Send(pack.ToByteArray(), GeneralType.UserLoginC2S);
     }
 
-    public void CreateRoomC2S()
+    public void CreateRoomC2S(RoomType roomType)
     {
         CreateRoomC2S pack = new CreateRoomC2S();
+        pack.RoomType = roomType;
         Send(pack.ToByteArray(), GeneralType.CreateRoomC2S);
+        Debug.Log("send CreateRoom pack: " + pack.ToString());
     }
 
     public void ChangeCharacter(CharacterType Type)
@@ -84,12 +86,12 @@ public class ClientSend
         Send(pack.ToByteArray(), GeneralType.ChangeRoleC2S);
 
     }
-    public void GetRoomList()
+    public void GetRoomList(RoomType roomType)
     {
         GetRoomListC2S pack = new GetRoomListC2S();
+        pack.RoomType = roomType;
         Send(pack.ToByteArray(), GeneralType.GetRoomListC2S);
-
-
+        // Debug.Log("send GetRoomList pack: " + pack.ToString());
     }
     public void PlayerReady()
     {
@@ -155,6 +157,7 @@ public class ClientSend
     {
         StartGameC2S pack = new StartGameC2S();
         Send(pack.ToByteArray(), GeneralType.StartSyncC2S);
+        Debug.Log("Send StartSync pack");
     }
 
     public void NextFloor(int floorNumber)
@@ -162,11 +165,13 @@ public class ClientSend
         NextFloorC2S pack = new NextFloorC2S();
         pack.FloorNumber = floorNumber;
         Send(pack.ToByteArray(), GeneralType.NextFloorC2S);
+        Debug.Log("Send NextFloor pack");
     }
 
     public void GameOver()
     {
         GameOverC2S pack = new GameOverC2S();
         Send(pack.ToByteArray(), GeneralType.GameOverC2S);
+        Debug.Log("Send GameOver pack");
     }
 }

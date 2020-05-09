@@ -13,7 +13,7 @@ public class EngineerBase
     public float damge;             //伤害
     public float bulletSpeed;       //子弹速度
     public int fireSpeed;           //射速
-    public List<int> bulletEffect;  //子弹附加效果
+    public List<bulletType> bulletEffect;  //子弹附加效果
     public GameObject bulletObj;    //子弹预制体
 
     public float rangeSkill1;                    //炮台技能的释放范围
@@ -25,7 +25,7 @@ public class EngineerBase
     public float bulletSpeedSkill1;             //炮台子弹速度
     public float fireSpeedSkill1;               //炮台射速
     public float controlTimeSkill1;             //炮台打中的敌人晕眩时间
-    public List<int> bulletEffectSkill1;        //炮台子弹附加效果
+    public List<bulletType> bulletEffectSkill1;        //炮台子弹附加效果
     public GameObject bulletObjSkill1;          //子弹预制体
 
     public float rangeSkill2;                   //手雷范围

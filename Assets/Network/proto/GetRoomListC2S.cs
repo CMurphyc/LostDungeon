@@ -22,12 +22,13 @@ public static partial class GetRoomListC2SReflection {
   static GetRoomListC2SReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChRHZXRSb29tTGlzdEMyUy5wcm90byIQCg5HZXRSb29tTGlzdEMyU2IGcHJv",
+          "ChRHZXRSb29tTGlzdEMyUy5wcm90bxoOUm9vbUluZm8ucHJvdG8iLQoOR2V0",
+          "Um9vbUxpc3RDMlMSGwoIcm9vbVR5cGUYASABKA4yCS5Sb29tVHlwZWIGcHJv",
           "dG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
+        new pbr::FileDescriptor[] { global::RoomInfoReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::GetRoomListC2S), global::GetRoomListC2S.Parser, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::GetRoomListC2S), global::GetRoomListC2S.Parser, new[]{ "RoomType" }, null, null, null)
         }));
   }
   #endregion
@@ -59,12 +60,24 @@ public sealed partial class GetRoomListC2S : pb::IMessage<GetRoomListC2S> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public GetRoomListC2S(GetRoomListC2S other) : this() {
+    roomType_ = other.roomType_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public GetRoomListC2S Clone() {
     return new GetRoomListC2S(this);
+  }
+
+  /// <summary>Field number for the "roomType" field.</summary>
+  public const int RoomTypeFieldNumber = 1;
+  private global::RoomType roomType_ = 0;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public global::RoomType RoomType {
+    get { return roomType_; }
+    set {
+      roomType_ = value;
+    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -80,12 +93,14 @@ public sealed partial class GetRoomListC2S : pb::IMessage<GetRoomListC2S> {
     if (ReferenceEquals(other, this)) {
       return true;
     }
+    if (RoomType != other.RoomType) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override int GetHashCode() {
     int hash = 1;
+    if (RoomType != 0) hash ^= RoomType.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -99,6 +114,10 @@ public sealed partial class GetRoomListC2S : pb::IMessage<GetRoomListC2S> {
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public void WriteTo(pb::CodedOutputStream output) {
+    if (RoomType != 0) {
+      output.WriteRawTag(8);
+      output.WriteEnum((int) RoomType);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -107,6 +126,9 @@ public sealed partial class GetRoomListC2S : pb::IMessage<GetRoomListC2S> {
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public int CalculateSize() {
     int size = 0;
+    if (RoomType != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) RoomType);
+    }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -117,6 +139,9 @@ public sealed partial class GetRoomListC2S : pb::IMessage<GetRoomListC2S> {
   public void MergeFrom(GetRoomListC2S other) {
     if (other == null) {
       return;
+    }
+    if (other.RoomType != 0) {
+      RoomType = other.RoomType;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -129,6 +154,10 @@ public sealed partial class GetRoomListC2S : pb::IMessage<GetRoomListC2S> {
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
+        case 8: {
+          roomType_ = (global::RoomType) input.ReadEnum();
+          break;
+        }
       }
     }
   }

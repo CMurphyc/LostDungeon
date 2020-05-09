@@ -142,6 +142,30 @@ public class RoomCreate : MonoBehaviour
             if (!PlayerList[i].empty)
             {
                 CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
+                GameObject tplayer = sys._battle._player.playerToPlayer[PlayerList[i].uid].obj;
+
+                if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
+
+                foreach(var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
+                {
+                    for (int j = 0; j < x.ItemNumber; j++)
+                        tplayer.GetComponent<PlayerModel_Component>().Change(
+                            sys._battle._chest.propToProperty[x.ItemID].changefullHP,
+                            sys._battle._chest.propToProperty[x.ItemID].changeHP,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletFrequency,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletSpeed,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeDamage,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed,
+                            sys._battle._chest.propToProperty[x.ItemID].bulletType
+                            );
+
+                    Debug.Log("bbbbbbb"+x.ItemID);
+                }
+                if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+
+
+
             }
         }
 
