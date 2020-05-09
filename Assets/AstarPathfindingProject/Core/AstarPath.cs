@@ -850,13 +850,15 @@ public class AstarPath : VersionedMonoBehaviour {
 	/// See: PathProcessor.TickNonMultithreaded
 	/// See: PathReturnQueue.ReturnPaths
 	/// </summary>
-	private void Update () {
+	private void FixedUpdate () {
+		// Debug.Log("AstarPath Update"); is being used
+
 		// This class uses the [ExecuteInEditMode] attribute
 		// So Update is called even when not playing
 		// Don't do anything when not in play mode
 		if (!Application.isPlaying) return;
 
-		navmeshUpdates.Update();
+		navmeshUpdates.FixedUpdate();
 
 		// Execute blocking actions such as graph updates
 		// when not scanning
@@ -872,6 +874,7 @@ public class AstarPath : VersionedMonoBehaviour {
 	}
 
 	private void PerformBlockingActions (bool force = false) {
+		// Debug.Log("PerformBlockingAction"); is being used
 		if (workItemLock.Held && pathProcessor.queue.AllReceiversBlocked) {
 			// Return all paths before starting blocking actions
 			// since these might change the graph and make returned paths invalid (at least the nodes)
@@ -1012,6 +1015,7 @@ public class AstarPath : VersionedMonoBehaviour {
 			// and then processes the graph updates
 			AddWorkItem(new AstarWorkItem(() => {
 				graphUpdatesWorkItemAdded = false;
+				//可能有问题，待处理
 				lastGraphUpdate = Time.realtimeSinceStartup;
 
 				workItem.init();
@@ -1025,7 +1029,7 @@ public class AstarPath : VersionedMonoBehaviour {
 	/// </summary>
 	IEnumerator DelayedGraphUpdate () {
 		graphUpdateRoutineRunning = true;
-
+		//可能有问题，待处理
 		yield return new WaitForSeconds(graphUpdateBatchingInterval-(Time.realtimeSinceStartup-lastGraphUpdate));
 		QueueGraphUpdates();
 		graphUpdateRoutineRunning = false;
@@ -1091,6 +1095,7 @@ public class AstarPath : VersionedMonoBehaviour {
 		graphUpdates.AddToQueue(ob);
 
 		// If we should limit graph updates, start a coroutine which waits until we should update graphs
+		//可能有问题，待处理
 		if (batchGraphUpdates && Time.realtimeSinceStartup-lastGraphUpdate < graphUpdateBatchingInterval) {
 			if (!graphUpdateRoutineRunning) {
 				StartCoroutine(DelayedGraphUpdate());
@@ -1676,7 +1681,7 @@ public class AstarPath : VersionedMonoBehaviour {
 			data.FindGraphTypes();
 			GraphModifier.FindAllModifiers();
 		}
-
+		
 		int startFrame = Time.frameCount;
 
 		yield return new Progress(0.05F, "Pre processing graphs");
@@ -1874,7 +1879,7 @@ public class AstarPath : VersionedMonoBehaviour {
 					}
 
 					// Wait for threads to calculate paths
-					Thread.Sleep(1);
+					// Thread.Sleep(1);
 					active.PerformBlockingActions(true);
 				}
 			} else {

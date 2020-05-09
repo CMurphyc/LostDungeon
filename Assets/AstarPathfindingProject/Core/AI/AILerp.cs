@@ -161,6 +161,7 @@ namespace Pathfinding {
 				return setter != null ? setter.target : null;
 			}
 			set {
+				// Debug.Log("SetTarget!!!!!!!!!!!!!!!!!");
 				targetCompatibility = null;
 				var setter = GetComponent<AIDestinationSetter>();
 				if (setter == null) setter = gameObject.AddComponent<AIDestinationSetter>();
@@ -198,6 +199,7 @@ namespace Pathfinding {
 		/// <summary>\copydoc Pathfinding::IAstarAI::canMove</summary>
 		bool IAstarAI.canMove { get { return canMove; } set { canMove = value; } }
 
+		//目前看样子对寻路视图层无影响
 		Vector3 IAstarAI.velocity {
 			get {
 				return Time.deltaTime > 0.00001f ? (previousPosition1 - previousPosition2) / Time.deltaTime : Vector3.zero;

@@ -505,6 +505,10 @@ public class MonsterModule
                     {
                         Monster.GetComponent<AIDestinationSetter>().Target = new Vector3((float)Target.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                             (float)Target.GetComponent<PlayerModel_Component>().GetPlayerPosition().y, (float)0);
+
+                        Monster.GetComponent<AIDestinationSetter>().FakeFixedUpdate();
+
+
                         Monster.GetComponent<AIDestinationSetter>().AI_Switch = true;
                         Monster.GetComponent<EnemyAI>().InitMonster(frame);
                     }

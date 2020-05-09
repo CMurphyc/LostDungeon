@@ -119,7 +119,9 @@ namespace Pathfinding.Legacy
 				// gets confused because the first point in the path is far away
 				// from the current position (possibly behind it which could cause
 				// the agent to turn around, and that looks pretty bad).
-				Vector3 p1 = Time.time - lastFoundWaypointTime < 0.3f ? lastFoundWaypointPosition : p.originalStartPoint;
+				//这里99%有问题，先改了再说
+				// Vector3 p1 = Time.time - lastFoundWaypointTime < 0.3f ? lastFoundWaypointPosition : p.originalStartPoint;
+				Vector3 p1 = p.originalStartPoint;
 				Vector3 p2 = GetFeetPosition();
 				Vector3 dir = p2 - p1;
 				float magn = dir.magnitude;
@@ -208,7 +210,8 @@ namespace Pathfinding.Legacy
 					if (dist < pickNextWaypointDist * pickNextWaypointDist)
 					{
 						lastFoundWaypointPosition = currentPosition;
-						lastFoundWaypointTime = Time.time;
+						//这里后面直接不判时间了，其实用不到了
+						// lastFoundWaypointTime = Time.time;
 						currentWaypointIndex++;
 					}
 					else
