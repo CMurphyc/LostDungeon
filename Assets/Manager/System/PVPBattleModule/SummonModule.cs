@@ -52,7 +52,7 @@ public class SummonModule
                         GameObject AliasUnit = AliasMonsterList[i].obj;
                         Vector2 AliasPos = new Vector2((float)AliasUnit.GetComponent<MonsterModel_Component>().position.x, (float)AliasUnit.GetComponent<MonsterModel_Component>().position.y);
                         GameObject Target = FindCloseBlueTeamPlayer(AliasPos, RoomID);
-                        AliasUnit.GetComponent<EnemyAI>().UpdateLogic(Target, frame, AliasUnit, true);
+                       
                         if (Target != null)
                         {
                             AliasUnit.GetComponent<AIDestinationSetter>().Target = new Vector3((float)Target.GetComponent<PlayerModel_Component>().playerPosition.x,
@@ -64,6 +64,7 @@ public class SummonModule
                         {
                             AliasUnit.GetComponent<AIDestinationSetter>().AI_Switch = false;
                         }
+                        AliasUnit.GetComponent<EnemyAI>().UpdateLogic(Target, frame, AliasUnit, true);
                     }
                     else
                     {
@@ -97,7 +98,7 @@ public class SummonModule
                         GameObject AliasUnit = AliasMonsterList[i].obj;
                         Vector2 AliasPos = new Vector2((float)AliasUnit.GetComponent<MonsterModel_Component>().position.x, (float)AliasUnit.GetComponent<MonsterModel_Component>().position.y);
                         GameObject Target = FindCloseRedTeamPlayer(AliasPos, RoomID);
-                        AliasUnit.GetComponent<EnemyAI>().UpdateLogic(Target, frame, AliasUnit, true);
+                      
                         if (Target != null)
                         {
                             AliasUnit.GetComponent<AIDestinationSetter>().Target = new Vector3((float)Target.GetComponent<PlayerModel_Component>().playerPosition.x,
@@ -109,6 +110,7 @@ public class SummonModule
                         {
                             AliasUnit.GetComponent<AIDestinationSetter>().AI_Switch = false;
                         }
+                        AliasUnit.GetComponent<EnemyAI>().UpdateLogic(Target, frame, AliasUnit, true);
                     }
                     else
                     {
@@ -225,7 +227,7 @@ public class SummonModule
             {
                 continue;
             }
-            if (_pvp._pvpplayer.playerToPlayer[uid].obj.GetComponent<PlayerModel_Component>().dead == 1)
+            if (_pvp._pvpplayer.playerToPlayer[uid].obj.GetComponent<PlayerModel_Component>().dead == 1 || _pvp._pvpplayer.playerToPlayer[uid].obj.GetComponent<PlayerModel_Component>().buff.Invisible)
             {
                 continue;
             }
@@ -253,7 +255,7 @@ public class SummonModule
             {
                 continue;
             }
-            if (_pvp._pvpplayer.playerToPlayer[uid].obj.GetComponent<PlayerModel_Component>().dead == 1)
+            if (_pvp._pvpplayer.playerToPlayer[uid].obj.GetComponent<PlayerModel_Component>().dead == 1 || _pvp._pvpplayer.playerToPlayer[uid].obj.GetComponent<PlayerModel_Component>().buff.Invisible)
             {
                 continue;
             }

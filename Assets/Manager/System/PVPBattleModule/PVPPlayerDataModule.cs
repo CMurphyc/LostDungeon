@@ -20,7 +20,7 @@ public class PVPPlayerDataModule
 
     public GameObject CD1 = null;
     public GameObject CD2 = null;
-
+    public GameObject CD3 = null;
 
     public Dictionary<int, GameObject> playerToRevival = new Dictionary<int, GameObject>();   // 玩家编号对应复活框
     Vector3 Revival_Offset = new Vector3(0, 0.8f, 0);
@@ -116,6 +116,24 @@ public class PVPPlayerDataModule
                 }
                 CD2.GetComponent<Slider>().value = kp;
 
+                if (CD3 == null)
+                {
+                    CD3 = GameObject.Find("SkillStickUI3").transform.GetChild(2).gameObject;
+                    CD3.GetComponent<Slider>().maxValue = 0;
+                }
+
+                kp = p.Value.obj.GetComponent<PlayerModel_Component>().GetCountDown3();
+                if (kp > CD3.GetComponent<Slider>().maxValue)
+                {
+                    CD3.GetComponent<Slider>().maxValue = kp;
+                    CD3.SetActive(true);
+                }
+                if (kp == 0)
+                {
+                    CD3.GetComponent<Slider>().maxValue = kp;
+                    CD3.SetActive(false);
+                }
+                CD3.GetComponent<Slider>().value = kp;
             }
         }
         //复活
@@ -570,6 +588,9 @@ public class PVPPlayerDataModule
                         {
                             if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown3() != 0) break;
                             CharacterType PlayerType = _pvp.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
+
+
+                            Debug.Log("IN Skill3");
 
                             List<int> tmp = new List<int>();
                             tmp.Add(1);

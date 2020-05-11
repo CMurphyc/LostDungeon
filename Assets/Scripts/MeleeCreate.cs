@@ -512,6 +512,12 @@ public class MeleeCreate : MonoBehaviour
 
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill2Range(),
                                                 sys._battle._skill.enginerBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
+
+
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill3Range(),
+                                                sys._battle._skill.enginerBase.Skill3Area(), PlayerObject, sys._battle._skill.enginerBase.skill3Type);
+
                     break;
                 }
             case CharacterType.Magician:
@@ -523,6 +529,8 @@ public class MeleeCreate : MonoBehaviour
                     js2.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill2Range(),
                                                 sys._battle._skill.magicianBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
+
+
                     break;
                 }
             case CharacterType.Warrior:
