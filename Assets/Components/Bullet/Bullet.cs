@@ -74,6 +74,7 @@ public class Bullet
     public CommonCollider collider;
     public GameObject bulletPrefab;
     public GameObject lightningPrefab;
+    public GameObject penetratePrefab;
     public List<bulletType> itemList;
     public List<int> splitEffectList;
     public List<int> attackEffectList;
@@ -112,8 +113,11 @@ public class Bullet
         //预载雷电prefab
         this.lightningPrefab = Resources.Load("Model/Bullet/Prefab/thunder") as GameObject;
 
+        //预载穿刺prefab
+        this.penetratePrefab = Resources.Load("Effects/Prefab/penetrate") as GameObject;
+
         //测试buff用
-        //attackEffectList.Add((int)bulletType.LightningChain);
+        attackEffectList.Add((int)bulletType.Penetrate);
     }
     private void BulletContainerInit()
     {
@@ -579,6 +583,14 @@ public class BulletUnion : BulletBase
         }
 
     }
+    //穿刺特效
+    private void PenetrateEffect(Bullet bullet, GameObject obj)
+    {
+        GameObject penetrate = GameObject.Instantiate(bullet.penetratePrefab);
+        penetrate.transform.parent = obj.transform;
+        penetrate.transform.position = obj.transform.position;
+        UnityEngine.Object.Destroy(penetrate, 0.5f);
+    }
     //穿透
     private void Penetrate(Bullet bullet)
     {
@@ -677,6 +689,7 @@ public class BulletUnion : BulletBase
                             }
                         }
 
+                        if(spwanedBullet[i].active == true) PenetrateEffect(spwanedBullet[i], _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j]);
                         //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
                         break;
                     }
