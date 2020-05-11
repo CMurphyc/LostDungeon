@@ -354,6 +354,23 @@ public class PlayerDataModule
                                                                         .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
                                                 break;
                                             }
+                                        case CharacterType.Ghost:
+                                            {
+                                                bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                                                      (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                                                      AttackVec,
+                                                                      _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                      .GetComponent<PlayerModel_Component>().bulletSpeed
+                                                                      , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                      .GetComponent<PlayerModel_Component>().attackPoint
+                                                                      , Input.RoomID,
+                                                                      _parentManager.sys._battle._skill.ghostBase.bulletObj
+
+                                                                      , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                      .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
+
+                                                break;
+                                            }
                                     }
 
                                     bulletList.Add(bu);
@@ -403,6 +420,20 @@ public class PlayerDataModule
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
                                         break;
                                     }
+                                case CharacterType.Ghost:
+                                    {
+
+
+                                        FixVector2 toward = new FixVector2((Fix64)frameInfo[i].AttackDirectionX / 10000,
+                                            (Fix64)frameInfo[i].AttackDirectionY / 10000
+                                            ) - Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition(); ;
+                                        toward.Normalize();
+                                        int cd = _parentManager._skill.ghostBase.Skill1Logic(frame,
+                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, toward, Input.obj
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
+                                        break;
+                                    }
                                 default:
                                     break;
                             }
@@ -445,6 +476,14 @@ public class PlayerDataModule
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
+                                        break;
+                                    }
+
+                                case CharacterType.Ghost:
+                                    {
+                                        int cd = _parentManager._skill.ghostBase.Skill2Logic( Input.obj
                                             );
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
                                         break;

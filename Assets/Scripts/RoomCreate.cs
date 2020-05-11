@@ -409,8 +409,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
                                                 monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
                                                 monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
-
                                                 monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom,null);
                                                 monsters.Add(monster);
                                             }
@@ -421,8 +421,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
 
                                                 monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
-
                                                 monsters.Add(monster);
 
                                             }
@@ -434,6 +434,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
 
                                                 monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
 
                                                 monsters.Add(monster);
@@ -659,6 +660,17 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 sys._battle._skill.magicianBase.Skill2Area(), PlayerObject);
                     break;
                 }
+            case CharacterType.Ghost:
+                {
+                    GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.ghostBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.ghostBase.Skill1Range(),
+                                                sys._battle._skill.ghostBase.Skill1Area(), PlayerObject);
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.ghostBase.skill2Image;
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.ghostBase.Skill2Range(),
+                                                sys._battle._skill.ghostBase.Skill2Area(), PlayerObject);
+                    break;
+                }
             default:
                 break;
         }
@@ -721,6 +733,35 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     playerToPlayer.Add(uid, data);
                     break;
             }
+
+
+            case CharacterType.Ghost:
+                {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.ghostBase.obj,
+                    new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
+
+                    playerTmp.transform.localScale = new Vector3(3, 3, 1);
+
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.ghostBase.HP,
+                        (Fix64)sys._battle._skill.ghostBase.moveSpeed,
+                        (Fix64)sys._battle._skill.ghostBase.damge,
+                        (Fix64)sys._battle._skill.ghostBase.bulletSpeed,
+                        (Fix64)sys._battle._skill.ghostBase.fireSpeed,
+                        sys._battle._skill.ghostBase.bulletEffect
+                        );
+
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    playerToPlayer.Add(uid, data);
+
+                    break;
+                }
+
+
+
             default:
                 break;
         }

@@ -31,6 +31,8 @@ public class HeroSelectUIEvent : MonoBehaviour
         HeroPanel.transform.Find("btnEngineer").GetComponent<Toggle>().onValueChanged.AddListener(OnHeroEngineer);
         HeroPanel.transform.Find("btnWarrior").GetComponent<Toggle>().onValueChanged.AddListener(OnHeroWarrior);
         HeroPanel.transform.Find("btnMagician").GetComponent<Toggle>().onValueChanged.AddListener(OnHeroMagician);
+
+        HeroPanel.transform.Find("btnGhost").GetComponent<Toggle>().onValueChanged.AddListener(OnHeroGhost);
         HeroPanel.transform.Find("YES").GetComponent<Button>().onClick.AddListener(OnBtnYES);
         HeroPanel.transform.Find("Exit").GetComponent<Button>().onClick.AddListener(OnBtnExitHeroPanel);
 
@@ -54,7 +56,15 @@ public class HeroSelectUIEvent : MonoBehaviour
         HeroSkills.text = "ZLP50 Self-propelled Fort:Unleash a turret and be able to automatically aim at the enemy.\n\nFD71 Missile:Release a missile, causing damage and slowing down the enemy";
         //main.GetComponent<GameMain>().socket.sock_c2s.ChangeCharacter(CharacterType.Enginner);
     }
-
+    public void OnHeroGhost(bool aaa)
+    {
+        which = CharacterType.Ghost;
+        HeroImage.sprite = HeroImageArray[3];
+        HeroName.text = "Ghost";
+        HeroDescription.text = "HP:7 Attack:3 MoveSpeed:5 AttackSpeed:0.7 ";
+        HeroSkills.text = "Shadow Dance:Dash to the Target Position\n\nSilver Bullet:Increasing Attack Damage in a short period";
+        //main.GetComponent<GameMain>().socket.sock_c2s.ChangeCharacter(CharacterType.Enginner);
+    }
     public void OnHeroWarrior(bool aaa)
     {
         /*

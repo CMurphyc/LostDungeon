@@ -158,8 +158,14 @@ public class MapManager : SceneManager
                     Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Magician");
                     Character.GetComponent<Text>().text = "Wizard";
                 }
+
+                else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Ghost)
+                {
+                    Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Ghost");
+                    Character.GetComponent<Text>().text = "Ghost";
+                }
                 //Animation_Prefab.transform.localScale = new Vector3(400, 400, 1);
-      
+
                 //Vector3 WorldPos = Camera.main.ScreenToWorldPoint(Global.PlayerPosList[sys._model._RoomModule.GetPlayerIndex(sys._model._RoomModule.PlayerList[i].uid)]);
                 //Animation_Prefab.transform.position = WorldPos;
 
@@ -188,7 +194,7 @@ public class MapManager : SceneManager
                     Enginner_Instance.transform.position = UIpos;
 
                 }
-
+   
                 Enginner_Instance.transform.localScale = new Vector3(400, 400, 1);
 
 

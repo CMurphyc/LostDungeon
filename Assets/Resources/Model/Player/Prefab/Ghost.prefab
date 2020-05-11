@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6528408752690148078}
   - component: {fileID: 5575275502384624447}
   - component: {fileID: -6093060452263023544}
+  - component: {fileID: -837196254585773652}
+  - component: {fileID: 8638053082529516458}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -69,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2028834293
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 266afc5ebc323c04c8bbeb4f56cd006b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -101,6 +103,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-837196254585773652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875316612900390182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43912778541aa2047aa6840dce66378c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletBuff: 
+  muteki: 0
+  dead: 0
+  revival: 0
+  MaxRevival: 100
+  inDash: 0
+  DashDuration: 0
+--- !u!114 &8638053082529516458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875316612900390182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cddbbb26fe15e8e4b82e63fa5a7decf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6316262726718996600
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,7 +209,7 @@ PrefabInstance:
     - target: {fileID: 3538365547684330919, guid: 0c182ad6b4f729c44b3f9c82fd743d66,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3538365547684330919, guid: 0c182ad6b4f729c44b3f9c82fd743d66,
         type: 3}
