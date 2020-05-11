@@ -83,13 +83,12 @@ public class Capsule
     public Capsule() { }
     public Capsule(FixVector2 anchor , Fix64 radius, Fix64 vertical)
     {
-        anchor.x += vertical;
         anchor.y += vertical;
         this.topCircle = new Circle(anchor, radius);
-        anchor.x -= vertical * 2;
         anchor.y -= vertical * 2;
         this.bottomCircle = new Circle(anchor ,radius);
         //目前没需求碰撞体旋转，所以toward传什么无所谓
+        anchor.y += vertical;
         this.midRect = new Rectangle(anchor, anchor, radius * 2, vertical * 2);
     }
 }
