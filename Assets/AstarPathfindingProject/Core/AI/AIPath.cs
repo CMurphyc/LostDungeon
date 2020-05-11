@@ -46,7 +46,7 @@ namespace Pathfinding
         {
             get
             {
-                return interpolator.valid ? interpolator.remainingDistance + movementPlane.ToPlane(interpolator.position - position).magnitude : float.PositiveInfinity;
+                return interpolator.valid ? interpolator.remainingDistance + (interpolator.position - position).magnitude : float.PositiveInfinity;
             }
         }
 
@@ -55,7 +55,7 @@ namespace Pathfinding
             get
             {
                 if (!reachedEndOfPath) return false;
-                if (remainingDistance + movementPlane.ToPlane(destination - interpolator.endPoint).magnitude > endReachedDistance) return false;
+                if (remainingDistance +(destination - interpolator.endPoint).magnitude > endReachedDistance) return false;
 
                 if (orientation != OrientationMode.YAxisForward)
                 {
@@ -109,16 +109,17 @@ namespace Pathfinding
 
         public void GetRemainingPath(List<Vector3> buffer, out bool stale)
         {
-            buffer.Clear();
-            buffer.Add(position);
-            if (!interpolator.valid)
-            {
-                stale = true;
-                return;
-            }
+            // Debug.Log("GetRemainingPath"); is not being used
+            // buffer.Clear();
+            // buffer.Add(position);
+            // if (!interpolator.valid)
+            // {
+            //     stale = true;
+            //     return;
+            // }
 
             stale = false;
-            interpolator.GetRemainingPath(buffer);
+            // interpolator.GetRemainingPath(buffer);
         }
 
         protected override void OnDisable()
@@ -135,6 +136,7 @@ namespace Pathfinding
         }
         protected override void OnPathComplete(Path newPath)
         {
+            // Debug.Log("OnPathComplete"); is being used
             ABPath p = newPath as ABPath;
 
             if (p == null) throw new System.Exception("This function only handles ABPaths, do not use special path types");
@@ -170,19 +172,21 @@ namespace Pathfinding
             if (distanceToEnd <= endReachedDistance)
             {
                 reachedEndOfPath = true;
-                OnTargetReached();
+                // OnTargetReached();
             }
         }
 
         protected override void ClearPath()
         {
-            CancelCurrentPathRequest();
-            interpolator.SetPath(null);
-            reachedEndOfPath = false;
+            // Debug.Log("ClearPath"); not being used
+            // CancelCurrentPathRequest();
+            // interpolator.SetPath(null);
+            // reachedEndOfPath = false;
         }
 
         protected override void MovementUpdateInternal(float deltaTime, out Vector3 nextPosition, out Quaternion nextRotation)
         {
+            // Debug.Log("MovementUpdateInternal"); is being used
             float currentAcceleration = maxAcceleration;
 
             if (currentAcceleration < 0) currentAcceleration *= -maxSpeed;
@@ -190,13 +194,14 @@ namespace Pathfinding
             if (updatePosition)
             {
                 simulatedPosition = Position;
+                // Debug.Log("monster pos " + Position);
             }
             if (updateRotation) simulatedRotation = Rotation;
 
             var currentPosition = simulatedPosition;
 
             interpolator.MoveToCircleIntersection2D(currentPosition, pickNextWaypointDist, movementPlane);
-            var dir = movementPlane.ToPlane(steeringTarget - currentPosition);
+            var dir = (steeringTarget - currentPosition);
 
             float distanceToEnd = dir.magnitude + Mathf.Max(0, interpolator.remainingDistance);
 
@@ -205,7 +210,7 @@ namespace Pathfinding
             if (!prevTargetReached && reachedEndOfPath) OnTargetReached();
             float slowdown;
 
-            var forwards = movementPlane.ToPlane(simulatedRotation * (orientation == OrientationMode.YAxisForward ? Vector3.up : Vector3.forward));
+            var forwards = (simulatedRotation * (orientation == OrientationMode.YAxisForward ? Vector3.up : Vector3.forward));
 
             if (interpolator.valid && !isStopped)
             {
@@ -228,19 +233,21 @@ namespace Pathfinding
 
             velocity2D = MovementUtilities.ClampVelocity(velocity2D, maxSpeed, slowdown, slowWhenNotFacingTarget && enableRotation, forwards);
 
-            ApplyGravity(deltaTime);
+            // ApplyGravity(deltaTime);
 
 
             // Set how much the agent wants to move during this frame
-            var delta2D = lastDeltaPosition = CalculateDeltaToMoveThisFrame(movementPlane.ToPlane(currentPosition), distanceToEnd, deltaTime);
-            nextPosition = currentPosition + movementPlane.ToWorld(delta2D, verticalVelocity * lastDeltaTime);
+            Vector3 delta2D = lastDeltaPosition = CalculateDeltaToMoveThisFrame((currentPosition), distanceToEnd, deltaTime);
+            nextPosition = currentPosition +(delta2D);
             CalculateNextRotation(slowdown, out nextRotation);
         }
 
         protected virtual void CalculateNextRotation(float slowdown, out Quaternion nextRotation)
         {
+            // Debug.Log("calculateNextRotation"); is being used
             if (lastDeltaTime > 0.00001f && enableRotation)
             {
+                // Debug.Log(Here will not be called or error occur);
                 Vector2 desiredRotationDirection;
                 desiredRotationDirection = velocity2D;
 
@@ -249,81 +256,13 @@ namespace Pathfinding
             }
             else
             {
+                // Debug.Log(Only here will be called);
                 nextRotation = rotation;
             }
         }
 
         static NNConstraint cachedNNConstraint = NNConstraint.Default;
-        protected override Vector3 ClampToNavmesh(Vector3 position, out bool positionChanged)
-        {
-            if (constrainInsideGraph)
-            {
-                cachedNNConstraint.tags = seeker.traversableTags;
-                cachedNNConstraint.graphMask = seeker.graphMask;
-                cachedNNConstraint.distanceXZ = true;
-                var clampedPosition = AstarPath.active.GetNearest(position, cachedNNConstraint).position;
 
-                var difference = movementPlane.ToPlane(clampedPosition - position);
-                float sqrDifference = difference.sqrMagnitude;
-                if (sqrDifference > 0.001f * 0.001f)
-                {
-                    velocity2D -= difference * Vector2.Dot(difference, velocity2D) / sqrDifference;
 
-                    positionChanged = true;
-                    return position + movementPlane.ToWorld(difference);
-                }
-            }
-
-            positionChanged = false;
-            return position;
-        }
-
-#if UNITY_EDITOR
-        [System.NonSerialized]
-        int gizmoHash = 0;
-
-        [System.NonSerialized]
-        float lastChangedTime = float.NegativeInfinity;
-
-        protected static readonly Color GizmoColor = new Color(46.0f / 255, 104.0f / 255, 201.0f / 255);
-
-        protected override void OnDrawGizmos()
-        {
-            base.OnDrawGizmos();
-            if (alwaysDrawGizmos) OnDrawGizmosInternal();
-        }
-
-        protected override void OnDrawGizmosSelected()
-        {
-            base.OnDrawGizmosSelected();
-            if (!alwaysDrawGizmos) OnDrawGizmosInternal();
-        }
-
-        void OnDrawGizmosInternal()
-        {
-            var newGizmoHash = pickNextWaypointDist.GetHashCode() ^ slowdownDistance.GetHashCode() ^ endReachedDistance.GetHashCode();
-
-            if (newGizmoHash != gizmoHash && gizmoHash != 0) lastChangedTime = Time.realtimeSinceStartup;
-            gizmoHash = newGizmoHash;
-            float alpha = alwaysDrawGizmos ? 1 : Mathf.SmoothStep(1, 0, (Time.realtimeSinceStartup - lastChangedTime - 5f) / 0.5f) * (UnityEditor.Selection.gameObjects.Length == 1 ? 1 : 0);
-
-            if (alpha > 0)
-            {
-                if (!alwaysDrawGizmos) UnityEditor.SceneView.RepaintAll();
-                Draw.Gizmos.Line(position, steeringTarget, GizmoColor * new Color(1, 1, 1, alpha));
-                Gizmos.matrix = Matrix4x4.TRS(position, transform.rotation * (orientation == OrientationMode.YAxisForward ? Quaternion.Euler(-90, 0, 0) : Quaternion.identity), Vector3.one);
-                Draw.Gizmos.CircleXZ(Vector3.zero, pickNextWaypointDist, GizmoColor * new Color(1, 1, 1, alpha));
-                Draw.Gizmos.CircleXZ(Vector3.zero, slowdownDistance, Color.Lerp(GizmoColor, Color.red, 0.5f) * new Color(1, 1, 1, alpha));
-                Draw.Gizmos.CircleXZ(Vector3.zero, endReachedDistance, Color.Lerp(GizmoColor, Color.red, 0.8f) * new Color(1, 1, 1, alpha));
-            }
-        }
-#endif
-
-        protected override int OnUpgradeSerializedData(int version, bool unityThread)
-        {
-            base.OnUpgradeSerializedData(version, unityThread);
-            if (version < 1) rotationSpeed *= 90;
-            return 2;
-        }
     }
 }

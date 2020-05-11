@@ -15,6 +15,8 @@ public class BattleUIUpdate : MonoBehaviour
     bl_ProgressBar BossHP;
     int CurrnetUID;
     GameObject HP_bar;
+
+    Dictionary<int, GameObject> Teammate=new Dictionary<int, GameObject>();
     // Start is called before the first frame update
     private void Awake()
     {
@@ -24,33 +26,104 @@ public class BattleUIUpdate : MonoBehaviour
         BossUI = GameObject.Find("Canvas/BossHint");
 
         HP_bar =  GameObject.Find("Canvas/PlayerHPUI");
-
-
-
         BossUI.SetActive(false);
+
+        if (sys._model._RoomListModule.roomType == RoomType.Pvp)
+        {
+            if (sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam() == "RedTeam")
+            {
+                GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "我方";
+                GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "敌方";
+            }
+            else
+            {
+                GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "敌方";
+                GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "我方";
+            }
+        }
     }
     void Start()
     {
 
         Text FloorNum = GameObject.Find("Canvas/Floor/floornum").GetComponent<Text>();
         FloorNum.text = sys._model._RoomModule.MapFloorNumber.ToString();
+
+        GameObject TeammateHP = Resources.Load("UI/UIPrefabs/TeammateHPUI", typeof(GameObject)) as GameObject;
+        List<PlayerData> playerlist = sys._model._RoomModule.PlayerList;
+        for (int i=0,j=0;i< playerlist.Count;i++)
+        {
+            if(playerlist[i].empty==false&&playerlist[i].uid!= sys._model._PlayerModule.uid)
+            {
+                if(sys._model._RoomListModule.roomType==RoomType.Pvp)
+                {
+                    if(sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam()!= sys._pvpbattle._pvpplayer.FindPlayerTeamByUID(playerlist[i].uid))
+                    {
+                        continue;
+                    }
+                }
+                GameObject item=Object.Instantiate(TeammateHP,GameObject.Find("Canvas").transform);
+                item.GetComponent<RectTransform>().anchoredPosition =new Vector2(30,-100)+j*new Vector2(0,-50);
+                item.transform.Find("name").GetComponent<Text>().text = playerlist[i].username;
+                item.transform.Find("Slider").GetComponent<Slider>().value = item.transform.Find("Slider").GetComponent<Slider>().maxValue;
+                switch (playerlist[i].type)
+                {
+                    case CharacterType.Enginner:
+                        item.transform.Find("Image").GetComponent<Image>().sprite =
+                        Instantiate(Resources.Load("Model/Player/Sprites/Engineer/c06_s1_4", typeof(Sprite))) as Sprite;
+                        break;
+                    case CharacterType.Magician:
+                        item.transform.Find("Image").GetComponent<Image>().sprite =
+                        Instantiate(Resources.Load("Model/Player/Sprites/Magician/c03_4", typeof(Sprite))) as Sprite;
+                        break;
+                    case CharacterType.Warrior:
+                        item.transform.Find("Image").GetComponent<Image>().sprite =
+                        Instantiate(Resources.Load("Model/Player/Sprites/Guardian/c08_s2_4", typeof(Sprite))) as Sprite;
+                        break;
+                }
+                Teammate.Add(playerlist[i].uid,item);
+                j++;
+            }
+        }
+
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (sys._battle._player.playerToPlayer.ContainsKey(CurrnetUID))
+        switch(sys._model._RoomListModule.roomType)
         {
-            PlayerInGameData data = sys._battle._player.playerToPlayer[CurrnetUID];
-
-            HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/"+ data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
-
-            HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
-
+            case RoomType.Pve:
+                UpdatePVE();
+                break;
+            case RoomType.Pvp:
+                UpdatePVP();
+                break;
         }
-      
-  
-
-
+    }
+    void UpdatePVE()
+    {
+        PlayerInGameData data = sys._battle._player.playerToPlayer[CurrnetUID];
+        HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/" + data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
+        HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
+        foreach (var i in Teammate)
+        {
+            GameObject pler = sys._battle._player.FindPlayerObjByUID(i.Key);
+            i.Value.transform.Find("Slider").GetComponent<Slider>().value =
+                pler.GetComponent<PlayerModel_Component>().healthPoint * 1.0f / pler.GetComponent<PlayerModel_Component>().fullHealthPoint;
+        }
+    }
+    void UpdatePVP()
+    {
+        PlayerInGameData data = sys._pvpbattle._pvpplayer.playerToPlayer[CurrnetUID];
+        HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/" + data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
+        HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
+        foreach (var i in Teammate)
+        {
+            GameObject pler = sys._pvpbattle._pvpplayer.FindPlayerObjByUID(i.Key);
+            i.Value.transform.Find("Slider").GetComponent<Slider>().value =
+                pler.GetComponent<PlayerModel_Component>().healthPoint * 1.0f / pler.GetComponent<PlayerModel_Component>().fullHealthPoint;
+        }
     }
 }

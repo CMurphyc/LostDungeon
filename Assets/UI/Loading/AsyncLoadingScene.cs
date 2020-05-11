@@ -15,15 +15,24 @@ public class AsyncLoadingScene : MonoBehaviour {
     private float currentProgress;
     private GameObject main;
     private AsyncOperation operation;
-    
+
     void Start()
     {
-        
+
         loadingProgressSlider = GameObject.Find("Canvas/LoadingProgressSlider").GetComponent<Slider>();
         loadingprogressText = GameObject.Find("Canvas/LoadingprogressText").GetComponent<Text>();
         main = GameObject.FindWithTag("GameEntry");
         main.GetComponent<GameMain>().WorldSystem.ResetBattle();
-        StartLoadingScene("MapCreate");
+        main.GetComponent<GameMain>().WorldSystem.ResetBattle();
+        switch (GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
+        {
+            case RoomType.Pve:
+                StartLoadingScene("MapCreate");
+                break;
+            case RoomType.Pvp:
+                StartLoadingScene("Melee");
+                break;
+        }
     }
 
     

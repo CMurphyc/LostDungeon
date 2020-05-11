@@ -30,30 +30,58 @@ public class EventListener : MonoBehaviour
         BattleFrame synPack = (BattleFrame)eb.eventValue;
         if (synPack.Error == 0)
         {
-            //Debug.Log("SynPack");
-            // 缓存帧信息
-            main.GetComponent<GameMain>().WorldSystem._battle.SeverFrame = synPack.FrameNumber;
-            main.GetComponent<GameMain>().WorldSystem._battle.Seed = synPack.RandomCode;
-
-            //Debug.Log("Sever Frame: "+ synPack.FrameNumber);
-            //Debug.Log("Seed: " + synPack.RandomCode);
             List<BattleInput> Inputs = new List<BattleInput>();
-            for (int i = 0; i <synPack.BattleInputs.Count;i++)
+            for (int i = 0; i < synPack.BattleInputs.Count; i++)
             {
                 Inputs.Add(synPack.BattleInputs[i]);
             }
-            main.GetComponent<GameMain>().WorldSystem._battle._player.frameInfo = Inputs;
-            main.GetComponent<GameMain>().WorldSystem._battle.UpdateFrame();
-        
-            main.GetComponent<GameMain>().socket.sock_c2s.BattleSynC2S(main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Ljoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type);
-
             AttackType temp = main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type;
-            if (temp == AttackType.Skill1 || temp == AttackType.Skill2 || temp == AttackType.Pick)
+
+            switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
             {
-                //Debug.Log("Reset JoyStick");
-                main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick = Vector3.zero;
-                main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type = AttackType.BasicAttack;
-            }
+                case RoomType.Pve:
+                    //Debug.Log("SynPack");
+                    // 缓存帧信息
+                    main.GetComponent<GameMain>().WorldSystem._battle.SeverFrame = synPack.FrameNumber;
+                    main.GetComponent<GameMain>().WorldSystem._battle.Seed = synPack.RandomCode;
+
+                    //Debug.Log("Sever Frame: "+ synPack.FrameNumber);
+                    //Debug.Log("Seed: " + synPack.RandomCode);
+
+                    main.GetComponent<GameMain>().WorldSystem._battle._player.frameInfo = Inputs;
+                    main.GetComponent<GameMain>().WorldSystem._battle.UpdateFrame();
+
+                    main.GetComponent<GameMain>().socket.sock_c2s.BattleSynC2S(main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Ljoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type);
+
+                    
+                    if (temp == AttackType.Skill1 || temp == AttackType.Skill2 || temp == AttackType.Pick || temp == AttackType.Skill3)
+                    {
+                        //Debug.Log("Reset JoyStick");
+                        main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick = Vector3.zero;
+                        main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type = AttackType.BasicAttack;
+                    }
+                    break;
+                case RoomType.Pvp:
+                    //Debug.Log("SynPack");
+                    // 缓存帧信息
+                    main.GetComponent<GameMain>().WorldSystem._pvpbattle.SeverFrame = synPack.FrameNumber;
+                    main.GetComponent<GameMain>().WorldSystem._pvpbattle.Seed = synPack.RandomCode;
+
+                    //Debug.Log("Sever Frame: "+ synPack.FrameNumber);
+                    //Debug.Log("Seed: " + synPack.RandomCode);
+                    main.GetComponent<GameMain>().WorldSystem._pvpbattle._pvpplayer.frameInfo = Inputs;
+                    main.GetComponent<GameMain>().WorldSystem._pvpbattle.UpdateFrame();
+
+                    main.GetComponent<GameMain>().socket.sock_c2s.BattleSynC2S(main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Ljoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type);
+                    if (temp == AttackType.Skill1 || temp == AttackType.Skill2 || temp == AttackType.Pick || temp == AttackType.Skill3)
+                    {
+                        //Debug.Log("Reset JoyStick");
+                        main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick = Vector3.zero;
+                        main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type = AttackType.BasicAttack;
+                    }
+                    break;
+            } 
+            
 
         }
     }
@@ -124,14 +152,30 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomid = synPack.RoomId;
 
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomOwnerID = synPack.RoomOwnerId;
-           
-            for (int i = 0; i < synPack.PlayersInfo.Count;i++)
+            Debug.LogError(synPack.PlayersInfo.Count);
+            for (int i = 0; i < synPack.PlayersInfo.Count; i++)
             {
-                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.Add_Player(synPack.PlayersInfo[i]);
+                switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
+                {
+                    case RoomType.Pve:
+                        main.GetComponent<GameMain>().WorldSystem._model._RoomModule.Add_Player(synPack.PlayersInfo[i]);
+                        break;
+                    case RoomType.Pvp:
+                        main.GetComponent<GameMain>().WorldSystem._model._RoomModule.Add_Player(synPack.PlayersInfo[i]);
+                        break;
+                }
             }
 
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.NeedUpdate = true;
-            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect");
+            switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
+            {
+                case RoomType.Pve:
+                    main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect");
+                    break;
+                case RoomType.Pvp:
+                    main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect2");
+                    break;
+            }
         }
         else
         {
@@ -151,8 +195,6 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.uid = temp.Uid;
             main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.nickname = temp.UserName;
             main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main");
-
-           
         }
        
 
@@ -237,7 +279,16 @@ public class EventListener : MonoBehaviour
             {
                 Debug.Log("游戏结束了");
                 main.GetComponent<GameMain>().WorldSystem._model._RoomModule.isOver = true;
-                main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Overview");
+                switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
+                {
+                    case RoomType.Pve:
+                        main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Overview");
+                        break;
+                    case RoomType.Pvp:
+                        main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main2");
+                        break;
+                }
+                
 
                 //清除背包数据
                 main.GetComponent<GameMain>().WorldSystem._model._BagModule.Free();

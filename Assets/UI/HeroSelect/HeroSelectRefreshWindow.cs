@@ -21,7 +21,16 @@ public class HeroSelectRefreshWindow : MonoBehaviour
     public void RefreshWindow()
     {
         main.GetComponent<GameMain>().WorldSystem._model._RoomModule.NeedUpdate = false;
-        main.GetComponent<GameMain>().WorldSystem._map.RefreshRoomInfo();
+        switch(main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
+        {
+            case RoomType.Pve:
+                main.GetComponent<GameMain>().WorldSystem._map.PVE_RefreshRoomInfo();
+                break;
+            case RoomType.Pvp:
+                main.GetComponent<GameMain>().WorldSystem._map.PVP_RefreshRoomInfo();
+                break;
+        }
+        
      
     }
 

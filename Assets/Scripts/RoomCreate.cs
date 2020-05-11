@@ -105,7 +105,6 @@ public class RoomCreate : MonoBehaviour
         UploadPropAttr();
 
         int playerNum = sys._model._RoomModule.GetPlayerSize();
-        playerNum = 2;
 
         int seed = sys._model._RoomModule.MapSeed;
         Random.InitState(seed);
@@ -142,6 +141,30 @@ public class RoomCreate : MonoBehaviour
             if (!PlayerList[i].empty)
             {
                 CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
+                GameObject tplayer = sys._battle._player.playerToPlayer[PlayerList[i].uid].obj;
+
+                if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
+
+                foreach(var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
+                {
+                    for (int j = 0; j < x.ItemNumber; j++)
+                        tplayer.GetComponent<PlayerModel_Component>().Change(
+                            sys._battle._chest.propToProperty[x.ItemID].changefullHP,
+                            sys._battle._chest.propToProperty[x.ItemID].changeHP,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletFrequency,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletSpeed,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeDamage,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed,
+                            sys._battle._chest.propToProperty[x.ItemID].bulletType
+                            );
+
+                    Debug.Log("bbbbbbb"+x.ItemID);
+                }
+                if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+
+
+
             }
         }
 
@@ -183,9 +206,9 @@ public class RoomCreate : MonoBehaviour
                 break;
             }
         }
-}
+    }
 
-void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
+    void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
 
         // 根据传入的矩阵生成整体房间地图
@@ -385,8 +408,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
                                                 monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
                                                 monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
-
                                                 monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom,null);
                                                 monsters.Add(monster);
                                             }
@@ -397,8 +420,8 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
 
                                                 monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
-
                                                 monsters.Add(monster);
 
                                             }
@@ -410,6 +433,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                                                 monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
 
                                                 monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
 
                                                 monsters.Add(monster);
@@ -608,7 +632,7 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
         int PlayerUID = sys._model._PlayerModule.uid;
         CharacterType PlayerType = sys._model._RoomModule.GetCharacterType(PlayerUID);
 
-        GameObject js1 = GameObject.Find("SkillStickUI1"), js2=GameObject.Find("SkillStickUI2");
+        GameObject js1 = GameObject.Find("SkillStickUI1"), js2=GameObject.Find("SkillStickUI2"),js3 = GameObject.Find("SkillStickUI3");
 
         switch (PlayerType)
         {
@@ -617,11 +641,16 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
                     js1.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill1Image;
                     js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill1Range(),
-                                                sys._battle._skill.enginerBase.Skill1Area(), PlayerObject);
-                    js2.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill2Image;
+                                                sys._battle._skill.enginerBase.Skill1Area(), PlayerObject,sys._battle._skill.enginerBase.skill1Type);
 
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill2Range(),
-                                                sys._battle._skill.enginerBase.Skill2Area(), PlayerObject);
+                                                sys._battle._skill.enginerBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill2Type);
+
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill3Range(),
+                                                sys._battle._skill.enginerBase.Skill3Area(), PlayerObject, sys._battle._skill.enginerBase.skill3Type);
+
                     break;
                 }
             case CharacterType.Magician:
@@ -629,10 +658,36 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
                     js1.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill1Image;
                     js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill1Range(),
-                                                sys._battle._skill.magicianBase.Skill1Area(), PlayerObject);
+                                                sys._battle._skill.magicianBase.Skill1Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
                     js2.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill2Range(),
-                                                sys._battle._skill.magicianBase.Skill2Area(), PlayerObject);
+                                                sys._battle._skill.magicianBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill2Type);
+                    break;
+                }
+            case CharacterType.Warrior:
+                {
+                    GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill1Range(),
+                                                sys._battle._skill.guardianBase.Skill1Area(), PlayerObject, sys._battle._skill.guardianBase.skill1Type);
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill2Image;
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill2Range(),
+                                                sys._battle._skill.guardianBase.Skill2Area(), PlayerObject, sys._battle._skill.guardianBase.skill2Type);
+                    break;
+                }
+            case CharacterType.Ghost:
+                {
+                    GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.ghostBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.ghostBase.Skill1Range(),
+                                                sys._battle._skill.ghostBase.Skill1Area(), PlayerObject, sys._battle._skill.ghostBase.skill1Type);
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.ghostBase.skill2Image;
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.ghostBase.Skill2Range(),
+                                                sys._battle._skill.ghostBase.Skill2Area(), PlayerObject, sys._battle._skill.ghostBase.skill2Type);
+
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.ghostBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.ghostBase.Skill3Range(),
+                                                sys._battle._skill.ghostBase.Skill3Area(), PlayerObject, sys._battle._skill.ghostBase.skill3Type);
                     break;
                 }
             default:
@@ -697,6 +752,59 @@ void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
                     playerToPlayer.Add(uid, data);
                     break;
             }
+
+
+
+            case CharacterType.Ghost:
+                {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.ghostBase.obj,
+                        new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
+
+                    playerTmp.transform.localScale = new Vector3(3, 3, 1);
+
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.ghostBase.HP,
+                       (Fix64)sys._battle._skill.ghostBase.moveSpeed,
+                       (Fix64)sys._battle._skill.ghostBase.damge,
+                       (Fix64)sys._battle._skill.ghostBase.bulletSpeed,
+                       (Fix64)sys._battle._skill.ghostBase.fireSpeed,
+                       sys._battle._skill.ghostBase.bulletEffect);
+
+                        playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    playerToPlayer.Add(uid, data);
+                    break;
+                }
+
+            case CharacterType.Warrior:
+                {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.guardianBase.obj,
+
+                    new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
+
+                    playerTmp.transform.localScale = new Vector3(3, 3, 1);
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.guardianBase.HP,
+                        (Fix64)sys._battle._skill.guardianBase.moveSpeed,
+                        (Fix64)sys._battle._skill.guardianBase.damge,
+                        (Fix64)sys._battle._skill.guardianBase.bulletSpeed,
+                        (Fix64)sys._battle._skill.guardianBase.fireSpeed,
+                        sys._battle._skill.guardianBase.bulletEffect
+
+                        );
+
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    playerToPlayer.Add(uid, data);
+
+
+                    break;
+                }
+
             default:
                 break;
         }

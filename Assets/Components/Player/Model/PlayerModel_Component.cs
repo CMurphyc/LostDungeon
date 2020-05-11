@@ -8,6 +8,8 @@ public class PlayerModel_Component : MonoBehaviour
     public int fullHealthPoint { get; set; }           // 玩家血量
     public int healthPoint { get; set; }                //玩家现在的血量
     public Fix64 playerSpeed { get; set; }           // 玩家移动速度
+
+    public Fix64 BuffattackPoint { get; set; }           // 玩家Buff变更攻击力
     public Fix64 attackPoint { get; set; }           // 玩家攻击力
     public Fix64 shootSpeed { get; set; }           //射击速度 就是间隔  1/0.5*20 40
     public int countDown1 { get; set; }                 //技能1倒计时
@@ -22,22 +24,31 @@ public class PlayerModel_Component : MonoBehaviour
     public FixVector2 weaponPosition { get; set; }   // 武器位置
     public FixVector2 weaponRotation { get; set; }   // 武器朝向
 
-    public List<int> bulletBuff = new List<int>();
+    public List<bulletType> bulletBuff = new List<bulletType>();
 
     public DeBuff debuff = new DeBuff();
+    public Buff buff = new Buff();
 
     public int muteki;
 
     public int dead;
 
+
     public int revival;
     public int MaxRevival=100;
+
+
+    //dash Skill
+    public bool inDash=false;
+    public int DashDuration;
+    public FixVector2 DashToward = new FixVector2();
+
     //void Awake()
     //{
     //    //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
     //    playerPosition = new FixVector2((Fix64)transform.position.x, (Fix64)transform.position.y);
     //}
-    public void Init(int FullHealthPoint,Fix64 PlayerSpeed,Fix64 AttackPoint,Fix64 BulletSpeed,Fix64 ShootSpeed,List<int> BulletBuff)
+    public void Init(int FullHealthPoint,Fix64 PlayerSpeed,Fix64 AttackPoint,Fix64 BulletSpeed,Fix64 ShootSpeed,List<bulletType> BulletBuff)
     {
         muteki = 0;
         dead = 0;
@@ -76,10 +87,50 @@ public class PlayerModel_Component : MonoBehaviour
         if (healthPoint == 0) dead = 1;
         else dead = 0;
 
+        if (DashDuration>0)
+        {
+            DashDuration--;
+        }
+        else
+        {
+            inDash = false;
+        }
+
+
+        UpdateBuff();
+     
 
     }
+    private void UpdateBuff()
+    {
+        if (buff.AttackIncrease_RemainingFrame>0)
+        {
+            buff.AttackIncrease_RemainingFrame--;
+        }
+        else
+        {
+            if (buff.AttackIncrease)
+            {
+                attackPoint -= BuffattackPoint;
+            }
 
-    public void Change(int fullHP,int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed)
+            buff.AttackIncrease = false;
+
+         
+        }
+
+        if (buff.Invisible_RemainingFrame > 0)
+        {
+            buff.Invisible_RemainingFrame--;
+        }
+        else
+        {
+            buff.Invisible = false;
+        }
+    }
+
+
+    public void Change(int fullHP,int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed,List<bulletType> buff)
     {
         fullHealthPoint += fullHP;
         healthPoint += HP;
@@ -88,6 +139,10 @@ public class PlayerModel_Component : MonoBehaviour
         bulletSpeed = bulletSpeed * BulletSpeed;
         attackPoint = attackPoint * AttackPoint;
         playerSpeed = playerSpeed * PlayerSpeed;
+        foreach(var x in buff)
+        {
+            bulletBuff.Add(x);
+        }
     }
 
 
@@ -176,12 +231,12 @@ public class PlayerModel_Component : MonoBehaviour
         countDown3 = p;
     }
 
-    public List<int> GetBulletBuff()
+    public List<bulletType> GetBulletBuff()
     {
         return bulletBuff;
     }
 
-    public void SetBulletBuff(List<int> x)
+    public void SetBulletBuff(List<bulletType> x)
     {
         bulletBuff = x;
     }

@@ -15,9 +15,9 @@ MonoBehaviour:
   name: 
   obj: {fileID: 5528144218637167087, guid: 38290e90198553148a604b45f209865e, type: 3}
   HP: 100
-  moveSpeed: 1
-  damge: 20
-  bulletSpeed: 2
+  moveSpeed: 1.3
+  damge: 1
+  bulletSpeed: 0.5
   fireSpeed: 1
   bulletEffect: 
   bulletObj: {fileID: 1448932100947966840, guid: 55ab81b59c7565c41b28d2334af496fb,
@@ -45,5 +45,17 @@ MonoBehaviour:
     type: 3}
   effectGernadeExplosion: {fileID: 5222915115001505754, guid: 3e051832b902f3a499e26b248c52715b,
     type: 3}
-  skill1Image: {fileID: 21300000, guid: 3f727b5fdcde3874d85549bcc6289997, type: 3}
-  skill2Image: {fileID: 21300000, guid: da92608db3625d348a34ad8245cd1095, type: 3}
+  effectRocket: {fileID: 3427264194593554196, guid: 8a553dff82c8f9643bde3849bf04dca4,
+    type: 3}
+  radiusSkill3: 3
+  speedSkill3: 1.5
+  damageSkill3: 20
+  rangeSkill3: 10
+  areaSkill3: 0.5
+  countdownSkill3: 8
+  skill1Image: {fileID: 21300000, guid: 70a274724e264ee448c3f74dcd38de44, type: 3}
+  skill2Image: {fileID: 21300000, guid: 00e2461f1701ae140aa610cafea9e9c8, type: 3}
+  skill3Image: {fileID: 21300000, guid: 4d3c4c192f185754c9da636360b037a3, type: 3}
+  skill1Type: 3
+  skill2Type: 3
+  skill3Type: 1

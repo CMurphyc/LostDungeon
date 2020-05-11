@@ -12,7 +12,7 @@ public class SkillBase
     public int frame;                   //生效帧
     public int DmgSrcPlayerUID;                     //技能释放人ID
 
-    public SkillBase(int Tag,int Damage,FixVector2 Center,Fix64 Radius,int ControlTime,int Frame,int dmgsrc=0)
+    public SkillBase(int Tag,int Damage,FixVector2 Center,Fix64 Radius,int ControlTime,int Frame,int dmgsrc)
     {
         tag = Tag;
         damage = Damage;

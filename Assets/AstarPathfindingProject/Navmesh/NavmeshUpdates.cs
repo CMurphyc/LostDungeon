@@ -48,7 +48,7 @@ namespace Pathfinding {
 			public NavmeshUpdateSettings(NavmeshBase graph) {}
 			public void OnRecalculatedTiles (NavmeshTile[] tiles) {}
 		}
-		internal void Update () {}
+		internal void FixedUpdate () {}
 		internal void OnEnable () {}
 		internal void OnDisable () {}
 	}

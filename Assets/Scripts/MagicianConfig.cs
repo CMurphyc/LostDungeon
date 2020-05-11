@@ -24,6 +24,10 @@ public class MagicianConfig : BaseConfig
     public GameObject effectThunder;        //雷特效
     public Sprite skill1Image;
     public Sprite skill2Image;
+    public Sprite skill3Image;
 
+    public SkillAreaType skill1Type;
+    public SkillAreaType skill2Type;
+    public SkillAreaType skill3Type;
 }
 

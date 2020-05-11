@@ -34,6 +34,7 @@ public class MeleeCreate : MonoBehaviour
 
     public Dictionary<int, List<int>> roomToDoor = new Dictionary<int, List<int>>();   // 房间号对应的门列表
     public Dictionary<int, GameObject> doornumToDoor = new Dictionary<int, GameObject>();   // 门号对应门的实体
+    public Dictionary<int, DoorData> doorToDoor=new Dictionary<int, DoorData>();   // 一个编号的门传送到的另一个门的编号
     public Dictionary<int, int> doorToRoom = new Dictionary<int, int>();   // 一个编号的门对应的房间编号
 
     public Dictionary<int, List<GameObject>> roomToMonster;   // 房间号对应的怪物列表
@@ -43,10 +44,20 @@ public class MeleeCreate : MonoBehaviour
     private int birthX;
     private int birthY;
 
-
+    SystemManager sys;
+    void Awake()
+    {
+        sys = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem;
+    }
     // Start is called before the first frame update
     void Start()
     {
+        roomToStone = sys._pvpbattle._pvpterrain.roomToStone;
+        roomToDoor = sys._pvpbattle._pvpterrain.roomToDoor;
+        doorToDoor = sys._pvpbattle._pvpterrain.doorToDoor;
+        doornumToDoor = sys._pvpbattle._pvpterrain.doornumToDoor;
+        doorToRoom = sys._pvpbattle._pvpterrain.doorToRoom;
+
 
         int playerNum = 2;
 
@@ -65,8 +76,65 @@ public class MeleeCreate : MonoBehaviour
             { 1, 1, 3, 3, 1 },
             { 9, 11, 0, 9, 13 }
         };
-        MakeGraph(array, h, d, playerNum, floorNum, 0);
 
+        MakeGraph(array, h, d, playerNum, floorNum);
+        List<PlayerData> PlayerList = sys._model._RoomModule.PlayerList;
+        for (int i = 0; i < PlayerList.Count; i++)
+        {
+            if (!PlayerList[i].empty)
+            {
+                if(i<1)
+                {
+                    birthX = 0;
+                    birthY = 0;
+                    startRoom = 1;
+
+                }
+                else
+                {
+                    birthX = 4;
+                    birthY = 4;
+                    startRoom = 19;
+                }
+                CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
+                GameObject tplayer = sys._pvpbattle._pvpplayer.playerToPlayer[PlayerList[i].uid].obj;
+                if(i<1)
+                {
+                    sys._pvpbattle._pvpplayer.RedTeam.Add(PlayerList[i].uid);
+                }
+                else
+                {
+                    sys._pvpbattle._pvpplayer.BlueTeam.Add(PlayerList[i].uid);
+                }
+                if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
+
+                foreach (var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
+                {
+                    for (int j = 0; j < x.ItemNumber; j++)
+                        tplayer.GetComponent<PlayerModel_Component>().Change(
+                            sys._battle._chest.propToProperty[x.ItemID].changefullHP,
+                            sys._battle._chest.propToProperty[x.ItemID].changeHP,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletFrequency,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletSpeed,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeDamage,
+                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed,
+                            sys._battle._chest.propToProperty[x.ItemID].bulletType
+                            );
+
+                    Debug.Log("bbbbbbb" + x.ItemID);
+                }
+                if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+            }
+        }
+        ChangeSkillIcon();
+
+
+        //地形初始化
+        sys._pvpbattle._pvpterrain.roomToStone = roomToStone;
+        sys._pvpbattle._pvpterrain.roomToDoor = roomToDoor;
+        sys._pvpbattle._pvpterrain.doornumToDoor = doornumToDoor;
+        sys._pvpbattle._pvpterrain.doorToRoom = doorToRoom;
 
         //AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
         //AStar.data.gridGraph.Width = (int)(GetRightTop().x - GetLeftBottom().x +1);
@@ -78,11 +146,18 @@ public class MeleeCreate : MonoBehaviour
         //Debug.Log(AStar.data.gridGraph.center);
         //AStar.Scan();
 
-
-
+        //初始化相机
+        for (int i = 0; i < PlayerList.Count; i++)
+        {
+            if (!PlayerList[i].empty && PlayerList[i].uid == sys._model._PlayerModule.uid)
+            {
+                Camera.main.GetComponent<CameraController>().SetTarget(sys._pvpbattle._pvpplayer.playerToPlayer[PlayerList[i].uid].obj);
+                break;
+            }
+        }
     }
 
-    void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum, int team)
+    void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
 
         // 根据传入的矩阵生成整体房间地图
@@ -130,6 +205,7 @@ public class MeleeCreate : MonoBehaviour
                     if (map[i, j] == 9)  // 游戏
                     {
                         room = Instantiate(GameRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Game
+                        sys._pvpbattle._score.AddRoom(nowRoom);
                     }
                     else if (map[i, j] == 11)  // 宝箱
                     {
@@ -139,6 +215,7 @@ public class MeleeCreate : MonoBehaviour
                     else  // 普通
                     {
                         room = Instantiate(NormalRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Normal
+                        /*
                         if (map[i, j] == 12 + team)  // 出生点
                         {
                             //  确定出生点的 x y 值
@@ -153,6 +230,7 @@ public class MeleeCreate : MonoBehaviour
                         {
                             // terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         }
+                        */
                     }
                     roomTag[i, j] = nowRoom;
                 }
@@ -208,6 +286,8 @@ public class MeleeCreate : MonoBehaviour
                 // roomToStone.Add(nowRoom, stones);
                 // Debug.Log(monsters.Count);
                 // roomToMonster.Add(nowRoom, monsters);
+                roomToStone.Add(nowRoom, stones);
+                // Debug.Log(treasures.Count);
 
 
             }
@@ -248,6 +328,9 @@ public class MeleeCreate : MonoBehaviour
                     //  门号对应的门实体
                     doornumToDoor.Add(nowDoor, door1);
                     doornumToDoor.Add(nowDoor + 1, door2);
+                    //  门号对应的另一个门号与传送位置
+                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + Vector3.down));
+                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + Vector3.up));
                     //  对应房间号添加门号
                     roomToDoorTmp[roomTag[i, j] - 1].Add(nowDoor);
                     roomToDoorTmp[roomTag[i + 1, j] - 1].Add(nowDoor + 1);
@@ -282,6 +365,9 @@ public class MeleeCreate : MonoBehaviour
                     //  门号对应的门实体
                     doornumToDoor.Add(nowDoor, door1);
                     doornumToDoor.Add(nowDoor + 1, door2);
+
+                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + Vector3.right));
+                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + Vector3.left));
                     //  对应房间号添加门号
                     roomToDoorTmp[roomTag[i, j] - 1].Add(nowDoor);
                     roomToDoorTmp[roomTag[i, j + 1] - 1].Add(nowDoor + 1);
@@ -299,6 +385,187 @@ public class MeleeCreate : MonoBehaviour
 
 
     }
+    public void CreatePlayer(int playerNum, int uid, CharacterType type)
+    {
+        FixVector2 SpwanPos = new FixVector2((Fix64)xOffset * birthY + startPosition[playerNum * 2], (Fix64)yOffset * birthX + startPosition[playerNum * 2 + 1]);
+        //  创建玩家实体并根据玩家编号来决定出生位置
+        switch (type)
+        {
+            case CharacterType.Enginner:
+                {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.enginerBase.obj,
+                    new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
 
+                    playerTmp.transform.localScale = new Vector3(3, 3, 1);
+
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.enginerBase.HP,
+                        (Fix64)sys._battle._skill.enginerBase.moveSpeed,
+                        (Fix64)sys._battle._skill.enginerBase.damge,
+                        (Fix64)sys._battle._skill.enginerBase.bulletSpeed,
+                        (Fix64)sys._battle._skill.enginerBase.fireSpeed,
+                        sys._battle._skill.enginerBase.bulletEffect
+                        );
+
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
+                    sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
+                    break;
+                }
+            case CharacterType.Magician:
+                {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.magicianBase.obj,
+                    new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
+
+                    playerTmp.transform.localScale = new Vector3(3, 3, 1);
+
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.magicianBase.HP,
+                        (Fix64)sys._battle._skill.magicianBase.moveSpeed,
+                        (Fix64)sys._battle._skill.magicianBase.damge,
+                        (Fix64)sys._battle._skill.magicianBase.bulletSpeed,
+                        (Fix64)sys._battle._skill.magicianBase.fireSpeed,
+                        sys._battle._skill.magicianBase.bulletEffect
+                        );
+
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
+                    sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
+                    break;
+                }
+            case CharacterType.Ghost:
+                {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.ghostBase.obj,
+                        new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
+
+                    playerTmp.transform.localScale = new Vector3(3, 3, 1);
+
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.ghostBase.HP,
+                       (Fix64)sys._battle._skill.ghostBase.moveSpeed,
+                       (Fix64)sys._battle._skill.ghostBase.damge,
+                       (Fix64)sys._battle._skill.ghostBase.bulletSpeed,
+                       (Fix64)sys._battle._skill.ghostBase.fireSpeed,
+                       sys._battle._skill.ghostBase.bulletEffect);
+
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
+                    sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
+                    break;
+                }
+
+            case CharacterType.Warrior:
+                {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.guardianBase.obj,
+
+                    new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
+
+                    playerTmp.transform.localScale = new Vector3(3, 3, 1);
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.guardianBase.HP,
+                        (Fix64)sys._battle._skill.guardianBase.moveSpeed,
+                        (Fix64)sys._battle._skill.guardianBase.damge,
+                        (Fix64)sys._battle._skill.guardianBase.bulletSpeed,
+                        (Fix64)sys._battle._skill.guardianBase.fireSpeed,
+                        sys._battle._skill.guardianBase.bulletEffect
+
+                        );
+
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
+                    sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
+
+                    break;
+                }
+            default:
+                break;
+        }
+    }
+    public void ChangeSkillIcon()
+    {
+        int PlayerUID = sys._model._PlayerModule.uid;
+        CharacterType PlayerType = sys._model._RoomModule.GetCharacterType(PlayerUID);
+
+        GameObject js1 = GameObject.Find("SkillStickUI1"), js2 = GameObject.Find("SkillStickUI2"), js3 = GameObject.Find("SkillStickUI3");
+
+        switch (PlayerType)
+        {
+            case CharacterType.Enginner:
+                {
+                    GameObject PlayerObject = sys._pvpbattle._pvpplayer.FindPlayerObjByUID(PlayerUID);
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill1Range(),
+                                                sys._battle._skill.enginerBase.Skill1Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill2Image;
+
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill2Range(),
+                                                sys._battle._skill.enginerBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
+
+
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill3Range(),
+                                                sys._battle._skill.enginerBase.Skill3Area(), PlayerObject, sys._battle._skill.enginerBase.skill3Type);
+
+                    break;
+                }
+            case CharacterType.Magician:
+                {
+                    GameObject PlayerObject = sys._pvpbattle._pvpplayer.FindPlayerObjByUID(PlayerUID);
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill1Range(),
+                                                sys._battle._skill.magicianBase.Skill1Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill2Image;
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill2Range(),
+                                                sys._battle._skill.magicianBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
+
+
+                    break;
+                }
+            case CharacterType.Warrior:
+                {
+                    GameObject PlayerObject = sys._pvpbattle._pvpplayer.FindPlayerObjByUID(PlayerUID);
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill1Range(),
+                                                sys._battle._skill.guardianBase.Skill1Area(), PlayerObject, sys._battle._skill.guardianBase.skill1Type);
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill2Image;
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill2Range(),
+                                                sys._battle._skill.guardianBase.Skill2Area(), PlayerObject, sys._battle._skill.guardianBase.skill2Type);
+                    break;
+                }
+            case CharacterType.Ghost:
+                {
+                    GameObject PlayerObject = sys._pvpbattle._pvpplayer.FindPlayerObjByUID(PlayerUID);
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.ghostBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.ghostBase.Skill1Range(),
+                                                sys._battle._skill.ghostBase.Skill1Area(), PlayerObject, sys._battle._skill.ghostBase.skill1Type);
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.ghostBase.skill2Image;
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.ghostBase.Skill2Range(),
+                                                sys._battle._skill.ghostBase.Skill2Area(), PlayerObject, sys._battle._skill.ghostBase.skill2Type);
+
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.ghostBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.ghostBase.Skill3Range(),
+                                                sys._battle._skill.ghostBase.Skill3Area(), PlayerObject, sys._battle._skill.ghostBase.skill3Type);
+                    break;
+                }
+            default:
+                break;
+        }
+
+
+
+
+    }
 }
 

@@ -13,6 +13,7 @@ public enum SkillAreaType
 
 public class SkillArea : MonoBehaviour
 {
+    /*
 
     enum SKillAreaElement
     {
@@ -338,4 +339,5 @@ public class SkillArea : MonoBehaviour
 
         return targetDir + player.transform.position;
     }
+    */
 }
