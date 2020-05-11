@@ -360,6 +360,22 @@ public class PlayerDataModule
                                                                         .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
                                                 break;
                                             }
+                                        case CharacterType.Warrior:
+                                            {
+                                                bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                                                        (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                                                        AttackVec,
+                                                                        _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().bulletSpeed
+                                                                        , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().attackPoint
+                                                                        , Input.RoomID,
+                                                                        _parentManager.sys._battle._skill.guardianBase.bulletObj
+
+                                                                        , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
+                                                break;
+                                            }
                                     }
 
                                     bulletList.Add(bu);
@@ -409,6 +425,16 @@ public class PlayerDataModule
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
                                         break;
                                     }
+                                case CharacterType.Warrior:
+                                    {
+                                        int cd = _parentManager._skill.guardianBase.Skill1Logic(frame,
+                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].obj,
+                                             frameInfo[i].Uid
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
+                                        break;
+                                    }
                                 default:
                                     break;
                             }
@@ -453,6 +479,20 @@ public class PlayerDataModule
                                             ), frameInfo[i].Uid
                                             );
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
+                                        break;
+                                    }
+                                case CharacterType.Warrior:
+                                    {
+                                        int cd = _parentManager._skill.guardianBase.Skill2Logic(frame,
+                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                            new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                            (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                            new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
+                                            (float)frameInfo[i].AttackDirectionY / 10000f
+                                            ), frameInfo[i].Uid
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
+
                                         break;
                                     }
                                 default:
@@ -588,6 +628,7 @@ public class PlayerDataModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, int dmg,int roomid)
     {
+        if (obj.GetComponent<PlayerModel_Component>().GetMuteki() != 0) return;
 
         if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint()<=0)
         {

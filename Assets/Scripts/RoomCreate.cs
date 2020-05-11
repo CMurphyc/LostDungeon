@@ -663,6 +663,17 @@ public class RoomCreate : MonoBehaviour
                                                 sys._battle._skill.magicianBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill2Type);
                     break;
                 }
+            case CharacterType.Warrior:
+                {
+                    GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
+                    js1.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill1Image;
+                    js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill1Range(),
+                                                sys._battle._skill.guardianBase.Skill1Area(), PlayerObject, sys._battle._skill.guardianBase.skill1Type);
+                    js2.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill2Image;
+                    js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill2Range(),
+                                                sys._battle._skill.guardianBase.Skill2Area(), PlayerObject, sys._battle._skill.guardianBase.skill2Type);
+                    break;
+                }
             default:
                 break;
         }
@@ -725,6 +736,30 @@ public class RoomCreate : MonoBehaviour
                     playerToPlayer.Add(uid, data);
                     break;
             }
+            case CharacterType.Warrior:
+                {
+                    GameObject playerTmp = Instantiate(sys._battle._skill.guardianBase.obj,
+                    new Vector3(xOffset * birthY + startPosition[playerNum * 2], yOffset * birthX + startPosition[playerNum * 2 + 1], 0),
+                    Quaternion.identity);
+
+                    playerTmp.transform.localScale = new Vector3(3, 3, 1);
+
+                    playerTmp.GetComponent<PlayerModel_Component>().Init(sys._battle._skill.guardianBase.HP,
+                        (Fix64)sys._battle._skill.guardianBase.moveSpeed,
+                        (Fix64)sys._battle._skill.guardianBase.damge,
+                        (Fix64)sys._battle._skill.guardianBase.bulletSpeed,
+                        (Fix64)sys._battle._skill.guardianBase.fireSpeed,
+                        sys._battle._skill.guardianBase.bulletEffect
+                        );
+
+                    playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
+                    PlayerInGameData data = new PlayerInGameData();
+                    data.obj = playerTmp;
+                    data.RoomID = startRoom;
+                    playerToPlayer.Add(uid, data);
+                    break;
+                }
+
             default:
                 break;
         }
