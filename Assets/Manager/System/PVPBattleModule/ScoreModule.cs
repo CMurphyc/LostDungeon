@@ -8,6 +8,7 @@ public class ScoreModule
 {
 
     PVPBattleManager _pvp;
+    string winer;
     //  红方分数     蓝方分数
     int RedTeamScore, BlueTeamScore;
     //  游戏剩余时间
@@ -19,6 +20,7 @@ public class ScoreModule
     List<int> HoldTime;
     public ScoreModule(PVPBattleManager pvp)
     {
+        winer = "";
         _pvp = pvp;
         RedTeamScore = 0;
         BlueTeamScore = 0;
@@ -28,6 +30,7 @@ public class ScoreModule
     }
     public void Free()
     {
+        winer = "";
         RedTeamScore = BlueTeamScore = 0;
         GameTime= 180 * 40;
         StrongHold.Clear();
@@ -99,18 +102,26 @@ public class ScoreModule
     }
     void CheckGameEnd()
     {
-        if (RedTeamScore == 100||BlueTeamScore==100)
+        if (RedTeamScore == 100)
         {
+            winer = "Red";
+            GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
+        }
+        if(BlueTeamScore==100)
+        {
+            winer = "Blue";
             GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
         }
         if(GameTime==0)
         {
             if(RedTeamScore>BlueTeamScore)
             {
+                winer = "Red";
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
             }
             if(BlueTeamScore>RedTeamScore)
             {
+                winer = "Blue";
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
             }
         }
@@ -140,4 +151,5 @@ public class ScoreModule
     {
         RedTeamScore += num;
     }
+    public string GetWinner() { return winer; }
 }

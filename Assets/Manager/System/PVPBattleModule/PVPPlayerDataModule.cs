@@ -538,6 +538,67 @@ public class PVPPlayerDataModule
         }
     }
 
+    //obj = 受击OBJECT , dmg = 伤害
+    public void BeAttacked(int OwnerUID,GameObject obj, int dmg, int roomid)
+    {
+
+        if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint() <= 0)
+        {
+            return;
+        }
+        int LeftHealthPoint = obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg;
+        if (LeftHealthPoint <= 0)
+        {
+
+            _pvp.sys._model._RoomModule.PVPResult[OwnerUID].kills++;
+            _pvp.sys._model._RoomModule.PVPResult[FindPlayerUIDbyObject(obj)].Dead++;
+
+
+            obj.GetComponent<PlayerModel_Component>().SetHealthPoint(0);
+
+            Vector3 PlayerPos = PackConverter.FixVector2ToVector2(obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
+            Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos + Revival_Offset);
+            Debug.Log("ScreenPos: " + ScreenPos);
+            GameObject Revival_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/Revival");
+            GameObject Canvas = GameObject.Find("Canvas");
+            if (Canvas != null && FindPlayerTeamByGameObject(obj) == FindCurrentPlayerTeam())
+            {
+                GameObject Revival_Instance = Object.Instantiate(Revival_Prefab, Canvas.transform);
+                Revival_Instance.transform.position = ScreenPos;
+                if (FindPlayerUIDbyObject(obj) != -1)
+                {
+                    int uid = FindPlayerUIDbyObject(obj);
+                    if (!playerToRevival.ContainsKey(uid))
+                    {
+                        playerToRevival.Add(uid, Revival_Instance);
+                    }
+                    else
+                    {
+                        playerToRevival[uid] = Revival_Instance;
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            obj.GetComponent<PlayerModel_Component>().SetHealthPoint(LeftHealthPoint);
+        }
+
+        int PlayerUID = _pvp.sys._model._PlayerModule.uid;
+
+        foreach (var x in playerToPlayer)
+        {
+            if (x.Value.obj == obj)
+            {
+                if (x.Key == PlayerUID)
+                {
+                    misc.ScreenFlash(misc.color.RED);
+                }
+            }
+        }
+    }
+
     public void UpdateView()//更新视图
     {
         for (int i = 0; i < frameInfo.Count; i++)

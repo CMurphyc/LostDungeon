@@ -170,7 +170,7 @@ public class PVPBulletUnion : BulletBase
     }
 
     //初始化所有子弹逻辑层logic的信息以及视图层prefab的信息
-    public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<bulletType> itemList, int DmgSrcUid=0)
+    public override void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<bulletType> itemList, int DmgSrcUid)
     {
 
         this.bulletPrefab = bulletPrefab;
@@ -331,7 +331,7 @@ public class PVPBulletUnion : BulletBase
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
                         //Debug.Log("玩家受到攻击");
-                        _pvp._pvpplayer.BeAttacked(_pvp._pvpplayer.playerToPlayer[item].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
+                        _pvp._pvpplayer.BeAttacked(spwanedBullet[i].dmgSrcUID,_pvp._pvpplayer.playerToPlayer[item].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
                         spwanedBullet[i].active = false;
                         //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，且可能吃buff穿越怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历，但必须判
                         if (spwanedBullet[i].active == false) break;
@@ -348,7 +348,7 @@ public class PVPBulletUnion : BulletBase
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
                         //Debug.Log("玩家受到攻击");
-                        _pvp._pvpplayer.BeAttacked(_pvp._pvpplayer.playerToPlayer[item].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
+                        _pvp._pvpplayer.BeAttacked(spwanedBullet[i].dmgSrcUID,_pvp._pvpplayer.playerToPlayer[item].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
                         spwanedBullet[i].active = false;
                         //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，且可能吃buff穿越怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历，但必须判
                         if (spwanedBullet[i].active == false) break;
