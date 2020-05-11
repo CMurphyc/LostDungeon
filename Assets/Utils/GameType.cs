@@ -75,7 +75,7 @@ public enum CharacterType
     Enginner,
     Warrior,
     Magician,
-
+    Ghost,
     None
 
 
