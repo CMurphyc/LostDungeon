@@ -36,7 +36,10 @@ public class RocketControl : MonoBehaviour
         pos += dir;
         this.gameObject.transform.position = new Vector3((float)pos.x,(float)pos.y,0);
 
-        if(!_parentManager._terrain.IsMovable(pos, roomID))
+        Polygon polygon = new Polygon(PolygonType.Circle);
+        polygon.InitCircle(pos,(Fix64)0.1f);
+
+        if(!_parentManager._terrain.IsMovable(polygon, roomID))
         {
             SkillBase tmp = new SkillBase(0, damage, pos, radius,0 ,frame+1, userID);
             _parentManager._skill.Add(tmp, roomID);
