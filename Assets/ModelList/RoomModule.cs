@@ -20,10 +20,13 @@ public class RoomModule
 
     public int roomOwnerID;
     public List<PlayerData> PlayerList = new List<PlayerData> { new PlayerData{ }, new PlayerData { }, new PlayerData { }, new PlayerData { } };
+    public List<PlayerData> RedTeamPlayerList = new List<PlayerData>();
+    public List<PlayerData> BlueTeamPlayerList = new List<PlayerData>();
 
     public List<GameObject> PlayerAnimation = new List<GameObject>();
 
     public Dictionary<int, PVEData> PVEResult = new Dictionary<int, PVEData>();
+    public Dictionary<int, PVPData> PVPResult = new Dictionary<int, PVPData>();
 
     public int GetPlayerSize()
     {
@@ -117,6 +120,12 @@ public class RoomModule
                     PVEResult.Remove(playerinfo.PlayerId);
                 }
                 PVEResult.Add(playerinfo.PlayerId,new PVEData());
+
+                if (PVPResult.ContainsKey(playerinfo.PlayerId))
+                {
+                    PVPResult.Remove(playerinfo.PlayerId);
+                }
+                PVPResult.Add(playerinfo.PlayerId, new PVPData());
 
                 //Debug.Log("PlayerUid: " + temp.uid);
                 //Debug.Log("PlayerReady: " + temp.ready);

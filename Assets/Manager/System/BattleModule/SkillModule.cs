@@ -24,12 +24,15 @@ public class SkillModule
     {
 
         _parentManager = parent;
-        enginerBase = new EngineerBase(parent);
-        magicianBase = new MagicianBase(parent);
 
-        ghostBase = new GhostBase(this);
+        enginerBase = new EngineerBase(parent.sys);
+        magicianBase = new MagicianBase(parent.sys);
 
-        guardianBase = new GuardianBase(parent);
+
+        ghostBase = new GhostBase(parent.sys);
+
+        guardianBase = new GuardianBase(parent.sys);
+
 
     }
     public void Free()
@@ -73,9 +76,6 @@ public class SkillModule
                             Fix64 dist = FixVector2.Distance(new FixVector2(plerpos.x, plerpos.y), x.center);
                             if (dist <= x.radius)
                             {
-                                /*
-                                pler.obj BeAttacked
-                                */
                             }
                         }
                         break;
@@ -100,6 +100,7 @@ public class SkillModule
                     {
                         Debug.Log("damage:" + x.damage);
                         _parentManager._monster.BeAttacked(mon, x.damage, p.Key,x.DmgSrcPlayerUID);
+                        Debug.LogError("11111111111111111111");
                     }
                     btt.Clear();
 

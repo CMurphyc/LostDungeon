@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
             else
             {
                 tar = PackConverter.FixVector3ToFixVector2(target.GetComponent<MonsterModel_Component>().position);            }
-        }
+            }
         AI_Controller.LogicUpdate(frame, MonsterPos, tar, MonsterObj);
     }
     public void UpdateView(GameObject MonsterObj)

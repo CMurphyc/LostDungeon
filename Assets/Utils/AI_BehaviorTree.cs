@@ -285,7 +285,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                         new FixVector2(obj.transform.GetComponent<MonsterModel_Component>().position.x, obj.transform.GetComponent<MonsterModel_Component>().position.y),
                         Fix64.One,
                         0,
-                        frame + 5),
+                        frame + 5,-1),
                         sys._battle._monster.FindRoomIDByMonster(obj));
                     obj.transform.GetComponent<MonsterModel_Component>().HP = Fix64.Zero;
                     Object.Destroy(obj);
@@ -295,29 +295,58 @@ class AI_BehaviorTree : AI_BehaviorBase
                 {
                     //Debug.Log("Terret Attack");
                     //Debug.Log("Frame: "+ frame);
-                    List<bulletType> list = new List<bulletType>();
-                    BulletUnion bu = new BulletUnion(sys._battle);
+                    if (sys._model._RoomListModule.roomType == RoomType.Pve)
+                    {
+                        List<bulletType> list = new List<bulletType>();
+                        BulletUnion bu = new BulletUnion(sys._battle);
 
-                    FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
-                    FixVector2 toward = ((TargetPosition - MonsPos) * (Fix64)100).GetNormalized();
+                        FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
+                        FixVector2 toward = ((TargetPosition - MonsPos) * (Fix64)100).GetNormalized();
 
 
-                    TurnLogic(toward, obj.transform.Find("engineer_derivative_1_3"), BossConfig.SpinRate);
+                        TurnLogic(toward, obj.transform.Find("engineer_derivative_1_3"), BossConfig.SpinRate);
 
-                    float degree = obj.transform.Find("engineer_derivative_1_3").transform.eulerAngles.z;
-                    FixVector2 ShootPos = new FixVector2((Fix64)obj.transform.Find("engineer_derivative_1_3").Find("ShotBulletPosition").position.x,
-                                            (Fix64)obj.transform.Find("engineer_derivative_1_3").Find("ShotBulletPosition").position.y);
+                        float degree = obj.transform.Find("engineer_derivative_1_3").transform.eulerAngles.z;
+                        FixVector2 ShootPos = new FixVector2((Fix64)obj.transform.Find("engineer_derivative_1_3").Find("ShotBulletPosition").position.x,
+                                                (Fix64)obj.transform.Find("engineer_derivative_1_3").Find("ShotBulletPosition").position.y);
 
-                    FixVector2 ShootToward = new FixVector2(Fix64.Cos(degree * Fix64.PI / (Fix64)180f),
-                                            Fix64.Sin(degree * Fix64.PI / (Fix64)180f));
+                        FixVector2 ShootToward = new FixVector2(Fix64.Cos(degree * Fix64.PI / (Fix64)180f),
+                                                Fix64.Sin(degree * Fix64.PI / (Fix64)180f));
 
-                   
 
-                    bu.BulletInit("AliasAI", ShootPos, ShootToward,
-                                                                  (Fix64)0.2, (Fix64)2, base.RoomID,
-                                                                  Resources.Load("Model/Bullet/Prefab/bullet_87") as GameObject
-                                                                  , list, obj.GetComponent<MonsterModel_Component>().OwnderUID);
-                    sys._battle._monster.bulletList.Add(bu);
+
+                        bu.BulletInit("AliasAI", ShootPos, ShootToward,
+                                                                      (Fix64)0.2, (Fix64)2, base.RoomID,
+                                                                      Resources.Load("Model/Bullet/Prefab/bullet_87") as GameObject
+                                                                      , list, obj.GetComponent<MonsterModel_Component>().OwnderUID);
+                        sys._battle._monster.bulletList.Add(bu);
+                    }
+                    else
+                    {
+                        List<bulletType> list = new List<bulletType>();
+                        PVPBulletUnion bu = new PVPBulletUnion(sys._pvpbattle);
+
+                        FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
+                        FixVector2 toward = ((TargetPosition - MonsPos) * (Fix64)100).GetNormalized();
+
+
+                        TurnLogic(toward, obj.transform.Find("engineer_derivative_1_3"), BossConfig.SpinRate);
+
+                        float degree = obj.transform.Find("engineer_derivative_1_3").transform.eulerAngles.z;
+                        FixVector2 ShootPos = new FixVector2((Fix64)obj.transform.Find("engineer_derivative_1_3").Find("ShotBulletPosition").position.x,
+                                                (Fix64)obj.transform.Find("engineer_derivative_1_3").Find("ShotBulletPosition").position.y);
+
+                        FixVector2 ShootToward = new FixVector2(Fix64.Cos(degree * Fix64.PI / (Fix64)180f),
+                                                Fix64.Sin(degree * Fix64.PI / (Fix64)180f));
+
+
+
+                        bu.BulletInit(sys._pvpbattle._pvpplayer.FindPlayerTeamByUID(obj.GetComponent<MonsterModel_Component>().OwnderUID), ShootPos, ShootToward,
+                                                                      (Fix64)0.2, (Fix64)2, base.RoomID,
+                                                                      Resources.Load("Model/Bullet/Prefab/bullet_87") as GameObject
+                                                                      , list, obj.GetComponent<MonsterModel_Component>().OwnderUID);
+                        sys._pvpbattle._summon.bulletList.Add(bu);
+                    }
                     break;
                 }
 

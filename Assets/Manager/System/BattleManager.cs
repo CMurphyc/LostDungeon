@@ -34,10 +34,26 @@ public class BattleManager
         _textjump = new TextJumpModule();
         _itemlogic = new ItemLogicModule(this);
 
+
+
+
+
     }
 
     public void UpdateFrame()
     {
+
+        /*
+         * model -> type 
+         * 
+         * if (PVE)
+         * UpdatePVELogicByFrame();
+         * else
+         * 
+         * UpdatePVPLogicByFrame()
+         * 
+         */
+
         UpdateLogicByFrame();
         UpdateView();
     }
@@ -53,6 +69,14 @@ public class BattleManager
         _chest.UpdateLogic(local_frame) ;
         local_frame++;
     }
+    /*
+     * void UpdatePVPLogicByFrame()
+     * {
+     * UnityEngine.Random.InitState(Seed);
+     * 
+     * 
+     * }
+     */
 
     void UpdateView()
     {

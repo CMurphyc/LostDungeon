@@ -16,6 +16,7 @@ public class BattleUIEvent : MonoBehaviour
     {
         
     }
+    /*
     public void OnBtnInitTerretTower()
     {
       
@@ -64,4 +65,5 @@ public class BattleUIEvent : MonoBehaviour
         }
 
     }
+    */
 }

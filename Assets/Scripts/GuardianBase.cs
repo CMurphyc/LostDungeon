@@ -46,7 +46,7 @@ public class GuardianBase
     List<GameObject> gully = new List<GameObject>();
     List<Tuple<GameObject,int>> shield = new List<Tuple<GameObject, int>>();
 
-    BattleManager _parentManager;
+    SystemManager _parentManager;
 
     public float Skill1Range()
     {
@@ -72,7 +72,7 @@ public class GuardianBase
     {
         gully.Clear();
     }
-    public GuardianBase(BattleManager parentManager)
+    public GuardianBase(SystemManager parentManager)
     {
         GuardianConfig x = Resources.Load("Configs/Heros/GuardianConfig") as GuardianConfig;
 
@@ -162,15 +162,15 @@ public class GuardianBase
 
         SkillBase tmp = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x+dir.x*1f), (Fix64)(pos.y + dir.y * 1f)), (Fix64)1f, 
             (int)(1.5f * 1000 / Global.FrameRate), frame , dmgSrc);
-        _parentManager._skill.Add(tmp, RoomID);
+        _parentManager._pvpbattle._pvpskill.Add(tmp, RoomID);
 
         SkillBase tmo = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x + dir.x * 2f), (Fix64)(pos.y + dir.y * 2f)), (Fix64)1f,
             (int)(1.5f * 1000 / Global.FrameRate), frame + (int)(0.8f * 1000 / Global.FrameRate), dmgSrc);
-        _parentManager._skill.Add(tmo, RoomID);
+        _parentManager._pvpbattle._pvpskill.Add(tmo, RoomID);
 
         SkillBase tmi = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x + dir.x * 3f), (Fix64)(pos.y + dir.y * 3f)), (Fix64)1f,
             (int)(1.5f * 1000 / Global.FrameRate), frame + (int)(1.6f * 1000 / Global.FrameRate), dmgSrc);
-        _parentManager._skill.Add(tmi, RoomID);
+        _parentManager._pvpbattle._pvpskill.Add(tmi, RoomID);
 
 
         if (gifted[2] == 1)

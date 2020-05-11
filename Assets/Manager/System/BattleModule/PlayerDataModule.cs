@@ -9,6 +9,8 @@ public class PlayerDataModule
 
     public Dictionary<int, PlayerInGameData> playerToPlayer = new Dictionary<int, PlayerInGameData>();   // 玩家编号对应玩家信息
 
+
+
     public List<BattleInput> frameInfo;
     public List<BulletUnion> bulletList = new List<BulletUnion>();
 
@@ -437,7 +439,7 @@ public class PlayerDataModule
                             {
                                 case CharacterType.Enginner:
                                     {
-                                        int cd=_parentManager._skill.enginerBase.Skill1Logic(frame,
+                                        int cd=_parentManager._skill.enginerBase.Skill1Logic(frameInfo[i].Uid,frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                             (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
@@ -586,6 +588,8 @@ public class PlayerDataModule
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed,
                                         _parentManager.sys._battle._chest.propToProperty[x.treasureId].bulletType
                                         );
+                                    _parentManager._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
+                                        GetComponent<PlayerModel_Component>().playerPosition, _parentManager._chest.propToProperty[x.treasureId].changeHP);
 
                                     Item titem = new Item();
                                     titem.ItemID = x.treasureId;

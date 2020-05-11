@@ -50,7 +50,7 @@ public class MagicianBase
     List<GameObject> thunder = new List<GameObject>();
     List<GameObject> ice = new List<GameObject>();
 
-    BattleManager _parentManager;
+    SystemManager _sys;
 
     public float Skill1Range()
     {
@@ -86,7 +86,7 @@ public class MagicianBase
         fire.Clear();
         thunder.Clear();
     }
-    public MagicianBase(BattleManager parentManager)
+    public MagicianBase(SystemManager sys)
     {
         MagicianConfig x = Resources.Load("Configs/Heros/MagicianConfig") as MagicianConfig;
 
@@ -128,11 +128,14 @@ public class MagicianBase
         skill2Image = x.skill2Image;
         skill3Image = x.skill3Image;
 
+
+        _sys = sys;
+
         skill1Type = x.skill1Type;
         skill2Type = x.skill2Type;
         skill3Type = x.skill3Type;
 
-        _parentManager = parentManager;
+
     }
 
     public int Skill1Logic(int frame, int RoomID, List<int> gifted, Vector3 pos, int dmgSrc)//返回值就是cd
@@ -175,7 +178,16 @@ public class MagicianBase
         {
             SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), 
                 frame+(int)(i*1000/Global.FrameRate), dmgSrc);
-            _parentManager._skill.Add(tmp, RoomID);
+            switch(_sys._model._RoomListModule.roomType)
+            {
+                case RoomType.Pve:
+                    _sys._battle._skill.Add(tmp, RoomID);
+                    break;
+                case RoomType.Pvp:
+                    _sys._pvpbattle._pvpskill.Add(tmp, RoomID);
+                    break;
+            }
+            
         }
         if (gifted[1] == 1)
         {
@@ -218,7 +230,15 @@ public class MagicianBase
 
         SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), frame, dmgSrc);
 
-        _parentManager._skill.Add(tmp, RoomID);
+        switch (_sys._model._RoomListModule.roomType)
+        {
+            case RoomType.Pve:
+                _sys._battle._skill.Add(tmp, RoomID);
+                break;
+            case RoomType.Pvp:
+                _sys._pvpbattle._pvpskill.Add(tmp, RoomID);
+                break;
+        }
 
 
         if (gifted[2] == 1)

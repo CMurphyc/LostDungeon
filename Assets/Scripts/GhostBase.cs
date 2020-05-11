@@ -42,7 +42,7 @@ public class GhostBase
     public Sprite skill2Image;
     public Sprite skill3Image;
 
-    SkillModule _parentManager;
+    SystemManager sys;
 
 
     public SkillAreaType skill1Type;
@@ -54,7 +54,7 @@ public class GhostBase
     {
      
     }
-    public GhostBase(SkillModule parent)
+    public GhostBase(SystemManager parent)
     {
         GhostConfig x = Resources.Load("Configs/Heros/GhostConfig") as GhostConfig;
 
@@ -103,7 +103,7 @@ public class GhostBase
         //skill1Image = x.skill1Image;
         //skill2Image = x.skill2Image;
 
-        _parentManager = parent;
+        sys = parent;
     }
     public float Skill1Range()
     {
@@ -175,7 +175,28 @@ public class GhostBase
     public void updateLogic(int frame)
     {
         //dash logic
-        foreach (var item in _parentManager._parentManager._player.playerToPlayer)
+
+        Dictionary<int, PlayerInGameData> playerToPlayer = new Dictionary<int, PlayerInGameData>() ;
+        bool isPVE = false;
+
+        switch (sys._model._RoomListModule.roomType)
+        {
+            case RoomType.Pve:
+
+                playerToPlayer = sys._battle._player.playerToPlayer;
+                isPVE = true;
+
+
+                break;
+            case RoomType.Pvp:
+
+                playerToPlayer = sys._pvpbattle._pvpplayer.playerToPlayer;
+
+              
+                break;
+        }
+
+        foreach (var item in playerToPlayer)
         {
             if (item.Value.obj.GetComponent<PlayerModel_Component>().inDash)
             {
@@ -192,15 +213,30 @@ public class GhostBase
                 Polygon poly = new Polygon(PolygonType.Circle);
                 Fix64 radius = (Fix64)0.1;
                 poly.InitCircle(ToPos, radius);
-               
-                int PlayerUID = _parentManager._parentManager._player.FindPlayerUIDbyObject(item.Value.obj);
-                if (PlayerUID == -1)
-                    return;
-                int RoomId = _parentManager._parentManager._player.playerToPlayer[PlayerUID].RoomID;
-             
-                if (_parentManager._parentManager._terrain.IsMovable(poly, RoomId))
+
+                if (isPVE)
                 {
-                    item.Value.obj.GetComponent<PlayerModel_Component>().Move(MoveVec);
+                    int PlayerUID = sys._battle._player.FindPlayerUIDbyObject(item.Value.obj);
+                    if (PlayerUID == -1)
+                        return;
+                    int RoomId = item.Value.RoomID;
+
+                    if (sys._battle._terrain.IsMovable(poly, RoomId))
+                    {
+                        item.Value.obj.GetComponent<PlayerModel_Component>().Move(MoveVec);
+                    }
+                }
+               else
+                {
+                    int PlayerUID = sys._pvpbattle._pvpplayer.FindPlayerUIDbyObject(item.Value.obj);
+                    if (PlayerUID == -1)
+                        return;
+                    int RoomId = item.Value.RoomID;
+
+                    if (sys._pvpbattle._pvpterrain.IsMovable(poly, RoomId))
+                    {
+                        item.Value.obj.GetComponent<PlayerModel_Component>().Move(MoveVec);
+                    }
                 }
             }
         }

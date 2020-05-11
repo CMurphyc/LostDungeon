@@ -59,7 +59,7 @@ public class EngineerBase
     List <GameObject> explosion = new List<GameObject>();
     List<GameObject> Rocket = new List<GameObject>();
 
-    BattleManager _parentManager;
+    SystemManager _sys;
 
     public void Free()
     {
@@ -68,7 +68,7 @@ public class EngineerBase
 
         Rocket.Clear();
     }
-        public EngineerBase(BattleManager parentManager)
+        public EngineerBase(SystemManager sys)
     {
         EngineerConfig x =Resources.Load("Configs/Heros/EngineerConfig") as EngineerConfig;
 
@@ -118,11 +118,15 @@ public class EngineerBase
         skill2Image = x.skill2Image;
         skill3Image = x.skill3Image;
 
+
+        _sys = sys;
+
         skill1Type = x.skill1Type;
         skill2Type = x.skill2Type;
         skill3Type = x.skill3Type;
 
-    _parentManager = parentManager;
+
+
     }
     public float Skill1Range()
     {
@@ -155,7 +159,8 @@ public class EngineerBase
         return rangeSkill3;
     }
 
-    public int Skill1Logic(int frame, int RoomID, List<int> gifted,Vector3 st,Vector3 ed, int dmgSrc)//返回值就是cd
+    public int Skill1Logic(int uid ,int frame, int RoomID, List<int> gifted,Vector3 st,Vector3 ed, int dmgSrc)//返回值就是cd
+
     {
         /*
             FixVector2 PlayerPos = battle._player.playerToPlayer[UID].obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
@@ -165,32 +170,40 @@ public class EngineerBase
             Vector3 PlayerPos2 = new Vector3((float)PlayerPos.x, (float)PlayerPos.y);
             //Debug.Log(PlayerPos2);
             */
-            GameObject TerretInstance = GameObject.Instantiate(effectArtillery, ed, Quaternion.identity);
-            TerretInstance.GetComponent<MonsterModel_Component>().position = new FixVector3(
-                (Fix64)ed.x,
-                (Fix64)ed.y, (Fix64)ed.z
-                );
+        GameObject TerretInstance = GameObject.Instantiate(effectArtillery, ed, Quaternion.identity);
+        TerretInstance.GetComponent<MonsterModel_Component>().position = new FixVector3(
+            (Fix64)ed.x,
+            (Fix64)ed.y, (Fix64)ed.z
+            );
 
-            AliasMonsterPack temp = new AliasMonsterPack();
-            BossAttribute attribute = new BossAttribute();
-            attribute.Attack_FrameInterval = 5;
-            attribute.SpinRate = 3;
-            TerretInstance.GetComponent<EnemyAI>().InitAI(AI_Type.Engineer_TerretTower, RoomID, attribute);
-            TerretInstance.GetComponent<MonsterModel_Component>().HP = (Fix64)10;
-            TerretInstance.GetComponent<MonsterModel_Component>().OwnderUID = dmgSrc;
-            temp.obj = TerretInstance;
-            temp.RemainingFrame = 200;
-            if (!_parentManager._monster.RoomToAliasUnit.ContainsKey(RoomID))
-            {
-                List<AliasMonsterPack> ListAlias = new List<AliasMonsterPack>();
-                ListAlias.Add(temp);
-                _parentManager._monster.RoomToAliasUnit.Add(RoomID, ListAlias);
-            }
-            else
-            {
-                _parentManager._monster.RoomToAliasUnit[RoomID].Add(temp);
+        AliasMonsterPack temp = new AliasMonsterPack();
+        BossAttribute attribute = new BossAttribute();
+        attribute.Attack_FrameInterval = 5;
+        attribute.SpinRate = 3;
+        TerretInstance.GetComponent<EnemyAI>().InitAI(AI_Type.Engineer_TerretTower, RoomID, attribute);
+        TerretInstance.GetComponent<MonsterModel_Component>().HP = (Fix64)10;
+        TerretInstance.GetComponent<MonsterModel_Component>().OwnderUID = dmgSrc;
+        temp.obj = TerretInstance;
+        temp.RemainingFrame = 200;
+        switch (_sys._model._RoomListModule.roomType)
+        {
+            case RoomType.Pve:
+                if (!_sys._battle._monster.RoomToAliasUnit.ContainsKey(RoomID))
+                {
+                    List<AliasMonsterPack> ListAlias = new List<AliasMonsterPack>();
+                    ListAlias.Add(temp);
+                        _sys._battle._monster.RoomToAliasUnit.Add(RoomID, ListAlias);
+                }
+                else
+                {
+                        _sys._battle._monster.RoomToAliasUnit[RoomID].Add(temp);
 
-            }
+                }
+                break;
+            case RoomType.Pvp:
+                _sys._pvpbattle._summon.AddAliasUnit(uid,RoomID, temp);
+                break;
+        }
         return (int)(countdownSkill1*1000/Global.FrameRate);
     }
 
@@ -251,8 +264,16 @@ public class EngineerBase
 
             damageFrame, dmgSrc);
 
-        _parentManager._skill.Add(tmp, RoomID);
-        
+        //_parentManager._skill.Add(tmp, RoomID);
+        switch (_sys._model._RoomListModule.roomType)
+        {
+            case RoomType.Pve:
+                _sys._battle._skill.Add(tmp, RoomID);
+                break;
+            case RoomType.Pvp:
+                _sys._pvpbattle._pvpskill.Add(tmp, RoomID);
+                break;
+        }
 
         if (gifted[3] == 1)
         {
@@ -275,7 +296,7 @@ public class EngineerBase
 
         p.GetComponent<RocketControl>().init(new FixVector2((Fix64)st.x, (Fix64)st.y),
             new FixVector2((Fix64)dir.x, (Fix64)dir.y),
-            (Fix64)radiusSkill3,RoomID,damageSkill3,dmgSrc,_parentManager
+            (Fix64)radiusSkill3,RoomID,damageSkill3,dmgSrc,_sys._battle
             );
         Rocket.Add(p);
 

@@ -123,7 +123,18 @@ public class PVEData
         coins = 0;
     }
 }
-
+public class PVPData
+{
+    public int kills;
+    public int Dead;
+    public int Assistant;
+    public PVPData()
+    {
+        kills = 0;
+        Dead = 0;
+        Assistant = 0;
+    }
+}
 public struct DoorData
 {
     public int doorNum;

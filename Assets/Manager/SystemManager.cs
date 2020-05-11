@@ -8,6 +8,7 @@ public class SystemManager
 {
     public AudioManager _audio;
     public BattleManager _battle;
+    public PVPBattleManager _pvpbattle;
     public MapManager _map;
     public ModelManager _model;
     public AnimationManager _animation;
@@ -16,6 +17,7 @@ public class SystemManager
     public SystemManager()
     {
         _battle = new BattleManager(this);
+        _pvpbattle = new PVPBattleManager(this);
         _audio = new AudioManager();
         _map = new MapManager(this);
         _model = new ModelManager();
@@ -27,6 +29,7 @@ public class SystemManager
     {
         //to do 释放
         _battle.ReleaseMemory();
+        _pvpbattle.ReleaseMemory();
         _model._JoyStickModule.Free();
     }
     //void Destory()

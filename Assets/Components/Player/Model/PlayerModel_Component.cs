@@ -98,7 +98,7 @@ public class PlayerModel_Component : MonoBehaviour
 
 
         UpdateBuff();
-
+     
 
     }
     private void UpdateBuff()
@@ -109,8 +109,14 @@ public class PlayerModel_Component : MonoBehaviour
         }
         else
         {
+            if (buff.AttackIncrease)
+            {
+                attackPoint -= BuffattackPoint;
+            }
+
             buff.AttackIncrease = false;
-            attackPoint -= BuffattackPoint;
+
+         
         }
 
         if (buff.Invisible_RemainingFrame > 0)
