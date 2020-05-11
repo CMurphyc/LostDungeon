@@ -41,8 +41,15 @@ public class BattleUIUpdate : MonoBehaviour
         List<PlayerData> playerlist = sys._model._RoomModule.PlayerList;
         for (int i=0,j=0;i< playerlist.Count;i++)
         {
-            if(playerlist[i].empty==false&&playerlist[i].uid!= sys._battle._player.FindCurrentPlayerUID())
+            if(playerlist[i].empty==false&&playerlist[i].uid!= sys._model._PlayerModule.uid)
             {
+                if(sys._model._RoomListModule.roomType==RoomType.Pvp)
+                {
+                    if(sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam()!= sys._pvpbattle._pvpplayer.FindPlayerTeamByUID(playerlist[i].uid))
+                    {
+                        continue;
+                    }
+                }
                 GameObject item=Object.Instantiate(TeammateHP,GameObject.Find("Canvas").transform);
                 item.GetComponent<RectTransform>().anchoredPosition =new Vector2(30,-100)+j*new Vector2(0,-50);
                 item.transform.Find("name").GetComponent<Text>().text = playerlist[i].username;
@@ -74,20 +81,38 @@ public class BattleUIUpdate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (sys._battle._player.playerToPlayer.ContainsKey(CurrnetUID))
+        switch(sys._model._RoomListModule.roomType)
         {
-            PlayerInGameData data = sys._battle._player.playerToPlayer[CurrnetUID];
-
-            HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/"+ data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
-
-            HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
-
+            case RoomType.Pve:
+                UpdatePVE();
+                break;
+            case RoomType.Pvp:
+                UpdatePVP();
+                break;
         }
-        foreach(var i in Teammate)
+    }
+    void UpdatePVE()
+    {
+        PlayerInGameData data = sys._battle._player.playerToPlayer[CurrnetUID];
+        HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/" + data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
+        HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
+        foreach (var i in Teammate)
         {
-            GameObject pler=sys._battle._player.FindPlayerObjByUID(i.Key);
+            GameObject pler = sys._battle._player.FindPlayerObjByUID(i.Key);
             i.Value.transform.Find("Slider").GetComponent<Slider>().value =
-                pler.GetComponent<PlayerModel_Component>().healthPoint*1.0f / pler.GetComponent<PlayerModel_Component>().fullHealthPoint;
+                pler.GetComponent<PlayerModel_Component>().healthPoint * 1.0f / pler.GetComponent<PlayerModel_Component>().fullHealthPoint;
+        }
+    }
+    void UpdatePVP()
+    {
+        PlayerInGameData data = sys._pvpbattle._pvpplayer.playerToPlayer[CurrnetUID];
+        HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/" + data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
+        HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
+        foreach (var i in Teammate)
+        {
+            GameObject pler = sys._pvpbattle._pvpplayer.FindPlayerObjByUID(i.Key);
+            i.Value.transform.Find("Slider").GetComponent<Slider>().value =
+                pler.GetComponent<PlayerModel_Component>().healthPoint * 1.0f / pler.GetComponent<PlayerModel_Component>().fullHealthPoint;
         }
     }
 }

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerDataModule
+public class PVPPlayerDataModule 
 {
-    BattleManager _parentManager;
+    PVPBattleManager _pvp;
 
     public Dictionary<int, PlayerInGameData> playerToPlayer = new Dictionary<int, PlayerInGameData>();   // 玩家编号对应玩家信息
 
-
+    public List<int> RedTeam = new List<int>();
+    public List<int> BlueTeam = new List<int>();
 
     public List<BattleInput> frameInfo;
-    public List<BulletUnion> bulletList = new List<BulletUnion>();
+    public List<PVPBulletUnion> bulletList = new List<PVPBulletUnion>();
 
     int AttackInterval = 5;
 
-    public GameObject CD1=null;
+    public GameObject CD1 = null;
     public GameObject CD2 = null;
 
 
@@ -25,11 +26,9 @@ public class PlayerDataModule
     bool DeathCamInit = false;
     GameObject Panel;
     bool GameOverSend = false;
-    public PlayerDataModule(BattleManager parent)
+    public PVPPlayerDataModule(PVPBattleManager parent)
     {
-        _parentManager = parent;
-
-        
+        _pvp = parent;
     }
     public void Free()
     {
@@ -48,13 +47,13 @@ public class PlayerDataModule
         foreach (KeyValuePair<int, PlayerInGameData> x in playerToPlayer)//buff 
         {
             PlayerModel_Component PlayerComp = x.Value.obj.GetComponent<PlayerModel_Component>();
-            if (PlayerComp.debuff.Poison && PlayerComp.debuff.PoisonRemainingFrame>0)
+            if (PlayerComp.debuff.Poison && PlayerComp.debuff.PoisonRemainingFrame > 0)
             {
-               
 
-                if (PlayerComp.debuff.PoisonRemainingFrame % 20 ==0)
+
+                if (PlayerComp.debuff.PoisonRemainingFrame % 20 == 0)
                 {
-                    Debug.Log("触发毒BUFF伤害：" );
+                    Debug.Log("触发毒BUFF伤害：");
                     BeAttacked(x.Value.obj, 1, x.Value.RoomID);
                 }
 
@@ -69,26 +68,26 @@ public class PlayerDataModule
     public void UpdateLogic(int frame)//更新某一帧逻辑
     {
         UpdateMovement(frame);
-        foreach(var p in playerToPlayer)
+        foreach (var p in playerToPlayer)
         {
             //Debug.Log(p.Value.obj.GetComponent<PlayerModel_Component>().healthPoint);
             p.Value.obj.GetComponent<PlayerModel_Component>().UpdateLogic();
-            int PlayerUID =_parentManager.sys._model._PlayerModule.uid;
-            if (p.Key== PlayerUID)
+            int PlayerUID = _pvp.sys._model._PlayerModule.uid;
+            if (p.Key == PlayerUID)
             {
-                if(CD1==null)
+                if (CD1 == null)
                 {
                     CD1 = GameObject.Find("SkillStickUI1").transform.GetChild(2).gameObject;
                     CD1.GetComponent<Slider>().maxValue = 0;
                 }
 
                 int kp = p.Value.obj.GetComponent<PlayerModel_Component>().GetCountDown1();
-                if(kp>CD1.GetComponent<Slider>().maxValue)
+                if (kp > CD1.GetComponent<Slider>().maxValue)
                 {
                     CD1.GetComponent<Slider>().maxValue = kp;
                     CD1.SetActive(true);
                 }
-                if(kp==0)
+                if (kp == 0)
                 {
                     CD1.GetComponent<Slider>().maxValue = kp;
                     CD1.SetActive(false);
@@ -119,22 +118,22 @@ public class PlayerDataModule
             }
         }
         //复活检测
-        CheckRevial();
+        //CheckRevial();
         //全体玩家去世跳转结算
-        CheckGameEnd();
+        //CheckGameEnd();
     }
     void CheckGameEnd()
     {
         bool Over = true;
         //玩家数没加载时候直接跳结算的问题
-        if (playerToPlayer.Count==0)
+        if (playerToPlayer.Count == 0)
         {
             Over = false;
         }
         foreach (var item in playerToPlayer)
         {
             int HP = item.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint();
-            if (HP>0)
+            if (HP > 0)
             {
                 Over = false;
             }
@@ -150,45 +149,12 @@ public class PlayerDataModule
             }
         }
     }
-
-    void CheckRevial()
-    {
-        foreach(var item in playerToRevival)
-        {
-            GameObject PlayerObj = FindPlayerObjByUID(item.Key);
-            FixVector2 Body_Pos = PlayerObj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
-            bool InSave = false;
-            foreach (var player in playerToPlayer)
-            {
-                //不是同个玩家
-                if (!playerToRevival.ContainsKey(player.Key))
-                {
-                    FixVector2 OtherPos = player.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
-                    Fix64 P2P = FixVector2.Distance(Body_Pos, OtherPos);
-
-                    //救人判定距离
-                    Fix64 SaveDistance =(Fix64)1.3;
-                    if (P2P<= SaveDistance)
-                    {
-                        InSave = true;
-                        Debug.Log("正在复活玩家： " + item.Key);
-                        FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival++;
-                    }
-                }
-            }
-            //无人则重置复活条
-            if (!InSave)
-            {
-                FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival=0;
-            }
-        }
-    }
     void UpdateRevivalBar()
     {
         List<int> DeleteList = new List<int>();
 
         //更新血条位置
-        foreach(var item in playerToRevival)
+        foreach (var item in playerToRevival)
         {
             GameObject player = FindPlayerObjByUID(item.Key);
             if (player != null)
@@ -210,7 +176,7 @@ public class PlayerDataModule
                         //to do
                         GameObject Panel_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/DeathCam");
                         Panel = Object.Instantiate(Panel_Prefab, GameObject.Find("Canvas").transform);
-                  
+
                         DeathCamInit = true;
                     }
 
@@ -235,10 +201,10 @@ public class PlayerDataModule
 
             }
         }
-    
+
 
         //销毁
-        foreach(int item in DeleteList)
+        foreach (int item in DeleteList)
         {
             Object.Destroy(playerToRevival[item]);
             playerToRevival.Remove(item);
@@ -262,26 +228,26 @@ public class PlayerDataModule
 
                 //MoveVec = MoveVec.GetNormalized() * (Fix64)Global.FrameRate / (Fix64)1000 * (Fix64)5;
 
-                FixVector2 tmove = new FixVector2((Fix64)MoveVec.x * Input.obj.GetComponent<PlayerModel_Component>().playerSpeed, 
+                FixVector2 tmove = new FixVector2((Fix64)MoveVec.x * Input.obj.GetComponent<PlayerModel_Component>().playerSpeed,
                     (Fix64)MoveVec.y * Input.obj.GetComponent<PlayerModel_Component>().playerSpeed);
 
                 FixVector2 Pos = Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
-                if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
+                if (_pvp._pvpterrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
                 {
                     Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)tmove.x, (Fix64)tmove.y));
                 }
                 else
                 {
-                    if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(Pos.y)), Input.RoomID))
+                    if (_pvp._pvpterrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(Pos.y)), Input.RoomID))
                     {
                         Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)tmove.x, (Fix64)0));
                     }
-                    else if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
+                    else if (_pvp._pvpterrain.IsMovable(new FixVector2((Fix64)(Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
                     {
                         Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)0, (Fix64)tmove.y));
                     }
                 }
-
+                string Team = FindPlayerTeamByGameObject(Input.obj);
                 switch (frameInfo[i].AttackType)
                 {
                     case (int)AttackType.BasicAttack:
@@ -300,44 +266,44 @@ public class PlayerDataModule
                                 //Debug.Log("aaaaaaaa");
                                 if (frame >= Input.NextAttackFrame)
                                 {
-                                    BulletUnion bu = new BulletUnion(_parentManager);
+                                    PVPBulletUnion bu = new PVPBulletUnion(_pvp);
 
 
-                                    CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
+                                    CharacterType PlayerType = _pvp.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
                                     switch (PlayerType)
                                     {
                                         case CharacterType.Enginner:
                                             {
-                                                bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                                bu.BulletInit(Team, new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         AttackVec,
-                                                                        _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        playerToPlayer[frameInfo[i].Uid].obj
                                                                         .GetComponent<PlayerModel_Component>().bulletSpeed
-                                                                        , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        , playerToPlayer[frameInfo[i].Uid].obj
                                                                         .GetComponent<PlayerModel_Component>().attackPoint
                                                                         ,
                                                                         Input.RoomID,
-                                                                        _parentManager.sys._battle._skill.enginerBase.bulletObj
+                                                                        _pvp._pvpskill.enginerBase.bulletObj
 
-                                                                        ,_parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        , playerToPlayer[frameInfo[i].Uid].obj
                                                                         .GetComponent<PlayerModel_Component>().bulletBuff
-                                                                        
+
                                                                         , frameInfo[i].Uid);
                                                 break;
                                             }
                                         case CharacterType.Magician:
                                             {
-                                                bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                                bu.BulletInit(Team, new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         AttackVec,
-                                                                        _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        playerToPlayer[frameInfo[i].Uid].obj
                                                                         .GetComponent<PlayerModel_Component>().bulletSpeed
-                                                                        , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        , playerToPlayer[frameInfo[i].Uid].obj
                                                                         .GetComponent<PlayerModel_Component>().attackPoint
                                                                         , Input.RoomID,
-                                                                        _parentManager.sys._battle._skill.magicianBase.bulletObj
+                                                                        _pvp._pvpskill.magicianBase.bulletObj
 
-                                                                        , _parentManager.sys._battle._player.playerToPlayer[frameInfo[i].Uid].obj
+                                                                        , playerToPlayer[frameInfo[i].Uid].obj
                                                                         .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
                                                 break;
                                             }
@@ -355,7 +321,7 @@ public class PlayerDataModule
                     case (int)AttackType.Skill1:
                         {
                             if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown1() != 0) break;
-                            CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
+                            CharacterType PlayerType = _pvp.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
 
                             List<int> tmp = new List<int>();
                             tmp.Add(1);
@@ -368,24 +334,24 @@ public class PlayerDataModule
                             {
                                 case CharacterType.Enginner:
                                     {
-                                        int cd=_parentManager._skill.enginerBase.Skill1Logic(frameInfo[i].Uid,frame,
-                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                        int cd = _pvp._pvpskill.enginerBase.Skill1Logic(frameInfo[i].Uid,frame,
+                                            playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                             (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
-                                            ),frameInfo[i].Uid
+                                            ), frameInfo[i].Uid
                                             );
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
                                         break;
                                     }
                                 case CharacterType.Magician:
                                     {
-                                        int cd=_parentManager._skill.magicianBase.Skill1Logic(frame,
-                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                        int cd = _pvp._pvpskill.magicianBase.Skill1Logic(frame,
+                                            playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
-                                            ),frameInfo[i].Uid
+                                            ), frameInfo[i].Uid
                                             );
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
                                         break;
@@ -398,7 +364,7 @@ public class PlayerDataModule
                     case (int)AttackType.Skill2:
                         {
                             if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown2() != 0) break;
-                            CharacterType PlayerType = _parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
+                            CharacterType PlayerType = _pvp.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
 
                             List<int> tmp = new List<int>();
                             tmp.Add(1);
@@ -413,8 +379,8 @@ public class PlayerDataModule
                                     {
                                         //Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
                                         //Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
-                                        int cd=_parentManager._skill.enginerBase.Skill2Logic(frame,
-                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                        int cd = _pvp._pvpskill.enginerBase.Skill2Logic(frame,
+                                            playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                             (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
@@ -427,8 +393,8 @@ public class PlayerDataModule
                                     }
                                 case CharacterType.Magician:
                                     {
-                                        int cd=_parentManager._skill.magicianBase.Skill2Logic(frame,
-                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                        int cd = _pvp._pvpskill.magicianBase.Skill2Logic(frame,
+                                            playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
@@ -444,36 +410,36 @@ public class PlayerDataModule
                     case (int)AttackType.Pick:
                         {
                             int PlayerUID = frameInfo[i].Uid;
-                            int roomid = _parentManager.sys._battle._player.playerToPlayer[PlayerUID].RoomID;
-                            
-                            foreach(var x in _parentManager.sys._battle._chest.roomToTreasure[roomid])
+                            int roomid = playerToPlayer[PlayerUID].RoomID;
+
+                            foreach (var x in _pvp._chest.roomToTreasure[roomid])
                             {
                                 if (x.active) continue;
 
                                 FixVector2 tmp = new FixVector2((Fix64)x.treasureTable.transform.position.x, (Fix64)x.treasureTable.transform.position.y);
 
-                                if(FixVector2.Distance(tmp,
-                                    _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
-                                    GetComponent<PlayerModel_Component>().GetPlayerPosition())<=(Fix64)1.4f)
+                                if (FixVector2.Distance(tmp,
+                                    playerToPlayer[PlayerUID].obj.
+                                    GetComponent<PlayerModel_Component>().GetPlayerPosition()) <= (Fix64)1.4f)
                                 {
                                     Debug.Log(x.treasureObejct.name);
                                     x.treasureObejct.SetActive(false);
                                     x.SetActive(true);
-                                    _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
+                                    playerToPlayer[PlayerUID].obj.
                                         GetComponent<PlayerModel_Component>().Change(
-                                        _parentManager.sys._battle._chest.propToProperty[x.treasureId].changefullHP,
-                                        _parentManager.sys._battle._chest.propToProperty[x.treasureId].changeHP,
-                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletFrequency,
-                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeBulletSpeed,
-                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeDamage,
-                                        (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed,
-                                        _parentManager.sys._battle._chest.propToProperty[x.treasureId].bulletType
+                                        _pvp._chest.propToProperty[x.treasureId].changefullHP,
+                                        _pvp._chest.propToProperty[x.treasureId].changeHP,
+                                        (Fix64)_pvp._chest.propToProperty[x.treasureId].changeBulletFrequency,
+                                        (Fix64)_pvp._chest.propToProperty[x.treasureId].changeBulletSpeed,
+                                        (Fix64)_pvp._chest.propToProperty[x.treasureId].changeDamage,
+                                        (Fix64)_pvp._chest.propToProperty[x.treasureId].changeSpeed,
+                                        _pvp._chest.propToProperty[x.treasureId].bulletType
                                         );
 
                                     Item titem = new Item();
                                     titem.ItemID = x.treasureId;
                                     titem.ItemNumber = 1;
-                                    _parentManager.sys._model._BagModule.AddItem(PlayerUID, titem);
+                                    _pvp.sys._model._BagModule.AddItem(PlayerUID, titem);
 
 
 
@@ -508,37 +474,37 @@ public class PlayerDataModule
 
     public void UpdateHP()
     {
-        foreach(var x in _parentManager.sys._battle._player.playerToPlayer)
+        foreach (var x in playerToPlayer)
         {
             if (x.Value.obj == null) continue;
-            _parentManager.sys._model._BagModule.ChangeHP(x.Key, x.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint());
+            _pvp.sys._model._BagModule.ChangeHP(x.Key, x.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint());
         }
     }
 
 
     //obj = 受击OBJECT , dmg = 伤害
-    public void BeAttacked(GameObject obj, int dmg,int roomid)
+    public void BeAttacked(GameObject obj, int dmg, int roomid)
     {
 
-        if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint()<=0)
+        if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint() <= 0)
         {
             return;
         }
         int LeftHealthPoint = obj.GetComponent<PlayerModel_Component>().GetHealthPoint() - dmg;
-        if (LeftHealthPoint<=0)
+        if (LeftHealthPoint <= 0)
         {
             obj.GetComponent<PlayerModel_Component>().SetHealthPoint(0);
-          
-            Vector3 PlayerPos = PackConverter.FixVector2ToVector2( obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
-            Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos+ Revival_Offset);
+
+            Vector3 PlayerPos = PackConverter.FixVector2ToVector2(obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
+            Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos + Revival_Offset);
             Debug.Log("ScreenPos: " + ScreenPos);
             GameObject Revival_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/Revival");
             GameObject Canvas = GameObject.Find("Canvas");
-            if (Canvas != null)
+            if (Canvas != null&&FindPlayerTeamByGameObject(obj)==FindCurrentPlayerTeam())
             {
                 GameObject Revival_Instance = Object.Instantiate(Revival_Prefab, Canvas.transform);
                 Revival_Instance.transform.position = ScreenPos;
-                if (FindPlayerUIDbyObject(obj)!=-1)
+                if (FindPlayerUIDbyObject(obj) != -1)
                 {
                     int uid = FindPlayerUIDbyObject(obj);
                     if (!playerToRevival.ContainsKey(uid))
@@ -557,14 +523,14 @@ public class PlayerDataModule
         {
             obj.GetComponent<PlayerModel_Component>().SetHealthPoint(LeftHealthPoint);
         }
- 
-        int PlayerUID = _parentManager.sys._model._PlayerModule.uid;
 
-        foreach(var x in playerToPlayer)
+        int PlayerUID = _pvp.sys._model._PlayerModule.uid;
+
+        foreach (var x in playerToPlayer)
         {
-            if(x.Value.obj==obj)
+            if (x.Value.obj == obj)
             {
-                if(x.Key==PlayerUID)
+                if (x.Key == PlayerUID)
                 {
                     misc.ScreenFlash(misc.color.RED);
                 }
@@ -583,27 +549,27 @@ public class PlayerDataModule
                 //工程师
                 if (frameInfo[i].AttackType == (int)AttackType.BasicAttack)
                 {
-                    if (_parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid) == CharacterType.Enginner)
+                    if (_pvp.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid) == CharacterType.Enginner)
                     {
                         Vector2 GunToward = new Vector2(frameInfo[i].AttackDirectionX, frameInfo[i].AttackDirectionY).normalized;
                         GameObject player = playerToPlayer[frameInfo[i].Uid].obj;
                         GameObject Gun = player.transform.Find("weapon").gameObject;
                         float degree = Mathf.Atan2(GunToward.y, GunToward.x) * 180f / Mathf.PI;
 
-                        if (90f>=degree && degree>=-90f)
+                        if (90f >= degree && degree >= -90f)
                         {
                             Gun.transform.eulerAngles = new Vector3(0, 0, degree);
                         }
-                        else if (degree>90 && degree<=180)
+                        else if (degree > 90 && degree <= 180)
                         {
-                            Gun.transform.eulerAngles = new Vector3(0, 180, 180 -degree);
+                            Gun.transform.eulerAngles = new Vector3(0, 180, 180 - degree);
                         }
-                        else if (degree>=-180 && degree < -90)
+                        else if (degree >= -180 && degree < -90)
                         {
-                          
-                            Gun.transform.eulerAngles = new Vector3(0, 180,  -180 - degree);
+
+                            Gun.transform.eulerAngles = new Vector3(0, 180, -180 - degree);
                         }
-                           
+
                     }
                 }
 
@@ -622,14 +588,19 @@ public class PlayerDataModule
 
     public HashSet<int> GetLiveRoom()
     {
-        HashSet<int> RoomList  = new HashSet<int>();
+        HashSet<int> RoomList = new HashSet<int>();
         foreach (var item in playerToPlayer)
         {
             RoomList.Add(item.Value.RoomID);
         }
         return RoomList;
     }
-    public List<PlayerInGameData>  FindPlayerInRoom(int RoomID)
+    public int FindRoomIDCurrentPlayerIn()
+    {
+        return playerToPlayer[FindCurrentPlayerUID()].RoomID;
+
+    }
+    public List<PlayerInGameData> FindPlayerInRoom(int RoomID)
     {
         List<PlayerInGameData> PlayerUIDList = new List<PlayerInGameData>();
         foreach (var item in playerToPlayer)
@@ -653,21 +624,56 @@ public class PlayerDataModule
 
     public int FindCurrentPlayerUID()
     {
-        return _parentManager.sys._model._PlayerModule.uid;
+        return _pvp.sys._model._PlayerModule.uid;
     }
-   
-    int FindPlayerUIDbyObject(GameObject obj)
+
+    public int FindPlayerUIDbyObject(GameObject obj)
     {
         int ret = -1;
 
-        foreach(var item in playerToPlayer)
+        foreach (var item in playerToPlayer)
         {
-            if (item.Value.obj== obj)
+            if (item.Value.obj == obj)
             {
                 return item.Key;
             }
         }
         return ret;
+    }
+    public int FindRedTeamPlayerInRoomID(int roomID)
+    {
+        int _cnt = 0;
+        for(int i=0;i<RedTeam.Count;i++)
+        {
+            if (playerToPlayer[RedTeam[i]].RoomID == roomID) _cnt++;
+        }
+        return _cnt;
+    }
+    public int FindBlueTeamPlayerInRoomID(int roomID)
+    {
+        int _cnt = 0;
+        for (int i = 0; i < BlueTeam.Count; i++)
+        {
+            if (playerToPlayer[BlueTeam[i]].RoomID == roomID) _cnt++;
+        }
+        return _cnt;
+    }
+    public string FindCurrentPlayerTeam()
+    {
+        int CurrentPlayerUID= FindCurrentPlayerUID();
+        return FindPlayerTeamByUID(CurrentPlayerUID);
+    }
+    public string FindPlayerTeamByUID(int uid)
+    {
+        foreach (var i in RedTeam)
+        {
+            if (i == uid) return "RedTeam";
+        }
+        return "BlueTeam";
+    }
+    public string FindPlayerTeamByGameObject(GameObject obj)
+    {
+        return FindPlayerTeamByUID(FindPlayerUIDbyObject(obj));
     }
 
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillModule
+public class PVPSkillModule : MonoBehaviour
 {
-    BattleManager _parentManager;
+    PVPBattleManager _pvp;
 
     //房间号-抛射物
     public Dictionary<int, List<SkillBase>> RoomToProjectile = new Dictionary<int, List<SkillBase>>();
@@ -15,10 +15,10 @@ public class SkillModule
     public EngineerBase enginerBase;
     public MagicianBase magicianBase;
 
-    public SkillModule(BattleManager parent)
+    public PVPSkillModule(PVPBattleManager parent)
     {
 
-        _parentManager = parent;
+        _pvp = parent;
         enginerBase = new EngineerBase(parent.sys);
         magicianBase = new MagicianBase(parent.sys);
     }
@@ -46,42 +46,31 @@ public class SkillModule
             List<SkillBase> t = new List<SkillBase>();
             foreach (SkillBase x in p.Value)
             {
-                switch (x.tag)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        foreach (var pler in _parentManager._player.FindPlayerInRoom(p.Key))
-                        {
-                            FixVector2 plerpos = pler.obj.transform.GetComponent<PlayerModel_Component>().GetPlayerPosition();
-                            Fix64 dist = FixVector2.Distance(new FixVector2(plerpos.x, plerpos.y), x.center);
-                            if (dist <= x.radius)
-                            {
-                            }
-                        }
-                        break;
-                }
                 if (x.frame == frame)
                 {
                     List<GameObject> btt = new List<GameObject>();
-                    foreach (var mon in _parentManager._monster.RoomToMonster[p.Key])
+                    foreach (var pler in _pvp._pvpplayer.FindPlayerInRoom(p.Key))
                     {
-                        Fix64 dist = FixVector2.Distance(new FixVector2(mon.GetComponent<MonsterModel_Component>().position.x,
-                            mon.GetComponent<MonsterModel_Component>().position.y), x.center
+                        if(_pvp._pvpplayer.FindPlayerTeamByUID(x.DmgSrcPlayerUID)== _pvp._pvpplayer.FindPlayerTeamByGameObject(pler.obj))
+                        {
+                            //Debug.LogError(x.DmgSrcPlayerUID+"  "+ _pvp._pvpplayer.FindPlayerUIDbyObject(pler.obj));
+                            continue;
+                        }
+                        Fix64 dist = FixVector2.Distance(new FixVector2(pler.obj.GetComponent<PlayerModel_Component>().playerPosition.x,
+                            pler.obj.GetComponent<PlayerModel_Component>().playerPosition.y), x.center
                             );
 
                         if (dist <= x.radius)
                         {
-                            btt.Add(mon);
+                            btt.Add(pler.obj);
 
                         }
                     }
                     //destroy skillbase
-                    foreach (var mon in btt)
+                    foreach (var pler in btt)
                     {
                         Debug.Log("damage:" + x.damage);
-                        _parentManager._monster.BeAttacked(mon, x.damage, p.Key,x.DmgSrcPlayerUID);
-                        Debug.LogError("11111111111111111111");
+                        _pvp._pvpplayer.BeAttacked(pler, x.damage, p.Key);
                     }
                     btt.Clear();
 
@@ -100,7 +89,6 @@ public class SkillModule
         }
         enginerBase.updateLogic(frame);
         magicianBase.updateLogic(frame);
-
 
     }
     public void UpdateView()

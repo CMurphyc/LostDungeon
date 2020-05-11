@@ -56,6 +56,9 @@ public class CameraController : MonoBehaviour
             currTargetPosition = currPlayerPos;
             currTargetPosition.z = currCamPos.z;
         }
-       
+        else
+        {
+            Debug.LogError("???");
+        }
      }
 }
