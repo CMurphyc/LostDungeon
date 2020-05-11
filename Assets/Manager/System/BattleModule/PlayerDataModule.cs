@@ -264,17 +264,32 @@ public class PlayerDataModule
                     (Fix64)MoveVec.y * Input.obj.GetComponent<PlayerModel_Component>().playerSpeed);
 
                 FixVector2 Pos = Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
-                if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
+
+                Fix64 radius = (Fix64)0.1;
+
+                Polygon poly = new Polygon(PolygonType.Circle);
+                FixVector2 anchor = new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(tmove.y + Pos.y));
+                poly.InitCircle(anchor, radius);
+
+                if (_parentManager._terrain.IsMovable(poly, Input.RoomID))
                 {
                     Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)tmove.x, (Fix64)tmove.y));
                 }
                 else
                 {
-                    if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(Pos.y)), Input.RoomID))
+                    anchor = new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(Pos.y));
+                    poly.InitCircle(anchor, radius);
+
+                    Polygon poly2 = new Polygon(PolygonType.Circle);
+                    FixVector2 anchor2 = new FixVector2((Fix64)(Pos.x), (Fix64)(tmove.y + Pos.y));
+                    poly2.InitCircle(anchor2, radius);
+
+
+                    if (_parentManager._terrain.IsMovable(poly, Input.RoomID))
                     {
                         Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)tmove.x, (Fix64)0));
                     }
-                    else if (_parentManager._terrain.IsMovable(new FixVector2((Fix64)(Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
+                    else if (_parentManager._terrain.IsMovable(poly2, Input.RoomID))
                     {
                         Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)0, (Fix64)tmove.y));
                     }
@@ -653,8 +668,8 @@ public class PlayerDataModule
     {
         return _parentManager.sys._model._PlayerModule.uid;
     }
-   
-    int FindPlayerUIDbyObject(GameObject obj)
+
+    public int FindPlayerUIDbyObject(GameObject obj)
     {
         int ret = -1;
 
