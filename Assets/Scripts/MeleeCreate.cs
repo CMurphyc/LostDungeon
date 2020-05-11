@@ -76,15 +76,9 @@ public class MeleeCreate : MonoBehaviour
             { 1, 1, 3, 3, 1 },
             { 9, 11, 0, 9, 13 }
         };
-        
 
+        MakeGraph(array, h, d, playerNum, floorNum);
         List<PlayerData> PlayerList = sys._model._RoomModule.PlayerList;
-        for (int i = 0; i < PlayerList.Count; i++)
-        {
-            if (PlayerList[i].empty||PlayerList[i].uid != sys._model._PlayerModule.uid) continue;
-            MakeGraph(array, h, d, playerNum, floorNum,i<1?0:1);
-        }
-        //Debug.LogError(PlayerList.Count);
         for (int i = 0; i < PlayerList.Count; i++)
         {
             if (!PlayerList[i].empty)
@@ -163,7 +157,7 @@ public class MeleeCreate : MonoBehaviour
         }
     }
 
-    void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum, int team)
+    void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
 
         // 根据传入的矩阵生成整体房间地图
@@ -221,6 +215,7 @@ public class MeleeCreate : MonoBehaviour
                     else  // 普通
                     {
                         room = Instantiate(NormalRoom, new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // Normal
+                        /*
                         if (map[i, j] == 12 + team)  // 出生点
                         {
                             //  确定出生点的 x y 值
@@ -235,6 +230,7 @@ public class MeleeCreate : MonoBehaviour
                         {
                             // terrain = Instantiate(NormalNormalTerrain[Random.Range(1, NormalNormalTerrain.Length)], new Vector3(xOffset * j, yOffset * i, 0), Quaternion.identity);  // 随机地形
                         }
+                        */
                     }
                     roomTag[i, j] = nowRoom;
                 }
@@ -416,7 +412,7 @@ public class MeleeCreate : MonoBehaviour
                     data.obj = playerTmp;
                     data.RoomID = startRoom;
                     sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
-
+                    sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
                     break;
                 }
             case CharacterType.Magician:
@@ -440,7 +436,7 @@ public class MeleeCreate : MonoBehaviour
                     data.obj = playerTmp;
                     data.RoomID = startRoom;
                     sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
-
+                    sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
                     break;
                 }
             default:

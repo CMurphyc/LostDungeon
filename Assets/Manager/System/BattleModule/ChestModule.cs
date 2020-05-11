@@ -92,7 +92,7 @@ public class ChestModule
                     FixVector2 coinspos = Chest[i].Position;
                     if (FixVector2.Distance(playerpos, coinspos) <= (Fix64)4)
                     {
-                        HandledCoins.Add(new KeyValuePair<GameObject, float>(Chest[i].thing,0.05f));
+                        HandledCoins.Add(new KeyValuePair<GameObject, float>(Chest[i].thing,0.025f));
                         Chest.RemoveAt(i);
                         if(_parentManager.sys._model._RoomModule.PVEResult.ContainsKey(_parentManager._player.FindCurrentPlayerUID())==false)
                         {
@@ -122,7 +122,7 @@ public class ChestModule
             else
             {
                 coin.transform.position=Vector2.Lerp(coin.transform.position, pler.transform.position, HandledCoins[i].Value);
-                HandledCoins[i] = new KeyValuePair<GameObject, float>(coin, HandledCoins[i].Value+Time.deltaTime);
+                HandledCoins[i] = new KeyValuePair<GameObject, float>(coin, HandledCoins[i].Value+Time.deltaTime/2);
             }
         }
         if (LastTime>=6&&CoinValue>0)
@@ -164,7 +164,7 @@ public class ChestModule
         {
             it.transform.position = _parentManager._player.FindPlayerObjByUID(i.Key).transform.position;
         }
-        Chest.Add(new ChestInfo(it,ThingsType.Chest,Frame+20,
+        Chest.Add(new ChestInfo(it,ThingsType.Chest,Frame+40,
             new FixVector2((Fix64)it.transform.position.x,(Fix64)it.transform.position.y)));
     }
     /// <summary>
@@ -179,7 +179,7 @@ public class ChestModule
             {
                 GameObject it = Object.Instantiate(Resources.Load("UI/Scene'sPictures/MapCreat/Prefabs/coin")) as GameObject;
                 it.transform.position = new Vector2((float)chestpos.x, (float)chestpos.y) + Random.insideUnitCircle;
-                Chest.Add(new ChestInfo(it, ThingsType.Coin, Frame + 10, new FixVector2((Fix64)it.transform.position.x, (Fix64)it.transform.position.y)));
+                Chest.Add(new ChestInfo(it, ThingsType.Coin, Frame + 20, new FixVector2((Fix64)it.transform.position.x, (Fix64)it.transform.position.y)));
             }
         }
         

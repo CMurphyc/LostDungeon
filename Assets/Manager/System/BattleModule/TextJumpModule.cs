@@ -35,13 +35,13 @@ public class TextJumpModule
                 CointextTime.RemoveAt(i);
                 continue;
             }
-            if (CointextTime[i] >= 5 && CointextTime[i] <= 20)
+            if (CointextTime[i] >= 5 && CointextTime[i] <= 35)
             {
-                CointextList[i].transform.position += new Vector3(0, 3, 0);
+                CointextList[i].transform.position += new Vector3(0, 1.5f, 0);
                 Color now = CointextList[i].GetComponent<Text>().color;
-                now.a = (20 - CointextTime[i]) * 1.0f / 15.0f;
+                now.a = (35 - CointextTime[i]) * 1.0f / 35.0f;
                 CointextList[i].GetComponent<Text>().color = now;
-                CointextList[i].GetComponent<Text>().fontSize++;
+                CointextList[i].GetComponent<Text>().fontSize+= CointextTime[i]%2;
             }
             CointextTime[i]++;
         }
@@ -68,5 +68,19 @@ public class TextJumpModule
     public void AddBeAttackText(Vector2 pos,int val)
     {
 
+    }
+    /// <summary>
+    /// 添加回血跳字
+    /// </summary>
+    public void AddHealText(FixVector2 pos, int val)
+    {
+        if (val == 0) return;
+        Vector2 Pos = new Vector2((float)pos.x, (float)pos.y);
+        Pos += new Vector2(0, 0.6f);//跳字头顶偏移值
+        GameObject text = Resources.Load("UI/UIPrefabs/JumpText", typeof(GameObject)) as GameObject;
+        text.GetComponent<Text>().color = new Color(1, 0, 0, 1);
+        text.GetComponent<Text>().text = "+" + val.ToString();
+        CointextList.Add(Object.Instantiate(text, Camera.main.WorldToScreenPoint(Pos), Quaternion.identity, GameObject.Find("Canvas").transform));
+        CointextTime.Add(0);
     }
 }

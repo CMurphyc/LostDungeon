@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 27597449}
   - component: {fileID: 27597448}
   m_Layer: 5
-  m_Name: player1
+  m_Name: player0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1349,7 +1349,7 @@ GameObject:
   - component: {fileID: 162657460}
   - component: {fileID: 162657459}
   m_Layer: 5
-  m_Name: Canvas-PVP
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1440,7 +1440,7 @@ RectTransform:
   - {fileID: 84574781}
   - {fileID: 118107582}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3493,7 +3493,7 @@ GameObject:
   - component: {fileID: 604611195}
   - component: {fileID: 604611194}
   m_Layer: 5
-  m_Name: player3 (1)
+  m_Name: player7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6253,7 +6253,7 @@ GameObject:
   - component: {fileID: 945828304}
   - component: {fileID: 945828303}
   m_Layer: 5
-  m_Name: player5
+  m_Name: player4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7476,7 +7476,7 @@ GameObject:
   - component: {fileID: 1164004494}
   - component: {fileID: 1164004493}
   m_Layer: 5
-  m_Name: player2
+  m_Name: player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7555,7 +7555,7 @@ GameObject:
   - component: {fileID: 1205802022}
   - component: {fileID: 1205802021}
   m_Layer: 5
-  m_Name: player4
+  m_Name: player3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9323,7 +9323,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1481221228
 GameObject:
@@ -11101,7 +11101,7 @@ GameObject:
   - component: {fileID: 1717955615}
   - component: {fileID: 1717955614}
   m_Layer: 5
-  m_Name: player2 (1)
+  m_Name: player6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12088,7 +12088,7 @@ GameObject:
   - component: {fileID: 1869728652}
   - component: {fileID: 1869728651}
   m_Layer: 5
-  m_Name: player5 (1)
+  m_Name: player9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12475,7 +12475,7 @@ GameObject:
   - component: {fileID: 1907958061}
   - component: {fileID: 1907958060}
   m_Layer: 5
-  m_Name: player3
+  m_Name: player2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13415,7 +13415,7 @@ GameObject:
   - component: {fileID: 2027314705}
   - component: {fileID: 2027314704}
   m_Layer: 5
-  m_Name: player4 (1)
+  m_Name: player8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13939,7 +13939,7 @@ GameObject:
   - component: {fileID: 2116352542}
   - component: {fileID: 2116352541}
   m_Layer: 5
-  m_Name: player1 (1)
+  m_Name: player5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14279,5 +14279,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

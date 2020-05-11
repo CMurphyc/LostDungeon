@@ -8,6 +8,7 @@ public class PVPPlayerDataModule
     PVPBattleManager _pvp;
 
     public Dictionary<int, PlayerInGameData> playerToPlayer = new Dictionary<int, PlayerInGameData>();   // 玩家编号对应玩家信息
+    public Dictionary<int, FixVector2> playerToBirthpos = new Dictionary<int, FixVector2>();   // 玩家编号对应玩家出生点
 
     public List<int> RedTeam = new List<int>();
     public List<int> BlueTeam = new List<int>();
@@ -54,7 +55,7 @@ public class PVPPlayerDataModule
                 if (PlayerComp.debuff.PoisonRemainingFrame % 20 == 0)
                 {
                     Debug.Log("触发毒BUFF伤害：");
-                    BeAttacked(x.Value.obj, 1, x.Value.RoomID);
+                    //BeAttacked(x.Value.obj, 1, x.Value.RoomID);
                 }
 
                 PlayerComp.debuff.PoisonRemainingFrame--;
@@ -117,8 +118,8 @@ public class PVPPlayerDataModule
 
             }
         }
-        //复活检测
-        //CheckRevial();
+        //复活
+        CheckRevial();
         //全体玩家去世跳转结算
         //CheckGameEnd();
     }
@@ -146,6 +147,20 @@ public class PVPPlayerDataModule
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
                 GameOverSend = true;
 
+            }
+        }
+    }
+    void CheckRevial()
+    {
+        foreach (var item in playerToRevival)
+        {
+            GameObject PlayerObj = FindPlayerObjByUID(item.Key);
+            FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival++;
+            if(FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival>= FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().MaxRevival)
+            {
+                FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().playerPosition = playerToBirthpos[item.Key];
+                playerToPlayer[item.Key].RoomID =(FindPlayerTeamByUID(item.Key) == "RedTeam" ? 1 : 19);
+                Debug.LogError(playerToPlayer[item.Key].RoomID);
             }
         }
     }
@@ -435,7 +450,8 @@ public class PVPPlayerDataModule
                                         (Fix64)_pvp._chest.propToProperty[x.treasureId].changeSpeed,
                                         _pvp._chest.propToProperty[x.treasureId].bulletType
                                         );
-
+                                    _pvp._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
+                                        GetComponent<PlayerModel_Component>().playerPosition, _pvp._chest.propToProperty[x.treasureId].changeHP);
                                     Item titem = new Item();
                                     titem.ItemID = x.treasureId;
                                     titem.ItemNumber = 1;
@@ -483,6 +499,7 @@ public class PVPPlayerDataModule
 
 
     //obj = 受击OBJECT , dmg = 伤害
+    /*
     public void BeAttacked(GameObject obj, int dmg, int roomid)
     {
 
@@ -537,6 +554,7 @@ public class PVPPlayerDataModule
             }
         }
     }
+    */
 
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(int OwnerUID,GameObject obj, int dmg, int roomid)
@@ -552,7 +570,7 @@ public class PVPPlayerDataModule
 
             _pvp.sys._model._RoomModule.PVPResult[OwnerUID].kills++;
             _pvp.sys._model._RoomModule.PVPResult[FindPlayerUIDbyObject(obj)].Dead++;
-
+            _pvp._score.AddTeamScoreByPlayerUID(OwnerUID);
 
             obj.GetComponent<PlayerModel_Component>().SetHealthPoint(0);
 
@@ -561,7 +579,7 @@ public class PVPPlayerDataModule
             Debug.Log("ScreenPos: " + ScreenPos);
             GameObject Revival_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/Revival");
             GameObject Canvas = GameObject.Find("Canvas");
-            if (Canvas != null && FindPlayerTeamByGameObject(obj) == FindCurrentPlayerTeam())
+            if (Canvas != null)
             {
                 GameObject Revival_Instance = Object.Instantiate(Revival_Prefab, Canvas.transform);
                 Revival_Instance.transform.position = ScreenPos;

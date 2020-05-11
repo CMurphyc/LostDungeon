@@ -80,7 +80,6 @@ public class ScoreModule
         Canvas.transform.Find("Image/Time").GetComponent<Text>().text = (LeftTime / 3600).ToString("d2") + ":" + ((LeftTime % 3600) / 60).ToString("d2") + ":" + (LeftTime % 60).ToString("d2");
         Canvas.transform.Find("Image/RedScore").GetComponent<Text>().text = RedTeamScore.ToString();
         Canvas.transform.Find("Image/BlueScore").GetComponent<Text>().text = BlueTeamScore.ToString();
-
         UpdateScoreSlider(Canvas);
     }
     void UpdateScoreSlider(GameObject Canvas)
@@ -104,24 +103,24 @@ public class ScoreModule
     {
         if (RedTeamScore == 100)
         {
-            winer = "Red";
+            winer = "RedTeam";
             GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
         }
         if(BlueTeamScore==100)
         {
-            winer = "Blue";
+            winer = "BlueTeam";
             GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
         }
         if(GameTime==0)
         {
             if(RedTeamScore>BlueTeamScore)
             {
-                winer = "Red";
+                winer = "RedTeam";
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
             }
             if(BlueTeamScore>RedTeamScore)
             {
-                winer = "Blue";
+                winer = "BlueTeam";
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
             }
         }
@@ -150,6 +149,17 @@ public class ScoreModule
     public void AddRedTeamScore(int num)
     {
         RedTeamScore += num;
+    }
+    public void AddTeamScoreByPlayerUID(int uid)
+    {
+        if(_pvp._pvpplayer.FindPlayerTeamByUID(uid)=="Blue")
+        {
+            AddBlueTeamScore(1);
+        }
+        else
+        {
+            AddRedTeamScore(1);
+        }
     }
     public string GetWinner() { return winer; }
 }

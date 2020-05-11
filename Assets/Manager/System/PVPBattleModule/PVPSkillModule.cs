@@ -70,7 +70,7 @@ public class PVPSkillModule : MonoBehaviour
                     foreach (var pler in btt)
                     {
                         Debug.Log("damage:" + x.damage);
-                        _pvp._pvpplayer.BeAttacked(pler, x.damage, p.Key);
+                        _pvp._pvpplayer.BeAttacked(x.DmgSrcPlayerUID,pler, x.damage, p.Key);
                     }
                     btt.Clear();
 

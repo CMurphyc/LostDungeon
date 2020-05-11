@@ -26,10 +26,21 @@ public class BattleUIUpdate : MonoBehaviour
         BossUI = GameObject.Find("Canvas/BossHint");
 
         HP_bar =  GameObject.Find("Canvas/PlayerHPUI");
-
-
-
         BossUI.SetActive(false);
+
+        if (sys._model._RoomListModule.roomType == RoomType.Pvp)
+        {
+            if (sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam() == "RedTeam")
+            {
+                GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "我方";
+                GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "敌方";
+            }
+            else
+            {
+                GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "敌方";
+                GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "我方";
+            }
+        }
     }
     void Start()
     {

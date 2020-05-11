@@ -151,14 +151,30 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomid = synPack.RoomId;
 
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomOwnerID = synPack.RoomOwnerId;
-           
-            for (int i = 0; i < synPack.PlayersInfo.Count;i++)
+            Debug.LogError(synPack.PlayersInfo.Count);
+            for (int i = 0; i < synPack.PlayersInfo.Count; i++)
             {
-                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.Add_Player(synPack.PlayersInfo[i]);
+                switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
+                {
+                    case RoomType.Pve:
+                        main.GetComponent<GameMain>().WorldSystem._model._RoomModule.Add_Player(synPack.PlayersInfo[i]);
+                        break;
+                    case RoomType.Pvp:
+                        main.GetComponent<GameMain>().WorldSystem._model._RoomModule.Add_Player(synPack.PlayersInfo[i]);
+                        break;
+                }
             }
 
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.NeedUpdate = true;
-            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect");
+            switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
+            {
+                case RoomType.Pve:
+                    main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect");
+                    break;
+                case RoomType.Pvp:
+                    main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("HeroSelect2");
+                    break;
+            }
         }
         else
         {
@@ -178,8 +194,6 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.uid = temp.Uid;
             main.GetComponent<GameMain>().WorldSystem._model._PlayerModule.nickname = temp.UserName;
             main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main");
-
-           
         }
        
 
