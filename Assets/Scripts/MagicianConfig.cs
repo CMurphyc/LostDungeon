@@ -20,8 +20,16 @@ public class MagicianConfig : BaseConfig
     public float controlTime;                 //控制时间
     public float countdownSkill2;             //技能2冷却
 
+    public float rangeSkill3;                 //冰魔法范围
+    public float areaSkill3;                  //冰魔法大小
+    public int damageSkill3;                 //冰魔法伤害
+    public float lastTimeSkill3;                 //持续时间
+    public float countdownSkill3;             
+
     public GameObject effectFire;           //火特效
     public GameObject effectThunder;        //雷特效
+    public GameObject effectIce;
+
     public Sprite skill1Image;
     public Sprite skill2Image;
     public Sprite skill3Image;

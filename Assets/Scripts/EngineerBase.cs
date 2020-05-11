@@ -335,6 +335,11 @@ public class EngineerBase
         {
             if(p.GetComponent<RocketControl>().updateLogic(frame))
             {
+                GameObject ge = GameObject.Instantiate(effectGernadeExplosion);
+                ge.transform.localScale = new Vector3(7, 7, 5);
+                    ge.GetComponent<ExplosionControl>().init(frame+2 ,(int)(0.7f * 1000 / Global.FrameRate), p.transform.position);
+                
+                explosion.Add(ge);
                 GameObject.Destroy(p);
             }
             else

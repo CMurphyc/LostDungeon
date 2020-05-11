@@ -28,11 +28,19 @@ public class MagicianBase
     public float controlTime;                 //控制时间
     public float countdownSkill2;             //技能2冷却
 
+    public float rangeSkill3;                 //冰魔法范围
+    public float areaSkill3;                  //冰魔法大小
+    public int damageSkill3;                 //冰魔法伤害
+    public float lastTimeSkill3;                 //持续时间
+    public float countdownSkill3;
+
     public GameObject effectFire;           //火特效
     public GameObject effectThunder;        //雷特效
+    public GameObject effectIce;
 
     public Sprite skill1Image;
     public Sprite skill2Image;
+    public Sprite skill3Image;
 
     public SkillAreaType skill1Type;
     public SkillAreaType skill2Type;
@@ -40,6 +48,7 @@ public class MagicianBase
 
     List<GameObject> fire = new List<GameObject>();
     List<GameObject> thunder = new List<GameObject>();
+    List<GameObject> ice = new List<GameObject>();
 
     BattleManager _parentManager;
 
@@ -56,6 +65,15 @@ public class MagicianBase
     public float Skill2Range()
     {
         return rangeSkill2;
+    }
+    public float Skill3Area()
+    {
+        return areaSkill3;
+    }
+
+    public float Skill3Range()
+    {
+        return rangeSkill3;
     }
 
     public float Skill2Area()
@@ -96,11 +114,19 @@ public class MagicianBase
         controlTime = x.controlTime;
         countdownSkill2 = x.countdownSkill2;
 
+        rangeSkill3 = x.rangeSkill3;                 //冰魔法范围
+        areaSkill3 = x.areaSkill3;                  //冰魔法大小
+        damageSkill3 = x.damageSkill3;                 //冰魔法伤害
+        lastTimeSkill3 = x.lastTimeSkill3;                 //持续时间
+        countdownSkill3 = x.countdownSkill3;
+
         effectFire= x.effectFire;
         effectThunder = x.effectThunder;
+        effectIce = x.effectIce;
 
         skill1Image = x.skill1Image;
         skill2Image = x.skill2Image;
+        skill3Image = x.skill3Image;
 
         skill1Type = x.skill1Type;
         skill2Type = x.skill2Type;
@@ -190,8 +216,6 @@ public class MagicianBase
             tr *= 1.5f;
         }
 
-        Debug.Log("woshele");
-
         SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), frame, dmgSrc);
 
         _parentManager._skill.Add(tmp, RoomID);
@@ -206,6 +230,32 @@ public class MagicianBase
             return (int)(1000 / Global.FrameRate * (countdownSkill2));
         }
     }
+
+
+    public int Skill3Logic(int frame, int RoomID, List<int> gifted, Vector3 st, Vector3 dir, int dmgSrc)
+    {
+        dir -= st;
+        dir.Normalize();
+        dir *= 0.1f;
+        
+        GameObject p = GameObject.Instantiate(effectIce);
+
+        p.GetComponent<IceControl>().init(new FixVector2((Fix64)st.x, (Fix64)st.y),
+            new FixVector2((Fix64)dir.x, (Fix64)dir.y),
+            (Fix64)1f, RoomID, damageSkill3, dmgSrc, _parentManager
+            );
+        ice.Add(p);
+
+        if (gifted[3] == 1)
+        {
+            return (int)(1000 / Global.FrameRate * (countdownSkill3 - 2));
+        }
+        else
+        {
+            return (int)(1000 / Global.FrameRate * (countdownSkill3));
+        }
+    }
+
 
     public void updateLogic(int frame)
     {
@@ -247,5 +297,25 @@ public class MagicianBase
         {
             thunder.Add(p);
         }
+
+        tg.Clear();
+
+        foreach(GameObject p in ice)
+        {
+            if (p.GetComponent<IceControl>().updateLogic(frame))
+            {
+                GameObject.Destroy(p);
+            }
+            else
+            {
+                tg.Add(p);
+            }
+        }
+        ice.Clear();
+        foreach(var p in tg)
+        {
+            ice.Add(p);
+        }
+        tg.Clear();
     }
 }

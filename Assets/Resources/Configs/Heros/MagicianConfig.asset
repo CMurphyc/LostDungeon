@@ -33,9 +33,20 @@ MonoBehaviour:
   damageSkill2: 2
   controlTime: 1
   countdownSkill2: 8
+  rangeSkill3: 0.05
+  areaSkill3: 0.05
+  damageSkill3: 10
+  lastTimeSkill3: 8
+  countdownSkill3: 4
   effectFire: {fileID: 8159284490186476141, guid: be97829c91f158049839841608af1b1d,
     type: 3}
   effectThunder: {fileID: 1867206953317750255, guid: ed57e940d46748d4a805d1b9e4e0ecf6,
     type: 3}
+  effectIce: {fileID: 173028001531685609, guid: ecf8e84fec2ad644e917126f4f388d75,
+    type: 3}
   skill1Image: {fileID: 21300000, guid: ceb453c4c3bf17a4fb41d0f9c6ed9b8a, type: 3}
   skill2Image: {fileID: 21300000, guid: 194cb54626a9d7c4784c3e897bbaee2e, type: 3}
+  skill3Image: {fileID: 21300000, guid: 45c8ea421a2b95145a4dfafdcb7580f8, type: 3}
+  skill1Type: 3
+  skill2Type: 3
+  skill3Type: 1
