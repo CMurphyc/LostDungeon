@@ -7,7 +7,7 @@ namespace Pathfinding
     public class AIDestinationSetter : VersionedMonoBehaviour
     {
         public Transform target;
-
+        public GameObject targetObj;
         public Vector3 Target;
         public bool AI_Switch =false;
         IAstarAI ai;

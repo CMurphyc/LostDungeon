@@ -46,7 +46,7 @@ namespace Pathfinding
         {
             get
             {
-                return interpolator.valid ? interpolator.remainingDistance + movementPlane.ToPlane(interpolator.position - position).magnitude : float.PositiveInfinity;
+                return interpolator.valid ? interpolator.remainingDistance + (interpolator.position - position).magnitude : float.PositiveInfinity;
             }
         }
 
@@ -55,7 +55,7 @@ namespace Pathfinding
             get
             {
                 if (!reachedEndOfPath) return false;
-                if (remainingDistance + movementPlane.ToPlane(destination - interpolator.endPoint).magnitude > endReachedDistance) return false;
+                if (remainingDistance +(destination - interpolator.endPoint).magnitude > endReachedDistance) return false;
 
                 if (orientation != OrientationMode.YAxisForward)
                 {
@@ -201,7 +201,7 @@ namespace Pathfinding
             var currentPosition = simulatedPosition;
 
             interpolator.MoveToCircleIntersection2D(currentPosition, pickNextWaypointDist, movementPlane);
-            var dir = movementPlane.ToPlane(steeringTarget - currentPosition);
+            var dir = (steeringTarget - currentPosition);
 
             float distanceToEnd = dir.magnitude + Mathf.Max(0, interpolator.remainingDistance);
 
@@ -210,7 +210,7 @@ namespace Pathfinding
             if (!prevTargetReached && reachedEndOfPath) OnTargetReached();
             float slowdown;
 
-            var forwards = movementPlane.ToPlane(simulatedRotation * (orientation == OrientationMode.YAxisForward ? Vector3.up : Vector3.forward));
+            var forwards = (simulatedRotation * (orientation == OrientationMode.YAxisForward ? Vector3.up : Vector3.forward));
 
             if (interpolator.valid && !isStopped)
             {
@@ -237,8 +237,8 @@ namespace Pathfinding
 
 
             // Set how much the agent wants to move during this frame
-            var delta2D = lastDeltaPosition = CalculateDeltaToMoveThisFrame(movementPlane.ToPlane(currentPosition), distanceToEnd, deltaTime);
-            nextPosition = currentPosition + movementPlane.ToWorld(delta2D, verticalVelocity * lastDeltaTime);
+            Vector3 delta2D = lastDeltaPosition = CalculateDeltaToMoveThisFrame((currentPosition), distanceToEnd, deltaTime);
+            nextPosition = currentPosition +(delta2D);
             CalculateNextRotation(slowdown, out nextRotation);
         }
 

@@ -363,6 +363,9 @@ public class MonsterModule
                                     bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
                                     BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
                                     BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
+
+
+                                   
                                     break;
                                 }
                             }
@@ -506,10 +509,11 @@ public class MonsterModule
                     //FixVector2 MonsterPos = new Vector2((float)Monster.GetComponent<MonsterModel_Component>().position.x, (float)Monster.GetComponent<MonsterModel_Component>().position.y);
                     FixVector2 MonsterPos =PackConverter.FixVector3ToFixVector2(Monster.GetComponent<MonsterModel_Component>().position);
                     GameObject Target = FindClosePlayer(MonsterPos, RoomID);
-
+                  
                     Monster.GetComponent<EnemyAI>().UpdateLogic(Target, frame, Monster,true);
                     if (Target != null)
                     {
+                        Monster.GetComponent<AIDestinationSetter>().targetObj = Target;
                         Monster.GetComponent<AIDestinationSetter>().Target = new Vector3((float)Target.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                             (float)Target.GetComponent<PlayerModel_Component>().GetPlayerPosition().y, (float)0);
 
@@ -591,16 +595,56 @@ public class MonsterModule
 
                 if (Boss != null)
                 {
-                    Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
-                    Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
-                    //获取当前帧位置
-                    Vector3 Pos;
-                    Quaternion Rot;
-                    Boss.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
+                    //Vector3 MonsterPos = new Vector3((float)Boss.GetComponent<MonsterModel_Component>().position.x, (float)Boss.GetComponent<MonsterModel_Component>().position.y);
+                    //Boss.GetComponent<AIPath>().InitConfig(MonsterPos, Boss.GetComponent<MonsterModel_Component>().Rotation, new Vector3(1.5f, 1.5f, 1.5f), Global.FrameRate);
+                    ////获取当前帧位置
+                    //Vector3 Pos;
+                    //Quaternion Rot;
+                    //Boss.GetComponent<AIPath>().GetFramePosAndRotation(out Pos, out Rot);
 
-                    FixVector3 FixMonsterPos = new FixVector3((Fix64)Pos.x, (Fix64)Pos.y, (Fix64)Pos.z);
-                    Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
-                    Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
+                    //FixVector3 FixMonsterPos = new FixVector3((Fix64)Pos.x, (Fix64)Pos.y, (Fix64)Pos.z);
+                    //Boss.GetComponent<MonsterModel_Component>().position = FixMonsterPos;
+                    //Boss.GetComponent<MonsterModel_Component>().Rotation = Rot;
+
+                    GameObject target = Boss.GetComponent<AIDestinationSetter>().targetObj;
+                    FixVector2 targetPos = target.GetComponent<PlayerModel_Component>().GetPlayerPosition();
+                    FixVector2 BossPos =PackConverter.FixVector3ToFixVector2( Boss.GetComponent<MonsterModel_Component>().position);
+                    Fix64 Distance = FixVector2.Distance(targetPos, BossPos);
+                  
+                    // 0.7 BOSS停下
+                    if (Distance>(Fix64)0.7)
+                    {
+                        FixVector2 vec = ((targetPos - BossPos) * (Fix64)100).GetNormalized() * Boss.GetComponent<MonsterModel_Component>().MoveSpeed/ (Fix64)Global.FrameRate;
+                        FixVector2 ToPosition = BossPos +vec;
+
+                        int TargetUID = _parentManager._player.FindPlayerUIDbyObject(target);
+                        if (TargetUID!=-1)
+                        {
+                            Polygon Poly = new Polygon(PolygonType.Rectangle);
+                            Poly.InitRectangle(ToPosition, FixVector2.Zero, (Fix64)Boss.GetComponent<BoxCollider2D>().size.x, (Fix64)Boss.GetComponent<BoxCollider2D>().size.y);
+
+
+                           
+                            if (_parentManager._terrain.IsMovable(Poly, _parentManager._player.playerToPlayer[TargetUID].RoomID))
+                            {
+                                bool rot = targetPos.x >= ToPosition.x;
+
+                                Boss.GetComponent<MonsterModel_Component>().position = PackConverter.FixVector2ToFixVector3(ToPosition);
+                                if (rot)
+                                {
+                                    Boss.GetComponent<MonsterModel_Component>().Rotation = new Quaternion(0, 0, 0, 0);
+                                }
+                                else
+                                {
+                                    Boss.GetComponent<MonsterModel_Component>().Rotation = new Quaternion(0, 180f, 0, 0);
+
+                                }
+
+                            }
+
+                        }
+
+                    }
                 }
                 else
                 {
