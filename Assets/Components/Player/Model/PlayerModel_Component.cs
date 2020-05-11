@@ -8,6 +8,8 @@ public class PlayerModel_Component : MonoBehaviour
     public int fullHealthPoint { get; set; }           // 玩家血量
     public int healthPoint { get; set; }                //玩家现在的血量
     public Fix64 playerSpeed { get; set; }           // 玩家移动速度
+
+    public Fix64 BuffattackPoint { get; set; }           // 玩家Buff变更攻击力
     public Fix64 attackPoint { get; set; }           // 玩家攻击力
     public Fix64 shootSpeed { get; set; }           //射击速度 就是间隔  1/0.5*20 40
     public int countDown1 { get; set; }                 //技能1倒计时
@@ -25,13 +27,22 @@ public class PlayerModel_Component : MonoBehaviour
     public List<bulletType> bulletBuff = new List<bulletType>();
 
     public DeBuff debuff = new DeBuff();
+    public Buff buff = new Buff();
 
     public int muteki;
 
     public int dead;
 
+
     public int revival;
     public int MaxRevival=100;
+
+
+    //dash Skill
+    public bool inDash=false;
+    public int DashDuration;
+    public FixVector2 DashToward = new FixVector2();
+
     //void Awake()
     //{
     //    //Position = new FixVector3((Fix64)(-4),(Fix64)1,(Fix64)0);
@@ -76,8 +87,48 @@ public class PlayerModel_Component : MonoBehaviour
         if (healthPoint == 0) dead = 1;
         else dead = 0;
 
+        if (DashDuration>0)
+        {
+            DashDuration--;
+        }
+        else
+        {
+            inDash = false;
+        }
+
+
+        UpdateBuff();
+     
 
     }
+    private void UpdateBuff()
+    {
+        if (buff.AttackIncrease_RemainingFrame>0)
+        {
+            buff.AttackIncrease_RemainingFrame--;
+        }
+        else
+        {
+            if (buff.AttackIncrease)
+            {
+                attackPoint -= BuffattackPoint;
+            }
+
+            buff.AttackIncrease = false;
+
+         
+        }
+
+        if (buff.Invisible_RemainingFrame > 0)
+        {
+            buff.Invisible_RemainingFrame--;
+        }
+        else
+        {
+            buff.Invisible = false;
+        }
+    }
+
 
     public void Change(int fullHP,int HP,Fix64 ShootSpeed ,Fix64 BulletSpeed,Fix64 AttackPoint,Fix64 PlayerSpeed,List<bulletType> buff)
     {

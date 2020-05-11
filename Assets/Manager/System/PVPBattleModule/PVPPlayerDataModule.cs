@@ -247,17 +247,36 @@ public class PVPPlayerDataModule
                     (Fix64)MoveVec.y * Input.obj.GetComponent<PlayerModel_Component>().playerSpeed);
 
                 FixVector2 Pos = Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition();
-                if (_pvp._pvpterrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
+
+
+
+                Fix64 radius = (Fix64)0.1;
+
+                Polygon poly = new Polygon(PolygonType.Circle);
+                FixVector2 anchor = new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(tmove.y + Pos.y));
+                poly.InitCircle(anchor, radius);
+
+
+                if (_pvp._pvpterrain.IsMovable(poly, Input.RoomID))
                 {
                     Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)tmove.x, (Fix64)tmove.y));
                 }
                 else
                 {
-                    if (_pvp._pvpterrain.IsMovable(new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(Pos.y)), Input.RoomID))
+                    anchor = new FixVector2((Fix64)(tmove.x + Pos.x), (Fix64)(Pos.y));
+                    poly.InitCircle(anchor, radius);
+
+                    Polygon poly2 = new Polygon(PolygonType.Circle);
+                    FixVector2 anchor2 = new FixVector2((Fix64)(Pos.x), (Fix64)(tmove.y + Pos.y));
+                    poly2.InitCircle(anchor2, radius);
+
+
+
+                    if (_pvp._pvpterrain.IsMovable(poly, Input.RoomID))
                     {
                         Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)tmove.x, (Fix64)0));
                     }
-                    else if (_pvp._pvpterrain.IsMovable(new FixVector2((Fix64)(Pos.x), (Fix64)(tmove.y + Pos.y)), Input.RoomID))
+                    else if (_pvp._pvpterrain.IsMovable(poly2, Input.RoomID))
                     {
                         Input.obj.GetComponent<PlayerModel_Component>().Move(new FixVector2((Fix64)0, (Fix64)tmove.y));
                     }
@@ -322,6 +341,40 @@ public class PVPPlayerDataModule
                                                                         .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
                                                 break;
                                             }
+                                        case CharacterType.Ghost:
+                                            {
+                                                bu.BulletInit(Team, new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                                                      (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                                                      AttackVec,
+                                                                     playerToPlayer[frameInfo[i].Uid].obj
+                                                                      .GetComponent<PlayerModel_Component>().bulletSpeed
+                                                                      , playerToPlayer[frameInfo[i].Uid].obj
+                                                                      .GetComponent<PlayerModel_Component>().attackPoint
+                                                                      , Input.RoomID,
+                                                                      _pvp._pvpskill.ghostBase.bulletObj
+
+                                                                      , playerToPlayer[frameInfo[i].Uid].obj
+                                                                      .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
+                                                break;
+                                            }
+
+                                        case CharacterType.Warrior:
+                                            {
+                                                bu.BulletInit(Team, new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                                                        (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                                                        AttackVec,
+                                                                        playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().bulletSpeed
+                                                                        , playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().attackPoint
+                                                                        , Input.RoomID,
+                                                                          _pvp._pvpskill.guardianBase.bulletObj
+
+                                                                        , playerToPlayer[frameInfo[i].Uid].obj
+                                                                        .GetComponent<PlayerModel_Component>().bulletBuff, frameInfo[i].Uid);
+
+                                                break;
+                                            }
                                     }
 
                                     bulletList.Add(bu);
@@ -367,6 +420,30 @@ public class PVPPlayerDataModule
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
+                                        break;
+                                    }
+                                case CharacterType.Ghost:
+                                    {
+
+
+                                        FixVector2 toward = new FixVector2((Fix64)frameInfo[i].AttackDirectionX / 10000,
+                                            (Fix64)frameInfo[i].AttackDirectionY / 10000
+                                            ) - Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition(); ;
+                                        toward.Normalize();
+                                        int cd = _pvp._pvpskill.ghostBase.Skill1Logic(frame,
+                                            playerToPlayer[frameInfo[i].Uid].RoomID, toward, Input.obj);
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
+                                        break;
+                                    }
+                                case CharacterType.Warrior:
+                                    {
+                                        int cd = _pvp._pvpskill.guardianBase.Skill1Logic(frame,
+                                            playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                           playerToPlayer[frameInfo[i].Uid].obj,
+                                             frameInfo[i].Uid
+
                                             );
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown1(cd);
                                         break;
@@ -417,6 +494,29 @@ public class PVPPlayerDataModule
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
                                         break;
                                     }
+                                case CharacterType.Ghost:
+                                    {
+                                        int cd = _pvp._pvpskill.ghostBase.Skill2Logic(Input.obj
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
+                                        break;
+                                    }
+                                case CharacterType.Warrior:
+                                    {
+                                        int cd = _pvp._pvpskill.guardianBase.Skill2Logic(frame,
+                                            playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                            new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                            (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                            new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
+                                            (float)frameInfo[i].AttackDirectionY / 10000f
+                                            ), frameInfo[i].Uid
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
+
+                                        break;
+                                    }
+
+
                                 default:
                                     break;
                             }
@@ -465,6 +565,69 @@ public class PVPPlayerDataModule
                             }
                             break;
                         }
+
+                    case (int)AttackType.Skill3:
+                        {
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetCountDown3() != 0) break;
+                            CharacterType PlayerType = _pvp.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid);
+
+                            List<int> tmp = new List<int>();
+                            tmp.Add(1);
+                            tmp.Add(1);
+                            tmp.Add(1);
+                            tmp.Add(1);
+                            tmp.Add(1);
+
+                            switch (PlayerType)
+                            {
+                                case CharacterType.Enginner:
+                                    {
+                                        Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
+                                        Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
+
+                                        int cd = _pvp._pvpskill.enginerBase.Skill3Logic(frame,
+                                            playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                            new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                            (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
+                                            new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
+                                            (float)frameInfo[i].AttackDirectionY / 10000f
+                                            ), frameInfo[i].Uid
+                                            );
+                                        Debug.Log("aaaaaa" + cd);
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown3(cd);
+
+                                        break;
+                                    }
+                                case CharacterType.Magician:
+                                    {
+                                        /*
+                                        int cd = _parentManager._skill.magicianBase.Skill2Logic(frame,
+                                            _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                            new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
+                                            (float)frameInfo[i].AttackDirectionY / 10000f
+                                            ), frameInfo[i].Uid
+                                            );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
+                                        */
+                                        break;
+                                    }
+
+                                case CharacterType.Ghost:
+                                    {
+                                        int cd = _pvp._pvpskill.ghostBase.Skill3Logic(Input.obj
+                                           );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown3(cd);
+
+                                        break;
+
+                                    }
+                                default:
+                                    break;
+                            }
+                            break;
+                        }
+
+
                     default:
                         break;
 
@@ -559,6 +722,8 @@ public class PVPPlayerDataModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(int OwnerUID,GameObject obj, int dmg, int roomid)
     {
+        if (obj.GetComponent<PlayerModel_Component>().GetMuteki() != 0) return;
+
 
         if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint() <= 0)
         {

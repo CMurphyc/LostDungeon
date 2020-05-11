@@ -31,14 +31,67 @@ public class PlayerView_Component : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f);
         }
+
+        if (PlayerComp.buff.AttackIncrease)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(150f / 255f, 255f / 255f, 255f / 255f);
+            if (transform.Find("back") != null)
+            {
+                transform.Find("back").gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f);
+
+            if (transform.Find("back") != null)
+            {
+                transform.Find("back").gameObject.SetActive(false);
+            }
+        }
+
+        if (PlayerComp.buff.Invisible)
+        {
+            if (GameObject.FindWithTag("GameEntry")!=null)
+            {
+                SystemManager sys = GameObject.FindWithTag("GameEntry").GetComponent<GameMain>().WorldSystem;
+                int CurrentUID = sys._model._PlayerModule.uid;
+                int playerUID = sys._battle._player.FindPlayerUIDbyObject(gameObject);
+                //if (CurrentUID==playerUID)
+                {
+                    Color temp = GetComponent<SpriteRenderer>().color;
+                    GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+                   
+                }
+            }
+        }
+        else
+        {
+            Color temp = GetComponent<SpriteRenderer>().color;
+            GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 255f / 255f);
+
+        }
+
     }
     private void UpdatePosition()
     {
         FixVector2 FloatPos = GetComponent<PlayerModel_Component>().GetPlayerPosition();
         Vector2 p = new Vector2((float)FloatPos.x,(float)FloatPos.y);
+
+        if (!GetComponent<PlayerModel_Component>().inDash)
+        {
+            SetDash(false);
+        }
+        else
+        {
+            SetDash(true);
+        }
         if (Mathf.Abs(p.x - transform.position.x) <= 0.1f && Mathf.Abs(p.y - transform.position.y) <= 0.1f)
             SetRun(false);
-        else SetRun(true);
+        else
+        {
+            SetRun(true);
+        }
 
         if (this.GetComponent<PlayerModel_Component>().GetDead() == 1) SetDead(true);
         else SetDead(false);
@@ -76,5 +129,8 @@ public class PlayerView_Component : MonoBehaviour
     {
         anim.SetBool("dead", state);
     }
-
+    void SetDash(bool state)
+    {
+        anim.SetBool("isDash", state);
+    }
 }

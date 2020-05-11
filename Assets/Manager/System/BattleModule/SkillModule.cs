@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillModule
 {
-    BattleManager _parentManager;
+    public BattleManager _parentManager;
 
     //房间号-抛射物
     public Dictionary<int, List<SkillBase>> RoomToProjectile = new Dictionary<int, List<SkillBase>>();
@@ -15,12 +15,25 @@ public class SkillModule
     public EngineerBase enginerBase;
     public MagicianBase magicianBase;
 
+    public GhostBase ghostBase;
+
+
+    public GuardianBase guardianBase;
+
     public SkillModule(BattleManager parent)
     {
 
         _parentManager = parent;
+
         enginerBase = new EngineerBase(parent.sys);
         magicianBase = new MagicianBase(parent.sys);
+
+
+        ghostBase = new GhostBase(parent.sys);
+
+        guardianBase = new GuardianBase(parent.sys);
+
+
     }
     public void Free()
     {
@@ -28,6 +41,12 @@ public class SkillModule
         Effects.Clear();
         enginerBase.Free();
         magicianBase.Free();
+
+
+        ghostBase.Free();
+
+        guardianBase.Free();
+
     }
     public void Add(SkillBase x, int roomID)
     {
@@ -100,6 +119,10 @@ public class SkillModule
         }
         enginerBase.updateLogic(frame);
         magicianBase.updateLogic(frame);
+
+        ghostBase.updateLogic(frame);
+
+        guardianBase.updateLogic(frame);
 
 
     }

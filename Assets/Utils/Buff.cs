@@ -8,6 +8,12 @@ public class Buff
     public bool Undefeadted = false;
     public int Undefeadted_RemainingFrame;
 
+
+    public bool AttackIncrease = false;
+    public int AttackIncrease_RemainingFrame;
+
+    public bool Invisible = false;
+    public int Invisible_RemainingFrame;
 }
 
 

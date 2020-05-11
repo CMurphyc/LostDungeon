@@ -14,13 +14,16 @@ public class PVPSkillModule : MonoBehaviour
 
     public EngineerBase enginerBase;
     public MagicianBase magicianBase;
-
+    public GhostBase ghostBase;
+    public GuardianBase guardianBase;
     public PVPSkillModule(PVPBattleManager parent)
     {
 
         _pvp = parent;
         enginerBase = new EngineerBase(parent.sys);
         magicianBase = new MagicianBase(parent.sys);
+        ghostBase = new GhostBase(parent.sys);
+        guardianBase = new GuardianBase(parent.sys);
     }
     public void Free()
     {
@@ -28,6 +31,10 @@ public class PVPSkillModule : MonoBehaviour
         Effects.Clear();
         enginerBase.Free();
         magicianBase.Free();
+
+        ghostBase.Free();
+
+        guardianBase.Free();
     }
     public void Add(SkillBase x, int roomID)
     {
@@ -89,6 +96,9 @@ public class PVPSkillModule : MonoBehaviour
         }
         enginerBase.updateLogic(frame);
         magicianBase.updateLogic(frame);
+        ghostBase.updateLogic(frame);
+
+        guardianBase.updateLogic(frame);
 
     }
     public void UpdateView()

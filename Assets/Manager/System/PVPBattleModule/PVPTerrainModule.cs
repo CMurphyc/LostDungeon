@@ -39,9 +39,9 @@ public class PVPTerrainModule : MonoBehaviour
         GameOverInit = false;
     }
 
-    public bool IsMovable(FixVector2 pos, int RoomId)
+    public bool IsMovable(Polygon poly, int RoomId)
     {
-        
+
         foreach (GameObject stone in roomToStone[RoomId])
         {
             BoxCollider2D collider = stone.GetComponent<BoxCollider2D>();
@@ -52,15 +52,46 @@ public class PVPTerrainModule : MonoBehaviour
                 (Fix64)(stone.GetComponent<BoxCollider2D>().size.y)
                 );
             //Debug.Log("anchor is " + rect.anchor + "offsetX is " + rect.horizon + "offsety is " + rect.vertical );
-            if (collideDetecter.PointInRectangle(pos, rect))
+
+            switch (poly.type)
             {
-                //Debug.Log("mememe pos is " + pos + " " + "collide anchor is " + rect.anchor + " " + "horizon is " + rect.horizon + " " + "vertical is " + rect.vertical);
-                return false;
+                case PolygonType.Point:
+                    {
+                        if (collideDetecter.PointInRectangle(poly.Point, rect))
+                        {
+                            return false;
+                        }
+                        break;
+                    }
+                case PolygonType.Rectangle:
+                    {
+                        if (collideDetecter.RectangleCollideRectangle(poly.Rect, rect))
+                        {
+                            return false;
+                        }
+                        break;
+                    }
+
+                case PolygonType.Circle:
+                    {
+
+                        if (collideDetecter.CircleCollideRect(poly.circle, rect))
+                        {
+                            return false;
+                        }
+                        break;
+                    }
             }
-            else
-            {
-                //Debug.Log("mememe pos is " + pos + " " + "dis anchor is " + rect.anchor + " " + "horizon is " + rect.horizon + " " + "vertical is " + rect.vertical);
-            }
+
+            //if (collideDetecter.PointInRectangle(pos, rect))
+            //{
+            //    //Debug.Log("mememe pos is " + pos + " " + "collide anchor is " + rect.anchor + " " + "horizon is " + rect.horizon + " " + "vertical is " + rect.vertical);
+            //    return false;
+            //}
+            //else
+            //{
+            //    //Debug.Log("mememe pos is " + pos + " " + "dis anchor is " + rect.anchor + " " + "horizon is " + rect.horizon + " " + "vertical is " + rect.vertical);
+            //}
         }
         return true;
 

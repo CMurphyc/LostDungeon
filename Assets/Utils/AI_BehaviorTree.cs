@@ -285,7 +285,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                         new FixVector2(obj.transform.GetComponent<MonsterModel_Component>().position.x, obj.transform.GetComponent<MonsterModel_Component>().position.y),
                         Fix64.One,
                         0,
-                        frame + 5),
+                        frame + 5,-1),
                         sys._battle._monster.FindRoomIDByMonster(obj));
                     obj.transform.GetComponent<MonsterModel_Component>().HP = Fix64.Zero;
                     Object.Destroy(obj);

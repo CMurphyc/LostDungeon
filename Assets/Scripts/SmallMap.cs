@@ -33,7 +33,9 @@ public class SmallMap : MonoBehaviour
     public Image TreasureTag;
     private GameObject canvas;
     private Image background;
-    private float offset;
+    private float roomSize;
+    private float dOffset;
+    private float hOffset;
 
     public Dictionary<int, List<Image>> roomToSmallMap = new Dictionary<int, List<Image>>();    // 房间对应的小地图底色
     public Dictionary<int, List<Image>> nowroomToSmallMap = new Dictionary<int, List<Image>>();    // 房间对应的小地图亮色
@@ -47,7 +49,6 @@ public class SmallMap : MonoBehaviour
 
     void Start()
     {
-        offset = 10;
         canvas = GameObject.Find("Canvas").gameObject;
         background = Instantiate(BackGround);
         background.transform.SetParent(canvas.transform);
@@ -62,6 +63,15 @@ public class SmallMap : MonoBehaviour
         RandMap.StartRand(seed, playerNum, floorNum);
         int d = RandMap.GetWidth() + 1;
         int h = RandMap.GetHeight() + 1;
+
+        int mn = (d > h) ? h : d;
+        int mx = (d > h) ? d : h;
+
+        roomSize = 110f / mx;
+        // Debug.Log("roomSize = " + roomSize);
+        dOffset = (120 - d * roomSize) / 2;
+        hOffset = (120 - h * roomSize) / 2;
+
         int[,] array = new int[h, d];
         for (int i = 0; i < h; i++)
         {
@@ -70,7 +80,7 @@ public class SmallMap : MonoBehaviour
                 array[i, j] = RandMap.GetValue(i, j);
             }
         }
-        Debug.Log("d = " + d + ", h = " + h);
+        // Debug.Log("d = " + d + ", h = " + h);
         CreateSmallMap(array, h, d);
     }
 
@@ -477,8 +487,8 @@ public class SmallMap : MonoBehaviour
     void ChangePosition(Image image, int row, int col, int i, int j)
     {
         image.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-        image.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, offset * (col - j - 1f), offset);
-        image.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, offset * (i + 1 - 1f), offset);
+        image.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, dOffset + roomSize * (col - j - 1f), roomSize);
+        image.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, hOffset + roomSize * (i + 1 - 1f), roomSize);
     }
 
     public void ChangeRoom(int oldRoom, int newRoom)

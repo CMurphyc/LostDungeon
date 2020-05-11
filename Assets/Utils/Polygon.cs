@@ -42,3 +42,43 @@ public class Circle
         this.radius = radius;
     }
 }
+
+
+public class Polygon
+{
+    public PolygonType type;
+    public Line line;
+    public Rectangle Rect;
+    public Circle circle;
+    public FixVector2 Point;
+
+    public Polygon(PolygonType Polygontype)
+    {
+        type = Polygontype;
+    }
+
+    public void InitRectangle(FixVector2 anchor, FixVector2 toward, Fix64 horizon, Fix64 vertical)
+    {
+        Rect = new Rectangle(anchor, toward, horizon, vertical);
+    }
+    public void InitCircle(FixVector2 anchor, Fix64 radius)
+    {
+        circle = new Circle(anchor, radius);
+    }
+    public void InitLine(FixVector2 p1, FixVector2 p2)
+    {
+        line = new Line(p1, p2);
+    }
+    public void InitPoint(FixVector2 p)
+    {
+        Point = p;
+    }
+}
+
+public enum PolygonType
+{
+    Circle,
+    Rectangle,
+    Line,
+    Point
+}

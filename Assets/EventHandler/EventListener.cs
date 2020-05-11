@@ -36,6 +36,7 @@ public class EventListener : MonoBehaviour
                 Inputs.Add(synPack.BattleInputs[i]);
             }
             AttackType temp = main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type;
+
             switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
             {
                 case RoomType.Pve:
@@ -53,7 +54,7 @@ public class EventListener : MonoBehaviour
                     main.GetComponent<GameMain>().socket.sock_c2s.BattleSynC2S(main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Ljoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type);
 
                     
-                    if (temp == AttackType.Skill1 || temp == AttackType.Skill2 || temp == AttackType.Pick)
+                    if (temp == AttackType.Skill1 || temp == AttackType.Skill2 || temp == AttackType.Pick || temp == AttackType.Skill3)
                     {
                         //Debug.Log("Reset JoyStick");
                         main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick = Vector3.zero;
@@ -72,7 +73,7 @@ public class EventListener : MonoBehaviour
                     main.GetComponent<GameMain>().WorldSystem._pvpbattle.UpdateFrame();
 
                     main.GetComponent<GameMain>().socket.sock_c2s.BattleSynC2S(main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Ljoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick, main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.type);
-                    if (temp == AttackType.Skill1 || temp == AttackType.Skill2 || temp == AttackType.Pick)
+                    if (temp == AttackType.Skill1 || temp == AttackType.Skill2 || temp == AttackType.Pick || temp == AttackType.Skill3)
                     {
                         //Debug.Log("Reset JoyStick");
                         main.GetComponent<GameMain>().WorldSystem._model._JoyStickModule.Rjoystick = Vector3.zero;

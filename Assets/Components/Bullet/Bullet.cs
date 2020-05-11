@@ -868,7 +868,7 @@ class Converter
     public static FixVector2 NormalFixVector2Rotate(FixVector2 v, Fix64 rotateAngle)
     {
         Fix64 length = Fix64.Sqrt(v.x * v.x + v.y * v.y);
-        Fix64 originAngle = Fix64.Atan(v.y / v.x);
+        Fix64 originAngle = Fix64.Atan2(v.y , v.x);
 
         if(v.x < Fix64.Zero) originAngle += Fix64.PI;
         
