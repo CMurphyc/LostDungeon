@@ -54,7 +54,7 @@ public class SkillJoystick3 : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         {
             Vector2 x = transform.GetComponent<SkillIndiactor>().GetSkillPosition();
             joystick.Rjoystick = x;
-            joystick.type = AttackType.Skill2;
+            joystick.type = AttackType.Skill3;
         }
 
         OuterJoystick.SetActive(false);

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c33a5a4c8fb3ba499ae0c36c9bf9f1b, type: 3}
+  m_Name: GuardianConfig
+  m_EditorClassIdentifier: 
+  name: 
+  obj: {fileID: 8933406564166489352, guid: 3d4aa8796bbc91149925c3b84aecadf2, type: 3}
+  HP: 150
+  moveSpeed: 1
+  damge: 1
+  bulletSpeed: 1
+  fireSpeed: 1
+  bulletEffect: 0000000001000000
+  bulletObj: {fileID: 7005734561844284085, guid: 89a334b99af451b4d9fb700650274267,
+    type: 3}
+  timeSkilll1: 3
+  rangeSkill1: 0.3
+  areaSkill1: 0.1
+  countdownSkill1: 10
+  rangeSkill2: 2
+  areaSkill2: 1
+  damageSkill2: 30
+  controlTimeSkill2: 1
+  countdownSkill2: 8
+  effectGully: {fileID: 7436821419197155278, guid: 2b6554409c124314a87221bffc426e63,
+    type: 3}
+  effectCrush: {fileID: 0}
+  damageSkill3: 0
+  rangeSkill3: 0
+  areaSkill3: 0
+  countdownSkill3: 0
+  controlTimeSkill3: 0
+  skill1Image: {fileID: 21300000, guid: 187982ed74668bc459f19dfc5bff9e43, type: 3}
+  skill2Image: {fileID: 21300000, guid: a1dad2253dbcb3d4da92f6efa61c0cee, type: 3}
+  skill3Image: {fileID: 0}
+  skill1Type: 3
+  skill2Type: 1
+  skill3Type: 0

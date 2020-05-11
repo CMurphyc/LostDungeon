@@ -39,11 +39,25 @@ public class EngineerBase
     public GameObject effectGernade;            //手雷预制体
     public GameObject effectGernadeExplosion;   //手雷爆炸特效
 
+    public GameObject effectRocket;
+    public float radiusSkill3;                  //火箭爆炸半径
+    public float speedSkill3;                   //火箭飞行速度
+    public int damageSkill3;                     //火箭伤害
+    public float rangeSkill3;                   //指示器范围
+    public float areaSkill3;
+    public float countdownSkill3;
+
     public Sprite skill1Image;
     public Sprite skill2Image;
+    public Sprite skill3Image;
+
+    public SkillAreaType skill1Type;
+    public SkillAreaType skill2Type;
+    public SkillAreaType skill3Type;
 
     List <GameObject> grenade=new List<GameObject>();
     List <GameObject> explosion = new List<GameObject>();
+    List<GameObject> Rocket = new List<GameObject>();
 
     BattleManager _parentManager;
 
@@ -51,6 +65,8 @@ public class EngineerBase
     {
         grenade.Clear();
         explosion.Clear();
+
+        Rocket.Clear();
     }
         public EngineerBase(BattleManager parentManager)
     {
@@ -89,10 +105,24 @@ public class EngineerBase
         effectGernade = x.effectGernade;
         effectGernadeExplosion = x.effectGernadeExplosion;
 
+
+        effectRocket = x.effectRocket;
+        radiusSkill3 = x.radiusSkill3;
+        speedSkill3 = x.speedSkill3;
+        damageSkill3 = x.damageSkill3;
+        rangeSkill3 = x.rangeSkill3;
+        areaSkill3 = x.areaSkill3;
+        countdownSkill3 = x.countdownSkill3;
+
         skill1Image = x.skill1Image;
         skill2Image = x.skill2Image;
+        skill3Image = x.skill3Image;
 
-        _parentManager = parentManager;
+        skill1Type = x.skill1Type;
+        skill2Type = x.skill2Type;
+        skill3Type = x.skill3Type;
+
+    _parentManager = parentManager;
     }
     public float Skill1Range()
     {
@@ -114,6 +144,15 @@ public class EngineerBase
     public float Skill2Area()
     {
         return areaSkill2;
+    }
+
+    public float Skill3Area()
+    {
+        return areaSkill3;
+    }
+    public float Skill3Range()
+    {
+        return rangeSkill3;
     }
 
     public int Skill1Logic(int frame, int RoomID, List<int> gifted,Vector3 st,Vector3 ed, int dmgSrc)//返回值就是cd
@@ -225,6 +264,31 @@ public class EngineerBase
         }
     }
 
+
+    public int Skill3Logic(int frame, int RoomID, List<int> gifted, Vector3 st, Vector3 dir, int dmgSrc)
+    {
+        dir -= st;
+        dir.Normalize();
+        dir*=0.1f;
+        //火箭投出
+        GameObject p = GameObject.Instantiate(effectRocket);
+
+        p.GetComponent<RocketControl>().init(new FixVector2((Fix64)st.x, (Fix64)st.y),
+            new FixVector2((Fix64)dir.x, (Fix64)dir.y),
+            (Fix64)radiusSkill3,RoomID,damageSkill3,dmgSrc,_parentManager
+            );
+        Rocket.Add(p);
+
+        if (gifted[3] == 1)
+        {
+            return (int)(1000 / Global.FrameRate * (countdownSkill3 - 2));
+        }
+        else
+        {
+            return (int)(1000 / Global.FrameRate * (countdownSkill3));
+        }
+    }
+
     public void updateLogic(int frame)
     {
         //手雷部分
@@ -265,6 +329,24 @@ public class EngineerBase
         {
             explosion.Add(p);
         }
-        //
+
+        tg.Clear();
+        foreach(GameObject p in Rocket)
+        {
+            if(p.GetComponent<RocketControl>().updateLogic(frame))
+            {
+                GameObject.Destroy(p);
+            }
+            else
+            {
+                tg.Add(p);
+            }
+        }
+        Rocket.Clear();
+        foreach(var p in tg)
+        {
+            Rocket.Add(p);
+        }
+        tg.Clear();
     }
 }

@@ -67,14 +67,13 @@ public class HeroSelectUIEvent : MonoBehaviour
     }
     public void OnHeroWarrior(bool aaa)
     {
-        /*
         which = CharacterType.Warrior;
         HeroImage.sprite = HeroImageArray[1];
         HeroName.text = "Warrior";
         HeroDescription.text = "HP:11 Attack:5 MoveSpeed:4 AttackSpeed:1.2 ";
         HeroSkills.text = "Heimdall's Guardian: Blocking enemy skills facing you.\n\nSkadi's Grave: slows down and damages enemies facing in the direction.";
         //main.GetComponent<GameMain>().socket.sock_c2s.ChangeCharacter(CharacterType.Warrior);
-        */
+        
 
     }
 

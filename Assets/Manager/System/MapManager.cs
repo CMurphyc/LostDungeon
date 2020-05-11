@@ -151,7 +151,7 @@ public class MapManager : SceneManager
                 else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Warrior)
                 {
                     Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Guardian");
-                    Character.GetComponent<Text>().text = "Warrior";
+                    Character.GetComponent<Text>().text = "Guardian";
                 }
                 else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Magician)
                 {

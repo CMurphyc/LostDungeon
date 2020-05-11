@@ -14,7 +14,11 @@ public class SkillModule
 
     public EngineerBase enginerBase;
     public MagicianBase magicianBase;
+
     public GhostBase ghostBase;
+
+
+    public GuardianBase guardianBase;
 
     public SkillModule(BattleManager parent)
     {
@@ -22,7 +26,11 @@ public class SkillModule
         _parentManager = parent;
         enginerBase = new EngineerBase(parent);
         magicianBase = new MagicianBase(parent);
+
         ghostBase = new GhostBase(this);
+
+        guardianBase = new GuardianBase(parent);
+
     }
     public void Free()
     {
@@ -31,7 +39,11 @@ public class SkillModule
         enginerBase.Free();
         magicianBase.Free();
 
+
         ghostBase.Free();
+
+        guardianBase.Free();
+
     }
     public void Add(SkillBase x, int roomID)
     {
@@ -106,7 +118,11 @@ public class SkillModule
         }
         enginerBase.updateLogic(frame);
         magicianBase.updateLogic(frame);
+
         ghostBase.updateLogic(frame);
+
+        guardianBase.updateLogic(frame);
+
 
     }
     public void UpdateView()

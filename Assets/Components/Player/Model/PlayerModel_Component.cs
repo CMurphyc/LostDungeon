@@ -113,6 +113,14 @@ public class PlayerModel_Component : MonoBehaviour
             attackPoint -= BuffattackPoint;
         }
 
+        if (buff.Invisible_RemainingFrame > 0)
+        {
+            buff.Invisible_RemainingFrame--;
+        }
+        else
+        {
+            buff.Invisible = false;
+        }
     }
 
 

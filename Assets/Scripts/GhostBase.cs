@@ -40,13 +40,15 @@ public class GhostBase
 
     public Sprite skill1Image;
     public Sprite skill2Image;
-
+    public Sprite skill3Image;
 
     SkillModule _parentManager;
 
 
-    private Vector2 st = new Vector2();
-    private Vector2 ed = new Vector2();
+    public SkillAreaType skill1Type;
+    public SkillAreaType skill2Type;
+    public SkillAreaType skill3Type;
+
 
     public void Free()
     {
@@ -83,8 +85,17 @@ public class GhostBase
         //controlTimeSkill2 = x.controlTimeSkill2;
         //countdownSkill2 = x.countdownSkill2;
 
+        skill3Duration = (int)(x.timeSkill3 * Global.FrameRate);
+        countdownSkill3 = x.countdownSkill3;
+
+          skill1Image= x.skill1Image;
+        skill2Image = x.skill2Image;
+        skill3Image = x.skill3Image;
 
 
+    skill1Type = x.skill1Type;
+        skill2Type = x.skill2Type;
+        skill3Type = x.skill3Type;
         //effectArtillery = x.effectArtillery;
         //effectGernade = x.effectGernade;
         //effectGernadeExplosion = x.effectGernadeExplosion;
@@ -115,6 +126,16 @@ public class GhostBase
     {
         return areaSkill2;
     }
+    public float Skill3Range()
+    {
+        //需要传入获得的player的天赋表
+        return 0;
+    }
+
+    public float Skill3Area()
+    {
+        return 0;
+    }
 
     public int Skill1Logic(int frame, int RoomID, FixVector2 toward, GameObject obj)//返回值就是cd
     {
@@ -137,9 +158,13 @@ public class GhostBase
         return (int)(countdownSkill2 * 1000 / Global.FrameRate);
     }
 
-    public int Skill3Logic(int frame, int RoomID, List<int> gifted, Vector3 st, Vector3 ed, int dmgSrc)
+    public int Skill3Logic(GameObject obj)
     {
-
+        if (!obj.GetComponent<PlayerModel_Component>().buff.Invisible)
+        {
+            obj.GetComponent<PlayerModel_Component>().buff.Invisible = true;
+            obj.GetComponent<PlayerModel_Component>().buff.Invisible_RemainingFrame = skill3Duration;
+        }
 
         return (int)(countdownSkill3 * 1000 / Global.FrameRate);
     }

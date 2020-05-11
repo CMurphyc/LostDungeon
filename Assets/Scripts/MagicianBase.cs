@@ -34,6 +34,10 @@ public class MagicianBase
     public Sprite skill1Image;
     public Sprite skill2Image;
 
+    public SkillAreaType skill1Type;
+    public SkillAreaType skill2Type;
+    public SkillAreaType skill3Type;
+
     List<GameObject> fire = new List<GameObject>();
     List<GameObject> thunder = new List<GameObject>();
 
@@ -97,6 +101,10 @@ public class MagicianBase
 
         skill1Image = x.skill1Image;
         skill2Image = x.skill2Image;
+
+        skill1Type = x.skill1Type;
+        skill2Type = x.skill2Type;
+        skill3Type = x.skill3Type;
 
         _parentManager = parentManager;
     }

@@ -35,10 +35,41 @@ public class PlayerView_Component : MonoBehaviour
         if (PlayerComp.buff.AttackIncrease)
         {
             GetComponent<SpriteRenderer>().color = new Color(150f / 255f, 255f / 255f, 255f / 255f);
+            if (transform.Find("back") != null)
+            {
+                transform.Find("back").gameObject.SetActive(true);
+            }
         }
         else
         {
             GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f);
+
+            if (transform.Find("back") != null)
+            {
+                transform.Find("back").gameObject.SetActive(false);
+            }
+        }
+
+        if (PlayerComp.buff.Invisible)
+        {
+            if (GameObject.FindWithTag("GameEntry")!=null)
+            {
+                SystemManager sys = GameObject.FindWithTag("GameEntry").GetComponent<GameMain>().WorldSystem;
+                int CurrentUID = sys._model._PlayerModule.uid;
+                int playerUID = sys._battle._player.FindPlayerUIDbyObject(gameObject);
+                if (CurrentUID==playerUID)
+                {
+                    Color temp = GetComponent<SpriteRenderer>().color;
+                    GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+                   
+                }
+            }
+        }
+        else
+        {
+            Color temp = GetComponent<SpriteRenderer>().color;
+            GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 255f / 255f);
+
         }
 
     }

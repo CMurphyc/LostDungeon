@@ -22,8 +22,10 @@ public class ExplosionControl : MonoBehaviour
 
     public void updateLogic(int frame)
     {
+        
         if (startFrame == frame&&an!=null)
         {
+            Debug.Log(frame);
             an.SetBool("explosion",true);
         }
     }

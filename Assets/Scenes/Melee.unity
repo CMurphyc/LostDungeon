@@ -384,6 +384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5534ad21bfd3f45a31f2bab7d73850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boss2: {fileID: 0}
+  boss3: {fileID: 0}
   BossUI: {fileID: 0}
 --- !u!1 &125929696
 GameObject:
@@ -2911,13 +2913,13 @@ MonoBehaviour:
     type: 3}
   DevilRoom: {fileID: 3690445263335616983, guid: d6d88f771d231d14eb19088f93ec8e30,
     type: 3}
-  GameRoom: {fileID: 1697696665630874966, guid: 244870e4ff9fadc41894d492ae5c43ca,
+  GameRoom: {fileID: 1697696665630874966, guid: eb60f82ba7827a3459c4a0f6577f2faf,
     type: 3}
   ShopRoom: {fileID: 2796990184978731865, guid: 81a55069dffd4d9448499c1c838864b9,
     type: 3}
   SacrificeRoom: {fileID: 720766872609787681, guid: 1efc14fd90fa7cb46b9b6cf8bc12f5b1,
     type: 3}
-  BackGround: {fileID: 7564318367910105630, guid: 5500df92a1f3ab846bb4b9cef2a8b747,
+  BackGround: {fileID: 7564318367910105630, guid: fae39a0f222d95a49be9414961538657,
     type: 3}
   NormalDoor:
     upDoor: {fileID: 4917385047953394967, guid: 07c229d87e23d654db93cf842de8bd95,
@@ -2982,25 +2984,25 @@ MonoBehaviour:
     rightDoor: {fileID: 715232806871546833, guid: 49fd78ac77c45ca48b848408594b0153,
       type: 3}
   Terrain:
-  - {fileID: 5800771185895414568, guid: fb953a93195a31f4991e794771ce5a07, type: 3}
-  - {fileID: 4715349650687406005, guid: 64f86651e228fa3488af614822d9171d, type: 3}
-  - {fileID: 2827910328652565437, guid: dd390c1509c79ca439f8e3f241438a2a, type: 3}
-  - {fileID: 914820793837745088, guid: a09f78552f2740b48a677af185426512, type: 3}
-  - {fileID: 5502507550591762507, guid: ad4de6e1ac4078949a82f4dd4b839afc, type: 3}
-  - {fileID: 6060270879921277604, guid: 987fde758ea2c7b4298bb6a5c692ea5e, type: 3}
-  - {fileID: 7814062229956549038, guid: 51138b4b2ff0dbd4794314836b75aafb, type: 3}
-  - {fileID: 497518681017897227, guid: 8ffc1f4d95294714eaac8ee232290dde, type: 3}
-  - {fileID: 7283988831968585452, guid: b77aacfc5b0a35a4aa0f8234a4ad8cf0, type: 3}
-  - {fileID: 966423559051966661, guid: 6b89b960ebc53e74fa62e45a3cbe5e6f, type: 3}
-  - {fileID: 7980755045373859349, guid: 222ee5d65de59e746bdbd09c99bcccd1, type: 3}
-  - {fileID: 2785927056680942730, guid: be1c8889399a6884091987a9b574b942, type: 3}
-  - {fileID: 449310739075265863, guid: 648273634dc312b4cbbfb4ee3c43ef83, type: 3}
-  - {fileID: 4630994162777806177, guid: 0191d58bda8ca8a4686073aada56a108, type: 3}
-  - {fileID: 8259564445606459307, guid: d7f683a563422b14bb6817440b4b81e1, type: 3}
-  - {fileID: 6517108993191173815, guid: 975ee1448169fb34fbee621017650598, type: 3}
-  - {fileID: 7611820430502304049, guid: 7cba8c3f16dedcd4da6e650863bea0eb, type: 3}
-  - {fileID: 4729905938521942934, guid: 421c654faa4f3ca48b0308f5e9346e83, type: 3}
-  - {fileID: 5989124740215100995, guid: 14f56385976fa204a9eb1fc1e9eb1a8e, type: 3}
+  - {fileID: 5800771185895414568, guid: 779b36c961e32e5409320331f08a64f4, type: 3}
+  - {fileID: 4715349650687406005, guid: d8221afb454176d4e936c735cf88e747, type: 3}
+  - {fileID: 2827910328652565437, guid: 48b99d22409899e46b7639c96c6d451b, type: 3}
+  - {fileID: 914820793837745088, guid: f956ed24c5cfcbd46946dc3fbf936b28, type: 3}
+  - {fileID: 5502507550591762507, guid: c7cd220392cff7c419a912095d70de41, type: 3}
+  - {fileID: 6060270879921277604, guid: fddab0059dfa9e346b1d401db149c7ce, type: 3}
+  - {fileID: 7814062229956549038, guid: b4332c1dbd7effe45988f96937b897a8, type: 3}
+  - {fileID: 497518681017897227, guid: 07a272bda9ae18445ab3900a692ed054, type: 3}
+  - {fileID: 7283988831968585452, guid: 03668ccbe0e5594429b943d2f53e42b8, type: 3}
+  - {fileID: 966423559051966661, guid: f295dba183c9a14408f49d437c6db0e9, type: 3}
+  - {fileID: 7980755045373859349, guid: 4d3ace9d918c2924d8e1a179b668934b, type: 3}
+  - {fileID: 2785927056680942730, guid: e9d0515a893b2824fa9c528e5575da3a, type: 3}
+  - {fileID: 449310739075265863, guid: 75d1849ce3be8fc479cca7f43e8633eb, type: 3}
+  - {fileID: 4630994162777806177, guid: 53e673fc552fea54abdb9e91208ce53d, type: 3}
+  - {fileID: 8259564445606459307, guid: c7cf4c998e72e164da2aa5935de4925c, type: 3}
+  - {fileID: 6517108993191173815, guid: 445ae20f1abb7604b9046aabc3ac446c, type: 3}
+  - {fileID: 7611820430502304049, guid: dd087128ae65b3540989f4ca30824565, type: 3}
+  - {fileID: 4729905938521942934, guid: 8229145a32142cb47817a9a6bc65ba50, type: 3}
+  - {fileID: 5989124740215100995, guid: ba703b4db6cab624eb8ea400c19c0521, type: 3}
   xOffset: 20
   yOffset: -13
   startRoom: 0
