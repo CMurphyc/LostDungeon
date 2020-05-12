@@ -53,8 +53,8 @@ public class RoomModule
             }
         }
 
-        Debug.Log("SIZE :" + RedTeamPlayerList.Count);
-        Debug.Log("SIZE :" + BlueTeamPlayerList.Count);
+        //Debug.Log("SIZE :" + RedTeamPlayerList.Count);
+        //Debug.Log("SIZE :" + BlueTeamPlayerList.Count);
 
 
         FillRest();

@@ -152,7 +152,7 @@ public class EventListener : MonoBehaviour
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomid = synPack.RoomId;
 
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.roomOwnerID = synPack.RoomOwnerId;
-            Debug.LogError(synPack.PlayersInfo.Count);
+          
             for (int i = 0; i < synPack.PlayersInfo.Count; i++)
             {
                 switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)

@@ -363,87 +363,9 @@ public class MapManager : SceneManager
         Text RoomID = GameObject.Find("Canvas/RoomInfo").GetComponent<Text>();
         RoomID.text = "RoomID：" + sys._model._RoomModule.roomid.ToString();
 
-
-        Debug.Log("SIZE :"　+　sys._model._RoomModule.RedTeamPlayerList.Count);
-        Debug.Log("SIZE :" + sys._model._RoomModule.BlueTeamPlayerList.Count);
-
-
-
         RefreshPVP(sys._model._RoomModule.RedTeamPlayerList, true);
         RefreshPVP(sys._model._RoomModule.BlueTeamPlayerList, false);
 
-
-        //for (int i = 0; i < sys._model._RoomModule.PlayerList.Count; i++)
-        //{
-        //    string Path = "Canvas/Player/player" + i.ToString();
-        //    //Debug.Log("Path: "+Path);
-        //    Transform Player = GameObject.Find(Path).transform;
-
-        //    if (!sys._model._RoomModule.PlayerList[i].empty)
-        //    {
-        //        GameObject Animation_Prefab = null;
-
-        //        if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Enginner)
-        //        {
-        //            Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Engineer");
-        //            Player.Find("CharacterImage/Character").GetComponent<Text>().text = "Engineer";
-        //        }
-        //        else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Warrior)
-        //        {
-        //            Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Guardian");
-        //            Player.Find("CharacterImage/Character").GetComponent<Text>().text = "Warrior";
-        //        }
-        //        else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Magician)
-        //        {
-        //            Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Magician");
-        //            Player.Find("CharacterImage/Character").GetComponent<Text>().text = "Wizard";
-        //        }
-        //        else if (sys._model._RoomModule.PlayerList[i].type == CharacterType.Ghost)
-        //        {
-        //            Animation_Prefab = (GameObject)Resources.Load("Model/Player/Prefab/Ghost");
-        //            Player.Find("CharacterImage/Character").GetComponent<Text>().text = "Ghost";
-        //        }
-
-
-        //        //Vector3 WorldPos = Camera.main.ScreenToWorldPoint(Global.PlayerPosList[sys._model._RoomModule.GetPlayerIndex(sys._model._RoomModule.PlayerList[i].uid)]);
-        //        //Animation_Prefab.transform.position = WorldPos;
-
-        //        GameObject Enginner_Instance = UnityEngine.Object.Instantiate(Animation_Prefab);
-        //        Enginner_Instance.transform.parent = GameObject.Find("Canvas").transform;
-        //        int index = sys._model._RoomModule.GetPlayerIndex(sys._model._RoomModule.PlayerList[i].uid);
-
-        //        Vector3 UIpos = GameObject.Find("Canvas/Player/player"+index.ToString()+"/Avatar").transform.position;
-        //        Enginner_Instance.transform.position = UIpos;
-
-        //        Enginner_Instance.transform.localScale = new Vector3(200, 200, 1);
-
-
-        //        sys._model._RoomModule.PlayerAnimation.Add(Enginner_Instance);
-        //        GameObject username = GameObject.Find("Canvas/Player/player" + (i ).ToString() + "/nameImage/name");
-
-        //        username.GetComponent<Text>().text = sys._model._RoomModule.PlayerList[i].username.ToString();
-
-        //        GameObject status = GameObject.Find("Canvas/Player/player" + (i).ToString() + "/statusImage/status");
-        //        if (sys._model._RoomModule.PlayerList[i].ready)
-        //        {
-        //            status.GetComponent<Text>().text = "Ready";
-        //        }
-        //        else
-        //        {
-        //            status.GetComponent<Text>().text = "Waiting...";
-        //        }
-        //        GameObject btn = GameObject.Find("Canvas/btnReady/Text");
-        //        btn.GetComponent<Text>().text = "Ready";
-        //    }
-        //    else
-        //    {
-        //        GameObject username = GameObject.Find("Canvas/Player/player" + (i ).ToString() + "/nameImage/name");
-        //        GameObject status = GameObject.Find("Canvas/Player/player" + (i ).ToString() + "/statusImage/status");
-        //        status.GetComponent<Text>().text = "";
-        //        username.GetComponent<Text>().text = "";
-        //        //Character.GetComponent<Text>().text = "";
-        //    }
-        //}
         GameObject btnStatus = GameObject.Find("Canvas/btnReady/Text");
         if (sys._model._PlayerModule.uid == sys._model._RoomModule.roomOwnerID)
         {
