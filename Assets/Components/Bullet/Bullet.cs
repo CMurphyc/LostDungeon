@@ -658,7 +658,8 @@ public class BulletUnion : BulletBase
                     BoxCollider2D bcd = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>();
                     Fix64 hori = (Fix64) bcd.size.x;
                     Fix64 verti = (Fix64) bcd.size.y;
-                    Rectangle rect = new Rectangle(new FixVector2((Fix64)MonsterModule.position.x, (Fix64)MonsterModule.position.y), new FixVector2((Fix64)1, (Fix64)1), hori, verti);
+                    Rectangle rect = new Rectangle(new FixVector2((Fix64)MonsterModule.position.x, (Fix64)MonsterModule.position.y), new FixVector2(Fix64.One, Fix64.One), hori, verti);
+                    // Debug.Log("hroi is " + rect.horizon + " verti is " + rect.vertical);
 
                     if(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].tag == "Boss")
                     {

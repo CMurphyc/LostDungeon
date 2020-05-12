@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7103924846307745073}
   - component: {fileID: 6581835446212945105}
   - component: {fileID: 7064519901543074250}
-  - component: {fileID: 5827031342602473918}
+  - component: {fileID: 2777229006800687960}
   m_Layer: 0
   m_Name: enemy_c10
   m_TagString: Untagged
@@ -215,7 +215,7 @@ MonoBehaviour:
   UnderAttack: 0
   FrameLeftFromDestroy: 60
   OwnderUID: 0
---- !u!61 &5827031342602473918
+--- !u!61 &2777229006800687960
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,5 +239,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.26, y: 0.29}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0

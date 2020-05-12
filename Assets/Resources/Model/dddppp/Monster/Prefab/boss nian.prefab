@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3191086782116205287}
   - component: {fileID: -2995975986283500591}
   - component: {fileID: -3472131317499074736}
-  - component: {fileID: 6192045088414593225}
+  - component: {fileID: 1646847425327718368}
   m_Layer: 0
   m_Name: boss nian
   m_TagString: Untagged
@@ -215,7 +215,7 @@ MonoBehaviour:
   UnderAttack: 0
   FrameLeftFromDestroy: 60
   OwnderUID: 0
---- !u!61 &6192045088414593225
+--- !u!61 &1646847425327718368
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,5 +239,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.36, y: 0.24}
+  m_Size: {x: 1.5, y: 0.8}
   m_EdgeRadius: 0
