@@ -329,8 +329,8 @@ public class MeleeCreate : MonoBehaviour
                     doornumToDoor.Add(nowDoor, door1);
                     doornumToDoor.Add(nowDoor + 1, door2);
                     //  门号对应的另一个门号与传送位置
-                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + Vector3.down));
-                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + Vector3.up));
+                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + new Vector3(0, -1.5f, 0)));
+                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + new Vector3(0, 1.5f, 0)));
                     //  对应房间号添加门号
                     roomToDoorTmp[roomTag[i, j] - 1].Add(nowDoor);
                     roomToDoorTmp[roomTag[i + 1, j] - 1].Add(nowDoor + 1);
@@ -366,8 +366,8 @@ public class MeleeCreate : MonoBehaviour
                     doornumToDoor.Add(nowDoor, door1);
                     doornumToDoor.Add(nowDoor + 1, door2);
 
-                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + Vector3.right));
-                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + Vector3.left));
+                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + new Vector3(1.5f, 0, 0)));
+                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + new Vector3(-1.5f, 0, 0)));
                     //  对应房间号添加门号
                     roomToDoorTmp[roomTag[i, j] - 1].Add(nowDoor);
                     roomToDoorTmp[roomTag[i, j + 1] - 1].Add(nowDoor + 1);
