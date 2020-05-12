@@ -165,6 +165,8 @@ public class EventListener : MonoBehaviour
                         break;
                 }
             }
+            main.GetComponent<GameMain>().WorldSystem._model._RoomModule.SortTeam();
+
 
             main.GetComponent<GameMain>().WorldSystem._model._RoomModule.NeedUpdate = true;
             switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)

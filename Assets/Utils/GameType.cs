@@ -92,6 +92,12 @@ public class PlayerInGameData
     }
 
 }
+public enum TeamSide
+{
+    Blue,
+    Red
+
+}
 
 public struct PlayerData
 {
@@ -101,7 +107,8 @@ public struct PlayerData
     public string username;
     public GameObject obj;
     public CharacterType type;
-    public PlayerData(bool emp = true, int id = 0, bool status = false, GameObject gameObject = null, CharacterType character = CharacterType.Enginner, string name = "")
+    public TeamSide team;
+    public PlayerData(bool emp = true, int id = 0, bool status = false, GameObject gameObject = null, CharacterType character = CharacterType.Enginner, string name = "" , TeamSide side = TeamSide.Red )
     {
         empty = emp;
         uid = id;
@@ -109,6 +116,7 @@ public struct PlayerData
         obj = gameObject;
         type = character;
         username = name;
+        team = side;
     }
 
 }
