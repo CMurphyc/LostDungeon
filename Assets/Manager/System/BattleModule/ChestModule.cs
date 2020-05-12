@@ -103,6 +103,7 @@ public class ChestModule
                             _parentManager.sys._model._RoomModule.PVEResult.Add(pler.Key, new PVEData());
                         }
                         _parentManager.sys._model._RoomModule.PVEResult[pler.Key].coins++;
+                        Chest[i].ActPlayer.Add(pler.Key);
                     }
                     break;
             }

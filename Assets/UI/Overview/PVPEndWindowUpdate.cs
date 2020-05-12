@@ -14,7 +14,9 @@ public class PVPEndWindowUpdate : MonoBehaviour
     }
     void Start()
     {
-        if(sys._pvpbattle._pvpplayer.FindPlayerTeamByUID(sys._model._PlayerModule.uid)==sys._pvpbattle._score.GetWinner())
+        Canvas.transform.Find("Red").GetComponent<Text>().text =sys._pvpbattle._score.RedTeamScore.ToString();
+        Canvas.transform.Find("Blue").GetComponent<Text>().text =sys._pvpbattle._score.BlueTeamScore.ToString();
+        if(sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam()==sys._pvpbattle._score.GetWinner())
         {
             Canvas.transform.Find("GameOver/Text").GetComponent<Text>().text = "Win";
             Canvas.transform.Find("GameOver/Text").GetComponent<Text>().color =new Color(1, 220.0f/255.0f,0);
@@ -33,6 +35,7 @@ public class PVPEndWindowUpdate : MonoBehaviour
         List<PlayerData> RedTeamPlayerList = sys._model._RoomModule.RedTeamPlayerList;
         for (int i = 0; i < RedTeamPlayerList.Count; i++)
         {
+            if (RedTeamPlayerList[i].empty) break;
             string path ="Team/RedTeam/Player";
             Canvas.transform.Find(path + i.ToString() + "/NickName").GetComponent<Text>().text = RedTeamPlayerList[i].username;
             Canvas.transform.Find(path + i.ToString() + "/Text").GetComponent<Text>().text = "";
@@ -68,6 +71,7 @@ public class PVPEndWindowUpdate : MonoBehaviour
         List<PlayerData> BlueTeamPlayerList = sys._model._RoomModule.BlueTeamPlayerList;
         for (int i = 0; i < BlueTeamPlayerList.Count; i++)
         {
+            if (BlueTeamPlayerList[i].empty) break;
             string path ="Team/BlueTeam/Player";
             Canvas.transform.Find(path + i.ToString() + "/NickName").GetComponent<Text>().text = BlueTeamPlayerList[i].username;
             Canvas.transform.Find(path + i.ToString() + "/Text").GetComponent<Text>().text = "";
@@ -94,7 +98,7 @@ public class PVPEndWindowUpdate : MonoBehaviour
                     break;
             }
             Canvas.transform.Find(path + i.ToString()).gameObject.SetActive(true);
-            if (RedTeamPlayerList[i].uid == sys._model._PlayerModule.uid)
+            if (BlueTeamPlayerList[i].uid == sys._model._PlayerModule.uid)
             {
                 Canvas.transform.Find(path + i.ToString() + "/Image").gameObject.SetActive(true);
             }

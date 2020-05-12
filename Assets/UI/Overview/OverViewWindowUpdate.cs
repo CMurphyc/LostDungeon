@@ -30,8 +30,8 @@ public class OverViewWindowUpdate : MonoBehaviour
                 PlayerPVEResult[PlayerList[i].uid].kills.ToString();
             Canvas.transform.Find("Player" + i.ToString()+"/"+"Coin").GetComponent<Text>().text = 
                 PlayerPVEResult[PlayerList[i].uid].coins.ToString()+ "<color=#FFF900><size=20>+(" + ((int)(PlayerPVEResult[PlayerList[i].uid].kills*1.5f)).ToString() + ")</size></color>";
-
-            switch(PlayerList[i].type)
+            totkill += PlayerPVEResult[PlayerList[i].uid].kills;
+            switch (PlayerList[i].type)
             {
                 case CharacterType.Enginner:
                     Canvas.transform.Find("Player" + i.ToString() + "/" + "Player0/Image").GetComponent<Image>().sprite =
@@ -45,6 +45,10 @@ public class OverViewWindowUpdate : MonoBehaviour
                     Canvas.transform.Find("Player" + i.ToString() + "/" + "Player0/Image").GetComponent<Image>().sprite =
                     Instantiate( Resources.Load("Model/Player/Sprites/Guardian/c08_s2_4",typeof(Sprite))) as Sprite;
                     break;
+            }
+            if(PlayerList[i].uid!=sys._model._PlayerModule.uid)
+            {
+                Canvas.transform.Find("Player" + i.ToString() + "/" + "Image").gameObject.SetActive(false);
             }
         }
         int GameTime = sys._model._RoomModule.PVEGameTime / 40;

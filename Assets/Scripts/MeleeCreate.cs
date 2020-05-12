@@ -78,55 +78,74 @@ public class MeleeCreate : MonoBehaviour
         };
 
         MakeGraph(array, h, d, playerNum, floorNum);
-        List<PlayerData> PlayerList = sys._model._RoomModule.PlayerList;
+        List<PlayerData> PlayerList = sys._model._RoomModule.RedTeamPlayerList;
+        for (int i=0;i< PlayerList.Count;i++)
+        {
+            if (PlayerList[i].empty) break;
+            birthX = 0;
+            birthY = 0;
+            startRoom = 1;
+            CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
+            GameObject tplayer = sys._pvpbattle._pvpplayer.playerToPlayer[PlayerList[i].uid].obj;
+
+            
+
+            sys._pvpbattle._pvpplayer.RedTeam.Add(PlayerList[i].uid);
+            Debug.Log("MINI red added!");
+            if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
+
+            foreach (var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
+            {
+                for (int j = 0; j < x.ItemNumber; j++)
+                    tplayer.GetComponent<PlayerModel_Component>().Change(
+                        sys._battle._chest.propToProperty[x.ItemID].changefullHP,
+                        sys._battle._chest.propToProperty[x.ItemID].changeHP,
+                        (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletFrequency,
+                        (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletSpeed,
+                        (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeDamage,
+                        (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed,
+                        sys._battle._chest.propToProperty[x.ItemID].bulletType
+                        );
+
+                Debug.Log("bbbbbbb" + x.ItemID);
+            }
+            if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+            tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+        }
+        PlayerList = sys._model._RoomModule.BlueTeamPlayerList;
         for (int i = 0; i < PlayerList.Count; i++)
         {
-            if (!PlayerList[i].empty)
+            if (PlayerList[i].empty) break;
+            birthX = 4;
+            birthY = 4;
+            startRoom = 19;
+            CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
+            GameObject tplayer = sys._pvpbattle._pvpplayer.playerToPlayer[PlayerList[i].uid].obj;
+            sys._pvpbattle._pvpplayer.BlueTeam.Add(PlayerList[i].uid);
+
+            Debug.Log("MINI blue added!");
+            if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
+
+            foreach (var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
             {
-                if(i<1)
-                {
-                    birthX = 0;
-                    birthY = 0;
-                    startRoom = 1;
+                for (int j = 0; j < x.ItemNumber; j++)
+                    tplayer.GetComponent<PlayerModel_Component>().Change(
+                        sys._battle._chest.propToProperty[x.ItemID].changefullHP,
+                        sys._battle._chest.propToProperty[x.ItemID].changeHP,
+                        (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletFrequency,
+                        (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletSpeed,
+                        (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeDamage,
+                        (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed,
+                        sys._battle._chest.propToProperty[x.ItemID].bulletType
+                        );
 
-                }
-                else
-                {
-                    birthX = 4;
-                    birthY = 4;
-                    startRoom = 19;
-                }
-                CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
-                GameObject tplayer = sys._pvpbattle._pvpplayer.playerToPlayer[PlayerList[i].uid].obj;
-                if(i<1)
-                {
-                    sys._pvpbattle._pvpplayer.RedTeam.Add(PlayerList[i].uid);
-                }
-                else
-                {
-                    sys._pvpbattle._pvpplayer.BlueTeam.Add(PlayerList[i].uid);
-                }
-                if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
-
-                foreach (var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
-                {
-                    for (int j = 0; j < x.ItemNumber; j++)
-                        tplayer.GetComponent<PlayerModel_Component>().Change(
-                            sys._battle._chest.propToProperty[x.ItemID].changefullHP,
-                            sys._battle._chest.propToProperty[x.ItemID].changeHP,
-                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletFrequency,
-                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeBulletSpeed,
-                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeDamage,
-                            (Fix64)sys._battle._chest.propToProperty[x.ItemID].changeSpeed,
-                            sys._battle._chest.propToProperty[x.ItemID].bulletType
-                            );
-
-                    Debug.Log("bbbbbbb" + x.ItemID);
-                }
-                if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
-                tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+                Debug.Log("bbbbbbb" + x.ItemID);
             }
+            if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+            tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
         }
+        
+        
         ChangeSkillIcon();
 
 
@@ -147,6 +166,7 @@ public class MeleeCreate : MonoBehaviour
         //AStar.Scan();
 
         //初始化相机
+        PlayerList = sys._model._RoomModule.PlayerList;
         for (int i = 0; i < PlayerList.Count; i++)
         {
             if (!PlayerList[i].empty && PlayerList[i].uid == sys._model._PlayerModule.uid)

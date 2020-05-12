@@ -45,11 +45,14 @@ public class BattleUIUpdate : MonoBehaviour
             {
                 if(sys._model._RoomListModule.roomType==RoomType.Pvp)
                 {
-                    if(sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam()!= sys._pvpbattle._pvpplayer.FindPlayerTeamByUID(playerlist[i].uid))
+                    Debug.Log("CurrentTeam: "+sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam());
+                    Debug.Log("PlayerTeam: " + sys._pvpbattle._pvpplayer.FindPlayerTeamByUID(playerlist[i].uid));
+                    if(sys._model._RoomModule.FindCurrentPlayerTeam()!= sys._model._RoomModule.FindPlayerTeamByUID(playerlist[i].uid))
                     {
                         continue;
                     }
                 }
+
                 GameObject item=Object.Instantiate(TeammateHP,GameObject.Find("Canvas").transform);
                 item.GetComponent<RectTransform>().anchoredPosition =new Vector2(30,-100)+j*new Vector2(0,-50);
                 item.transform.Find("name").GetComponent<Text>().text = playerlist[i].username;
