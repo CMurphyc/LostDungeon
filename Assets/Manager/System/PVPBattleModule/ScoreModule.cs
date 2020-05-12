@@ -10,7 +10,7 @@ public class ScoreModule
     PVPBattleManager _pvp;
     string winer;
     //  红方分数     蓝方分数
-    int RedTeamScore, BlueTeamScore;
+    public int RedTeamScore, BlueTeamScore;
     //  游戏剩余时间
     int GameTime;
     int SliderMaxValue = 800;
@@ -24,7 +24,7 @@ public class ScoreModule
         _pvp = pvp;
         RedTeamScore = 0;
         BlueTeamScore = 0;
-        GameTime = 180* 40;
+        GameTime = 120*Global.FrameRate;
         StrongHold = new List<KeyValuePair<int, int>>();
         HoldTime = new List<int>();
     }
@@ -32,7 +32,7 @@ public class ScoreModule
     {
         winer = "";
         RedTeamScore = BlueTeamScore = 0;
-        GameTime= 180 * 40;
+        GameTime= 120 * Global.FrameRate;
         StrongHold.Clear();
         HoldTime.Clear();
     }
@@ -101,17 +101,17 @@ public class ScoreModule
     }
     void CheckGameEnd()
     {
-        if (RedTeamScore == 100)
+        if (RedTeamScore >= 100)
         {
             winer = "RedTeam";
             GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
         }
-        if(BlueTeamScore==100)
+        if(BlueTeamScore>=100)
         {
             winer = "BlueTeam";
             GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
         }
-        if(GameTime==0)
+        if(GameTime<=0)
         {
             if(RedTeamScore>BlueTeamScore)
             {
@@ -152,7 +152,7 @@ public class ScoreModule
     }
     public void AddTeamScoreByPlayerUID(int uid)
     {
-        if(_pvp._pvpplayer.FindPlayerTeamByUID(uid)=="Blue")
+        if(_pvp._pvpplayer.FindPlayerTeamByUID(uid)=="BlueTeam")
         {
             AddBlueTeamScore(1);
         }

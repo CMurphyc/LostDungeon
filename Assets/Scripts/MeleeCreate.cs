@@ -87,7 +87,11 @@ public class MeleeCreate : MonoBehaviour
             startRoom = 1;
             CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
             GameObject tplayer = sys._pvpbattle._pvpplayer.playerToPlayer[PlayerList[i].uid].obj;
+
+            
+
             sys._pvpbattle._pvpplayer.RedTeam.Add(PlayerList[i].uid);
+            Debug.Log("MINI red added!");
             if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
 
             foreach (var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
@@ -118,6 +122,8 @@ public class MeleeCreate : MonoBehaviour
             CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
             GameObject tplayer = sys._pvpbattle._pvpplayer.playerToPlayer[PlayerList[i].uid].obj;
             sys._pvpbattle._pvpplayer.BlueTeam.Add(PlayerList[i].uid);
+
+            Debug.Log("MINI blue added!");
             if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
 
             foreach (var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
@@ -160,6 +166,7 @@ public class MeleeCreate : MonoBehaviour
         //AStar.Scan();
 
         //初始化相机
+        PlayerList = sys._model._RoomModule.PlayerList;
         for (int i = 0; i < PlayerList.Count; i++)
         {
             if (!PlayerList[i].empty && PlayerList[i].uid == sys._model._PlayerModule.uid)
