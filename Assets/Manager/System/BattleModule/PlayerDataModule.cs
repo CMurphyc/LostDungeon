@@ -204,6 +204,28 @@ public class PlayerDataModule
             }
         }
     }
+
+    void Gunshot(GameObject obj)
+    {
+        Debug.Log("Gunshot");
+        GameObject gunshotEffect = obj.transform.GetChild(0).GetChild(0).gameObject;
+        gunshotEffect.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        Animator gunAni = gunshotEffect.GetComponent<Animator>();
+        gunAni.Play("gunshot");
+    }
+
+    void CheckGunshotEffect(GameObject obj)
+    {
+
+        Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        if(obj.transform.name == "Engineer(Clone)")
+        {
+            Animator gunAni = obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Animator>();
+            gunAni.Play("idle");
+            obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        }
+    }
+
     void UpdateRevivalBar()
     {
         List<int> DeleteList = new List<int>();
@@ -344,6 +366,8 @@ public class PlayerDataModule
                                     {
                                         case CharacterType.Enginner:
                                             {
+                                                Gunshot(Input.obj);
+
                                                 bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         AttackVec,
@@ -419,6 +443,10 @@ public class PlayerDataModule
                                     Input.NextAttackFrame = frame + AttackInterval;
 
                                     AudioManager.instance.PlayAudio(AudioName.Gunshot1, false);
+                                }
+                                else 
+                                {
+                                    CheckGunshotEffect(Input.obj);
                                 }
                             }
                             break;
