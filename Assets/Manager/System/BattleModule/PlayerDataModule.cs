@@ -660,6 +660,15 @@ public class PlayerDataModule
                                         break;
 
                                     }
+                                case CharacterType.Warrior:
+                                    {
+                                        int cd = _parentManager._skill.guardianBase.Skill3Logic(frame,_parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID,
+                                            tmp,Input.obj, frameInfo[i].Uid
+                                           );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown3(cd);
+                                        break;
+
+                                    }
                                 default:
                                     break;
                             }

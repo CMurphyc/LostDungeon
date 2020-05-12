@@ -25,12 +25,11 @@ public class GuardianConfig : BaseConfig
 
     public GameObject effectCrush;              //位移地板特效
 
-    public int damageSkill3;                    
+    public int healSkill3;                    
     public float rangeSkill3;                   
     public float areaSkill3;
     public float countdownSkill3;           //lengque
-    public float controlTimeSkill3;             //控制时间
-
+    public float lastTimeSkill3;             //
 
     public Sprite skill1Image;
     public Sprite skill2Image;

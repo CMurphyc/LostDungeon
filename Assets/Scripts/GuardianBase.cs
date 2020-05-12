@@ -29,11 +29,11 @@ public class GuardianBase
     public GameObject effectGully;          //
 
     public GameObject effectCrush;              //位移地板特效
-    public int damageSkill3;
+    public int healSkill3;
     public float rangeSkill3;
     public float areaSkill3;
     public float countdownSkill3;           //lengque
-    public float controlTimeSkill3;             //控制时间
+    public float lastTimeSkill3;             //控制时间
 
     public Sprite skill1Image;
     public Sprite skill2Image;
@@ -45,6 +45,8 @@ public class GuardianBase
 
     List<GameObject> gully = new List<GameObject>();
     List<Tuple<GameObject,int>> shield = new List<Tuple<GameObject, int>>();
+    List<Tuple<int,FixVector2,int,int>> gy = new List<Tuple<int,FixVector2,int,int>>();
+    List<Tuple<GameObject, int>> hg = new List<Tuple<GameObject, int>>();
 
     SystemManager _parentManager;
 
@@ -72,6 +74,17 @@ public class GuardianBase
     {
         gully.Clear();
     }
+
+    public float Skill3Range()
+    {
+        return rangeSkill3;
+    }
+
+    public float Skill3Area()
+    {
+        return areaSkill3;
+    }
+
     public GuardianBase(SystemManager parentManager)
     {
         GuardianConfig x = Resources.Load("Configs/Heros/GuardianConfig") as GuardianConfig;
@@ -99,11 +112,11 @@ public class GuardianBase
 
 
 
-        damageSkill3 = x.damageSkill3;
+        healSkill3 = x.healSkill3;
         rangeSkill3 = x.rangeSkill3;
         areaSkill3 = x.areaSkill3;
         countdownSkill3 = x.countdownSkill3;           //lengque
-        controlTimeSkill3 = x.controlTimeSkill3;             //控制时间
+        lastTimeSkill3 = x.lastTimeSkill3;             //控制时间
 
 
         effectGully = x.effectGully;
@@ -147,31 +160,13 @@ public class GuardianBase
         dir -= pos;
         dir.Normalize();
         //效果
-        GameObject ge = GameObject.Instantiate(effectGully);
-        ge.GetComponent<ExplosionControl>().init(frame , (int)(1f * 1000 / Global.FrameRate), pos+dir*1f);
-        gully.Add(ge);
 
-        GameObject gr = GameObject.Instantiate(effectGully);
-        gr.GetComponent<ExplosionControl>().init(frame+ (int)( 800 / Global.FrameRate), (int)(1f * 1000 / Global.FrameRate), pos + dir * 2f);
-        gully.Add(gr);
-
-        GameObject gt = GameObject.Instantiate(effectGully);
-        gt.GetComponent<ExplosionControl>().init(frame+ (int)(1600 / Global.FrameRate), (int)(1f * 1000 / Global.FrameRate), pos + dir * 3f);
-        gully.Add(gt);
-        //伤害判定产生
-
-        SkillBase tmp = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x+dir.x*1f), (Fix64)(pos.y + dir.y * 1f)), (Fix64)1f, 
-            (int)(1.5f * 1000 / Global.FrameRate), frame , dmgSrc);
-        _parentManager._pvpbattle._pvpskill.Add(tmp, RoomID);
-
-        SkillBase tmo = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x + dir.x * 2f), (Fix64)(pos.y + dir.y * 2f)), (Fix64)1f,
-            (int)(1.5f * 1000 / Global.FrameRate), frame + (int)(0.8f * 1000 / Global.FrameRate), dmgSrc);
-        _parentManager._pvpbattle._pvpskill.Add(tmo, RoomID);
-
-        SkillBase tmi = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x + dir.x * 3f), (Fix64)(pos.y + dir.y * 3f)), (Fix64)1f,
-            (int)(1.5f * 1000 / Global.FrameRate), frame + (int)(1.6f * 1000 / Global.FrameRate), dmgSrc);
-        _parentManager._pvpbattle._pvpskill.Add(tmi, RoomID);
-
+        gy.Add(new Tuple<int,FixVector2,int,int>(frame
+            , new FixVector2((Fix64)(pos.x+dir.x), (Fix64)(pos.y+dir.y)),RoomID, dmgSrc));
+        gy.Add(new Tuple<int,FixVector2,int,int> (frame + (int)(400 / Global.FrameRate)
+            , new FixVector2((Fix64)(pos.x + 2.0f*dir.x), (Fix64)(pos.y + 2.0f*dir.y)), RoomID, dmgSrc ));
+        gy.Add(new Tuple<int, FixVector2,int,int>(frame + (int)(800 / Global.FrameRate)
+            ,new FixVector2((Fix64)(pos.x + 3.0f * dir.x), (Fix64)(pos.y + 3.0f * dir.y)), RoomID, dmgSrc));
 
         if (gifted[2] == 1)
         {
@@ -184,17 +179,18 @@ public class GuardianBase
     }
 
 
-    public int Skill3Logic(int frame, int RoomID, List<int> gifted, Vector3 pos, int dmgSrc)
+    public int Skill3Logic(int frame, int RoomID, List<int> gifted, GameObject p, int dmgSrc)
     {
-
+        p.transform.GetChild(2).gameObject.SetActive(true);
+        hg.Add(new Tuple<GameObject, int>(p,0));
 
         if (gifted[2] == 1)
         {
-            return (int)(1000 / Global.FrameRate * (countdownSkill2 - 2));
+            return (int)(1000 / Global.FrameRate * (countdownSkill3 - 2));
         }
         else
         {
-            return (int)(1000 / Global.FrameRate * (countdownSkill2));
+            return (int)(1000 / Global.FrameRate * (countdownSkill3));
         }
     }
     public void updateLogic(int frame)
@@ -202,10 +198,9 @@ public class GuardianBase
         List<Tuple<GameObject, int>> tp = new List<Tuple<GameObject, int>>();
         foreach(var p in shield)
         {
-            Debug.Log(p.Item1.GetComponent<PlayerModel_Component>().muteki);
+            //Debug.Log(p.Item1.GetComponent<PlayerModel_Component>().muteki);
             if(p.Item2==frame)
             {
-                Debug.Log("aaaaaaaaaaa");
                 p.Item1.transform.GetChild(1).localScale = new Vector3(1, 1, 1);
                 p.Item1.transform.GetChild(1).gameObject.transform.localPosition = new Vector3(-0.05f, -0.04f, 0);
                 p.Item1.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
@@ -242,5 +237,74 @@ public class GuardianBase
             gully.Add(x);
         }
         qwe.Clear();
+
+        List<Tuple<int, FixVector2,int,int>> gg = new List<Tuple<int, FixVector2,int,int>>();
+        foreach (var x in gy)
+        {
+            if(frame==x.Item1)
+            {
+                GameObject ge = GameObject.Instantiate(effectGully);
+                ge.GetComponent<ExplosionControl>().init(frame+1, (int)(1f * 1200 / Global.FrameRate),new Vector3((float)x.Item2.x, (float)x.Item2.y+0.6f,0) );
+                gully.Add(ge);
+                //伤害判定产生
+                SkillBase tmp = new SkillBase(0, damageSkill2, x.Item2, (Fix64)2f,
+                    (int)(1.5f * 1000 / Global.FrameRate), frame+1000/Global.FrameRate, x.Item4);
+
+                if (_parentManager._model._RoomListModule.roomType == RoomType.Pve)
+                {
+                    _parentManager._battle._skill.Add(tmp, x.Item3);
+                }
+                else
+                {
+                    _parentManager._pvpbattle._pvpskill.Add(tmp, x.Item3);
+                }
+            }
+            else
+            {
+                gg.Add(x);
+            }
+        }
+        gy.Clear();
+        foreach(var x in gg)
+        {
+            gy.Add(x);
+        }
+        gg.Clear();
+
+
+        List<Tuple<GameObject, int>> twq = new List<Tuple<GameObject, int>>();
+        foreach(var x in hg)
+        {
+            if(x.Item2<=5000/Global.FrameRate)
+            {
+                
+                if(x.Item2%(1000 / Global.FrameRate) ==0)
+                {
+                    foreach(var tx in _parentManager._battle._player.playerToPlayer)
+                    {
+                        if (FixVector2.Distance(tx.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition(),
+                            x.Item1.GetComponent<PlayerModel_Component>().GetPlayerPosition()
+                            ) <=(Fix64)2f)
+                        {
+                            tx.Value.obj.GetComponent<PlayerModel_Component>().SetHealthPoint(Math.Min(
+                                tx.Value.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint(),
+                                tx.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint()+7
+                                ));
+                        }
+                    }
+                }
+                twq.Add(new Tuple<GameObject, int>(x.Item1,x.Item2+1));
+            }
+            else
+            {
+                x.Item1.transform.GetChild(2).gameObject.SetActive(false);
+            }
+        }
+        hg.Clear();
+        foreach(var p in twq)
+        {
+            hg.Add(p);
+        }
+        twq.Clear();
     }
 }

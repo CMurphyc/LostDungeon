@@ -677,6 +677,10 @@ public class RoomCreate : MonoBehaviour
                     js2.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill2Range(),
                                                 sys._battle._skill.guardianBase.Skill2Area(), PlayerObject, sys._battle._skill.guardianBase.skill2Type);
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill3Range(),
+                                                sys._battle._skill.guardianBase.Skill3Area(), PlayerObject, sys._battle._skill.guardianBase.skill3Type);
+
                     break;
                 }
             case CharacterType.Ghost:

@@ -19,29 +19,29 @@ MonoBehaviour:
   damge: 1
   bulletSpeed: 1
   fireSpeed: 1
-  bulletEffect: 00000000010000000000000000000000
+  bulletEffect: 000000000100000000000000000000000d000000
   bulletObj: {fileID: 7005734561844284085, guid: 89a334b99af451b4d9fb700650274267,
     type: 3}
   timeSkilll1: 3
   rangeSkill1: 0.3
   areaSkill1: 0.1
   countdownSkill1: 10
-  rangeSkill2: 20
-  areaSkill2: 1
+  rangeSkill2: 0.2
+  areaSkill2: 0.15
   damageSkill2: 30
   controlTimeSkill2: 1
   countdownSkill2: 8
   effectGully: {fileID: 7436821419197155278, guid: 2b6554409c124314a87221bffc426e63,
     type: 3}
   effectCrush: {fileID: 0}
-  damageSkill3: 0
+  healSkill3: 0
   rangeSkill3: 0
   areaSkill3: 0
-  countdownSkill3: 0
-  controlTimeSkill3: 0
+  countdownSkill3: 25
+  lastTimeSkill3: 0
   skill1Image: {fileID: 21300000, guid: 187982ed74668bc459f19dfc5bff9e43, type: 3}
   skill2Image: {fileID: 21300000, guid: a1dad2253dbcb3d4da92f6efa61c0cee, type: 3}
-  skill3Image: {fileID: 0}
+  skill3Image: {fileID: 21300000, guid: b07e8817795ad344eb4959fb55917be5, type: 3}
   skill1Type: 3
   skill2Type: 1
-  skill3Type: 0
+  skill3Type: 3
