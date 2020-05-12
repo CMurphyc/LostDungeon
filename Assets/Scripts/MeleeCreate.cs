@@ -39,7 +39,7 @@ public class MeleeCreate : MonoBehaviour
 
     public Dictionary<int, List<GameObject>> roomToMonster;   // 房间号对应的怪物列表
 
-    private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
+    private readonly float[] startPosition = new float[] { -5, 2, -2.5f, -1, 0, 2, 2.5f, -1, 5, 2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
     private int birthX;
     private int birthY;
