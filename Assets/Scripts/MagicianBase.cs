@@ -262,7 +262,7 @@ public class MagicianBase
 
         p.GetComponent<IceControl>().init(new FixVector2((Fix64)st.x, (Fix64)st.y),
             new FixVector2((Fix64)dir.x, (Fix64)dir.y),
-            (Fix64)1f, RoomID, damageSkill3, dmgSrc, _parentManager
+            (Fix64)1f, RoomID, damageSkill3, dmgSrc, _sys._battle
             );
         ice.Add(p);
 
