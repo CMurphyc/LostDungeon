@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -608,7 +608,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 7.6830814e+31, y: 62574.38, z: 1.707773e+19, w: 7.398465e+31}
+  m_BoundingSphereOverride: {x: 1.0459e-41, y: 1.02e-43, z: -2.306054e+18, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -3389,8 +3389,8 @@ GameObject:
   - component: {fileID: 1811140360}
   - component: {fileID: 1811140359}
   - component: {fileID: 1811140358}
-  - component: {fileID: 1811140356}
   - component: {fileID: 1811140357}
+  - component: {fileID: 1811140356}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3407,29 +3407,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1811140355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052b2db2e56bcff4485c61b0305837f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 610d5b78b9280654bbf4742333ff4d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BackGround: {fileID: 2044990544020977938, guid: b864a55503762024ea1014e72995ae8b,
     type: 3}
   None: {fileID: 7160561101422585325, guid: 6549e597d4e337141b1dd1a031e49150, type: 3}
-  U: {fileID: 8923213150984276792, guid: 0f520672565ed5f4188ffcdef5c5c94d, type: 3}
-  D: {fileID: 1510026528075179205, guid: 4533da455cc731d48be27fdb1ff13f60, type: 3}
-  L: {fileID: 2275387586008037012, guid: a6b9ac4c162acc440b939f91e25cb0c6, type: 3}
   R: {fileID: 6007518801809752885, guid: cb4c213e561c5f64bac4d5cbd7339599, type: 3}
-  LU: {fileID: 5146203073428653242, guid: 591cbcd998e934f4dbfbeea4fe3b2381, type: 3}
-  LD: {fileID: 1080918732788365620, guid: 7db728acd613c804686c96b4d4b62f02, type: 3}
-  RU: {fileID: 8105105493126874881, guid: 49a7d1919f1e4b349b593c6d13aa3a29, type: 3}
-  RD: {fileID: 6398515608376654626, guid: 6c67de70a8237454fa456c5d89393a92, type: 3}
+  L: {fileID: 2275387586008037012, guid: a6b9ac4c162acc440b939f91e25cb0c6, type: 3}
   NowNone: {fileID: 2080809887325748864, guid: 0e32b3d1a054db94386663f7c4d62bde, type: 3}
-  NowU: {fileID: 2992467649601897858, guid: a529ab7a29ddf2e47944a09f0caf2016, type: 3}
-  NowD: {fileID: 2821272135064218340, guid: 604ee49929cccdd49bac03692e7e48ff, type: 3}
-  NowL: {fileID: 1815111409185756849, guid: d8a64029552bee8499aaae6aa3655744, type: 3}
   NowR: {fileID: 4902964425485298455, guid: b2a761c66e9a4bb439e5491e2cdcdb2b, type: 3}
-  NowLU: {fileID: 3474012633118783729, guid: 2c3b77758c2d43e478962d0d79ac13d2, type: 3}
-  NowLD: {fileID: 7778607583524391133, guid: ac08a33683b21f04f96bb771f5886744, type: 3}
-  NowRU: {fileID: 6187529751923407796, guid: 3af93194060e8ab41a166eec87fb8e49, type: 3}
-  NowRD: {fileID: 8463885485872057515, guid: bf14dc1a45cbe5e4aa2fc4b56590c7cd, type: 3}
+  NowL: {fileID: 1815111409185756849, guid: d8a64029552bee8499aaae6aa3655744, type: 3}
   BossTag: {fileID: 3819243329602020490, guid: 51073e861730beb49a09950c2c69dc89, type: 3}
   ChallengeTag: {fileID: 4409066254028624392, guid: 3f473981a06dc6641af1b5c25fda7872,
     type: 3}
