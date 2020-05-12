@@ -74,6 +74,7 @@ public class Bullet
     public CommonCollider collider;
     public GameObject bulletPrefab;
     public GameObject lightningPrefab;
+    public GameObject penetratePrefab;
     public List<bulletType> itemList;
     public List<int> splitEffectList;
     public List<int> attackEffectList;
@@ -88,6 +89,8 @@ public class Bullet
         dmgSrcUID = dmgSrcUid;
         this.tag = tag;
         this.anchor = anchor;
+
+        this.anchor += toward * speed *(Fix64)0.25;
 
         this.toward = toward.GetNormalized();
 
@@ -110,8 +113,11 @@ public class Bullet
         //预载雷电prefab
         this.lightningPrefab = Resources.Load("Model/Bullet/Prefab/thunder") as GameObject;
 
+        //预载穿刺prefab
+        this.penetratePrefab = Resources.Load("Effects/Prefab/penetrate") as GameObject;
+
         //测试buff用
-        //attackEffectList.Add((int)bulletType.LightningChain);
+        attackEffectList.Add((int)bulletType.Penetrate);
     }
     private void BulletContainerInit()
     {
@@ -148,6 +154,7 @@ public class BulletBase
     protected List<explode> explodeList;
     //子弹类型（这里直接传一个GameObject，实例化的都是它的拷贝）
     protected GameObject bulletPrefab;
+    protected CollideDetecter collideDetecter;
     public virtual void BulletInit(string tag, FixVector2 anchor, FixVector2 toward, Fix64 speed, Fix64 damage, int roomid, GameObject bulletPrefab, List<bulletType> itemList, int DmgSrcUid) { }
     public virtual void LogicUpdate() { }
     public virtual void ViewUpdate() { }
@@ -473,6 +480,7 @@ public class BulletUnion : BulletBase
     public BulletUnion(BattleManager parent)
     {
         _parentManager = parent;
+        collideDetecter = new CollideDetecter();
     }
     public override void ContainerInit()
     {
@@ -520,11 +528,10 @@ public class BulletUnion : BulletBase
         }
     }
 
-    private bool CollideCheck(Bullet bullet, MonsterModel_Component monster)
+    private bool CollideCheck(Bullet bullet, Rectangle rect)
     {
-        return false;
-        //CollideDetecter collideDetecter = new CollideDetecter();
-        //return collideDetecter.CircleCollideRect(bullet.collider.circle, monster.collider.rectangle);
+        Circle circle = new Circle(bullet.anchor, (Fix64)0.1);
+        return collideDetecter.CircleCollideRect(circle, rect);
     }
 
     //溅射
@@ -575,6 +582,14 @@ public class BulletUnion : BulletBase
             }
         }
 
+    }
+    //穿刺特效
+    private void PenetrateEffect(Bullet bullet, GameObject obj)
+    {
+        GameObject penetrate = GameObject.Instantiate(bullet.penetratePrefab);
+        penetrate.transform.parent = obj.transform;
+        penetrate.transform.position = obj.transform.position;
+        UnityEngine.Object.Destroy(penetrate, 0.5f);
     }
     //穿透
     private void Penetrate(Bullet bullet)
@@ -640,20 +655,22 @@ public class BulletUnion : BulletBase
                     }
                     //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取，待对接
                     MonsterModel_Component MonsterModule = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].GetComponent<MonsterModel_Component>();
-                    CollideDetecter collideDetecter = new CollideDetecter();
-                    Rectangle rect = new Rectangle(new FixVector2((Fix64)MonsterModule.position.x, (Fix64)MonsterModule.position.y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
+                    BoxCollider2D bcd = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>();
+                    Fix64 hori = (Fix64) bcd.size.x;
+                    Fix64 verti = (Fix64) bcd.size.y;
+                    Rectangle rect = new Rectangle(new FixVector2((Fix64)MonsterModule.position.x, (Fix64)MonsterModule.position.y), new FixVector2((Fix64)1, (Fix64)1), hori, verti);
 
-                    if (_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].tag == "Boss")
+                    if(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].tag == "Boss")
                     {
                         BoxCollider2D bc = _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>();
                         rect.horizon = (Fix64)bc.size.x;
                         rect.vertical = (Fix64)bc.size.y;
                     }
 
-                    if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
+                    if (CollideCheck(spwanedBullet[i], rect) == true)
                     {
 
-                        _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j], (float)spwanedBullet[i].damage, spwanedBullet[i].roomid, spwanedBullet[i].dmgSrcUID);
+                        _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j],(float) spwanedBullet[i].damage, spwanedBullet[i].roomid, spwanedBullet[i].dmgSrcUID);
                         spwanedBullet[i].active = false;
                         //attackEffect逻辑层面的实现
                         foreach (var effect in spwanedBullet[i].attackEffectList)
@@ -672,6 +689,7 @@ public class BulletUnion : BulletBase
                             }
                         }
 
+                        if(spwanedBullet[i].active == true) PenetrateEffect(spwanedBullet[i], _parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j]);
                         //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历
                         break;
                     }
@@ -754,7 +772,7 @@ public class BulletUnion : BulletBase
                     (Fix64)collider.size.x,
                     (Fix64)collider.size.y);
 
-                if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
+                if (CollideCheck(spwanedBullet[i], rect) == true)
                 {
                     //修正子弹位置，避免子弹因step长度嵌入obstacle的问题
                     FixBulletPosition(spwanedBullet[i], rect);

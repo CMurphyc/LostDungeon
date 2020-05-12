@@ -1328,7 +1328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &566517691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2867,7 +2867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1500868328
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3250,8 +3250,8 @@ GameObject:
   - component: {fileID: 1811140360}
   - component: {fileID: 1811140359}
   - component: {fileID: 1811140358}
-  - component: {fileID: 1811140357}
   - component: {fileID: 1811140356}
+  - component: {fileID: 1811140357}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3314,8 +3314,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5534ad21bfd3f45a31f2bab7d73850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boss2: {fileID: 21300000, guid: 261ea7b219bc7064dab95de4b0694c51, type: 3}
-  boss3: {fileID: 21300000, guid: 9719dc3e7398de047910f42b6fb4951b, type: 3}
+  boss2: {fileID: 0}
+  boss3: {fileID: 0}
   BossUI: {fileID: 0}
 --- !u!114 &1811140358
 MonoBehaviour:
@@ -3506,7 +3506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1819966490
 RectTransform:
   m_ObjectHideFlags: 0

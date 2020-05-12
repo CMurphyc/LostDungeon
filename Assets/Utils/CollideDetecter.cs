@@ -117,15 +117,15 @@ public class CollideDetecter
             PointToLine(point, line3) +
             PointToLine(point, line4) <= (rect.horizon + rect.vertical + (Fix64)0.01f))
         {
-            //Debug.Log("IN");
-            //Debug.Log("anchor is + " + rect.anchor);
-            //Debug.Log("Distance * 4 = " + (PointToLine(point, line1) +
-            //PointToLine(point, line2) +
-            //PointToLine(point, line3) +
-            //PointToLine(point, line4) + "周长/2 = " + (rect.horizon + rect.vertical)));
+
             return true;
         }
         return false;
+    }
+
+    public bool CapsuleCollideCircle(Capsule capsule, Circle circle)
+    {
+        return CircleCollideCircle(capsule.topCircle, circle) || CircleCollideCircle(capsule.bottomCircle, circle) || CircleCollideRect(circle, capsule.midRect);
     }
 
     public Vector2 Vector2ToFixVector2(FixVector2 v)
