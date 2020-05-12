@@ -14,7 +14,7 @@ public class OverViewWindowUpdate : MonoBehaviour
     }
     void Start()
     {
-
+        int totkill = 0;
         List<PlayerData> PlayerList = sys._model._RoomModule.PlayerList;
         Dictionary<int, PVEData> PlayerPVEResult = sys._model._RoomModule.PVEResult;
         for (int i=0;i<4;i++)
@@ -47,6 +47,10 @@ public class OverViewWindowUpdate : MonoBehaviour
                     break;
             }
         }
+        int GameTime = sys._model._RoomModule.PVEGameTime / 40;
+        Canvas.transform.Find("End/Time/Text").GetComponent<Text>().text = (GameTime / 3600).ToString("d2") + " : " + ((GameTime % 3600) / 60).ToString("d2") + " : " + (GameTime % 60).ToString("d2");
+        Canvas.transform.Find("End/Image/Text").GetComponent<Text>().text = sys._model._RoomModule.MapFloorNumber.ToString();
+        Canvas.transform.Find("End/kill/Text").GetComponent<Text>().text = totkill.ToString();
     }
 
 }

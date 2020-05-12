@@ -27,6 +27,7 @@ public class RoomModule
 
     public List<PlayerData> RedTeamPlayerList = new List<PlayerData>();
     public List<PlayerData> BlueTeamPlayerList = new List<PlayerData>();
+    public int PVEGameTime;
 
     public List<GameObject> PlayerAnimation = new List<GameObject>();
 

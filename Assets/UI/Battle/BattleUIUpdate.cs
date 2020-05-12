@@ -29,19 +29,6 @@ public class BattleUIUpdate : MonoBehaviour
         if (BossUI!=null)
         BossUI.SetActive(false);
 
-        if (sys._model._RoomListModule.roomType == RoomType.Pvp)
-        {
-            if (sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam() == "RedTeam")
-            {
-                GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "我方";
-                GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "敌方";
-            }
-            else
-            {
-                GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "敌方";
-                GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "我方";
-            }
-        }
     }
     void Start()
     {
@@ -122,6 +109,18 @@ public class BattleUIUpdate : MonoBehaviour
     }
     void UpdatePVP()
     {
+        if (sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam() == "RedTeam")
+        {
+            GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "我方";
+            GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "敌方";
+        }
+        else
+        {
+            GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "敌方";
+            GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "我方";
+        }
+
+
         PlayerInGameData data = sys._pvpbattle._pvpplayer.playerToPlayer[CurrnetUID];
         HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/" + data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
         HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();

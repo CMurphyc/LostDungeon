@@ -68,6 +68,7 @@ public class BattleManager
         _terrain.UpdateLogic(local_frame);
         _chest.UpdateLogic(local_frame) ;
         local_frame++;
+        sys._model._RoomModule.PVEGameTime = local_frame;
     }
     /*
      * void UpdatePVPLogicByFrame()

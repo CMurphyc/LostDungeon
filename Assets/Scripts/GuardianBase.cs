@@ -148,29 +148,39 @@ public class GuardianBase
         dir.Normalize();
         //效果
         GameObject ge = GameObject.Instantiate(effectGully);
-        ge.GetComponent<ExplosionControl>().init(frame , (int)(1f * 1000 / Global.FrameRate), pos+dir*1f);
+        ge.GetComponent<ExplosionControl>().init(frame, (int)(1f * 1000 / Global.FrameRate), pos + dir * 1f);
         gully.Add(ge);
 
         GameObject gr = GameObject.Instantiate(effectGully);
-        gr.GetComponent<ExplosionControl>().init(frame+ (int)( 800 / Global.FrameRate), (int)(1f * 1000 / Global.FrameRate), pos + dir * 2f);
+        gr.GetComponent<ExplosionControl>().init(frame + (int)(800 / Global.FrameRate), (int)(1f * 1000 / Global.FrameRate), pos + dir * 2f);
         gully.Add(gr);
 
         GameObject gt = GameObject.Instantiate(effectGully);
-        gt.GetComponent<ExplosionControl>().init(frame+ (int)(1600 / Global.FrameRate), (int)(1f * 1000 / Global.FrameRate), pos + dir * 3f);
+        gt.GetComponent<ExplosionControl>().init(frame + (int)(1600 / Global.FrameRate), (int)(1f * 1000 / Global.FrameRate), pos + dir * 3f);
         gully.Add(gt);
-        //伤害判定产生
 
-        SkillBase tmp = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x+dir.x*1f), (Fix64)(pos.y + dir.y * 1f)), (Fix64)1f, 
-            (int)(1.5f * 1000 / Global.FrameRate), frame , dmgSrc);
-        _parentManager._pvpbattle._pvpskill.Add(tmp, RoomID);
+        SkillBase tmp = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x + dir.x * 1f), (Fix64)(pos.y + dir.y * 1f)), (Fix64)1f,
+            (int)(1.5f * 1000 / Global.FrameRate), frame, dmgSrc);
 
         SkillBase tmo = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x + dir.x * 2f), (Fix64)(pos.y + dir.y * 2f)), (Fix64)1f,
             (int)(1.5f * 1000 / Global.FrameRate), frame + (int)(0.8f * 1000 / Global.FrameRate), dmgSrc);
-        _parentManager._pvpbattle._pvpskill.Add(tmo, RoomID);
 
         SkillBase tmi = new SkillBase(0, damageSkill2, new FixVector2((Fix64)(pos.x + dir.x * 3f), (Fix64)(pos.y + dir.y * 3f)), (Fix64)1f,
             (int)(1.5f * 1000 / Global.FrameRate), frame + (int)(1.6f * 1000 / Global.FrameRate), dmgSrc);
-        _parentManager._pvpbattle._pvpskill.Add(tmi, RoomID);
+        //伤害判定产生
+        switch (_parentManager._model._RoomListModule.roomType)
+        {
+            case RoomType.Pve:
+                _parentManager._battle._skill.Add(tmp, RoomID);
+                _parentManager._battle._skill.Add(tmo, RoomID);
+                _parentManager._battle._skill.Add(tmi, RoomID);
+                break;
+            case RoomType.Pvp:
+                _parentManager._pvpbattle._pvpskill.Add(tmp, RoomID);
+                _parentManager._pvpbattle._pvpskill.Add(tmo, RoomID);
+                _parentManager._pvpbattle._pvpskill.Add(tmi, RoomID);
+                break;
+        }
 
 
         if (gifted[2] == 1)
