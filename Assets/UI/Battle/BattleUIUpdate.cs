@@ -45,10 +45,11 @@ public class BattleUIUpdate : MonoBehaviour
     }
     void Start()
     {
-
-        //Text FloorNum = GameObject.Find("Canvas/Floor/floornum").GetComponent<Text>();
-        //FloorNum.text = sys._model._RoomModule.MapFloorNumber.ToString();
-
+        if (GameObject.Find("Canvas/Floor/floornum") != null)
+        {
+            Text FloorNum = GameObject.Find("Canvas/Floor/floornum").GetComponent<Text>();
+            FloorNum.text = sys._model._RoomModule.MapFloorNumber.ToString();
+        }
         GameObject TeammateHP = Resources.Load("UI/UIPrefabs/TeammateHPUI", typeof(GameObject)) as GameObject;
         List<PlayerData> playerlist = sys._model._RoomModule.PlayerList;
         for (int i=0,j=0;i< playerlist.Count;i++)
