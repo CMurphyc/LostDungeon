@@ -11,7 +11,7 @@ public class PlayerModel_Component : MonoBehaviour
 
     public Fix64 BuffattackPoint { get; set; }           // 玩家Buff变更攻击力
     public Fix64 attackPoint { get; set; }           // 玩家攻击力
-    public Fix64 shootSpeed { get; set; }           //射击速度 就是间隔  1/0.5*20 40
+    public Fix64 shootSpeed { get; set; }           //射击速度 就是间隔  
     public int countDown1 { get; set; }                 //技能1倒计时
     public int countDown2 { get; set; }                 //技能2倒计时
     public int countDown3 { get; set; }                 //技能3倒计时
@@ -69,6 +69,10 @@ public class PlayerModel_Component : MonoBehaviour
         attackCountDown = 0;
     }
 
+    public void SetAttackCountdown()
+    {
+        attackCountDown =(int)( (Fix64)1/ shootSpeed*1000/Global.FrameRate);
+    }
 
     public void UpdateLogic()
     {

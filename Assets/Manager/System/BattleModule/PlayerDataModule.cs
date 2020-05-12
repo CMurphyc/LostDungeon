@@ -322,6 +322,8 @@ public class PlayerDataModule
                 {
                     case (int)AttackType.BasicAttack:
                         {
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetAttackCountDown() != 0) break;
+
                             Fix64 AttackDirectionX = (Fix64)(frameInfo[i].AttackDirectionX / (Fix64)100);
                             Fix64 AttackDirectionY = (Fix64)(frameInfo[i].AttackDirectionY / (Fix64)100);
 
@@ -334,8 +336,7 @@ public class PlayerDataModule
                             //&& Fix64.Abs(AttackDirectionY) >= (Fix64)0.01f))
                             {
                                 //Debug.Log("aaaaaaaa");
-                                if (frame >= Input.NextAttackFrame)
-                                {
+                                
                                     BulletUnion bu = new BulletUnion(_parentManager);
 
 
@@ -359,6 +360,7 @@ public class PlayerDataModule
                                                                         .GetComponent<PlayerModel_Component>().bulletBuff
                                                                         
                                                                         , frameInfo[i].Uid);
+
                                                 break;
                                             }
                                         case CharacterType.Magician:
@@ -413,13 +415,12 @@ public class PlayerDataModule
                                                 break;
                                             }
                                     }
-
-                                    bulletList.Add(bu);
-
-                                    Input.NextAttackFrame = frame + AttackInterval;
-
+                                Input.obj.GetComponent<PlayerModel_Component>().SetAttackCountdown();
+                                bulletList.Add(bu);
+                                   
                                     AudioManager.instance.PlayAudio(AudioName.Gunshot1, false);
-                                }
+
+                                
                             }
                             break;
                         }
