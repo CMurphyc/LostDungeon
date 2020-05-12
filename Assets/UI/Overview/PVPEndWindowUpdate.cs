@@ -14,7 +14,7 @@ public class PVPEndWindowUpdate : MonoBehaviour
     }
     void Start()
     {
-        if(sys._pvpbattle._pvpplayer.FindPlayerTeamByUID(sys._model._PlayerModule.uid)==sys._pvpbattle._score.GetWinner())
+        if(sys._pvpbattle._pvpplayer.FindCurrentPlayerTeam()==sys._pvpbattle._score.GetWinner())
         {
             Canvas.transform.Find("GameOver/Text").GetComponent<Text>().text = "Win";
             Canvas.transform.Find("GameOver/Text").GetComponent<Text>().color =new Color(1, 220.0f/255.0f,0);

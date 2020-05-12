@@ -38,6 +38,9 @@ public class PVPPlayerDataModule
         {
             frameInfo.Clear();
         }
+        playerToBirthpos.Clear();
+        RedTeam.Clear();
+        BlueTeam.Clear();
         bulletList.Clear();
         playerToRevival.Clear();
         DeathCamInit = false;
