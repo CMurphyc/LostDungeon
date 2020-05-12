@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 606545478}
   - component: {fileID: 1778639889386223722}
   - component: {fileID: 7221656896920114644}
+  - component: {fileID: 721765048326965785}
   m_Layer: 0
   m_Name: enemy07
   m_TagString: Enemy
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2028834293
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ad8177dbfd089314992867c535219778, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -145,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 2
+  version: 1
   radius: 0.4
   height: 0.4
   repathRate: 1
@@ -183,6 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 0}
+  targetObj: {fileID: 0}
   Target: {x: 0, y: 0, z: 0}
   AI_Switch: 0
 --- !u!114 &1778639889386223722
@@ -212,3 +214,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnderAttack: 0
   FrameLeftFromDestroy: 60
+  OwnderUID: 0
+--- !u!61 &721765048326965785
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6606036554287153081}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.22, y: 0.22}
+    newSize: {x: 0.22, y: 0.22}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 0.6}
+  m_EdgeRadius: 0

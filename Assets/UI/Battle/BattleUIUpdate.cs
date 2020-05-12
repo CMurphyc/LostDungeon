@@ -26,6 +26,7 @@ public class BattleUIUpdate : MonoBehaviour
         BossUI = GameObject.Find("Canvas/BossHint");
 
         HP_bar =  GameObject.Find("Canvas/PlayerHPUI");
+        if (BossUI!=null)
         BossUI.SetActive(false);
 
         if (sys._model._RoomListModule.roomType == RoomType.Pvp)
@@ -44,10 +45,11 @@ public class BattleUIUpdate : MonoBehaviour
     }
     void Start()
     {
-
-        Text FloorNum = GameObject.Find("Canvas/Floor/floornum").GetComponent<Text>();
-        FloorNum.text = sys._model._RoomModule.MapFloorNumber.ToString();
-
+        if (GameObject.Find("Canvas/Floor/floornum") != null)
+        {
+            Text FloorNum = GameObject.Find("Canvas/Floor/floornum").GetComponent<Text>();
+            FloorNum.text = sys._model._RoomModule.MapFloorNumber.ToString();
+        }
         GameObject TeammateHP = Resources.Load("UI/UIPrefabs/TeammateHPUI", typeof(GameObject)) as GameObject;
         List<PlayerData> playerlist = sys._model._RoomModule.PlayerList;
         for (int i=0,j=0;i< playerlist.Count;i++)
@@ -78,6 +80,10 @@ public class BattleUIUpdate : MonoBehaviour
                     case CharacterType.Warrior:
                         item.transform.Find("Image").GetComponent<Image>().sprite =
                         Instantiate(Resources.Load("Model/Player/Sprites/Guardian/c08_s2_4", typeof(Sprite))) as Sprite;
+                        break;
+                    case CharacterType.Ghost:
+                        item.transform.Find("Image").GetComponent<Image>().sprite =
+                        Instantiate(Resources.Load("Model/Player/Sprites/Ghost/c02_s6_12", typeof(Sprite))) as Sprite;
                         break;
                 }
                 Teammate.Add(playerlist[i].uid,item);

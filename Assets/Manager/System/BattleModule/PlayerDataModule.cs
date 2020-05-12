@@ -638,15 +638,16 @@ public class PlayerDataModule
                                     }
                                 case CharacterType.Magician:
                                     {
-                                        /*
-                                        int cd = _parentManager._skill.magicianBase.Skill2Logic(frame,
+                                        int cd = _parentManager._skill.magicianBase.Skill3Logic(frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
+                                            new Vector2((float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
+                                            (float)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                             new Vector2((float)frameInfo[i].AttackDirectionX / 10000f,
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
                                             );
-                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
-                                        */
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown3(cd);
+                                        
                                         break;
                                     }
 

@@ -62,6 +62,17 @@ public class PlayerView_Component : MonoBehaviour
                 {
                     Color temp = GetComponent<SpriteRenderer>().color;
                     GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+
+
+                    transform.Find("weapon").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+
+                    transform.Find("bag").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+
+                    GameObject Buff = transform.Find("back").gameObject;
+                    if (Buff!=null)
+                    {
+                        Buff.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+                    }
                 }
                 else
                 {
@@ -69,11 +80,30 @@ public class PlayerView_Component : MonoBehaviour
                     {
                         Color temp = GetComponent<SpriteRenderer>().color;
                         GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+
+                        transform.Find("weapon").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+
+                        transform.Find("bag").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+
+                        GameObject Buff = transform.Find("back").gameObject;
+                        if (Buff != null)
+                        {
+                            Buff.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+                        }
                     }
                     else
                     {
                         Color temp = GetComponent<SpriteRenderer>().color;
                         GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 0f / 255f);
+                        transform.Find("weapon").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 0);
+
+                        transform.Find("bag").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 0);
+
+                        GameObject Buff = transform.Find("back").gameObject;
+                        if (Buff != null)
+                        {
+                            Buff.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 0);
+                        }
 
                     }
                 }
@@ -83,6 +113,13 @@ public class PlayerView_Component : MonoBehaviour
         {
             Color temp = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 255f / 255f);
+
+            if (transform.Find("weapon")!=null)
+                transform.Find("weapon").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 1);
+            if (transform.Find("bag")!= null)
+                transform.Find("bag").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 1);
+            if (transform.Find("back")!= null)
+                transform.Find("back").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 1);
 
         }
 

@@ -658,10 +658,14 @@ public class RoomCreate : MonoBehaviour
                     GameObject PlayerObject = sys._battle._player.FindPlayerObjByUID(PlayerUID);
                     js1.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill1Image;
                     js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill1Range(),
-                                                sys._battle._skill.magicianBase.Skill1Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
+                                                sys._battle._skill.magicianBase.Skill1Area(), PlayerObject, sys._battle._skill.magicianBase.skill1Type);
                     js2.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill2Range(),
-                                                sys._battle._skill.magicianBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill2Type);
+                                                sys._battle._skill.magicianBase.Skill2Area(), PlayerObject, sys._battle._skill.magicianBase.skill2Type);
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill3Range(),
+                                                sys._battle._skill.magicianBase.Skill3Area(), PlayerObject, sys._battle._skill.magicianBase.skill3Type);
+
                     break;
                 }
             case CharacterType.Warrior:

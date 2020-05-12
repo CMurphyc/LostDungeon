@@ -126,8 +126,8 @@ public class SkillIndiactor : MonoBehaviour
                 {
                     if (indiactor.ContainsKey(areaType))
                     {
-                        indiactor[areaType].localScale = new Vector2(SkillRange, SkillRange);
-                        indiactor[areaType].GetChild(0).localScale = new Vector2(0.1f, SkillArea);
+                        indiactor[areaType].localScale = new Vector2(10, 10);
+                        indiactor[areaType].GetChild(0).localScale = new Vector2(SkillRange, SkillArea);
                         indiactor[areaType].GetChild(0).localPosition = new Vector2(0, 0);
                         indiactor[areaType].gameObject.SetActive(true);
                         
@@ -135,11 +135,11 @@ public class SkillIndiactor : MonoBehaviour
                     else
                     {
                         GameObject it = Instantiate(Resources.Load("Model/Player/Circle")) as GameObject;   //大环
-                        it.transform.localScale = new Vector2(SkillRange, SkillRange);
+                        it.transform.localScale = new Vector2(10, 10);
                         indiactor.Add(areaType, it.transform);
                         it = Instantiate(Resources.Load("Model/Player/rect")) as GameObject;//内部
                         it.transform.SetParent(indiactor[areaType]);
-                        it.transform.localScale = new Vector2(0.1f,SkillArea);
+                        it.transform.localScale = new Vector2(SkillRange, SkillArea);
                         indiactor[areaType].position = Target.transform.position;
                     }
                     break;
