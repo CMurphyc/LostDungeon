@@ -20,5 +20,9 @@ public class OverviewBtnEvent : MonoBehaviour
     {
         Debug.Log("返回主菜单");
         main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main");
+        if (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType == RoomType.Pve)
+            main.GetComponent<GameMain>().WorldSystem._model._RoomModule.PVEResult.Clear();
+        else
+            main.GetComponent<GameMain>().WorldSystem._model._RoomModule.PVPResult.Clear();
     }
 }

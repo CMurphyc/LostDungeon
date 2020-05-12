@@ -620,8 +620,8 @@ public class PlayerDataModule
                             {
                                 case CharacterType.Enginner:
                                     {
-                                        Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
-                                        Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
+                                        //Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
+                                        //Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
                                         
                                         int cd = _parentManager._skill.enginerBase.Skill3Logic(frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
@@ -631,7 +631,7 @@ public class PlayerDataModule
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
                                             );
-                                        Debug.Log("aaaaaa" + cd);
+                                        //Debug.Log("aaaaaa" + cd);
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown3(cd);
                                         
                                         break;
