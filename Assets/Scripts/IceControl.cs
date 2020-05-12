@@ -36,11 +36,18 @@ public class IceControl : MonoBehaviour
     public bool updateLogic(int frame)
     {
         cnt++;
-        if(cnt==200/Global.FrameRate)
+        if (cnt == 200 / Global.FrameRate)
         {
             cnt = 0;
-            SkillBase p = new SkillBase(0,damage,pos,radius,200/Global.FrameRate,frame+1,userID);
-            _parentManager.sys._battle._skill.Add(p,roomID);
+            SkillBase p = new SkillBase(0, damage, pos, radius, 200 / Global.FrameRate, frame + 1, userID);
+            if (_parentManager.sys._model._RoomListModule.roomType == RoomType.Pvp)
+            {
+                _parentManager.sys._pvpbattle._pvpskill.Add(p, roomID);
+            }
+            else
+            {
+                _parentManager.sys._battle._skill.Add(p, roomID);
+            }
         }
 
         pos += dir;
@@ -48,13 +55,26 @@ public class IceControl : MonoBehaviour
 
         Polygon polygon = new Polygon(PolygonType.Circle);
         polygon.InitCircle(pos, (Fix64)0.1f);
-
-        if (!_parentManager._terrain.IsMovable(polygon, roomID))
+        switch (_parentManager.sys._model._RoomListModule.roomType)
         {
-            SkillBase tmp = new SkillBase(0, damage, pos, radius, 0, frame + 1, userID);
-            _parentManager._skill.Add(tmp, roomID);
-            return true;
+            case RoomType.Pve:
+                if (!_parentManager._terrain.IsMovable(polygon, roomID))
+                {
+                    SkillBase tmp = new SkillBase(0, damage, pos, radius, 0, frame + 1, userID);
+                    _parentManager._skill.Add(tmp, roomID);
+                    return true;
+                }
+                break;
+            case RoomType.Pvp:
+                if (!_parentManager.sys._pvpbattle._pvpterrain.IsMovable(polygon, roomID))
+                {
+                    SkillBase tmp = new SkillBase(0, damage, pos, radius, 0, frame + 1, userID);
+                    _parentManager.sys._pvpbattle._pvpskill.Add(tmp, roomID);
+                    return true;
+                }
+                break;
         }
+
         return false;
     }
 }

@@ -14,12 +14,14 @@ public class ChestInfo
     public ThingsType type;      //thing类型
     public int ActFrame;         //作用帧数
     public FixVector2 Position;  //物体位置
+    public HashSet<int> ActPlayer;
     public ChestInfo(GameObject thing,ThingsType type,int ActFrame,FixVector2 Position)
     {
         this.thing = thing;
         this.type = type;
         this.ActFrame = ActFrame;
         this.Position = Position;
+        ActPlayer = new HashSet<int>();
     }
 }
 
@@ -87,18 +89,21 @@ public class ChestModule
                     }
                     break;
                 case ThingsType.Coin:
-                    GameObject pler = _parentManager._player.FindPlayerObjByUID(_parentManager._player.FindCurrentPlayerUID());
-                    playerpos = pler.GetComponent<PlayerModel_Component>().GetPlayerPosition();
                     FixVector2 coinspos = Chest[i].Position;
-                    if (FixVector2.Distance(playerpos, coinspos) <= (Fix64)4)
+                    foreach (var pler in _parentManager._player.playerToPlayer)
                     {
-                        HandledCoins.Add(new KeyValuePair<GameObject, float>(Chest[i].thing,0.025f));
-                        Chest.RemoveAt(i);
-                        if(_parentManager.sys._model._RoomModule.PVEResult.ContainsKey(_parentManager._player.FindCurrentPlayerUID())==false)
+                        if (FixVector2.Distance(pler.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition(), coinspos) > (Fix64)4) continue;
+                        if (Chest[i].ActPlayer.Contains(pler.Key)) continue;
+                        if(pler.Key==_parentManager._player.FindCurrentPlayerUID())
                         {
-                            _parentManager.sys._model._RoomModule.PVEResult.Add(_parentManager._player.FindCurrentPlayerUID(),new PVEData());
+                            HandledCoins.Add(new KeyValuePair<GameObject, float>(Chest[i].thing, 0.025f));
                         }
-                        _parentManager.sys._model._RoomModule.PVEResult[_parentManager._player.FindCurrentPlayerUID()].coins++;
+                        if (_parentManager.sys._model._RoomModule.PVEResult.ContainsKey(pler.Key) == false)
+                        {
+                            _parentManager.sys._model._RoomModule.PVEResult.Add(pler.Key, new PVEData());
+                        }
+                        _parentManager.sys._model._RoomModule.PVEResult[pler.Key].coins++;
+                        Chest[i].ActPlayer.Add(pler.Key);
                     }
                     break;
             }
@@ -157,15 +162,15 @@ public class ChestModule
     /// <summary>
     /// 生成宝箱
     /// </summary>
-    void SCChest(int Frame)
+    void SCChest(int Frame,int RoomID)
     {
         GameObject it= Object.Instantiate(Resources.Load("UI/UIPrefabs/chest")) as GameObject;
-        foreach (var i in _parentManager._player.playerToPlayer)
+        foreach (var i in _parentManager._player.FindPlayerInRoom(RoomID))
         {
-            it.transform.position = _parentManager._player.FindPlayerObjByUID(i.Key).transform.position;
+            it.transform.position = i.obj.transform.position;
+            Chest.Add(new ChestInfo(it, ThingsType.Chest, Frame + 40,i.obj.GetComponent<PlayerModel_Component>().playerPosition));
+            break;
         }
-        Chest.Add(new ChestInfo(it,ThingsType.Chest,Frame+40,
-            new FixVector2((Fix64)it.transform.position.x,(Fix64)it.transform.position.y)));
     }
     /// <summary>
     /// 生成金币
@@ -173,14 +178,11 @@ public class ChestModule
     void SCCoins(FixVector2 chestpos,int Frame)
     {
         int cnt = Random.Range(3, 7);
-        //foreach(var pler in _parentManager._player.playerToPlayer)
+        for (int i = 0; i < cnt; i++)
         {
-            for (int i = 0; i < cnt; i++)
-            {
-                GameObject it = Object.Instantiate(Resources.Load("UI/Scene'sPictures/MapCreat/Prefabs/coin")) as GameObject;
-                it.transform.position = new Vector2((float)chestpos.x, (float)chestpos.y) + Random.insideUnitCircle;
-                Chest.Add(new ChestInfo(it, ThingsType.Coin, Frame + 20, new FixVector2((Fix64)it.transform.position.x, (Fix64)it.transform.position.y)));
-            }
+            GameObject it = Object.Instantiate(Resources.Load("UI/Scene'sPictures/MapCreat/Prefabs/coin")) as GameObject;
+            it.transform.position = new Vector2((float)chestpos.x, (float)chestpos.y) + Random.insideUnitCircle;
+            Chest.Add(new ChestInfo(it, ThingsType.Coin, Frame + 20, new FixVector2((Fix64)it.transform.position.x, (Fix64)it.transform.position.y)));
         }
         
     }
@@ -198,11 +200,13 @@ public class ChestModule
                 Room.Add(i.Key);
             }
         }
-        int CurrentRoomID = _parentManager._player.playerToPlayer[_parentManager._player.FindCurrentPlayerUID()].RoomID;
-        if(Room.Contains(CurrentRoomID)&& _parentManager._monster.GetMonsterNumber(CurrentRoomID)==0)
+        foreach(var i in _parentManager._player.playerToPlayer)
         {
-            SCChest(Frame);
-            Room.Remove(CurrentRoomID);
+            if(Room.Contains(i.Value.RoomID)&&_parentManager._monster.GetMonsterNumber(i.Value.RoomID)==0)
+            {
+                SCChest(Frame,i.Value.RoomID);
+                Room.Remove(i.Value.RoomID);
+            }
         }
     }
 }

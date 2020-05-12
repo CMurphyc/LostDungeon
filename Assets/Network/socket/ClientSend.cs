@@ -86,6 +86,23 @@ public class ClientSend
         Send(pack.ToByteArray(), GeneralType.ChangeRoleC2S);
 
     }
+
+    public void ChangeRunes(int runes)
+    {
+        Debug.Log("Change runes");
+        ChangeRunesC2S pack = new ChangeRunesC2S();
+        pack.Runes = runes;
+        Send(pack.ToByteArray(), GeneralType.ChangeRunesC2S);
+    }
+
+    public void ChangeFaction(int faction)
+    {
+        Debug.Log("Change faction");
+        ChangeFactionC2S pack = new ChangeFactionC2S();
+        pack.Faction = faction;
+        Send(pack.ToByteArray(), GeneralType.ChangeFactionC2S);
+    }
+
     public void GetRoomList(RoomType roomType)
     {
         GetRoomListC2S pack = new GetRoomListC2S();

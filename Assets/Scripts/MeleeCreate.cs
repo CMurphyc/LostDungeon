@@ -529,7 +529,9 @@ public class MeleeCreate : MonoBehaviour
                     js2.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill2Range(),
                                                 sys._battle._skill.magicianBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill1Type);
-
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.magicianBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.magicianBase.Skill3Range(),
+                                                sys._battle._skill.magicianBase.Skill3Area(), PlayerObject, sys._battle._skill.magicianBase.skill3Type);
 
                     break;
                 }

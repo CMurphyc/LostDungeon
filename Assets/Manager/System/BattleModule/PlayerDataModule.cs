@@ -347,7 +347,7 @@ public class PlayerDataModule
                             if (Input.obj.GetComponent<PlayerModel_Component>().GetAttackCountDown() != 0)
                             {
                                     CheckGunshotEffect(Input.obj);
-                                    continue;
+                                    break;
                             }
 
                             Fix64 AttackDirectionX = (Fix64)(frameInfo[i].AttackDirectionX / (Fix64)100);

@@ -256,7 +256,10 @@ public class TerrainModule
                     //x.Value.obj.GetComponent<PlayerModel_Component>().Move(telPos-x.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
                     x.Value.obj.GetComponent<PlayerModel_Component>().SetPosition(telPos);
                     _parentManager._player.playerToPlayer[x.Key].ChangeRoomID(doorToRoom[To.doorNum]);
-
+                    if (GameObject.Find("Canvas").GetComponent<SmallMap>() != null)
+                    {
+                        GameObject.Find("Canvas").GetComponent<SmallMap>().ChangeRoom(RoomId, doorToRoom[To.doorNum]);
+                    }
                     break;
                 }
 
