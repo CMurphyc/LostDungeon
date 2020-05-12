@@ -22,14 +22,15 @@ public static partial class PlayerInfoReflection {
   static PlayerInfoReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChBQbGF5ZXJJbmZvLnByb3RvImUKClBsYXllckluZm8SEAoIcGxheWVySWQY",
+          "ChBQbGF5ZXJJbmZvLnByb3RvInYKClBsYXllckluZm8SEAoIcGxheWVySWQY",
           "ASABKAUSEAoIdXNlck5hbWUYAiABKAkSEwoEcm9sZRgDIAEoDjIFLlJvbGUS",
-          "DwoHaXNSZWFkeRgEIAEoCBINCgVydW5lcxgFIAEoBSowCgRSb2xlEgwKCEVO",
-          "R0lORUVSEAASDAoIR1VBUkRJQU4QARIMCghNQUdJQ0lBThACYgZwcm90bzM="));
+          "DwoHaXNSZWFkeRgEIAEoCBINCgVydW5lcxgFIAEoBRIPCgdmYWN0aW9uGAYg",
+          "ASgFKjAKBFJvbGUSDAoIRU5HSU5FRVIQABIMCghHVUFSRElBThABEgwKCE1B",
+          "R0lDSUFOEAJiBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Role), }, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::PlayerInfo), global::PlayerInfo.Parser, new[]{ "PlayerId", "UserName", "Role", "IsReady", "Runes" }, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::PlayerInfo), global::PlayerInfo.Parser, new[]{ "PlayerId", "UserName", "Role", "IsReady", "Runes", "Faction" }, null, null, null)
         }));
   }
   #endregion
@@ -75,6 +76,7 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     role_ = other.role_;
     isReady_ = other.isReady_;
     runes_ = other.runes_;
+    faction_ = other.faction_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -138,6 +140,17 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     }
   }
 
+  /// <summary>Field number for the "faction" field.</summary>
+  public const int FactionFieldNumber = 6;
+  private int faction_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  public int Faction {
+    get { return faction_; }
+    set {
+      faction_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public override bool Equals(object other) {
     return Equals(other as PlayerInfo);
@@ -156,6 +169,7 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     if (Role != other.Role) return false;
     if (IsReady != other.IsReady) return false;
     if (Runes != other.Runes) return false;
+    if (Faction != other.Faction) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -167,6 +181,7 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     if (Role != 0) hash ^= Role.GetHashCode();
     if (IsReady != false) hash ^= IsReady.GetHashCode();
     if (Runes != 0) hash ^= Runes.GetHashCode();
+    if (Faction != 0) hash ^= Faction.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -200,6 +215,10 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
       output.WriteRawTag(40);
       output.WriteInt32(Runes);
     }
+    if (Faction != 0) {
+      output.WriteRawTag(48);
+      output.WriteInt32(Faction);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -222,6 +241,9 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     }
     if (Runes != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(Runes);
+    }
+    if (Faction != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Faction);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -248,6 +270,9 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
     }
     if (other.Runes != 0) {
       Runes = other.Runes;
+    }
+    if (other.Faction != 0) {
+      Faction = other.Faction;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -278,6 +303,10 @@ public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo> {
         }
         case 40: {
           Runes = input.ReadInt32();
+          break;
+        }
+        case 48: {
+          Faction = input.ReadInt32();
           break;
         }
       }
