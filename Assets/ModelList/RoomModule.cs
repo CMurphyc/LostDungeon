@@ -19,7 +19,12 @@ public class RoomModule
     public int roomid;
 
     public int roomOwnerID;
-    public List<PlayerData> PlayerList = new List<PlayerData> { new PlayerData{ }, new PlayerData { }, new PlayerData { }, new PlayerData { } };
+    //public List<PlayerData> PlayerList = new List<PlayerData> { new PlayerData{ }, new PlayerData { }, new PlayerData { }, new PlayerData { } };
+    public List<PlayerData> PlayerList = new List<PlayerData> { new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { } };
+
+
+    // public List<PlayerData> PVPPlayerList = new List<PlayerData> { new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { }, new PlayerData { } };
+
     public List<PlayerData> RedTeamPlayerList = new List<PlayerData>();
     public List<PlayerData> BlueTeamPlayerList = new List<PlayerData>();
 
@@ -27,6 +32,53 @@ public class RoomModule
 
     public Dictionary<int, PVEData> PVEResult = new Dictionary<int, PVEData>();
     public Dictionary<int, PVPData> PVPResult = new Dictionary<int, PVPData>();
+
+
+    public void SortTeam()
+    {
+        RedTeamPlayerList.Clear();
+        BlueTeamPlayerList.Clear();
+
+        for (int i =0; i < PlayerList.Count;i++)
+        {
+            if (PlayerList[i].empty) continue;
+            if (PlayerList[i].team == TeamSide.Red )
+            {
+                RedTeamPlayerList.Add(PlayerList[i]);
+            }
+            else
+            {
+                BlueTeamPlayerList.Add(PlayerList[i]);
+            }
+        }
+
+        Debug.Log("SIZE :" + RedTeamPlayerList.Count);
+        Debug.Log("SIZE :" + BlueTeamPlayerList.Count);
+
+
+        FillRest();
+    }
+    public void FillRest()
+    {
+        int redCount = RedTeamPlayerList.Count;
+
+        for (int i = redCount; i <5;i++ )
+        {
+            PlayerData temp = new PlayerData();
+            temp.empty = true;
+            RedTeamPlayerList.Add(temp);
+        }
+        int blueCount = BlueTeamPlayerList.Count;
+        for (int i = blueCount; i < 5; i++)
+        {
+            PlayerData temp = new PlayerData();
+            temp.empty = true;
+            BlueTeamPlayerList.Add(temp);
+        }
+
+
+    }
+
 
     public int GetPlayerSize()
     {
@@ -114,6 +166,7 @@ public class RoomModule
                 temp.type = (CharacterType)playerinfo.Role;
                 temp.empty = false;
                 temp.username = playerinfo.UserName;
+                temp.team = playerinfo.Faction == 0 ? TeamSide.Blue : TeamSide.Red;
                 PlayerList[i] = temp;
 
                 if (PVEResult.ContainsKey(playerinfo.PlayerId))

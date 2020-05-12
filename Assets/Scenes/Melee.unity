@@ -2042,7 +2042,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InnerJoystick: {fileID: 763287332}
-  OuterJoystick: {fileID: 0}
+  OuterJoystick: {fileID: 763287336}
+--- !u!1 &763287336 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2447805229863517551, guid: 35005045b6ca15742a46959017982251,
+    type: 3}
+  m_PrefabInstance: {fileID: 763287330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &834753046
 PrefabInstance:
   m_ObjectHideFlags: 0
