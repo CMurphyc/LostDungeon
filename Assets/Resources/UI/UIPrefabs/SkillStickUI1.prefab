@@ -122,8 +122,8 @@ GameObject:
   - component: {fileID: 5798393961559274695}
   - component: {fileID: 6173002646265223556}
   - component: {fileID: 8647985160979511268}
-  - component: {fileID: 7152225100542282558}
-  - component: {fileID: 8873104566031364186}
+  - component: {fileID: 8921624150619905805}
+  - component: {fileID: 6795438384019030219}
   m_Layer: 5
   m_Name: SkillStickUI1
   m_TagString: Untagged
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7152225100542282558
+--- !u!114 &8921624150619905805
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,7 +206,7 @@ MonoBehaviour:
   InnerJoystick: {fileID: 2447805229863517551}
   OuterJoystick: {fileID: 6350123505924484245}
   slider: {fileID: 0}
---- !u!114 &8873104566031364186
+--- !u!114 &6795438384019030219
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

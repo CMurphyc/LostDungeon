@@ -282,11 +282,17 @@ public class EventListener : MonoBehaviour
                 switch (main.GetComponent<GameMain>().WorldSystem._model._RoomListModule.roomType)
                 {
                     case RoomType.Pve:
-                        main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Overview");
-                        break;
+                        {
+                            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Overview");
+                            break;
+
+                        }
                     case RoomType.Pvp:
-                        main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main2");
-                        break;
+                        {
+                            main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("Main2");
+                            break;
+
+                        }
                 }
                 
 

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1571417857404651601}
   - component: {fileID: 1474510135}
   - component: {fileID: -6699426201372741579}
-  - component: {fileID: 3587183448917145647}
+  - component: {fileID: 5305018108405723349}
   m_Layer: 0
   m_Name: enemy25
   m_TagString: Enemy
@@ -215,7 +215,7 @@ MonoBehaviour:
   UnderAttack: 0
   FrameLeftFromDestroy: 60
   OwnderUID: 0
---- !u!61 &3587183448917145647
+--- !u!61 &5305018108405723349
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,5 +239,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.18, y: 0.21}
+  m_Size: {x: 1.1, y: 1.1}
   m_EdgeRadius: 0

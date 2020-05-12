@@ -53,6 +53,10 @@ public class PVPEndWindowUpdate : MonoBehaviour
                     Canvas.transform.Find(path + i.ToString() + "/" + "Player0/Image").GetComponent<Image>().sprite =
                     Instantiate(Resources.Load("Model/Player/Sprites/Guardian/c08_s2_4", typeof(Sprite))) as Sprite;
                     break;
+                case CharacterType.Ghost:
+                    Canvas.transform.Find(path + i.ToString() + "/Player0/Image").GetComponent<Image>().sprite =
+                  Instantiate(Resources.Load("Model/Player/Sprites/Ghost/c02_s6_13", typeof(Sprite))) as Sprite;
+                    break;
             }
             Canvas.transform.Find(path +i.ToString()).gameObject.SetActive(true);
             if(RedTeamPlayerList[i].uid==sys._model._PlayerModule.uid)
@@ -83,6 +87,10 @@ public class PVPEndWindowUpdate : MonoBehaviour
                 case CharacterType.Warrior:
                     Canvas.transform.Find(path + i.ToString() + "/Player0/Image").GetComponent<Image>().sprite =
                     Instantiate(Resources.Load("Model/Player/Sprites/Guardian/c08_s2_4", typeof(Sprite))) as Sprite;
+                    break;
+                case CharacterType.Ghost:
+                    Canvas.transform.Find(path + i.ToString() + "/Player0/Image").GetComponent<Image>().sprite =
+                  Instantiate(Resources.Load("Model/Player/Sprites/Ghost/c02_s6_13", typeof(Sprite))) as Sprite;
                     break;
             }
             Canvas.transform.Find(path + i.ToString()).gameObject.SetActive(true);

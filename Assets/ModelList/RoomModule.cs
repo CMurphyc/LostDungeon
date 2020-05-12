@@ -66,6 +66,7 @@ public class RoomModule
             }
 
         }
+        
         return ret;
 
     }
@@ -115,11 +116,11 @@ public class RoomModule
                 temp.username = playerinfo.UserName;
                 PlayerList[i] = temp;
 
-                if(PVEResult.ContainsKey(playerinfo.PlayerId))
+                if (PVEResult.ContainsKey(playerinfo.PlayerId))
                 {
                     PVEResult.Remove(playerinfo.PlayerId);
                 }
-                PVEResult.Add(playerinfo.PlayerId,new PVEData());
+                PVEResult.Add(playerinfo.PlayerId, new PVEData());
 
                 if (PVPResult.ContainsKey(playerinfo.PlayerId))
                 {

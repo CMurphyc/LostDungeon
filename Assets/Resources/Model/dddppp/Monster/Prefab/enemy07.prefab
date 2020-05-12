@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 606545478}
   - component: {fileID: 1778639889386223722}
   - component: {fileID: 7221656896920114644}
-  - component: {fileID: -5744557139548584051}
+  - component: {fileID: 721765048326965785}
   m_Layer: 0
   m_Name: enemy07
   m_TagString: Enemy
@@ -215,7 +215,7 @@ MonoBehaviour:
   UnderAttack: 0
   FrameLeftFromDestroy: 60
   OwnderUID: 0
---- !u!61 &-5744557139548584051
+--- !u!61 &721765048326965785
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,5 +239,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.13, y: 0.14}
+  m_Size: {x: 0.6, y: 0.6}
   m_EdgeRadius: 0

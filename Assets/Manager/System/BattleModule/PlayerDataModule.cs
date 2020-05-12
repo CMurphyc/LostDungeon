@@ -204,6 +204,28 @@ public class PlayerDataModule
             }
         }
     }
+
+    void Gunshot(GameObject obj)
+    {
+        Debug.Log("Gunshot");
+        GameObject gunshotEffect = obj.transform.GetChild(0).GetChild(0).gameObject;
+        gunshotEffect.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        Animator gunAni = gunshotEffect.GetComponent<Animator>();
+        gunAni.Play("gunshot");
+    }
+
+    void CheckGunshotEffect(GameObject obj)
+    {
+
+        Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        if(obj.transform.name == "Engineer(Clone)")
+        {
+            Animator gunAni = obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Animator>();
+            gunAni.Play("idle");
+            obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        }
+    }
+
     void UpdateRevivalBar()
     {
         List<int> DeleteList = new List<int>();
@@ -322,7 +344,11 @@ public class PlayerDataModule
                 {
                     case (int)AttackType.BasicAttack:
                         {
-                            if (Input.obj.GetComponent<PlayerModel_Component>().GetAttackCountDown() != 0) break;
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetAttackCountDown() != 0)
+                            {
+                                    CheckGunshotEffect(Input.obj);
+                                    continue;
+                            }
 
                             Fix64 AttackDirectionX = (Fix64)(frameInfo[i].AttackDirectionX / (Fix64)100);
                             Fix64 AttackDirectionY = (Fix64)(frameInfo[i].AttackDirectionY / (Fix64)100);
@@ -345,6 +371,8 @@ public class PlayerDataModule
                                     {
                                         case CharacterType.Enginner:
                                             {
+                                                Gunshot(Input.obj);
+
                                                 bu.BulletInit("Player", new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         AttackVec,
@@ -420,8 +448,9 @@ public class PlayerDataModule
                                    
                                     AudioManager.instance.PlayAudio(AudioName.Gunshot1, false);
 
+                                }
                                 
-                            }
+                            
                             break;
                         }
                     case (int)AttackType.Skill1:
@@ -621,8 +650,8 @@ public class PlayerDataModule
                             {
                                 case CharacterType.Enginner:
                                     {
-                                        Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
-                                        Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
+                                        //Debug.Log(frameInfo[i].AttackDirectionX / 10000f);
+                                        //Debug.Log(frameInfo[i].AttackDirectionY / 10000f);
                                         
                                         int cd = _parentManager._skill.enginerBase.Skill3Logic(frame,
                                             _parentManager._player.playerToPlayer[frameInfo[i].Uid].RoomID, tmp,
@@ -632,7 +661,7 @@ public class PlayerDataModule
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
                                             );
-                                        Debug.Log("aaaaaa" + cd);
+                                        //Debug.Log("aaaaaa" + cd);
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown3(cd);
                                         
                                         break;
