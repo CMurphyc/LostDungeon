@@ -408,13 +408,17 @@ public class MeleeCreate : MonoBehaviour
     public void CreatePlayer(int playerNum, int uid, CharacterType type)
     {
         FixVector2 SpwanPos = new FixVector2((Fix64)xOffset * birthY + startPosition[playerNum * 2], (Fix64)yOffset * birthX + startPosition[playerNum * 2 + 1]);
+        
         if(sys._model._RoomModule.FindCurrentPlayerTeam()== sys._model._RoomModule.FindPlayerTeamByUID(uid))
         {
+            /*
             if (GameObject.Find("Canvas").GetComponent<MeleeSmallMap>() != null)
             {
                 GameObject.Find("Canvas").GetComponent<MeleeSmallMap>().ChangeRoom(startRoom, startRoom);
             }
+            */
         }
+        
         //  创建玩家实体并根据玩家编号来决定出生位置
         switch (type)
         {

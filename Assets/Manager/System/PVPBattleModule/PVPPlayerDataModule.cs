@@ -179,10 +179,12 @@ public class PVPPlayerDataModule
             FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().PVPrevival++;
             if(FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().PVPrevival>= FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().MaxRevival)
             {
+                /*
                 if (GameObject.Find("Canvas").GetComponent<MeleeSmallMap>() != null && FindPlayerTeamByUID(item.Key) == FindCurrentPlayerTeam())
                 {
                     GameObject.Find("Canvas").GetComponent<MeleeSmallMap>().ChangeRoom(playerToPlayer[item.Key].RoomID, (FindPlayerTeamByUID(item.Key) == "RedTeam" ? 1 : 19));
                 }
+                */
                 FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().playerPosition = playerToBirthpos[item.Key];
                 playerToPlayer[item.Key].RoomID =(FindPlayerTeamByUID(item.Key) == "RedTeam" ? 1 : 19);
                 
