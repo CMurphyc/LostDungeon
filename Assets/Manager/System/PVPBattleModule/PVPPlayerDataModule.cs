@@ -313,6 +313,12 @@ public class PVPPlayerDataModule
                 {
                     case (int)AttackType.BasicAttack:
                         {
+                            if (Input.obj.GetComponent<PlayerModel_Component>().GetAttackCountDown() != 0)
+                            {
+                                CheckGunshotEffect(Input.obj);
+                                break;
+                            }
+
                             Fix64 AttackDirectionX = (Fix64)(frameInfo[i].AttackDirectionX / (Fix64)100);
                             Fix64 AttackDirectionY = (Fix64)(frameInfo[i].AttackDirectionY / (Fix64)100);
 
@@ -325,7 +331,7 @@ public class PVPPlayerDataModule
                             //&& Fix64.Abs(AttackDirectionY) >= (Fix64)0.01f))
                             {
                                 //Debug.Log("aaaaaaaa");
-                                if (frame >= Input.NextAttackFrame)
+                                //if (frame >= Input.NextAttackFrame)
                                 {
                                     PVPBulletUnion bu = new PVPBulletUnion(_pvp);
 
@@ -335,6 +341,8 @@ public class PVPPlayerDataModule
                                     {
                                         case CharacterType.Enginner:
                                             {
+                                                Gunshot(Input.obj);
+
                                                 bu.BulletInit(Team, new FixVector2((Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().x,
                                                                         (Fix64)Input.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition().y),
                                                                         AttackVec,
@@ -404,9 +412,9 @@ public class PVPPlayerDataModule
                                             }
                                     }
 
-                                    bulletList.Add(bu);
 
-                                    Input.NextAttackFrame = frame + AttackInterval;
+                                    Input.obj.GetComponent<PlayerModel_Component>().SetAttackCountdown();
+                                    bulletList.Add(bu);
 
                                     AudioManager.instance.PlayAudio(AudioName.Gunshot1, false);
                                 }
@@ -830,19 +838,24 @@ public class PVPPlayerDataModule
                         GameObject Gun = player.transform.Find("weapon").gameObject;
                         float degree = Mathf.Atan2(GunToward.y, GunToward.x) * 180f / Mathf.PI;
 
-                        if (90f >= degree && degree >= -90f)
+                        if (degree != 0)
                         {
-                            Gun.transform.eulerAngles = new Vector3(0, 0, degree);
-                        }
-                        else if (degree > 90 && degree <= 180)
-                        {
-                            Gun.transform.eulerAngles = new Vector3(0, 180, 180 - degree);
-                        }
-                        else if (degree >= -180 && degree < -90)
-                        {
+                            if (90f >= degree && degree >= -90f)
+                            {
+                                Gun.transform.eulerAngles = new Vector3(0, 0, degree);
+                            }
+                            else if (degree > 90 && degree <= 180)
+                            {
+                                Gun.transform.eulerAngles = new Vector3(0, 180, 180 - degree);
+                            }
+                            else if (degree >= -180 && degree < -90)
+                            {
 
-                            Gun.transform.eulerAngles = new Vector3(0, 180, -180 - degree);
+                                Gun.transform.eulerAngles = new Vector3(0, 180, -180 - degree);
+                            }
                         }
+                        else Gun.transform.eulerAngles = player.GetComponent<PlayerModel_Component>().GetPlayerRotation() == false ? new Vector3(0, 0, 0) : new Vector3(0, 180, 0);
+
 
                     }
                 }
@@ -949,5 +962,24 @@ public class PVPPlayerDataModule
     {
         return FindPlayerTeamByUID(FindPlayerUIDbyObject(obj));
     }
+    void Gunshot(GameObject obj)
+    {
+        Debug.Log("Gunshot");
+        GameObject gunshotEffect = obj.transform.GetChild(0).GetChild(0).gameObject;
+        gunshotEffect.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        Animator gunAni = gunshotEffect.GetComponent<Animator>();
+        gunAni.Play("gunshot");
+    }
 
+    void CheckGunshotEffect(GameObject obj)
+    {
+
+        Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        if (obj.transform.name == "Engineer(Clone)")
+        {
+            Animator gunAni = obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Animator>();
+            gunAni.Play("idle");
+            obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        }
+    }
 }

@@ -67,6 +67,25 @@ public class misc : MonoBehaviour
         Misc.GetComponent<misc>().PlayerBeAttacked();
     }
 
+
+    public static void ChangeColor(GameObject obj, color objColor)
+    {
+        switch(objColor)
+        {
+            case misc.color.BLUE :
+                obj.GetComponent<SpriteRenderer>().color = Color.blue;
+                break;
+            case misc.color.YELLOW :
+                obj.GetComponent<SpriteRenderer>().color = Color.yellow;
+                break;
+            case misc.color.GREEN :
+                obj.GetComponent<SpriteRenderer>().color = Color.green;
+                break;
+            case misc.color.RED :
+                obj.GetComponent<SpriteRenderer>().color = Color.red;
+                break;
+        }
+    }
 }
 
 //蓝色、红色、绿色、黄色

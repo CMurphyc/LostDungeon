@@ -25,7 +25,7 @@ public class ExplosionControl : MonoBehaviour
         
         if (startFrame == frame&&an!=null)
         {
-            Debug.Log(frame);
+            //Debug.Log(frame);
             an.SetBool("explosion",true);
         }
     }

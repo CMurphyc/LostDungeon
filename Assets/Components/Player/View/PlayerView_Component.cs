@@ -67,6 +67,8 @@ public class PlayerView_Component : MonoBehaviour
                     transform.Find("weapon").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
 
                     transform.Find("bag").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+                    temp = transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color;
+                    transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
 
                     GameObject Buff = transform.Find("back").gameObject;
                     if (Buff!=null)
@@ -85,6 +87,9 @@ public class PlayerView_Component : MonoBehaviour
 
                         transform.Find("bag").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
 
+                        temp = transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color;
+                        transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 120f / 255f);
+
                         GameObject Buff = transform.Find("back").gameObject;
                         if (Buff != null)
                         {
@@ -98,6 +103,9 @@ public class PlayerView_Component : MonoBehaviour
                         transform.Find("weapon").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 0);
 
                         transform.Find("bag").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 0);
+
+                        temp = transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color;
+                        transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 0);
 
                         GameObject Buff = transform.Find("back").gameObject;
                         if (Buff != null)
@@ -121,6 +129,12 @@ public class PlayerView_Component : MonoBehaviour
             if (transform.Find("back")!= null)
                 transform.Find("back").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 1);
 
+            if (transform.Find("bottom_circle") != null)
+            {
+                temp = transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color;
+                transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(temp.r, temp.g, temp.b, 1);
+            }
+              
         }
 
     }

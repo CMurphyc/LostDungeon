@@ -207,7 +207,7 @@ public class PlayerDataModule
 
     void Gunshot(GameObject obj)
     {
-        Debug.Log("Gunshot");
+        //Debug.Log("Gunshot");
         GameObject gunshotEffect = obj.transform.GetChild(0).GetChild(0).gameObject;
         gunshotEffect.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         Animator gunAni = gunshotEffect.GetComponent<Animator>();
@@ -217,7 +217,7 @@ public class PlayerDataModule
     void CheckGunshotEffect(GameObject obj)
     {
 
-        Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        //Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
         if(obj.transform.name == "Engineer(Clone)")
         {
             Animator gunAni = obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Animator>();
@@ -547,7 +547,7 @@ public class PlayerDataModule
                                             (float)frameInfo[i].AttackDirectionY / 10000f
                                             ), frameInfo[i].Uid
                                             );
-                                        Debug.Log("aaaaaa" + cd);
+                                        //Debug.Log("aaaaaa" + cd);
                                         Input.obj.GetComponent<PlayerModel_Component>().SetCountDown2(cd);
                                         break;
                                     }
@@ -812,20 +812,37 @@ public class PlayerDataModule
                         GameObject Gun = player.transform.Find("weapon").gameObject;
                         float degree = Mathf.Atan2(GunToward.y, GunToward.x) * 180f / Mathf.PI;
 
-                        if (90f>=degree && degree>=-90f)
+                        if (degree != 0)
                         {
-                            Gun.transform.eulerAngles = new Vector3(0, 0, degree);
+                            if (90f >= degree && degree >= -90f)
+                            {
+                                Gun.transform.eulerAngles = new Vector3(0, 0, degree);
+                            }
+                            else if (degree > 90 && degree <= 180)
+                            {
+                                Gun.transform.eulerAngles = new Vector3(0, 180, 180 - degree);
+                            }
+                            else if (degree >= -180 && degree < -90)
+                            {
+
+                                Gun.transform.eulerAngles = new Vector3(0, 180, -180 - degree);
+                            }
                         }
-                        else if (degree>90 && degree<=180)
+                        else Gun.transform.eulerAngles = player.GetComponent<PlayerModel_Component>().GetPlayerRotation() == false ? new Vector3(0, 0, 0) : new Vector3(0, 180, 0);
+
+
+                        /*
+                        Debug.Log("degree: " + degree);
+                        if (degree ==0f)
                         {
-                            Gun.transform.eulerAngles = new Vector3(0, 180, 180 -degree);
+                            Debug.Log("1 ");
+                            if (player.GetComponent<PlayerModel_Component>().GetPlayerRotation())
+                            {
+                                Debug.Log("2 ");
+                                Gun.transform.eulerAngles = new Vector3(0, 0, 0);
+                            }
                         }
-                        else if (degree>=-180 && degree < -90)
-                        {
-                          
-                            Gun.transform.eulerAngles = new Vector3(0, 180,  -180 - degree);
-                        }
-                           
+                        */
                     }
                 }
 

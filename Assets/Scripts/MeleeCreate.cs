@@ -444,6 +444,28 @@ public class MeleeCreate : MonoBehaviour
                     data.RoomID = startRoom;
                     sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
                     sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
+
+
+                    if (uid == sys._model._PlayerModule.uid)
+                    {
+                        //绿色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+                    }
+                    else
+                    {
+                        //
+                        if (sys._model._RoomModule.FindPlayerTeamByUID(uid) == "RedTeam")
+                        {
+                            //红色
+                            playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        }
+                        else
+                        {
+                            //蓝色
+                            playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 74f / 255f, 1, 1);
+                        }
+
+                    }
                     break;
                 }
             case CharacterType.Magician:
@@ -468,6 +490,27 @@ public class MeleeCreate : MonoBehaviour
                     data.RoomID = startRoom;
                     sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
                     sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
+
+                    if (uid == sys._model._PlayerModule.uid)
+                    {
+                        //绿色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+                    }
+                    else
+                    {
+                        //
+                        if (sys._model._RoomModule.FindPlayerTeamByUID(uid) == "RedTeam")
+                        {
+                            //红色
+                            playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        }
+                        else
+                        {
+                            //蓝色
+                            playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 74f / 255f, 1, 1);
+                        }
+
+                    }
                     break;
                 }
             case CharacterType.Ghost:
@@ -491,6 +534,26 @@ public class MeleeCreate : MonoBehaviour
                     data.RoomID = startRoom;
                     sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
                     sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
+                    if (uid == sys._model._PlayerModule.uid)
+                    {
+                        //绿色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+                    }
+                    else
+                    {
+                        //
+                        if (sys._model._RoomModule.FindPlayerTeamByUID(uid) == "RedTeam")
+                        {
+                            //红色
+                            playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        }
+                        else
+                        {
+                            //蓝色
+                            playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 74f / 255f, 1, 1);
+                        }
+
+                    }
                     break;
                 }
 
@@ -517,7 +580,26 @@ public class MeleeCreate : MonoBehaviour
                     data.RoomID = startRoom;
                     sys._pvpbattle._pvpplayer.playerToPlayer.Add(uid, data);
                     sys._pvpbattle._pvpplayer.playerToBirthpos.Add(uid, SpwanPos);
+                    if (uid == sys._model._PlayerModule.uid)
+                    {
+                        //绿色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+                    }
+                    else
+                    {
+                        //
+                        if (sys._model._RoomModule.FindPlayerTeamByUID(uid) == "RedTeam")
+                        {
+                            //红色
+                            playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                        }
+                        else
+                        {
+                            //蓝色
+                            playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 74f / 255f, 1, 1);
+                        }
 
+                    }
                     break;
                 }
             default:
@@ -600,5 +682,9 @@ public class MeleeCreate : MonoBehaviour
 
 
     }
+
+
+
+   
 }
 

@@ -739,8 +739,17 @@ public class RoomCreate : MonoBehaviour
                 data.obj = playerTmp;
                 data.RoomID = startRoom;
                 playerToPlayer.Add(uid, data);
-
-                break;
+                    if (uid == sys._model._PlayerModule.uid)
+                    {
+                        //绿色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+                    }
+                    else
+                    {
+                        //蓝色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 74f / 255f, 1, 1);
+                    }
+                    break;
             }
             case CharacterType.Magician:
             {
@@ -763,6 +772,16 @@ public class RoomCreate : MonoBehaviour
                     data.obj = playerTmp;
                     data.RoomID = startRoom;
                     playerToPlayer.Add(uid, data);
+                    if (uid == sys._model._PlayerModule.uid)
+                    {
+                        //绿色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+                    }
+                    else
+                    {
+                        //蓝色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 74f / 255f, 1, 1);
+                    }
                     break;
             }
 
@@ -788,6 +807,16 @@ public class RoomCreate : MonoBehaviour
                     data.obj = playerTmp;
                     data.RoomID = startRoom;
                     playerToPlayer.Add(uid, data);
+                    if (uid == sys._model._PlayerModule.uid)
+                    {
+                        //绿色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+                    }
+                    else
+                    {
+                        //蓝色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 74f / 255f, 1, 1);
+                    }
                     break;
                 }
 
@@ -814,7 +843,16 @@ public class RoomCreate : MonoBehaviour
                     data.RoomID = startRoom;
                     playerToPlayer.Add(uid, data);
 
-
+                    if (uid == sys._model._PlayerModule.uid)
+                    {
+                        //绿色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+                    }
+                    else
+                    {
+                        //蓝色
+                        playerTmp.transform.Find("bottom_circle").gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 74f / 255f, 1, 1);
+                    }
                     break;
                 }
 
