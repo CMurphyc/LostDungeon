@@ -53,8 +53,8 @@ public class RoomModule
             }
         }
 
-        Debug.Log("SIZE :" + RedTeamPlayerList.Count);
-        Debug.Log("SIZE :" + BlueTeamPlayerList.Count);
+        //Debug.Log("SIZE :" + RedTeamPlayerList.Count);
+        //Debug.Log("SIZE :" + BlueTeamPlayerList.Count);
 
 
         FillRest();
@@ -247,6 +247,35 @@ public class RoomModule
             return true;
         }
         return false;
+    }
+
+
+
+    public string FindCurrentPlayerTeam()
+    {
+        int CurrentPlayerUID = model._PlayerModule.uid;
+
+        foreach ( PlayerData item in PlayerList)
+        {
+            if (item.uid == CurrentPlayerUID)
+            {
+                return item.team == TeamSide.Red ? "RedTeam" : "BlueTeam";
+            }
+
+        }
+        Debug.LogError("Player Not Exist");
+        return "";
+    }
+
+
+    public string FindPlayerTeamByUID(int uid)
+    {
+        foreach (PlayerData item in PlayerList)
+        {
+            if (item.uid == uid) return item.team == TeamSide.Red ? "RedTeam" : "BlueTeam";
+        }
+        Debug.LogError("Player Not Exist");
+        return "";
     }
 
 }
