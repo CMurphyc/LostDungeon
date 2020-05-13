@@ -481,7 +481,7 @@ public class SmallMap : MonoBehaviour
             }
             
         }
-        ChangeRoom(birthRoom, birthRoom);
+        //ChangeRoom(birthRoom, birthRoom);
     }
 
     void ChangePosition(Image image, int row, int col, int i, int j)
@@ -491,6 +491,33 @@ public class SmallMap : MonoBehaviour
         image.GetComponent<RectTransform>().SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, hOffset + roomSize * (i + 1 - 1f), roomSize);
     }
 
+    public void ChangeRoom(List<int> RoomIDList)
+    {
+        foreach (var i in nowroomToSmallMap)
+        {
+            foreach (var j in i.Value)
+            {
+                j.gameObject.SetActive(false);
+            }
+        }
+        foreach (var i in RoomIDList)
+        {
+            List<Image> newNowRooms = nowroomToSmallMap[i];
+            foreach (var item in newNowRooms)
+            {
+                item.gameObject.SetActive(true);
+            }
+
+            List<Image> newRooms = roomToSmallMap[i];
+            foreach (var item in newRooms)
+            {
+                item.gameObject.SetActive(true);
+            }
+
+            Image roomTag = roomToTag[i];
+            if (roomTag != null) roomTag.gameObject.SetActive(true);
+        }
+    }
     public void ChangeRoom(int oldRoom, int newRoom)
     {
         List<Image> oldNowRooms = nowroomToSmallMap[oldRoom];

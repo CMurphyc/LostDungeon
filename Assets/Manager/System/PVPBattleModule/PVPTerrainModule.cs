@@ -173,10 +173,12 @@ public class PVPTerrainModule : MonoBehaviour
                     //x.Value.obj.GetComponent<PlayerModel_Component>().Move(telPos-x.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
                     x.Value.obj.GetComponent<PlayerModel_Component>().SetPosition(telPos);
                     _pvp._pvpplayer.playerToPlayer[x.Key].ChangeRoomID(doorToRoom[To.doorNum]);
+                    /*
                     if (GameObject.Find("Canvas").GetComponent<MeleeSmallMap>() != null&&_pvp._pvpplayer.FindPlayerTeamByUID(x.Key)==_pvp._pvpplayer.FindCurrentPlayerTeam())
                     {
                         GameObject.Find("Canvas").GetComponent<MeleeSmallMap>().ChangeRoom(RoomId, doorToRoom[To.doorNum]);
                     }
+                    */
                     break;
                 }
 
