@@ -349,27 +349,34 @@ public class MonsterModule
                     int CurrnetRoomID = _parentManager._player.playerToPlayer[CurrnetUID].RoomID;
                     if (CurrnetRoomID == BossRoom)
                     {
-                        if (!BossUI.activeSelf)
-                        {
-                            BossUI.SetActive(true);
-                        }
-                        else
-                        {
+                        //if (!BossUI.activeSelf)
+                        //{
+                        //    BossUI.SetActive(true);
+                        //}
+                        //else
+                        //{
                             List<GameObject> ListObj = _parentManager._monster.RoomToMonster[BossRoom];
+                            bool bossFind = false;
                             for (int i = 0; i < ListObj.Count; i++)
                             {
                                 if (ListObj[i].tag == "Boss")
                                 {
+                                    bossFind = true;
+                                    if (!BossUI.activeSelf)
+                                        BossUI.SetActive(true);
                                     bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
                                     BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
                                     BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
 
-
-                                   
                                     break;
                                 }
                             }
-                        }
+                            if (!bossFind)
+                            {
+                                BossUI.SetActive(false);
+                            }
+                           
+                        //}
                     }
 
 

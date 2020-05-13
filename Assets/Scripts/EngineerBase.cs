@@ -178,7 +178,7 @@ public class EngineerBase
 
         AliasMonsterPack temp = new AliasMonsterPack();
         BossAttribute attribute = new BossAttribute();
-        attribute.Attack_FrameInterval = 5;
+        attribute.Attack_FrameInterval = 10;
         attribute.SpinRate = 3;
         TerretInstance.GetComponent<EnemyAI>().InitAI(AI_Type.Engineer_TerretTower, RoomID, attribute);
         TerretInstance.GetComponent<MonsterModel_Component>().HP = (Fix64)10;

@@ -24,7 +24,7 @@ class AI_BehaviorTree : AI_BehaviorBase
         {
             base.Idle_FrameInterval = 40;
             base.Run_FrameInterval = 60;
-            base.Attack_FrameInterval = 100;
+            base.Attack_FrameInterval = 200;
             base.DashDistance = (Fix64)7f;
             base.Teleport_FrameInterval = 1;
             base.DashToDistance = (Fix64)2f;
@@ -178,7 +178,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                     if (Switch == 1)
                     {
 
-                        int AttackRate = 5;
+                        int AttackRate = 10;
                         int AttackNumber = base.Attack_FrameInterval / AttackRate;
 
                         int InitAngle = Random.Range(1, 30);
