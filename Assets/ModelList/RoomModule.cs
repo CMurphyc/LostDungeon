@@ -266,7 +266,15 @@ public class RoomModule
         Debug.LogError("Player Not Exist");
         return "";
     }
-
+    public string FindPlayerTeamByGameObject(GameObject obj)
+    {
+        foreach (PlayerData item in PlayerList)
+        {
+            if (item.obj == obj) return item.team == TeamSide.Red ? "RedTeam" : "BlueTeam";
+        }
+        Debug.LogError("Player Not Exist");
+        return "";
+    }
 
     public string FindPlayerTeamByUID(int uid)
     {

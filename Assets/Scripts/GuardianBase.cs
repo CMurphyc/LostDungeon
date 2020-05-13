@@ -280,17 +280,39 @@ public class GuardianBase
                 
                 if(x.Item2%(1000 / Global.FrameRate) ==0)
                 {
-                    foreach(var tx in _parentManager._battle._player.playerToPlayer)
+                    switch (_parentManager._model._RoomListModule.roomType)
                     {
-                        if (FixVector2.Distance(tx.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition(),
-                            x.Item1.GetComponent<PlayerModel_Component>().GetPlayerPosition()
-                            ) <=(Fix64)2f)
-                        {
-                            tx.Value.obj.GetComponent<PlayerModel_Component>().SetHealthPoint(Math.Min(
-                                tx.Value.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint(),
-                                tx.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint()+7
-                                ));
-                        }
+                        case RoomType.Pve:
+                            foreach (var tx in _parentManager._battle._player.playerToPlayer)
+                            {
+                                if (FixVector2.Distance(tx.Value.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition(),
+                                    x.Item1.GetComponent<PlayerModel_Component>().GetPlayerPosition()
+                                    ) <= (Fix64)2f)
+                                {
+                                    tx.Value.obj.GetComponent<PlayerModel_Component>().SetHealthPoint(Math.Min(
+                                        tx.Value.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint(),
+                                        tx.Value.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() + 7
+                                        ));
+                                }
+                            }
+                            break;
+                        case RoomType.Pvp:
+                            List<PlayerData> Target = new List<PlayerData>();
+                            if (_parentManager._model._RoomModule.FindPlayerTeamByGameObject(x.Item1) == "BlueTeam") Target = _parentManager._model._RoomModule.BlueTeamPlayerList;
+                            else Target = _parentManager._model._RoomModule.RedTeamPlayerList;
+                            foreach (var tx in Target)
+                            {
+                                if (FixVector2.Distance(tx.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition(),
+                                        x.Item1.GetComponent<PlayerModel_Component>().GetPlayerPosition()
+                                        ) <= (Fix64)2f)
+                                {
+                                    tx.obj.GetComponent<PlayerModel_Component>().SetHealthPoint(Math.Min(
+                                            tx.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint(),
+                                            tx.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() + 7
+                                            ));
+                                }
+                            }
+                            break;
                     }
                 }
                 twq.Add(new Tuple<GameObject, int>(x.Item1,x.Item2+1));
