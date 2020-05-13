@@ -36,7 +36,7 @@ public class PlayerModel_Component : MonoBehaviour
 
     public int revival;
     public int MaxRevival=100;
-
+    public int PVPrevival;
 
     //dash Skill
     public bool inDash=false;
@@ -53,7 +53,7 @@ public class PlayerModel_Component : MonoBehaviour
         muteki = 0;
         dead = 0;
         revival = 0;
-
+        PVPrevival = 0;
         fullHealthPoint = FullHealthPoint;
         healthPoint = FullHealthPoint;
         playerSpeed = PlayerSpeed;
@@ -86,6 +86,12 @@ public class PlayerModel_Component : MonoBehaviour
         {
             healthPoint = (int)(0.1f * fullHealthPoint);
             revival = 0;
+        }
+
+        if (PVPrevival>= MaxRevival)
+        {
+            healthPoint = fullHealthPoint;
+            PVPrevival = 0;
         }
 
         if (healthPoint == 0) dead = 1;

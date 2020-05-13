@@ -39,7 +39,7 @@ public class MeleeCreate : MonoBehaviour
 
     public Dictionary<int, List<GameObject>> roomToMonster;   // 房间号对应的怪物列表
 
-    private readonly int[] startPosition = new int[] { -5, 2, 5, 2, -5, -2, 5, -2 };
+    private readonly float[] startPosition = new float[] { -5, 2, -2.5f, -1, 0, 2, 2.5f, -1, 5, 2 };
     private List<List<int>> roomToDoorTmp = new List<List<int>>();
     private int birthX;
     private int birthY;
@@ -349,8 +349,8 @@ public class MeleeCreate : MonoBehaviour
                     doornumToDoor.Add(nowDoor, door1);
                     doornumToDoor.Add(nowDoor + 1, door2);
                     //  门号对应的另一个门号与传送位置
-                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + Vector3.down));
-                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + Vector3.up));
+                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + new Vector3(0, -1.5f, 0)));
+                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + new Vector3(0, 1.5f, 0)));
                     //  对应房间号添加门号
                     roomToDoorTmp[roomTag[i, j] - 1].Add(nowDoor);
                     roomToDoorTmp[roomTag[i + 1, j] - 1].Add(nowDoor + 1);
@@ -386,8 +386,8 @@ public class MeleeCreate : MonoBehaviour
                     doornumToDoor.Add(nowDoor, door1);
                     doornumToDoor.Add(nowDoor + 1, door2);
 
-                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + Vector3.right));
-                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + Vector3.left));
+                    doorToDoor.Add(nowDoor, new DoorData(nowDoor + 1, door2.transform.position + new Vector3(1.5f, 0, 0)));
+                    doorToDoor.Add(nowDoor + 1, new DoorData(nowDoor, door1.transform.position + new Vector3(-1.5f, 0, 0)));
                     //  对应房间号添加门号
                     roomToDoorTmp[roomTag[i, j] - 1].Add(nowDoor);
                     roomToDoorTmp[roomTag[i, j + 1] - 1].Add(nowDoor + 1);
@@ -408,6 +408,17 @@ public class MeleeCreate : MonoBehaviour
     public void CreatePlayer(int playerNum, int uid, CharacterType type)
     {
         FixVector2 SpwanPos = new FixVector2((Fix64)xOffset * birthY + startPosition[playerNum * 2], (Fix64)yOffset * birthX + startPosition[playerNum * 2 + 1]);
+        
+        if(sys._model._RoomModule.FindCurrentPlayerTeam()== sys._model._RoomModule.FindPlayerTeamByUID(uid))
+        {
+            /*
+            if (GameObject.Find("Canvas").GetComponent<MeleeSmallMap>() != null)
+            {
+                GameObject.Find("Canvas").GetComponent<MeleeSmallMap>().ChangeRoom(startRoom, startRoom);
+            }
+            */
+        }
+        
         //  创建玩家实体并根据玩家编号来决定出生位置
         switch (type)
         {

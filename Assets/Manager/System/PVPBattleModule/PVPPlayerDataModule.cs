@@ -176,12 +176,18 @@ public class PVPPlayerDataModule
         foreach (var item in playerToRevival)
         {
             GameObject PlayerObj = FindPlayerObjByUID(item.Key);
-            FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival++;
-            if(FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().revival>= FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().MaxRevival)
+            FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().PVPrevival++;
+            if(FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().PVPrevival>= FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().MaxRevival)
             {
+                /*
+                if (GameObject.Find("Canvas").GetComponent<MeleeSmallMap>() != null && FindPlayerTeamByUID(item.Key) == FindCurrentPlayerTeam())
+                {
+                    GameObject.Find("Canvas").GetComponent<MeleeSmallMap>().ChangeRoom(playerToPlayer[item.Key].RoomID, (FindPlayerTeamByUID(item.Key) == "RedTeam" ? 1 : 19));
+                }
+                */
                 FindPlayerObjByUID(item.Key).GetComponent<PlayerModel_Component>().playerPosition = playerToBirthpos[item.Key];
                 playerToPlayer[item.Key].RoomID =(FindPlayerTeamByUID(item.Key) == "RedTeam" ? 1 : 19);
-                Debug.LogError(playerToPlayer[item.Key].RoomID);
+                
             }
         }
     }
@@ -229,7 +235,7 @@ public class PVPPlayerDataModule
                     DeleteList.Add(item.Key);
                 }
                 //更新复活条数值
-                int Revival = player.GetComponent<PlayerModel_Component>().revival;
+                int Revival = player.GetComponent<PlayerModel_Component>().PVPrevival;
                 item.Value.GetComponent<Slider>().value = (float)Revival / (float)player.GetComponent<PlayerModel_Component>().MaxRevival;
 
 

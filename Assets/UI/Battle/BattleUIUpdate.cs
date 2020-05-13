@@ -103,6 +103,16 @@ public class BattleUIUpdate : MonoBehaviour
         PlayerInGameData data = sys._battle._player.playerToPlayer[CurrnetUID];
         HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/" + data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
         HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
+        List<int> RoomIDList = new List<int>();
+        foreach (var i in sys._model._RoomModule.PlayerList)
+        {
+            if (i.empty) break;
+            RoomIDList.Add(sys._battle._player.playerToPlayer[i.uid].RoomID);
+        }
+        if (GameObject.Find("Canvas").GetComponent<SmallMap>() != null)
+        {
+            GameObject.Find("Canvas").GetComponent<SmallMap>().ChangeRoom(RoomIDList);
+        }
         foreach (var i in Teammate)
         {
             GameObject pler = sys._battle._player.FindPlayerObjByUID(i.Key);
@@ -122,8 +132,27 @@ public class BattleUIUpdate : MonoBehaviour
             GameObject.Find("Canvas/Image/RedText").GetComponent<Text>().text = "敌方";
             GameObject.Find("Canvas/Image/BlueText").GetComponent<Text>().text = "我方";
         }
-
-
+        List<int> RoomIDList = new List<int>();
+        if(sys._model._RoomModule.FindCurrentPlayerTeam()== "BlueTeam")
+        {
+            foreach(var i in sys._model._RoomModule.BlueTeamPlayerList)
+            {
+                if (i.empty) break;
+                RoomIDList.Add(sys._pvpbattle._pvpplayer.playerToPlayer[i.uid].RoomID);
+            }
+        }
+        if(sys._model._RoomModule.FindCurrentPlayerTeam() =="RedTeam")
+        {
+            foreach (var i in sys._model._RoomModule.RedTeamPlayerList)
+            {
+                if (i.empty) break;
+                RoomIDList.Add(sys._pvpbattle._pvpplayer.playerToPlayer[i.uid].RoomID);
+            }
+        }
+        if (GameObject.Find("Canvas").GetComponent<MeleeSmallMap>() != null )
+        {
+            GameObject.Find("Canvas").GetComponent<MeleeSmallMap>().ChangeRoom(RoomIDList);
+        }
         PlayerInGameData data = sys._pvpbattle._pvpplayer.playerToPlayer[CurrnetUID];
         HP_bar.transform.Find("HP/Text").gameObject.GetComponent<Text>().text = data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint().ToString() + "/" + data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint().ToString();
         HP_bar.transform.Find("HP").gameObject.GetComponent<Slider>().value = (float)data.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() / (float)data.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint();
