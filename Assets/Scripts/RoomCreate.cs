@@ -143,7 +143,12 @@ public class RoomCreate : MonoBehaviour
                 CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
                 GameObject tplayer = sys._battle._player.playerToPlayer[PlayerList[i].uid].obj;
 
-                if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid)) continue;
+                if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid))
+                {
+                    if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                    tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+                    continue;
+                }
 
                 foreach(var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
                 {
