@@ -24,7 +24,7 @@ public class ScoreModule
         _pvp = pvp;
         RedTeamScore = 0;
         BlueTeamScore = 0;
-        GameTime = 120*Global.FrameRate;
+        GameTime = 300*Global.FrameRate;
         StrongHold = new List<KeyValuePair<int, int>>();
         HoldTime = new List<int>();
     }
@@ -32,7 +32,7 @@ public class ScoreModule
     {
         winer = "";
         RedTeamScore = BlueTeamScore = 0;
-        GameTime= 120 * Global.FrameRate;
+        GameTime= 300 * Global.FrameRate;
         StrongHold.Clear();
         HoldTime.Clear();
     }
