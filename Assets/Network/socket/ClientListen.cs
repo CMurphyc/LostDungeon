@@ -22,7 +22,7 @@ public class ClientListen : MonoBehaviour
     }
   
     TcpClient remoteServer;
-    byte[] MemoryData = new byte[10000000];
+    byte[] MemoryData = new byte[1000000];
     int Memory_Length = 0;
     //EventDispatcher.Instance().RegistEventListener("UpdateFrame", UpdateFrame);
     //EventDispatcher.Instance().DispatchEvent("ReFrame", 1);

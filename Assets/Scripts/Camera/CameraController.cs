@@ -58,7 +58,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("???");
+            //Debug.LogError("???");
         }
      }
 }

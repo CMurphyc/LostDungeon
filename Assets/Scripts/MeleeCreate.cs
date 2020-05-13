@@ -48,10 +48,6 @@ public class MeleeCreate : MonoBehaviour
     void Awake()
     {
         sys = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
         roomToStone = sys._pvpbattle._pvpterrain.roomToStone;
         roomToDoor = sys._pvpbattle._pvpterrain.roomToDoor;
         doorToDoor = sys._pvpbattle._pvpterrain.doorToDoor;
@@ -79,7 +75,7 @@ public class MeleeCreate : MonoBehaviour
 
         MakeGraph(array, h, d, playerNum, floorNum);
         List<PlayerData> PlayerList = sys._model._RoomModule.RedTeamPlayerList;
-        for (int i=0;i< PlayerList.Count;i++)
+        for (int i = 0; i < PlayerList.Count; i++)
         {
             if (PlayerList[i].empty) break;
             birthX = 0;
@@ -88,7 +84,7 @@ public class MeleeCreate : MonoBehaviour
             CreatePlayer(i, PlayerList[i].uid, PlayerList[i].type);
             GameObject tplayer = sys._pvpbattle._pvpplayer.playerToPlayer[PlayerList[i].uid].obj;
 
-            
+
 
             sys._pvpbattle._pvpplayer.RedTeam.Add(PlayerList[i].uid);
             Debug.Log("MINI red added!");
@@ -144,27 +140,12 @@ public class MeleeCreate : MonoBehaviour
             if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
             tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
         }
-        
-        
         ChangeSkillIcon();
-
-
         //地形初始化
         sys._pvpbattle._pvpterrain.roomToStone = roomToStone;
         sys._pvpbattle._pvpterrain.roomToDoor = roomToDoor;
         sys._pvpbattle._pvpterrain.doornumToDoor = doornumToDoor;
         sys._pvpbattle._pvpterrain.doorToRoom = doorToRoom;
-
-        //AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
-        //AStar.data.gridGraph.Width = (int)(GetRightTop().x - GetLeftBottom().x +1);
-        //AStar.data.gridGraph.Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
-
-        //Debug.Log(AStar.data.gridGraph.Width);
-        //Debug.Log(AStar.data.gridGraph.Depth);
-        //AStar.data.gridGraph.center = new Vector3(GetRightTop().x - GetLeftBottom().x, GetRightTop().y - GetLeftBottom().y);
-        //Debug.Log(AStar.data.gridGraph.center);
-        //AStar.Scan();
-
         //初始化相机
         PlayerList = sys._model._RoomModule.PlayerList;
         for (int i = 0; i < PlayerList.Count; i++)
@@ -175,6 +156,11 @@ public class MeleeCreate : MonoBehaviour
                 break;
             }
         }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+
     }
 
     void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)

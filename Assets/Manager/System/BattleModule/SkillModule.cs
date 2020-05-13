@@ -98,9 +98,9 @@ public class SkillModule
                     //destroy skillbase
                     foreach (var mon in btt)
                     {
-                        Debug.Log("damage:" + x.damage);
+                        //Debug.Log("damage:" + x.damage);
                         _parentManager._monster.BeAttacked(mon, x.damage, p.Key,x.DmgSrcPlayerUID);
-                        Debug.LogError("11111111111111111111");
+                        //Debug.LogError("11111111111111111111");
                     }
                     btt.Clear();
 

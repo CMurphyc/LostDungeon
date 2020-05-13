@@ -263,7 +263,7 @@ public class RoomModule
             }
 
         }
-        Debug.LogError("Player Not Exist");
+        //Debug.LogError("Player Not Exist");
         return "";
     }
     public string FindPlayerTeamByGameObject(GameObject obj)
@@ -272,7 +272,7 @@ public class RoomModule
         {
             if (item.obj == obj) return item.team == TeamSide.Red ? "RedTeam" : "BlueTeam";
         }
-        Debug.LogError("Player Not Exist");
+        //Debug.LogError("Player Not Exist");
         return "";
     }
 
@@ -282,7 +282,7 @@ public class RoomModule
         {
             if (item.uid == uid) return item.team == TeamSide.Red ? "RedTeam" : "BlueTeam";
         }
-        Debug.LogError("Player Not Exist");
+        //Debug.LogError("Player Not Exist");
         return "";
     }
 

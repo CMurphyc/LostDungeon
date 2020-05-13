@@ -154,7 +154,7 @@ public class MeleeSmallMap : MonoBehaviour
     {
         foreach(var i in nowroomToSmallMap)
         {
-            Debug.LogError("AllRoom:"+i);
+            //Debug.LogError("AllRoom:"+i);
             foreach(var j in i.Value)
             {
                 j.gameObject.SetActive(false);
@@ -162,7 +162,7 @@ public class MeleeSmallMap : MonoBehaviour
         }
         foreach(var i in RoomIDList)
         {
-            Debug.LogError("PlayerRoom:"+i);
+            //Debug.LogError("PlayerRoom:"+i);
             List<Image> newNowRooms = nowroomToSmallMap[i];
             foreach (var item in newNowRooms)
             {

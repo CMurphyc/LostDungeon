@@ -17,6 +17,8 @@ public class BattleUIUpdate : MonoBehaviour
     GameObject HP_bar;
 
     Dictionary<int, GameObject> Teammate=new Dictionary<int, GameObject>();
+
+    float counter = 0;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -28,7 +30,7 @@ public class BattleUIUpdate : MonoBehaviour
         HP_bar =  GameObject.Find("Canvas/PlayerHPUI");
         if (BossUI!=null)
         BossUI.SetActive(false);
-
+        counter = 0;
     }
     void Start()
     {
@@ -88,14 +90,20 @@ public class BattleUIUpdate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch(sys._model._RoomListModule.roomType)
+        counter += Time.deltaTime;
+
+        if (counter >= 1f)
         {
-            case RoomType.Pve:
-                UpdatePVE();
-                break;
-            case RoomType.Pvp:
-                UpdatePVP();
-                break;
+            switch (sys._model._RoomListModule.roomType)
+            {
+                case RoomType.Pve:
+                    UpdatePVE();
+                    break;
+                case RoomType.Pvp:
+                    UpdatePVP();
+                    break;
+            }
+            counter = 0;
         }
     }
     void UpdatePVE()

@@ -287,7 +287,7 @@ namespace Pathfinding {
 		/// </summary>
 		void CalculatePathsThreaded (PathHandler pathHandler) {
 
-		Debug.Log("Problem maybe occur!");
+		//Debug.Log("Problem maybe occur!");
 
 
 #if UNITY_2017_3_OR_NEWER
