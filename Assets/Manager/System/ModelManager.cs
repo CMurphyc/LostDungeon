@@ -12,6 +12,7 @@ public class ModelManager
 
     public RoomListModule _RoomListModule;
     public JoyStickModule _JoyStickModule;
+    public MiscModule _MiscModule;
 
     public ModelManager()
     {
@@ -20,6 +21,7 @@ public class ModelManager
         _PlayerModule = new PlayerModule();
         _RoomListModule = new RoomListModule();
         _JoyStickModule = new JoyStickModule();
+        _MiscModule = new MiscModule();
     }
 
 

@@ -191,4 +191,10 @@ public class ClientSend
         Send(pack.ToByteArray(), GeneralType.GameOverC2S);
         Debug.Log("Send GameOver pack");
     }
+
+    public void Heartbeat()
+    {
+        HeartbeatC2S pack = new HeartbeatC2S();
+        Send(pack.ToByteArray(), GeneralType.HeartbeatC2S);
+    }
 }

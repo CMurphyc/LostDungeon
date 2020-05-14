@@ -23,6 +23,7 @@ public class EventListener : MonoBehaviour
         EventDispatcher.Instance().RegistEventListener(EventMessageType.StartSync, StartSync);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.NextFloor, NextFloor);
         EventDispatcher.Instance().RegistEventListener(EventMessageType.GameOver, GameOver);
+        EventDispatcher.Instance().RegistEventListener(EventMessageType.Heartbeat, Heartbeat);
     }
 
     void BattleSyn(EventBase eb)
@@ -306,6 +307,20 @@ public class EventListener : MonoBehaviour
                 Debug.Log("结束游戏失败");
                 main.GetComponent<GameMain>().WorldSystem._message.PopText("GameOver Failed");
             }
+        }
+        else
+        {
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("Sever Error");
+        }
+    }
+
+    void Heartbeat(EventBase eb)
+    {
+        HeartbeatS2C synPack = (HeartbeatS2C)eb.eventValue;
+        if (synPack.Error == 0)
+        {
+            main.GetComponent<GameMain>().WorldSystem._model._MiscModule.needUpdatePing = true;
+            main.GetComponent<GameMain>().WorldSystem._model._MiscModule.needHeartbeat = true;
         }
         else
         {
