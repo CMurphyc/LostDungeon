@@ -17,7 +17,7 @@ public class GameMain : MonoBehaviour
         socket = new Client();
         //服务器连接
         socket.SetIP("116.62.11.228");
-        socket.SetPort(10000);
+        socket.SetPort(10001);
         socket.Connect();
         socket.CreateListenThread();
       

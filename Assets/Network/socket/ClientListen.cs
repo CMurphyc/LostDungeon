@@ -228,6 +228,13 @@ public class ClientListen : MonoBehaviour
             synPack = (GameOverS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
             EventDispatcher.Instance().DispatchEvent(EventMessageType.GameOver, synPack);
         }
+        else if(tag == GeneralType.HeartbeatS2C)
+        {
+            IMessage IMPlayersPack = new HeartbeatS2C();
+            HeartbeatS2C synPack = new HeartbeatS2C();
+            synPack = (HeartbeatS2C)IMPlayersPack.Descriptor.Parser.ParseFrom(pack, 8, pack_size);
+            EventDispatcher.Instance().DispatchEvent(EventMessageType.Heartbeat, synPack);
+        }
 
 
     }

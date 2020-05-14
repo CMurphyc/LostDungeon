@@ -17,6 +17,7 @@ public class GeneralType
     public static int NextFloorC2S = 21;
     public static int GameOverC2S = 22;
     public static int BattleSyncC2S = 50;
+    public static int HeartbeatC2S = 100;
 
 
     public static int UserLoginS2C = 101;
@@ -35,7 +36,7 @@ public class GeneralType
     public static int NextFloorS2C = 121;
     public static int GameOverS2C = 122;
     public static int BattleSyncS2C = 151;
-   
+    public static int HeartbeatS2C = 200;
 
 
 
