@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LoginPanel.unity
+    guid: 40a24b562fb86d442a230fe32da4c787
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
+    guid: afbb0d0f2592e1b49bfae86989c4926c
+  - enabled: 1
+    path: Assets/Scenes/RoomList.unity
+    guid: b8a33adf7d3a4da4a90aaf3052969ecd
+  - enabled: 1
+    path: Assets/Scenes/MapCreate.unity
+    guid: b6bf62a4f7888d0438d02604560cf709
+  - enabled: 1
+    path: Assets/Scenes/HeroSelect.unity
+    guid: 7871c681cbd90f84d910fb000262993b
+  - enabled: 1
+    path: Assets/Scenes/LoadingPanel.unity
+    guid: 83f85e68a6604c442982c048464e640b
+  - enabled: 1
+    path: Assets/Scenes/Overview.unity
+    guid: 7fe8392c5533e43409216909c5b041ca
+  - enabled: 1
+    path: Assets/Scenes/HeroSelect2.unity
+    guid: 0928753f22ae3e144b03f540f3b3fbe5
+  - enabled: 1
+    path: Assets/Scenes/Main2.unity
+    guid: 011cca5f6695f4d4ab773b0596d765e3
+  - enabled: 1
+    path: Assets/Scenes/PVP-MapCreate.unity
+    guid: dc99cefeff960f2458d63d067edbb91a
+  - enabled: 1
+    path: Assets/Scenes/Melee.unity
+    guid: 127e50943717fa9448b4158291d1168e
+  m_configObjects: {}
