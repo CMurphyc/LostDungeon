@@ -96,7 +96,8 @@ public class PlayerInGameData
 public enum TeamSide
 {
     Blue,
-    Red
+    Red,
+    None
 
 }
 
