@@ -15,7 +15,6 @@ public class AsyncLoadingScene : MonoBehaviour {
     private float currentProgress;
     private GameObject main;
     private AsyncOperation operation;
-    private bool isSend = false;
 
     void Start()
     {
@@ -39,7 +38,6 @@ public class AsyncLoadingScene : MonoBehaviour {
     
     void Update()
     {
-        SyncReady();
         SwitchScene();
     }
 
@@ -69,7 +67,7 @@ public class AsyncLoadingScene : MonoBehaviour {
         operation.allowSceneActivation = false;
      
         // 更新进度条
-        while (currentProgress < 0.9f - 0.0001)
+        while (currentProgress < 0.9f)
         {
           
             targetProgress = operation.progress;
@@ -93,6 +91,9 @@ public class AsyncLoadingScene : MonoBehaviour {
             yield return null;  //停一帧
           
         }
+        yield return new WaitForSeconds(2);
+        // 加载完成给服务器发送完成资源加载的信号
+        main.GetComponent<GameMain>().socket.sock_c2s.StartSync();
        
     }
 
@@ -106,15 +107,5 @@ public class AsyncLoadingScene : MonoBehaviour {
             operation.allowSceneActivation = true;
         }
         
-    }
-
-    public void SyncReady()
-    {
-        if (currentProgress >= 0.9 && !isSend)
-        {
-            // 加载完成给服务器发送完成资源加载的信号
-            main.GetComponent<GameMain>().socket.sock_c2s.StartSync();
-            isSend = true;
-        }
     }
 }
