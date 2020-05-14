@@ -104,6 +104,7 @@ public class AsyncLoadingScene : MonoBehaviour {
         {
             if (main.GetComponent<GameMain>().WorldSystem._model._RoomModule.IsLoadingCompleted())
             {
+                main.GetComponent<GameMain>().WorldSystem._model._RoomModule.isLoadingCompleted = false;
                 Debug.Log("异步加载场景完成");
                 SetProgress(1f);
                 main.GetComponent<GameMain>().WorldSystem._map.PlayAudioByScene("MapCreate");

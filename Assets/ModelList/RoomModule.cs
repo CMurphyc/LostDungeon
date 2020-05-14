@@ -241,6 +241,7 @@ public class RoomModule
 
     public bool IsLoadingCompleted()
     {
+        return isLoadingCompleted;
         if (isLoadingCompleted)
         {
             isLoadingCompleted = false;
