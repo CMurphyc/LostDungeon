@@ -99,13 +99,18 @@ public class AsyncLoadingScene : MonoBehaviour {
 
     public void SwitchScene()
     {
-        if (main.GetComponent<GameMain>().WorldSystem._model._RoomModule.IsLoadingCompleted())
+        main = GameObject.Find("GameEntry");
+        if (main!=null)
         {
-            Debug.Log("异步加载场景完成");
-            SetProgress(1f);
-            main.GetComponent<GameMain>().WorldSystem._map.PlayAudioByScene("MapCreate");
-            operation.allowSceneActivation = true;
+            if (main.GetComponent<GameMain>().WorldSystem._model._RoomModule.IsLoadingCompleted())
+            {
+                Debug.Log("异步加载场景完成");
+                SetProgress(1f);
+                main.GetComponent<GameMain>().WorldSystem._map.PlayAudioByScene("MapCreate");
+                operation.allowSceneActivation = true;
+            }
         }
+     
         
     }
 }
