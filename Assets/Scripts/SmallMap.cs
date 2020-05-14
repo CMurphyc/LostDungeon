@@ -45,11 +45,8 @@ public class SmallMap : MonoBehaviour
     private void Awake()
     {
         sys = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem;
-    }
 
-    void Start()
-    {
-        canvas = GameObject.Find("Canvas").gameObject;
+canvas = GameObject.Find("Canvas").gameObject;
         background = Instantiate(BackGround, canvas.transform);
         //background.transform.SetParent(canvas.transform);
         background.GetComponent<RectTransform>().anchoredPosition = 
@@ -83,25 +80,12 @@ public class SmallMap : MonoBehaviour
         }
         // Debug.Log("d = " + d + ", h = " + h);
         CreateSmallMap(array, h, d);
+
     }
 
-    private void test()
+    void Start()
     {
-        int[,] array = new int[,]{
-            { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 },
-            { 0,  0,  0,  0,  0, 11,  0,  0,  0,  0,  0,  0 },
-            { 0,  0,  0,  0,  0,  1,  0, 11,  0,  0,  0,  0 },
-            { 0,  0,  0,  0,  4,  4,  0,  4,  4,  0,  0,  0 },
-            { 0, 11,  3,  3,  4,  4,  1,  4,  4,  5,  0,  0 },
-            { 0,  0,  0,  0,  0,  3,  0,  0,  0,  6,  0,  0 },
-            { 0,  0,  0,  0,  0,  3,  0,  0,  0,  0,  0,  0 },
-            { 0,  0,  0,  0,  4,  4,  0,  0,  0,  0,  0,  0 },
-            { 0, 11,  1, 12,  4,  4,  4,  4,  1, 11,  0,  0 },
-            { 0,  0,  0,  0,  0,  0,  4,  4,  0,  0,  0,  0 },
-            { 0,  0,  0,  0,  0,  0,  0, 11,  0,  0,  0,  0 },
-            { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 }
-        };
-        CreateSmallMap(array, 12, 12);
+        
     }
 
     void Update()

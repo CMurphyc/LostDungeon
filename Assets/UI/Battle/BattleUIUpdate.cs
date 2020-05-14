@@ -31,9 +31,8 @@ public class BattleUIUpdate : MonoBehaviour
         if (BossUI!=null)
         BossUI.SetActive(false);
         counter = 0;
-    }
-    void Start()
-    {
+
+
         if (GameObject.Find("Canvas/Floor/floornum") != null)
         {
             Text FloorNum = GameObject.Find("Canvas/Floor/floornum").GetComponent<Text>();
@@ -82,8 +81,9 @@ public class BattleUIUpdate : MonoBehaviour
                 j++;
             }
         }
-
-
+    }
+    void Start()
+    {
 
     }
 
