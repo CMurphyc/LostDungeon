@@ -62,6 +62,16 @@ public class TextJumpModule
         CointextList.Add(Object.Instantiate(text, Camera.main.WorldToScreenPoint(Pos), Quaternion.identity, GameObject.Find("Canvas").transform));
         CointextTime.Add(0);
     }
+
+    public void AddText(Vector2 Pos, string  t)
+    {
+        Pos += new Vector2(0, 0.6f);//跳字头顶偏移值
+        GameObject text = Resources.Load("UI/UIPrefabs/JumpText2", typeof(GameObject)) as GameObject;
+        text.GetComponent<Text>().color = new Color(0, 1, 0, 1);
+        text.GetComponent<Text>().text = t;
+        CointextList.Add(Object.Instantiate(text, Camera.main.WorldToScreenPoint(Pos), Quaternion.identity, GameObject.Find("Canvas").transform));
+        CointextTime.Add(0);
+    }
     /// <summary>
     /// 添加受击伤害跳字
     /// </summary>

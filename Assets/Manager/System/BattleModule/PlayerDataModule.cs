@@ -605,6 +605,11 @@ public class PlayerDataModule
                                     _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
                                     GetComponent<PlayerModel_Component>().GetPlayerPosition())<=(Fix64)1.4f)
                                 {
+                                    // player pos , string text  == "HP UP" 
+                                    _parentManager._textjump.AddText(_parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj
+                                        .transform.position, _parentManager.sys._battle._chest.propToProperty[x.treasureId].text
+                                        );
+
                                     Debug.Log(x.treasureObejct.name);
                                     x.treasureObejct.SetActive(false);
                                     x.SetActive(true);
@@ -618,8 +623,8 @@ public class PlayerDataModule
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed,
                                         _parentManager.sys._battle._chest.propToProperty[x.treasureId].bulletType
                                         );
-                                    _parentManager._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
-                                        GetComponent<PlayerModel_Component>().playerPosition, _parentManager._chest.propToProperty[x.treasureId].changeHP);
+                                    //_parentManager._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
+                                    //    GetComponent<PlayerModel_Component>().playerPosition, _parentManager._chest.propToProperty[x.treasureId].changeHP);
 
                                     Item titem = new Item();
                                     titem.ItemID = x.treasureId;
@@ -720,7 +725,7 @@ public class PlayerDataModule
 
 
 
-        UpdateHP();
+        //UpdateHP();
 
         UpdateBuff();
 
@@ -740,6 +745,7 @@ public class PlayerDataModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, int dmg,int roomid)
     {
+      
         if (obj.GetComponent<PlayerModel_Component>().GetMuteki() != 0) return;
 
         if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint()<=0)
@@ -753,7 +759,7 @@ public class PlayerDataModule
           
             Vector3 PlayerPos = PackConverter.FixVector2ToVector2( obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
             Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos+ Revival_Offset);
-            Debug.Log("ScreenPos: " + ScreenPos);
+            //Debug.Log("ScreenPos: " + ScreenPos);
             GameObject Revival_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/Revival");
             GameObject Canvas = GameObject.Find("Canvas");
             if (Canvas != null)

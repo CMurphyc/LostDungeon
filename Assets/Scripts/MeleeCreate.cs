@@ -50,8 +50,11 @@ public class MeleeCreate : MonoBehaviour
     SystemManager sys;
     void Awake()
     {
-        Random.InitState(114514);
         sys = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem;
+        int seed = sys._model._RoomModule.MapSeed;
+        Random.InitState(seed);
+
+      
         roomToStone = sys._pvpbattle._pvpterrain.roomToStone;
         roomToDoor = sys._pvpbattle._pvpterrain.roomToDoor;
         doorToDoor = sys._pvpbattle._pvpterrain.doorToDoor;

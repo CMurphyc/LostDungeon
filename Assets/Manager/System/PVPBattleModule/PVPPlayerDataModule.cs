@@ -566,6 +566,12 @@ public class PVPPlayerDataModule
                             {
                                 if (x.active) continue;
 
+
+
+                                _pvp._textjump.AddText(_pvp.sys._pvpbattle._pvpplayer.playerToPlayer[PlayerUID].obj
+                                        .transform.position, _pvp.sys._pvpbattle._chest.propToProperty[x.treasureId].text
+                                        );
+
                                 FixVector2 tmp = new FixVector2((Fix64)x.treasureTable.transform.position.x, (Fix64)x.treasureTable.transform.position.y);
 
                                 if (FixVector2.Distance(tmp,
@@ -585,8 +591,8 @@ public class PVPPlayerDataModule
                                         (Fix64)_pvp._chest.propToProperty[x.treasureId].changeSpeed,
                                         _pvp._chest.propToProperty[x.treasureId].bulletType
                                         );
-                                    _pvp._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
-                                        GetComponent<PlayerModel_Component>().playerPosition, _pvp._chest.propToProperty[x.treasureId].changeHP);
+                                    //_pvp._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
+                                    //    GetComponent<PlayerModel_Component>().playerPosition, _pvp._chest.propToProperty[x.treasureId].changeHP);
                                     Item titem = new Item();
                                     titem.ItemID = x.treasureId;
                                     titem.ItemNumber = 1;
@@ -691,7 +697,7 @@ public class PVPPlayerDataModule
 
 
 
-        UpdateHP();
+        //UpdateHP();
 
         UpdateBuff();
 
@@ -973,7 +979,7 @@ public class PVPPlayerDataModule
     }
     void Gunshot(GameObject obj)
     {
-        Debug.Log("Gunshot");
+        //Debug.Log("Gunshot");
         GameObject gunshotEffect = obj.transform.GetChild(0).GetChild(0).gameObject;
         gunshotEffect.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         Animator gunAni = gunshotEffect.GetComponent<Animator>();
@@ -983,7 +989,7 @@ public class PVPPlayerDataModule
     void CheckGunshotEffect(GameObject obj)
     {
 
-        Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        //Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
         if (obj.transform.name == "Engineer(Clone)")
         {
             Animator gunAni = obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Animator>();

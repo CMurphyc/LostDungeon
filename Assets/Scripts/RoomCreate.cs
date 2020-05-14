@@ -142,8 +142,8 @@ public class RoomCreate : MonoBehaviour
 
                 if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid))
                 {
-                    if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
-                    tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+                    //if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                    //tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
                     continue;
                 }
 
@@ -162,8 +162,8 @@ public class RoomCreate : MonoBehaviour
 
                     //Debug.Log("bbbbbbb" + x.ItemID);
                 }
-                if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
-                tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+                //if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                //tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
 
 
 
@@ -400,8 +400,8 @@ public class RoomCreate : MonoBehaviour
                                             {
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
                                                 monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
-                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
-                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)5000;
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)5000;
                                                 monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom,null);
                                                 monsters.Add(monster);
@@ -410,9 +410,9 @@ public class RoomCreate : MonoBehaviour
                                             {
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
                                                 monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
-                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)6000;
 
-                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)6000;
                                                 monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
                                                 monsters.Add(monster);
@@ -423,9 +423,9 @@ public class RoomCreate : MonoBehaviour
                                             {
                                                 GameObject monster = Instantiate(BossList[floorNum - 1].monsterGameObject, child.transform.position, Quaternion.identity);
                                                 monster.GetComponent<MonsterModel_Component>().position = PackConverter.Vector3ToFixVector3(monster.transform.position);
-                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().HP = (Fix64)7000;
 
-                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)200;
+                                                monster.GetComponent<MonsterModel_Component>().MaxHP = (Fix64)7000;
                                                 monster.GetComponent<MonsterModel_Component>().MoveSpeed = (Fix64)2;
                                                 monster.GetComponent<EnemyAI>().InitAI(BossList[floorNum - 1].type, nowRoom, null);
 

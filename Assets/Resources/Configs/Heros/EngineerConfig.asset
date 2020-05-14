@@ -16,10 +16,10 @@ MonoBehaviour:
   obj: {fileID: 5528144218637167087, guid: 38290e90198553148a604b45f209865e, type: 3}
   HP: 100
   moveSpeed: 0.8
-  damge: 1
-  bulletSpeed: 0.5
+  damge: 10
+  bulletSpeed: 0.4
   fireSpeed: 2.5
-  bulletEffect: 
+  bulletEffect: 01000000
   bulletObj: {fileID: 1448932100947966840, guid: 55ab81b59c7565c41b28d2334af496fb,
     type: 3}
   rangSkill1: 1
@@ -27,7 +27,7 @@ MonoBehaviour:
   lastTimeSkill1: 0
   countdownSkill1: 10
   HPSkill1: 100
-  damageSkill1: 1
+  damageSkill1: 10
   bulletSpeedSkill1: 10
   fireSpeedSkill1: 10
   controlTimeSkill1: 0.2
@@ -36,7 +36,7 @@ MonoBehaviour:
   rangeSkill2: 2
   areaSkill2: 0.3
   throwTime: 1.5
-  damgeSkill2: 2
+  damgeSkill2: 30
   controlTimeSkill2: 1
   countdownSkill2: 6
   effectArtillery: {fileID: 1768966848084288100, guid: 91a51594115e1524680784c4e32a93c3,
@@ -49,7 +49,7 @@ MonoBehaviour:
     type: 3}
   radiusSkill3: 3
   speedSkill3: 1.5
-  damageSkill3: 20
+  damageSkill3: 50
   rangeSkill3: 0.1
   areaSkill3: 0.5
   countdownSkill3: 8

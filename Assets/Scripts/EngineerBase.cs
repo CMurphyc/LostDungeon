@@ -257,7 +257,7 @@ public class EngineerBase
             tr*=1.5f;
         }
 
-        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)ed.x, (Fix64)ed.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate),
+        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)ed.x, (Fix64)ed.y), (Fix64)1.8f, (int)(tc * 1000 / Global.FrameRate),
 
 
             damageFrame, dmgSrc);

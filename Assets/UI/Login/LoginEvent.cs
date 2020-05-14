@@ -18,7 +18,8 @@ public class LoginEvent : MonoBehaviour
         string NickName = GameObject.Find("Canvas/username").GetComponent<InputField>().text;
         if (NickName.Length == 0)
         {
-            NickName = "x10";
+            main.GetComponent<GameMain>().WorldSystem._message.PopText("nickname can not be null!", 0.5f);
+            return;
         }
         main.GetComponent<GameMain>().socket.sock_c2s.LoginC2S(NickName, "");
         print("Login Request Send");

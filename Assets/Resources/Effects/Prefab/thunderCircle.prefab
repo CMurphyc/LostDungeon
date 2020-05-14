@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1867206953317750255}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.72, y: -3.134, z: -4.415021}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children:
   - {fileID: 3652833280797217011}
   - {fileID: 1831737773723719230}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2028834293
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0dad70ab555249744a1bcbbc0d18264c, type: 3}
   m_Color: {r: 0, g: 1, b: 0.36078432, a: 0.4392157}
@@ -183,7 +183,7 @@ PrefabInstance:
     - target: {fileID: 1144576129222563095, guid: d15f4c8778e2a7248b821286ee44a5fd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15f4c8778e2a7248b821286ee44a5fd, type: 3}
@@ -278,7 +278,7 @@ PrefabInstance:
     - target: {fileID: 1144576129222563095, guid: d15f4c8778e2a7248b821286ee44a5fd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15f4c8778e2a7248b821286ee44a5fd, type: 3}
@@ -373,7 +373,7 @@ PrefabInstance:
     - target: {fileID: 1144576129222563095, guid: d15f4c8778e2a7248b821286ee44a5fd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15f4c8778e2a7248b821286ee44a5fd, type: 3}
@@ -468,7 +468,7 @@ PrefabInstance:
     - target: {fileID: 1144576129222563095, guid: d15f4c8778e2a7248b821286ee44a5fd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15f4c8778e2a7248b821286ee44a5fd, type: 3}
@@ -563,7 +563,7 @@ PrefabInstance:
     - target: {fileID: 1144576129222563095, guid: d15f4c8778e2a7248b821286ee44a5fd,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d15f4c8778e2a7248b821286ee44a5fd, type: 3}

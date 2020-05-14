@@ -15,17 +15,17 @@ MonoBehaviour:
   name: 
   obj: {fileID: 8933406564166489352, guid: 3d4aa8796bbc91149925c3b84aecadf2, type: 3}
   HP: 150
-  moveSpeed: 0.7
-  damge: 1
+  moveSpeed: 0.5
+  damge: 10
   bulletSpeed: 0.4
   fireSpeed: 2
-  bulletEffect: 000000000100000000000000000000000d000000
+  bulletEffect: 00000000
   bulletObj: {fileID: 7005734561844284085, guid: 89a334b99af451b4d9fb700650274267,
     type: 3}
   timeSkilll1: 3
   rangeSkill1: 0.3
   areaSkill1: 0.1
-  countdownSkill1: 10
+  countdownSkill1: 12
   rangeSkill2: 0.2
   areaSkill2: 0.15
   damageSkill2: 30

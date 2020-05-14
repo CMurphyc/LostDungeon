@@ -177,27 +177,34 @@ public class MeleeSmallMap : MonoBehaviour
             if (roomTag != null) roomTag.gameObject.SetActive(true);
         }
     }
-    public void ChangeRoom(int oldRoom, int newRoom)
+    public void ChangeRoomColor(int Room, TeamSide side)
     {
-        List<Image> oldNowRooms = nowroomToSmallMap[oldRoom];
-        foreach (var item in oldNowRooms)
+        List<Image> newNowRooms = nowroomToSmallMap[Room];
+        switch (side)
         {
-            item.gameObject.SetActive(false);
+            case TeamSide.Blue:
+                foreach (var item in newNowRooms)
+                {
+                    item.gameObject.SetActive(true);
+                    item.color = new Color(0, 0, 1, 1);
+                }
+                break;
+            case TeamSide.Red:
+                foreach (var item in newNowRooms)
+                {
+                    item.gameObject.SetActive(true);
+                    item.color = new Color(1, 0, 0, 1);
+                }
+                break;
+            case TeamSide.None:
+                foreach (var item in newNowRooms)
+                {
+                    item.gameObject.SetActive(false);
+                    item.color = new Color(1, 1, 1, 1);
+                }
+                break;
         }
-
-        List<Image> newNowRooms = nowroomToSmallMap[newRoom];
-        foreach (var item in newNowRooms)
-        {
-            item.gameObject.SetActive(true);
-        }
-
-        List<Image> newRooms = roomToSmallMap[newRoom];
-        foreach (var item in newRooms)
-        {
-            item.gameObject.SetActive(true);
-        }
-
-        Image roomTag = roomToTag[newRoom];
+        Image roomTag = roomToTag[Room];
         if (roomTag != null) roomTag.gameObject.SetActive(true);
     }
 }
