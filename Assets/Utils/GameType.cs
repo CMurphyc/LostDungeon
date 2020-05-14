@@ -161,6 +161,7 @@ public class TreasureData
     public GameObject treasureTable;   // 道具对应的桌子实体
     public GameObject treasureObejct;   // 道具实体
     public bool active;   // 道具是否已经被拾取
+    public int frame;//被捡走多久了
     public TreasureData(int _treasureId, TreasureType _treasureType, GameObject _treasureTable, GameObject _treasureObject, bool _active)
     {
         treasureId = _treasureId;
@@ -168,6 +169,21 @@ public class TreasureData
         treasureTable = _treasureTable;
         treasureObejct = _treasureObject;
         active = _active;
+        frame = 0;
+    }
+    
+    public void Change(int _treasureId, TreasureType _treasureType, GameObject _treasureTable, GameObject _treasureObject, bool _active)
+    {
+        treasureId = _treasureId;
+        treasuretType = _treasureType;
+        treasureTable = _treasureTable;
+        treasureObejct = _treasureObject;
+        active = _active;
+        frame = 0;
+    }
+    public void AddFrame()
+    {
+        frame++;
     }
 
     public void SetActive(bool state)

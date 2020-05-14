@@ -37,6 +37,9 @@ public class MeleeCreate : MonoBehaviour
     public Dictionary<int, DoorData> doorToDoor=new Dictionary<int, DoorData>();   // 一个编号的门传送到的另一个门的编号
     public Dictionary<int, int> doorToRoom = new Dictionary<int, int>();   // 一个编号的门对应的房间编号
 
+    public Dictionary<int, List<TreasureData>> roomToTreasure;   // 房间号对应宝物列表
+    public Dictionary<int, PropData> propToProperty;   // 根据道具名称找到对应道具属性
+
     public Dictionary<int, List<GameObject>> roomToMonster;   // 房间号对应的怪物列表
 
     private readonly float[] startPosition = new float[] { -5, 2, -2.5f, -1, 0, 2, 2.5f, -1, 5, 2 };
@@ -54,7 +57,10 @@ public class MeleeCreate : MonoBehaviour
         doornumToDoor = sys._pvpbattle._pvpterrain.doornumToDoor;
         doorToRoom = sys._pvpbattle._pvpterrain.doorToRoom;
 
-
+        //道具初始化
+        roomToTreasure = sys._pvpbattle._chest.roomToTreasure;
+        propToProperty = sys._pvpbattle._chest.propToProperty;
+        UploadPropAttr();
         int playerNum = 2;
 
         int floorNum = 1;
@@ -146,6 +152,8 @@ public class MeleeCreate : MonoBehaviour
         sys._pvpbattle._pvpterrain.roomToDoor = roomToDoor;
         sys._pvpbattle._pvpterrain.doornumToDoor = doornumToDoor;
         sys._pvpbattle._pvpterrain.doorToRoom = doorToRoom;
+        roomToTreasure = sys._pvpbattle._chest.roomToTreasure;
+        propToProperty = sys._pvpbattle._chest.propToProperty;
         //初始化相机
         PlayerList = sys._model._RoomModule.PlayerList;
         for (int i = 0; i < PlayerList.Count; i++)
@@ -160,7 +168,7 @@ public class MeleeCreate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Random.InitState(114514);
     }
 
     void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
@@ -246,7 +254,7 @@ public class MeleeCreate : MonoBehaviour
                 //  创建石头对象的列表
                 List<GameObject> stones = new List<GameObject>();
                 List<GameObject> monsters = new List<GameObject>();
-
+                List<TreasureData> treasures = new List<TreasureData>();
                 //  获得当前地形下所有的子物体，即所有石头
                 if (room != null)
                 {
@@ -284,7 +292,13 @@ public class MeleeCreate : MonoBehaviour
                         }
                         else if (child.tag == "TreasureTable")
                         {
-
+                            // 根据随机生成的道具下标来创建道具实体
+                            int treasureId = Random.Range(0, propToProperty.Count);
+                            GameObject treasure = Instantiate(propToProperty[treasureId].propObject, child.transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
+                            // Debug.Log(treasure.name);
+                            //Debug.Log(treasure.name + "   " + treasureId);
+                            stones.Add(child);
+                            treasures.Add(new TreasureData(treasureId, propToProperty[treasureId].propType, child, treasure, false));
                         }
                     }
                 }
@@ -293,6 +307,7 @@ public class MeleeCreate : MonoBehaviour
                 // Debug.Log(monsters.Count);
                 // roomToMonster.Add(nowRoom, monsters);
                 roomToStone.Add(nowRoom, stones);
+                roomToTreasure.Add(nowRoom, treasures);
                 // Debug.Log(treasures.Count);
 
 
@@ -559,7 +574,7 @@ public class MeleeCreate : MonoBehaviour
                         sys._battle._skill.guardianBase.bulletEffect
 
                         );
-
+                    
                     playerTmp.GetComponent<PlayerModel_Component>().SetPlayerPosition(SpwanPos);
                     PlayerInGameData data = new PlayerInGameData();
                     data.obj = playerTmp;
@@ -617,7 +632,7 @@ public class MeleeCreate : MonoBehaviour
                     js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill3Range(),
                                                 sys._battle._skill.enginerBase.Skill3Area(), PlayerObject, sys._battle._skill.enginerBase.skill3Type);
 
-                    break;
+                    break; 
                 }
             case CharacterType.Magician:
                 {
@@ -668,9 +683,19 @@ public class MeleeCreate : MonoBehaviour
 
 
     }
+    public void UploadPropAttr()
+    {
+        // 根据配置表中的道具编号来添加对应物体的一系列属性
+        List<PropData> propConfigList = (Resources.Load("Config/PropConfig") as PropConfig).prop_config_list;
+        for (int i = 0; i < propConfigList.Count; i++)
+        {
+            //Debug.Log(propConfigList[i].propObject.name + "   " + i);
+            propToProperty.Add(i, propConfigList[i]);
+        }
+
+    }
 
 
 
-   
 }
 
