@@ -58,42 +58,42 @@ public class AsyncLoadingScene : MonoBehaviour {
     // 加载场景的协程
     public IEnumerator LoadingSceneByNameAsync(string name)
     {
-        Debug.Log("is in Coroutine: " + 1);
+      
         currentProgress = targetProgress = 0;
         //协程加载
         operation = SceneManager.LoadSceneAsync("Scenes/" + name);
-        Debug.Log("is in Coroutine: " + 2 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+      
         //让场景不自动跳转
         operation.allowSceneActivation = false;
-        Debug.Log("is in Coroutine: " + 3 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+     
         // 更新进度条
         while (currentProgress < 0.9f)
         {
-            Debug.Log("is in Coroutine: " + 4 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+          
             targetProgress = operation.progress;
             while (currentProgress < targetProgress)
             {
                 currentProgress += 0.05f;
                 SetProgress(currentProgress);
-                Debug.Log("is in Coroutine: " + 5 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+             
                 yield return null;  //停一帧
-                Debug.Log("is in Coroutine: " + 6 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+              
             }
         }
-        Debug.Log("is in Coroutine: " + 7 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+      
         // 把剩下的也过度一下
         targetProgress = 0.99f;
         while (currentProgress < targetProgress)
         {
             currentProgress += 0.01f;
             SetProgress(currentProgress);
-            Debug.Log("is in Coroutine: " + 8 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+           
             yield return null;  //停一帧
-            Debug.Log("is in Coroutine: " + 9 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+          
         }
         // 加载完成给服务器发送完成资源加载的信号
         main.GetComponent<GameMain>().socket.sock_c2s.StartSync();
-        Debug.Log("is in Coroutine: " + 10 + " progress: " + operation.progress + ", allowSceneActivation: " + operation.allowSceneActivation);
+       
     }
 
     public void SwitchScene()

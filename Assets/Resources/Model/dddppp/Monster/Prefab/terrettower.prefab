@@ -126,7 +126,6 @@ GameObject:
   - component: {fileID: -7216628952163978651}
   - component: {fileID: -8508194786607592100}
   - component: {fileID: 995241645672229529}
-  - component: {fileID: 1249433555394752230}
   m_Layer: 0
   m_Name: terrettower
   m_TagString: Untagged
@@ -238,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6eb1402c17e84a9282a7f0f62eb584f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 2
+  version: 1
   radius: 0.3
   height: 0.3
   repathRate: 1
@@ -289,6 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnderAttack: 0
   FrameLeftFromDestroy: 60
+  OwnderUID: 0
 --- !u!114 &995241645672229529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,24 +303,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 0}
+  targetObj: {fileID: 0}
   Target: {x: 0, y: 0, z: 0}
   AI_Switch: 0
---- !u!95 &1249433555394752230
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768966848084288100}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
