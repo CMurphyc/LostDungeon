@@ -166,6 +166,10 @@ class AI_BehaviorBase
             obj.GetComponent<SpriteRenderer>().color = new Color(255f / 255f, 93f / 255f, 93f / 255f);
         }
 
+        Animator ani = obj.GetComponent<Animator>();
+        if (ani == null)
+        { return; }
+
         if (obj.GetComponent<MonsterModel_Component>().Debuff.Freeze.isFreeze)
         {
 
@@ -178,30 +182,30 @@ class AI_BehaviorBase
             obj.GetComponent<Animator>().speed = 1;
         }
 
+
         switch (CurrentState)
         {
             case (int)AI_BehaviorType.Idle:
                 {
-                    obj.GetComponent<Animator>().SetInteger("MainState", 0);
+                    ani.SetInteger("MainState", 0);
                     break;
                 }
 
             case (int)AI_BehaviorType.Run:
                 {
-                    obj.GetComponent<Animator>().SetInteger("MainState", 1);
+                    ani.SetInteger("MainState", 1);
                   
                     break;
                 }
             case (int)AI_BehaviorType.Attack:
                 {
-                    obj.GetComponent<Animator>().SetInteger("MainState", 2);
-                   
+                    ani.SetInteger("MainState", 2);
                     break;
                 }
             case (int)AI_BehaviorType.Dead:
                 {
-       
-                    obj.GetComponent<Animator>().SetInteger("MainState", 3);
+
+                    ani.SetInteger("MainState", 3);
                     break;
                 }
             case (int)AI_BehaviorType.UnderAttack:
@@ -212,14 +216,14 @@ class AI_BehaviorBase
             case (int)AI_BehaviorType.BossSkill1:
                 {
 
-                    obj.GetComponent<Animator>().SetInteger("MainState", 2);
+                    ani.SetInteger("MainState", 2);
 
                     break;
                 }
             case (int)AI_BehaviorType.BossSkill2:
                 {
 
-                    obj.GetComponent<Animator>().SetInteger("MainState", 2);
+                    ani.SetInteger("MainState", 2);
 
                     break;
                 }

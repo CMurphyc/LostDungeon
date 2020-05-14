@@ -27,7 +27,7 @@ class AI_BehaviorTree : AI_BehaviorBase
             base.Attack_FrameInterval = 200;
             base.DashDistance = (Fix64)7f;
             base.Teleport_FrameInterval = 1;
-            base.DashToDistance = (Fix64)2f;
+            base.DashToDistance = (Fix64)3f;
             base.SummoningInterval = 20;
         }
         else if (type == AI_Type.Engineer_TerretTower)
@@ -52,7 +52,7 @@ class AI_BehaviorTree : AI_BehaviorBase
             base.Attack_FrameInterval = 100;
             base.DashDistance = (Fix64)6f;
             base.Teleport_FrameInterval = 1;
-            base.DashToDistance = (Fix64)2f;
+            base.DashToDistance = (Fix64)3f;
             base.SummoningInterval = 20;
             base.Skill1_FrameInterval = 1;
             base.Skill1_Duration = 300;
@@ -65,7 +65,7 @@ class AI_BehaviorTree : AI_BehaviorBase
             base.Attack_FrameInterval = 100;
             base.DashDistance = (Fix64)6f;
             base.Teleport_FrameInterval = 1;
-            base.DashToDistance = (Fix64)2f;
+            base.DashToDistance = (Fix64)3f;
             base.SummoningInterval = 20;
             base.Skill1_FrameInterval = 20;
             base.Skill2_FrameInterval = 20;
@@ -257,7 +257,7 @@ class AI_BehaviorTree : AI_BehaviorBase
                 }
             case AI_Type.Boss_Rabit_Egg:
                 {
-                    Debug.Log("蛋蛋攻击");
+                    //Debug.Log("蛋蛋攻击");
                     GameObject egg_explosion = Object.Instantiate(Resources.Load("Model/dddppp/Effects/Prefabs/egg_explosion", typeof(GameObject)), obj.transform.position, obj.transform.rotation) as GameObject;
                     sys._battle._skill.Effects.Add(new KeyValuePair<GameObject, int>(egg_explosion, 10));
                     //Debug.Log(sys._battle._monster.FindRoomIDByMonster(obj));

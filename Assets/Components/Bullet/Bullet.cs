@@ -373,12 +373,12 @@ public class PVPBulletUnion : BulletBase
             {
                 //检测子弹与敌方单位的碰撞，这里敌方单位的碰撞盒通过GetComponent获取
                 Vector2 Pos = _pvp._pvpterrain.roomToStone[spwanedBullet[i].roomid][j].transform.position;
-                FixVector2 vv = new FixVector2((Fix64)_pvp._pvpterrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>().size.x,
-                                               (Fix64)_pvp._pvpterrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>().size.y);
-
                 CollideDetecter collideDetecter = new CollideDetecter();
                 BoxCollider2D collider = _pvp._pvpterrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>();
-                _pvp._pvpterrain.roomToStone[spwanedBullet[i].roomid][j].GetComponent<BoxCollider2D>();
+
+                FixVector2 vv = new FixVector2((Fix64)collider.size.x,
+                                               (Fix64)collider.size.y);
+
                 Rectangle rect = new Rectangle(new FixVector2((Fix64)(Pos.x + collider.offset.x), (Fix64)(Pos.y + collider.offset.y)), new FixVector2((Fix64)1, (Fix64)1),
                     (Fix64)collider.size.x,
                     (Fix64)collider.size.y);

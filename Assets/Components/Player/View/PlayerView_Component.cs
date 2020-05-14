@@ -159,7 +159,12 @@ public class PlayerView_Component : MonoBehaviour
         }
 
         if (this.GetComponent<PlayerModel_Component>().GetDead() == 1) SetDead(true);
-        else SetDead(false);
+        else
+        {
+            if (anim.GetBool("dead")==true)
+                SetDead(false);
+
+        }
         
         
         //transform.position = new Vector3((float)FloatPos.x, (float)FloatPos.y);
@@ -196,6 +201,10 @@ public class PlayerView_Component : MonoBehaviour
     }
     void SetDash(bool state)
     {
-        anim.SetBool("isDash", state);
+      
+        if (anim.HasState(0, Animator.StringToHash("Roll")))
+        {
+            anim.SetBool("isDash", state);
+        }
     }
 }
