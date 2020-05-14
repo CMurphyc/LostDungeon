@@ -99,9 +99,9 @@ public class MonsterModule
         MonsterDeadHandler();
         UpdateBossSkill();
         UpdateBullet(frame);
-        UpdateBossHP();
+        //UpdateBossHP();
         UpdateBuff();
-        UpdateBossIcon();
+        //UpdateBossIcon();
     }
     //目前只针对Boss
     void UpdateBuff()
@@ -284,110 +284,6 @@ public class MonsterModule
 
     }
 
-    //UI 
-    void UpdateBossIcon()
-    {
-
-        GameObject Canvas = GameObject.Find("Canvas");
-        if (Canvas != null)
-        {
-            //刷新BOSS ICon 名字
-            BattleUIUpdate BattleUI = Canvas.GetComponent<BattleUIUpdate>();
-            GameObject BossUI = BattleUI.BossUI;
-            if (BossUI != null)
-            {
-                if (!BossUIInited)
-                {
-                    switch (_parentManager.sys._model._RoomModule.MapFloorNumber)
-                    {
-                        case 1:
-                            {
-
-                                break;
-                            }
-
-                        case 2:
-                            {
-                                BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
-                                BattleUI.boss2;
-                                BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
-                               "Dark Wizard";
-
-                                break;
-                            }
-                        case 3:
-                            {
-                                BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
-                                 BattleUI.boss3;
-                                BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
-                              "Black Knight";
-                                break;
-                            }
-                    }
-
-                    BossUIInited = true;
-                }
-            }
-        }
-    }
-
-
-
-    public void UpdateBossHP()
-    {
-
-        if (GameObject.Find("Canvas") != null)
-        {
-            BattleUIUpdate BattleUI = GameObject.Find("Canvas").GetComponent<BattleUIUpdate>();
-            if (BattleUI != null)
-            {
-                GameObject BossUI = BattleUI.BossUI;
-
-                if (BossUI != null)
-                {
-                    int CurrnetUID = _parentManager._player.FindCurrentPlayerUID();
-                    int CurrnetRoomID = _parentManager._player.playerToPlayer[CurrnetUID].RoomID;
-                    if (CurrnetRoomID == BossRoom)
-                    {
-                        //if (!BossUI.activeSelf)
-                        //{
-                        //    BossUI.SetActive(true);
-                        //}
-                        //else
-                        //{
-                            List<GameObject> ListObj = _parentManager._monster.RoomToMonster[BossRoom];
-                            bool bossFind = false;
-                            for (int i = 0; i < ListObj.Count; i++)
-                            {
-                                if (ListObj[i].tag == "Boss")
-                                {
-                                    bossFind = true;
-                                    if (!BossUI.activeSelf)
-                                        BossUI.SetActive(true);
-                                    bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
-                                    BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
-                                    BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
-
-                                    break;
-                                }
-                            }
-                            if (!bossFind)
-                            {
-                                BossUI.SetActive(false);
-                            }
-                           
-                        //}
-                    }
-
-
-                    Text MonsterNum = GameObject.Find("Canvas/MonsterLeft/monsternum").GetComponent<Text>();
-                    MonsterNum.text = _parentManager._monster.RoomToMonster[CurrnetRoomID].Count.ToString();
-
-                }
-            }
-        }
-
-    }
 
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, float dmg, int roomid, int dmg_srcUID)

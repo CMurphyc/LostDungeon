@@ -92,7 +92,7 @@ public class BattleUIUpdate : MonoBehaviour
     {
         counter += Time.deltaTime;
 
-        if (counter >= 1f)
+        if (counter >= 0.5f)
         {
             switch (sys._model._RoomListModule.roomType)
             {
@@ -127,6 +127,75 @@ public class BattleUIUpdate : MonoBehaviour
             i.Value.transform.Find("Slider").GetComponent<Slider>().value =
                 pler.GetComponent<PlayerModel_Component>().healthPoint * 1.0f / pler.GetComponent<PlayerModel_Component>().fullHealthPoint;
         }
+
+        //Boss UI 
+
+        if (BossUI != null)
+        {
+            //if (!BossUIInited)
+            {
+                switch (sys._model._RoomModule.MapFloorNumber)
+                {
+                    case 1:
+                        {
+
+                            break;
+                        }
+
+                    case 2:
+                        {
+                            BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
+                            boss2;
+                            BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
+                           "Dark Wizard";
+
+                            break;
+                        }
+                    case 3:
+                        {
+                            BossUI.transform.Find("head_frame/head_img").gameObject.GetComponent<Image>().sprite =
+                             boss3;
+                            BossUI.transform.Find("BossName").gameObject.GetComponent<Text>().text =
+                          "Black Knight";
+                            break;
+                        }
+                }
+
+
+            }
+            //hp 数量
+
+
+            int CurrnetUID = sys._battle._player.FindCurrentPlayerUID();
+            int CurrnetRoomID = sys._battle._player.playerToPlayer[CurrnetUID].RoomID;
+            if (CurrnetRoomID == sys._battle._monster.BossRoom)
+            {
+                List<GameObject> ListObj = sys._battle._monster.RoomToMonster[CurrnetRoomID];
+                bool bossFind = false;
+                for (int i = 0; i < ListObj.Count; i++)
+                {
+                    if (ListObj[i].tag == "Boss")
+                    {
+                        bossFind = true;
+                        if (!BossUI.activeSelf)
+                            BossUI.SetActive(true);
+                        bl_ProgressBar BossHP = GameObject.Find("Canvas/BossHint/HP/Mask/Slider").GetComponent<bl_ProgressBar>();
+                        BossHP.MaxValue = (float)ListObj[i].GetComponent<MonsterModel_Component>().MaxHP;
+                        BossHP.Value = (float)ListObj[i].GetComponent<MonsterModel_Component>().HP;
+
+                        break;
+                    }
+                }
+                if (!bossFind)
+                {
+                    BossUI.SetActive(false);
+                }
+            }
+            Text MonsterNum = GameObject.Find("Canvas/MonsterLeft/monsternum").GetComponent<Text>();
+            MonsterNum.text = sys._battle._monster.RoomToMonster[CurrnetRoomID].Count.ToString();
+
+        }
+
     }
     void UpdatePVP()
     {

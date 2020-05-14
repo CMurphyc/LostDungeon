@@ -120,9 +120,9 @@ public class RoomCreate : MonoBehaviour
         MakeGraph(array, h, d, playerNum, floorNum);
 
         // 生成底部黑幕
-        
-        // GameObject backGround = Instantiate(BackGround, new Vector3((int)(d / 2 + 1) * xOffset, (int)(h / 2 + 1) * yOffset, 0), Quaternion.identity);
-        // backGround.transform.localScale = new Vector3(d + 2, h + 2, 1);
+
+        GameObject backGround = Instantiate(BackGround, new Vector3((int)(d / 2 + 1) * xOffset, (int)(h / 2 + 1) * yOffset, 0), Quaternion.identity);
+        backGround.transform.localScale = new Vector3(d + 2, h + 2, 1);
 
         //Debug.Log("Astar");
         AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
