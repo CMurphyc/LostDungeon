@@ -302,14 +302,21 @@ public class GuardianBase
                             else Target = _parentManager._model._RoomModule.RedTeamPlayerList;
                             foreach (var tx in Target)
                             {
-                                if (FixVector2.Distance(tx.obj.GetComponent<PlayerModel_Component>().GetPlayerPosition(),
+                               
+                                if (_parentManager._pvpbattle._pvpplayer.playerToPlayer.ContainsKey(tx.uid))
+                                {
+                                    GameObject player = _parentManager._pvpbattle._pvpplayer.playerToPlayer[tx.uid].obj;
+                                    if (FixVector2.Distance(player.GetComponent<PlayerModel_Component>().GetPlayerPosition(),
                                         x.Item1.GetComponent<PlayerModel_Component>().GetPlayerPosition()
                                         ) <= (Fix64)2f)
-                                {
-                                    tx.obj.GetComponent<PlayerModel_Component>().SetHealthPoint(Math.Min(
-                                            tx.obj.GetComponent<PlayerModel_Component>().GetFullHealthPoint(),
-                                            tx.obj.GetComponent<PlayerModel_Component>().GetHealthPoint() + 7
-                                            ));
+                                    {
+                                        player.GetComponent<PlayerModel_Component>().SetHealthPoint(Math.Min(
+                                                player.GetComponent<PlayerModel_Component>().GetFullHealthPoint(),
+                                                player.GetComponent<PlayerModel_Component>().GetHealthPoint() + 7
+                                                )
+                                            );
+                                    }
+
                                 }
                             }
                             break;

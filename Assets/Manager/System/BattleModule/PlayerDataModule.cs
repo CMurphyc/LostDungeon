@@ -740,7 +740,7 @@ public class PlayerDataModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, int dmg,int roomid)
     {
-        dmg = 0;
+      
         if (obj.GetComponent<PlayerModel_Component>().GetMuteki() != 0) return;
 
         if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint()<=0)
@@ -754,7 +754,7 @@ public class PlayerDataModule
           
             Vector3 PlayerPos = PackConverter.FixVector2ToVector2( obj.GetComponent<PlayerModel_Component>().GetPlayerPosition());
             Vector3 ScreenPos = Camera.main.WorldToScreenPoint(PlayerPos+ Revival_Offset);
-            Debug.Log("ScreenPos: " + ScreenPos);
+            //Debug.Log("ScreenPos: " + ScreenPos);
             GameObject Revival_Prefab = (GameObject)Resources.Load("UI/UIPrefabs/Revival");
             GameObject Canvas = GameObject.Find("Canvas");
             if (Canvas != null)
