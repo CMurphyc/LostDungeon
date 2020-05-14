@@ -50,6 +50,7 @@ public class MeleeCreate : MonoBehaviour
     SystemManager sys;
     void Awake()
     {
+        Random.InitState(114514);
         sys = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem;
         roomToStone = sys._pvpbattle._pvpterrain.roomToStone;
         roomToDoor = sys._pvpbattle._pvpterrain.roomToDoor;
@@ -168,7 +169,7 @@ public class MeleeCreate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Random.InitState(114514);
+       
     }
 
     void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
@@ -658,6 +659,11 @@ public class MeleeCreate : MonoBehaviour
                     js2.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill2Range(),
                                                 sys._battle._skill.guardianBase.Skill2Area(), PlayerObject, sys._battle._skill.guardianBase.skill2Type);
+                    js3.GetComponent<Image>().sprite = sys._battle._skill.guardianBase.skill3Image;
+                    js3.GetComponent<SkillIndiactor>().Init(sys._battle._skill.guardianBase.Skill3Range(),
+                                                sys._battle._skill.guardianBase.Skill3Area(), PlayerObject, sys._battle._skill.guardianBase.skill3Type);
+
+
                     break;
                 }
             case CharacterType.Ghost:

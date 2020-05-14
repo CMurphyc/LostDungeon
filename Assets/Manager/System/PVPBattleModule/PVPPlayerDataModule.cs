@@ -659,6 +659,15 @@ public class PVPPlayerDataModule
                                         break;
 
                                     }
+                                case CharacterType.Warrior:
+                                    {
+                                        int cd = _pvp._pvpskill.guardianBase.Skill3Logic(frame, _pvp._pvpplayer.playerToPlayer[frameInfo[i].Uid].RoomID,
+                                            tmp, Input.obj, frameInfo[i].Uid
+                                           );
+                                        Input.obj.GetComponent<PlayerModel_Component>().SetCountDown3(cd);
+                                        break;
+
+                                    }
                                 default:
                                     break;
                             }
