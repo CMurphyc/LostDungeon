@@ -232,7 +232,7 @@ public class PVPBulletUnion : BulletBase
             {
                 //获取真实的敌对单位位置的接口，待对接
                 //在溅射范围内
-                if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position) <= 20)
+                if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position) <= 5)
                 {
                     _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj, (int)bullet.damage, bullet.roomid);
                 }
@@ -244,7 +244,7 @@ public class PVPBulletUnion : BulletBase
             {
                 //获取真实的敌对单位位置的接口，待对接
                 //在溅射范围内
-                if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position) <= 20)
+                if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position) <= 5)
                 {
                     _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj, (int)bullet.damage, bullet.roomid);
                 }
@@ -633,7 +633,7 @@ public class BulletUnion : BulletBase
         {
             //获取真实的敌对单位位置的接口，待对接
             //在溅射范围内
-            if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position) <= 20)
+            if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position) <= 5)
             {
                 _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid, bullet.dmgSrcUID);
             }
