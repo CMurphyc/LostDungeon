@@ -118,7 +118,7 @@ public class Bullet
         this.penetratePrefab = Resources.Load("Effects/Prefab/penetrate") as GameObject;
 
         //测试buff用
-        attackEffectList.Add((int)bulletType.Penetrate);
+        //attackEffectList.Add((int)bulletType.Penetrate);
     }
     private void BulletContainerInit()
     {
@@ -263,7 +263,7 @@ public class PVPBulletUnion : BulletBase
             for (int i = 0; i < _pvp._pvpplayer.BlueTeam.Count; ++i)
             {
                 //获取真实的敌对单位位置的接口，待对接
-                enemyDistance.Add(FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position)));
+                enemyDistance.Add(FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position)));
             }
 
             enemyDistance.Sort();
@@ -277,12 +277,12 @@ public class PVPBulletUnion : BulletBase
                 foreach(var it in beLightnedEnemy)
                 {
                     //获取真实的敌对单位位置
-                    if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position)) == it)
+                    if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position)) == it)
                     {
 
                         GameObject lightning = GameObject.Instantiate(bullet.lightningPrefab);
-                        lightning.transform.parent = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform;
-                        lightning.transform.position = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position;
+                        lightning.transform.parent = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform;
+                        lightning.transform.position = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position;
                         UnityEngine.Object.Destroy(lightning, 1f);
 
                          _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj, (int)bullet.damage, bullet.roomid);

@@ -973,7 +973,7 @@ public class PVPPlayerDataModule
     }
     void Gunshot(GameObject obj)
     {
-        Debug.Log("Gunshot");
+        //Debug.Log("Gunshot");
         GameObject gunshotEffect = obj.transform.GetChild(0).GetChild(0).gameObject;
         gunshotEffect.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         Animator gunAni = gunshotEffect.GetComponent<Animator>();
@@ -983,7 +983,7 @@ public class PVPPlayerDataModule
     void CheckGunshotEffect(GameObject obj)
     {
 
-        Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        //Debug.Log("ani time is " + obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
         if (obj.transform.name == "Engineer(Clone)")
         {
             Animator gunAni = obj.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Animator>();
