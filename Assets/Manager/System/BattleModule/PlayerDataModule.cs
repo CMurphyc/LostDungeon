@@ -605,6 +605,11 @@ public class PlayerDataModule
                                     _parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj.
                                     GetComponent<PlayerModel_Component>().GetPlayerPosition())<=(Fix64)1.4f)
                                 {
+                                    // player pos , string text  == "HP UP" 
+                                    _parentManager._textjump.AddText(_parentManager.sys._battle._player.playerToPlayer[PlayerUID].obj
+                                        .transform.position, _parentManager.sys._battle._chest.propToProperty[x.treasureId].text
+                                        );
+
                                     Debug.Log(x.treasureObejct.name);
                                     x.treasureObejct.SetActive(false);
                                     x.SetActive(true);
@@ -618,8 +623,8 @@ public class PlayerDataModule
                                         (Fix64)_parentManager.sys._battle._chest.propToProperty[x.treasureId].changeSpeed,
                                         _parentManager.sys._battle._chest.propToProperty[x.treasureId].bulletType
                                         );
-                                    _parentManager._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
-                                        GetComponent<PlayerModel_Component>().playerPosition, _parentManager._chest.propToProperty[x.treasureId].changeHP);
+                                    //_parentManager._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
+                                    //    GetComponent<PlayerModel_Component>().playerPosition, _parentManager._chest.propToProperty[x.treasureId].changeHP);
 
                                     Item titem = new Item();
                                     titem.ItemID = x.treasureId;

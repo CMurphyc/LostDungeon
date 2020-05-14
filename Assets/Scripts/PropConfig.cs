@@ -28,6 +28,8 @@ public class PropData
     public float changeSpeed;
     [Header("改变子弹效果")]
     public List<bulletType> bulletType;
+    [Header("修改文本")]
+    public String text;
 }
 
 [CreateAssetMenu(menuName = "Editor/PropConfig")]

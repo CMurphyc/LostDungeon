@@ -566,6 +566,12 @@ public class PVPPlayerDataModule
                             {
                                 if (x.active) continue;
 
+
+
+                                _pvp._textjump.AddText(_pvp.sys._pvpbattle._pvpplayer.playerToPlayer[PlayerUID].obj
+                                        .transform.position, _pvp.sys._pvpbattle._chest.propToProperty[x.treasureId].text
+                                        );
+
                                 FixVector2 tmp = new FixVector2((Fix64)x.treasureTable.transform.position.x, (Fix64)x.treasureTable.transform.position.y);
 
                                 if (FixVector2.Distance(tmp,
@@ -585,8 +591,8 @@ public class PVPPlayerDataModule
                                         (Fix64)_pvp._chest.propToProperty[x.treasureId].changeSpeed,
                                         _pvp._chest.propToProperty[x.treasureId].bulletType
                                         );
-                                    _pvp._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
-                                        GetComponent<PlayerModel_Component>().playerPosition, _pvp._chest.propToProperty[x.treasureId].changeHP);
+                                    //_pvp._textjump.AddHealText(playerToPlayer[PlayerUID].obj.
+                                    //    GetComponent<PlayerModel_Component>().playerPosition, _pvp._chest.propToProperty[x.treasureId].changeHP);
                                     Item titem = new Item();
                                     titem.ItemID = x.treasureId;
                                     titem.ItemNumber = 1;
