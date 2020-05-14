@@ -660,7 +660,7 @@ class AI_BehaviorTree : AI_BehaviorBase
 
             case AI_Type.Boss_DarkKnightSword:
                 {
-                    Debug.Log("剑剑攻击");
+                    //Debug.Log("剑剑攻击");
 
                     FixVector2 MonsPos = PackConverter.FixVector3ToFixVector2(obj.GetComponent<MonsterModel_Component>().position);
                     foreach (var item in sys._battle._player.playerToPlayer)
