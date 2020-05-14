@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 222147595}
   - component: {fileID: 222147594}
   - component: {fileID: 222147593}
+  - component: {fileID: 222147596}
   m_Layer: 5
   m_Name: btnPVP
   m_TagString: Untagged
@@ -156,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -168, y: -0}
+  m_AnchoredPosition: {x: 0, y: -88}
   m_SizeDelta: {x: 150, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &222147593
@@ -253,6 +254,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 222147591}
   m_CullTransparentMesh: 0
+--- !u!114 &222147596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222147591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79f637fdb3c23744f8abd8cfe7627b87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &276362639
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +303,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 168, y: 0}
+  m_AnchoredPosition: {x: 0, y: 69}
   m_SizeDelta: {x: 150, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &276362641
@@ -1036,7 +1049,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PVP
+  m_Text: "PVP\u5927\u5385"
 --- !u!222 &833268615
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2519,7 +2532,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PVE
+  m_Text: "PVE\u5927\u5385"
 --- !u!222 &2091907035
 CanvasRenderer:
   m_ObjectHideFlags: 0
