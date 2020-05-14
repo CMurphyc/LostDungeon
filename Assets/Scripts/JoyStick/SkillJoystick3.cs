@@ -35,6 +35,7 @@ public class SkillJoystick3 : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         OuterJoystick.SetActive(true);                                      //打开辅助提示
         InnerJoystick.SetActive(true);
         Cancle_Joystick.SetActive(true);
+        //Debug.Log("a");
     }
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
@@ -42,10 +43,14 @@ public class SkillJoystick3 : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         float length = Mathf.Clamp(v.magnitude, 0, maxRadius);
         InnerJoystick.transform.localPosition = v.normalized * length;
         OnSkillJoystickMoveEvent(v.normalized * length, maxRadius);
+
+       // Debug.Log("b");
+
     }
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
+        //Debug.Log("c");
         InnerJoystick.transform.localPosition = Vector3.zero;
         OnSkillJoystickUpEvent();
 
@@ -55,8 +60,9 @@ public class SkillJoystick3 : MonoBehaviour, IPointerDownHandler, IDragHandler, 
             Vector2 x = transform.GetComponent<SkillIndiactor>().GetSkillPosition();
             joystick.Rjoystick = x;
             joystick.type = AttackType.Skill3;
+            //Debug.Log("e");
         }
-
+       
         OuterJoystick.SetActive(false);
         InnerJoystick.SetActive(false);
         Cancle_Joystick.GetComponent<CancleJoystick>().End();

@@ -189,14 +189,9 @@ public class MagicianBase
             }
             
         }
-        if (gifted[1] == 1)
-        {
-            return (int)(1000 / Global.FrameRate * (countdownSkill1 - 1));
-        }
-        else
-        {
+ 
             return (int)(1000 / Global.FrameRate * (countdownSkill1));
-        }
+        
     }
 
     public int Skill2Logic(int frame, int RoomID, List<int> gifted, Vector3 pos, int dmgSrc)
@@ -241,14 +236,8 @@ public class MagicianBase
         }
 
 
-        if (gifted[2] == 1)
-        {
-            return (int)(1000 / Global.FrameRate * (countdownSkill2 - 2));
-        }
-        else
-        {
             return (int)(1000 / Global.FrameRate * (countdownSkill2));
-        }
+        
     }
 
 
@@ -266,14 +255,9 @@ public class MagicianBase
             );
         ice.Add(p);
 
-        if (gifted[3] == 1)
-        {
-            return (int)(1000 / Global.FrameRate * (countdownSkill3 - 2));
-        }
-        else
-        {
+
             return (int)(1000 / Global.FrameRate * (countdownSkill3));
-        }
+        
     }
 
 
