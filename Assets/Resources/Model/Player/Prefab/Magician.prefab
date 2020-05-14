@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2028834293
   m_SortingLayer: 5
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 2ba39956e5d35ba48b723a2e27461182, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -144,6 +144,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1338284703483506502}
     m_Modifications:
+    - target: {fileID: 6687477177638323884, guid: c83950fb4e1dfa3479d5d117f73e713f,
+        type: 3}
+      propertyPath: m_Name
+      value: bottom_circle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687477177638323884, guid: c83950fb4e1dfa3479d5d117f73e713f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 801063838398850449, guid: c83950fb4e1dfa3479d5d117f73e713f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -199,16 +209,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6687477177638323884, guid: c83950fb4e1dfa3479d5d117f73e713f,
-        type: 3}
-      propertyPath: m_Name
-      value: bottom_circle
-      objectReference: {fileID: 0}
-    - target: {fileID: 6687477177638323884, guid: c83950fb4e1dfa3479d5d117f73e713f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3693841280204068528, guid: c83950fb4e1dfa3479d5d117f73e713f,
         type: 3}
       propertyPath: m_Color.a
@@ -259,6 +259,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1338284703483506502}
     m_Modifications:
+    - target: {fileID: 6995706005103159277, guid: 8364db8a280e55f419b04623f7a59e2b,
+        type: 3}
+      propertyPath: m_Name
+      value: weapon3_50
+      objectReference: {fileID: 0}
     - target: {fileID: 8013044016264153087, guid: 8364db8a280e55f419b04623f7a59e2b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -324,11 +329,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.62903136
       objectReference: {fileID: 0}
-    - target: {fileID: 6995706005103159277, guid: 8364db8a280e55f419b04623f7a59e2b,
-        type: 3}
-      propertyPath: m_Name
-      value: weapon3_50
-      objectReference: {fileID: 0}
     - target: {fileID: 2471216493134569253, guid: 8364db8a280e55f419b04623f7a59e2b,
         type: 3}
       propertyPath: m_SortingLayerID
@@ -359,6 +359,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1338284703483506502}
     m_Modifications:
+    - target: {fileID: 5418338688790640491, guid: ef9e50377d4f47d4b889e6f041f0a374,
+        type: 3}
+      propertyPath: m_Name
+      value: weapons_86_0
+      objectReference: {fileID: 0}
     - target: {fileID: 5418338688790640490, guid: ef9e50377d4f47d4b889e6f041f0a374,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -423,11 +428,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.x
       value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5418338688790640491, guid: ef9e50377d4f47d4b889e6f041f0a374,
-        type: 3}
-      propertyPath: m_Name
-      value: weapons_86_0
       objectReference: {fileID: 0}
     - target: {fileID: 5418338688790640489, guid: ef9e50377d4f47d4b889e6f041f0a374,
         type: 3}
