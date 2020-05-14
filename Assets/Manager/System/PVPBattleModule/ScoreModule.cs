@@ -18,6 +18,8 @@ public class ScoreModule
     List<KeyValuePair<int, int>> StrongHold;
     //据点房间号-被某一方完全占领的时间
     List<int> HoldTime;
+    HashSet<int> RedRoom;
+    HashSet<int> BlueRoom;
     public ScoreModule(PVPBattleManager pvp)
     {
         winer = "";
@@ -27,6 +29,8 @@ public class ScoreModule
         GameTime = 300*Global.FrameRate;
         StrongHold = new List<KeyValuePair<int, int>>();
         HoldTime = new List<int>();
+        RedRoom=new HashSet<int>();
+        BlueRoom=new HashSet<int>();
     }
     public void Free()
     {
@@ -35,6 +39,8 @@ public class ScoreModule
         GameTime= 300 * Global.FrameRate;
         StrongHold.Clear();
         HoldTime.Clear();
+        RedRoom.Clear();
+        BlueRoom.Clear();
     }
     public void UpdateLogic(int frame)
     {
@@ -80,6 +86,33 @@ public class ScoreModule
         Canvas.transform.Find("Image/Time").GetComponent<Text>().text = (LeftTime / 3600).ToString("d2") + ":" + ((LeftTime % 3600) / 60).ToString("d2") + ":" + (LeftTime % 60).ToString("d2");
         Canvas.transform.Find("Image/RedScore").GetComponent<Text>().text = RedTeamScore.ToString();
         Canvas.transform.Find("Image/BlueScore").GetComponent<Text>().text = BlueTeamScore.ToString();
+
+        for (int i = 0; i < StrongHold.Count; i++)
+        {
+            if (StrongHold[i].Value == 0) BlueRoom.Add(StrongHold[i].Key);
+            else if (StrongHold[i].Value == SliderMaxValue) RedRoom.Add(StrongHold[i].Key);
+            else
+            {
+                if(BlueRoom.Contains(StrongHold[i].Key))
+                {
+                    Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(StrongHold[i].Key,TeamSide.None);
+                    BlueRoom.Remove(StrongHold[i].Key);
+                }
+                if(RedRoom.Contains(StrongHold[i].Key))
+                {
+                    Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(StrongHold[i].Key, TeamSide.None);
+                    RedRoom.Remove(StrongHold[i].Key);
+                }
+            }
+        }
+        foreach(int RoomID in RedRoom)
+        {
+            Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(RoomID, TeamSide.Red);
+        }
+        foreach (int RoomID in BlueRoom)
+        {
+            Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(RoomID, TeamSide.Blue);
+        }
         UpdateScoreSlider(Canvas);
     }
     void UpdateScoreSlider(GameObject Canvas)
