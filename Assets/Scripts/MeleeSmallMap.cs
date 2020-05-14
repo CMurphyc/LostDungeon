@@ -35,9 +35,9 @@ public class MeleeSmallMap : MonoBehaviour
         canvas = GameObject.Find("Canvas").gameObject;
         background = Instantiate(BackGround);
         background.transform.SetParent(canvas.transform);
-        background.GetComponent<RectTransform>().position = 2 * canvas.GetComponent<RectTransform>().position;
+        background.GetComponent<RectTransform>().anchoredPosition = canvas.GetComponent<RectTransform>().position + new Vector3(canvas.GetComponent<RectTransform>().rect.width / 2, canvas.GetComponent<RectTransform>().rect.height / 2);
         // test();
-        
+
         int d = 5;
         int h = 5;
 
@@ -154,7 +154,7 @@ public class MeleeSmallMap : MonoBehaviour
     {
         foreach(var i in nowroomToSmallMap)
         {
-            Debug.LogError("AllRoom:"+i);
+            //Debug.LogError("AllRoom:"+i);
             foreach(var j in i.Value)
             {
                 j.gameObject.SetActive(false);
@@ -162,7 +162,7 @@ public class MeleeSmallMap : MonoBehaviour
         }
         foreach(var i in RoomIDList)
         {
-            Debug.LogError("PlayerRoom:"+i);
+            //Debug.LogError("PlayerRoom:"+i);
             List<Image> newNowRooms = nowroomToSmallMap[i];
             foreach (var item in newNowRooms)
             {

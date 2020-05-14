@@ -124,9 +124,7 @@ public class EngineerBase
         skill1Type = x.skill1Type;
         skill2Type = x.skill2Type;
         skill3Type = x.skill3Type;
-
-
-
+    
     }
     public float Skill1Range()
     {

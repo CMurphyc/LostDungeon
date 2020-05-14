@@ -45,8 +45,7 @@ public class SkillIndiactor : MonoBehaviour
             Skill_Joystick.OnSkillJoystickMoveEvent += OnSkillJoystickMoveEvent;
             Skill_Joystick.OnSkillJoystickUpEvent += OnSkillJoystickUpEvent;
         }
-        
-        areaType = SkillAreaType.Null;
+
     }
 
     public void Init(float Range,float Area,GameObject Player,SkillAreaType p)
@@ -74,6 +73,7 @@ public class SkillIndiactor : MonoBehaviour
     void Update()
     {
         UpdateSkillIndiactor();
+       
     }
 
     //更新指示器
@@ -225,6 +225,7 @@ public class SkillIndiactor : MonoBehaviour
     }
     public Vector2 GetSkillPosition()
     {
+        //Debug.Log("AreaType: " + areaType);
         if (areaType == SkillAreaType.OuterCircle_InnerCircle)
             return indiactor[areaType].GetChild(0).position;
         else 

@@ -95,7 +95,7 @@ public class EventDispatcher
             if (isEnuming)
             {
                 lPendingEvents.Add(new EventBase(eventName, eventValue));
-                Debug.Log("Cannot dispatch event this moment!");
+                //Debug.Log("Cannot dispatch event this moment!");
                 return;
             }
 

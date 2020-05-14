@@ -82,11 +82,8 @@ public class RoomCreate : MonoBehaviour
     private void Awake()
     {
         sys = GameObject.Find("GameEntry").GetComponent<GameMain>().WorldSystem;
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
+
         //人物初始化
         playerToPlayer = sys._battle._player.playerToPlayer;
         //怪物初始化
@@ -126,7 +123,7 @@ public class RoomCreate : MonoBehaviour
         GameObject backGround = Instantiate(BackGround, new Vector3((int)(d / 2 + 1) * xOffset, (int)(h / 2 + 1) * yOffset, 0), Quaternion.identity);
         backGround.transform.localScale = new Vector3(d + 2, h + 2, 1);
 
-        Debug.Log("Astar");
+        //Debug.Log("Astar");
         AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
         int Width = (int)(GetRightTop().x - GetLeftBottom().x + 1);
         int Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
@@ -136,7 +133,7 @@ public class RoomCreate : MonoBehaviour
 
 
         List<PlayerData> PlayerList = sys._model._RoomModule.PlayerList;
-        for (int i = 0; i< PlayerList.Count;i++)
+        for (int i = 0; i < PlayerList.Count; i++)
         {
             if (!PlayerList[i].empty)
             {
@@ -150,7 +147,7 @@ public class RoomCreate : MonoBehaviour
                     continue;
                 }
 
-                foreach(var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
+                foreach (var x in sys._model._BagModule.PlayerBag[PlayerList[i].uid])
                 {
                     for (int j = 0; j < x.ItemNumber; j++)
                         tplayer.GetComponent<PlayerModel_Component>().Change(
@@ -163,7 +160,7 @@ public class RoomCreate : MonoBehaviour
                             sys._battle._chest.propToProperty[x.ItemID].bulletType
                             );
 
-                    Debug.Log("bbbbbbb"+x.ItemID);
+                    //Debug.Log("bbbbbbb" + x.ItemID);
                 }
                 if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
                 tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
@@ -174,18 +171,6 @@ public class RoomCreate : MonoBehaviour
         }
 
         ChangeSkillIcon();
-
-        //AstarPath AStar = GameObject.Find("AStar").GetComponent<AstarPath>();
-        //AStar.data.gridGraph.Width = (int)(GetRightTop().x - GetLeftBottom().x +1);
-        //AStar.data.gridGraph.Depth = (int)(GetRightTop().y - GetLeftBottom().y + 1);
-
-        //Debug.Log(AStar.data.gridGraph.Width);
-        //Debug.Log(AStar.data.gridGraph.Depth);
-        //AStar.data.gridGraph.center = new Vector3(GetRightTop().x - GetLeftBottom().x, GetRightTop().y - GetLeftBottom().y);
-        //Debug.Log(AStar.data.gridGraph.center);
-        //AStar.Scan();
-
-
         //怪物初始化
         sys._battle._monster.RoomToMonster = roomToMonster;
         //人物初始化
@@ -211,7 +196,10 @@ public class RoomCreate : MonoBehaviour
                 break;
             }
         }
+
+
     }
+
 
     void MakeGraph(int[,] map, int row, int col, int playerNum, int floorNum)
     {
@@ -465,7 +453,7 @@ public class RoomCreate : MonoBehaviour
                             int treasureId = Random.Range(0,propToProperty.Count);
                             GameObject treasure = Instantiate(propToProperty[treasureId].propObject, child.transform.position + new Vector3(0, 0.6f, 0), Quaternion.identity);
                             // Debug.Log(treasure.name);
-                            Debug.Log(treasure.name + "   " + treasureId);
+                            //Debug.Log(treasure.name + "   " + treasureId);
                             stones.Add(child);
                             treasures.Add(new TreasureData(treasureId, propToProperty[treasureId].propType, child, treasure, false));
                         }
@@ -647,7 +635,6 @@ public class RoomCreate : MonoBehaviour
                     js1.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill1Image;
                     js1.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill1Range(),
                                                 sys._battle._skill.enginerBase.Skill1Area(), PlayerObject,sys._battle._skill.enginerBase.skill1Type);
-
                     js2.GetComponent<Image>().sprite = sys._battle._skill.enginerBase.skill2Image;
                     js2.GetComponent<SkillIndiactor>().Init(sys._battle._skill.enginerBase.Skill2Range(),
                                                 sys._battle._skill.enginerBase.Skill2Area(), PlayerObject, sys._battle._skill.enginerBase.skill2Type);
