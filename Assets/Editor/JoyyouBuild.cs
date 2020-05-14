@@ -10,10 +10,10 @@ public class JoyyouBuild
     [MenuItem("JoyYouSDK/AndroidBuild")]
 	public static void AndroidBuild()
     {
-        PlayerSettings.Android.keystoreName = "./dungeon_demo.keystore";
-        PlayerSettings.Android.keystorePass = "com.tencent.tmgp.dungeon_demo";
-        PlayerSettings.Android.keyaliasName = "dungeon_demoawake";
-        PlayerSettings.Android.keyaliasPass = "com.tencent.tmgp.dungeon_demo";
+        PlayerSettings.Android.keystoreName = "./dungeon.keystore";
+        PlayerSettings.Android.keystorePass = "com.tencent.tmgp.dungeon";
+        PlayerSettings.Android.keyaliasName = "dungeonawake";
+        PlayerSettings.Android.keyaliasPass = "com.tencent.tmgp.dungeon";
 
         Build("./android.apk", BuildTarget.Android, BuildOptions.None);
     }
