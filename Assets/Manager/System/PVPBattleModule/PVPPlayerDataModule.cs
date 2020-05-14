@@ -899,7 +899,10 @@ public class PVPPlayerDataModule
     }
     public int FindRoomIDCurrentPlayerIn()
     {
-        return playerToPlayer[FindCurrentPlayerUID()].RoomID;
+        if (playerToPlayer.ContainsKey(FindCurrentPlayerUID()))
+            return playerToPlayer[FindCurrentPlayerUID()].RoomID;
+        else
+            return -1;
 
     }
     public List<PlayerInGameData> FindPlayerInRoom(int RoomID)

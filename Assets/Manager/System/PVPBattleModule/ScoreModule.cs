@@ -26,17 +26,17 @@ public class ScoreModule
         _pvp = pvp;
         RedTeamScore = 0;
         BlueTeamScore = 0;
-        GameTime = 300*Global.FrameRate;
+        GameTime = 300 * Global.FrameRate;
         StrongHold = new List<KeyValuePair<int, int>>();
         HoldTime = new List<int>();
-        RedRoom=new HashSet<int>();
-        BlueRoom=new HashSet<int>();
+        RedRoom = new HashSet<int>();
+        BlueRoom = new HashSet<int>();
     }
     public void Free()
     {
         winer = "";
         RedTeamScore = BlueTeamScore = 0;
-        GameTime= 300 * Global.FrameRate;
+        GameTime = 300 * Global.FrameRate;
         StrongHold.Clear();
         HoldTime.Clear();
         RedRoom.Clear();
@@ -47,9 +47,9 @@ public class ScoreModule
         GameTime--;
         CheckGameEnd();
         //更新分数及据点占领时间
-        for(int i=0;i<StrongHold.Count;i++)
+        for (int i = 0; i < StrongHold.Count; i++)
         {
-            if(StrongHold[i].Value!=0&& StrongHold[i].Value!= SliderMaxValue)
+            if (StrongHold[i].Value != 0 && StrongHold[i].Value != SliderMaxValue)
             {
                 HoldTime[i] = 0;
                 continue;
@@ -66,54 +66,68 @@ public class ScoreModule
             }
         }
         //更新据点抢占情况
-        for(int i=0;i<StrongHold.Count;i++)
+        for (int i = 0; i < StrongHold.Count; i++)
         {
             if (_pvp._pvpplayer.FindRedTeamPlayerInRoomID(StrongHold[i].Key) > _pvp._pvpplayer.FindBlueTeamPlayerInRoomID(StrongHold[i].Key))
             {
-                StrongHold[i] =new KeyValuePair<int, int>(StrongHold[i].Key, Mathf.Min(StrongHold[i].Value + 1, SliderMaxValue));
+                StrongHold[i] = new KeyValuePair<int, int>(StrongHold[i].Key, Mathf.Min(StrongHold[i].Value + 1, SliderMaxValue));
             }
             if (_pvp._pvpplayer.FindRedTeamPlayerInRoomID(StrongHold[i].Key) < _pvp._pvpplayer.FindBlueTeamPlayerInRoomID(StrongHold[i].Key))
             {
-                StrongHold[i] = new KeyValuePair<int, int>(StrongHold[i].Key, Mathf.Max(StrongHold[i].Value -1, 0));
+                StrongHold[i] = new KeyValuePair<int, int>(StrongHold[i].Key, Mathf.Max(StrongHold[i].Value - 1, 0));
             }
         }
     }
 
     public void UpdateView()
     {
-        int LeftTime =Mathf.Max(0,GameTime / 40);
+        int LeftTime = Mathf.Max(0, GameTime / 40);
         GameObject Canvas = GameObject.Find("Canvas");
-        Canvas.transform.Find("Image/Time").GetComponent<Text>().text = (LeftTime / 3600).ToString("d2") + ":" + ((LeftTime % 3600) / 60).ToString("d2") + ":" + (LeftTime % 60).ToString("d2");
-        Canvas.transform.Find("Image/RedScore").GetComponent<Text>().text = RedTeamScore.ToString();
-        Canvas.transform.Find("Image/BlueScore").GetComponent<Text>().text = BlueTeamScore.ToString();
 
-        for (int i = 0; i < StrongHold.Count; i++)
+        if (Canvas != null)
         {
-            if (StrongHold[i].Value == 0) BlueRoom.Add(StrongHold[i].Key);
-            else if (StrongHold[i].Value == SliderMaxValue) RedRoom.Add(StrongHold[i].Key);
-            else
+            GameObject time = GameObject.Find("Canvas/Image/Time");
+            GameObject RedScore = GameObject.Find("Canvas/Image/RedScore");
+            GameObject BlueScore = GameObject.Find("Canvas/Image/BlueScore");
+
+
+            if (time != null)
+                time.GetComponent<Text>().text = (LeftTime / 3600).ToString("d2") + ":" + ((LeftTime % 3600) / 60).ToString("d2") + ":" + (LeftTime % 60).ToString("d2");
+            if (RedScore != null)
+                RedScore.GetComponent<Text>().text = RedTeamScore.ToString();
+            if (BlueScore != null)
+                BlueScore.GetComponent<Text>().text = BlueTeamScore.ToString();
+
+            for (int i = 0; i < StrongHold.Count; i++)
             {
-                if(BlueRoom.Contains(StrongHold[i].Key))
+                if (StrongHold[i].Value == 0) BlueRoom.Add(StrongHold[i].Key);
+                else if (StrongHold[i].Value == SliderMaxValue) RedRoom.Add(StrongHold[i].Key);
+                else
                 {
-                    Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(StrongHold[i].Key,TeamSide.None);
-                    BlueRoom.Remove(StrongHold[i].Key);
-                }
-                if(RedRoom.Contains(StrongHold[i].Key))
-                {
-                    Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(StrongHold[i].Key, TeamSide.None);
-                    RedRoom.Remove(StrongHold[i].Key);
+                    if (BlueRoom.Contains(StrongHold[i].Key))
+                    {
+
+
+                        Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(StrongHold[i].Key, TeamSide.None);
+                        BlueRoom.Remove(StrongHold[i].Key);
+                    }
+                    if (RedRoom.Contains(StrongHold[i].Key))
+                    {
+                        Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(StrongHold[i].Key, TeamSide.None);
+                        RedRoom.Remove(StrongHold[i].Key);
+                    }
                 }
             }
+            foreach (int RoomID in RedRoom)
+            {
+                Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(RoomID, TeamSide.Red);
+            }
+            foreach (int RoomID in BlueRoom)
+            {
+                Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(RoomID, TeamSide.Blue);
+            }
+            UpdateScoreSlider(Canvas);
         }
-        foreach(int RoomID in RedRoom)
-        {
-            Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(RoomID, TeamSide.Red);
-        }
-        foreach (int RoomID in BlueRoom)
-        {
-            Canvas.GetComponent<MeleeSmallMap>().ChangeRoomColor(RoomID, TeamSide.Blue);
-        }
-        UpdateScoreSlider(Canvas);
     }
     void UpdateScoreSlider(GameObject Canvas)
     {
@@ -129,8 +143,15 @@ public class ScoreModule
                 return;
             }
         }
-        Canvas.transform.Find("RedSlider").gameObject.SetActive(false);
-        Canvas.transform.Find("BlueSlider").gameObject.SetActive(false);
+
+        GameObject RedSlider = GameObject.Find("Canvas/RedSlider");
+        GameObject BlueSlider = GameObject.Find("Canvas/BlueSlider");
+
+        if (RedSlider != null)
+            RedSlider.SetActive(false);
+        if (BlueSlider != null)
+            BlueSlider.SetActive(false);
+
     }
     void CheckGameEnd()
     {
@@ -139,19 +160,19 @@ public class ScoreModule
             winer = "RedTeam";
             GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
         }
-        if(BlueTeamScore>=100)
+        if (BlueTeamScore >= 100)
         {
             winer = "BlueTeam";
             GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
         }
-        if(GameTime<=0)
+        if (GameTime <= 0)
         {
-            if(RedTeamScore>BlueTeamScore)
+            if (RedTeamScore > BlueTeamScore)
             {
                 winer = "RedTeam";
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
             }
-            if(BlueTeamScore>RedTeamScore)
+            if (BlueTeamScore > RedTeamScore)
             {
                 winer = "BlueTeam";
                 GameObject.Find("GameEntry").GetComponent<GameMain>().socket.sock_c2s.GameOver();
@@ -164,7 +185,7 @@ public class ScoreModule
     /// <param name="RoomID">据点房间号</param>
     public void AddRoom(int RoomID)
     {
-        StrongHold.Add(new KeyValuePair<int, int>(RoomID, SliderMaxValue/2));
+        StrongHold.Add(new KeyValuePair<int, int>(RoomID, SliderMaxValue / 2));
         HoldTime.Add(0);
     }
     /// <summary>
@@ -185,7 +206,7 @@ public class ScoreModule
     }
     public void AddTeamScoreByPlayerUID(int uid)
     {
-        if(_pvp._pvpplayer.FindPlayerTeamByUID(uid)=="BlueTeam")
+        if (_pvp._pvpplayer.FindPlayerTeamByUID(uid) == "BlueTeam")
         {
             AddBlueTeamScore(1);
         }
