@@ -117,7 +117,7 @@ public class Bullet
         this.penetratePrefab = Resources.Load("Effects/Prefab/penetrate") as GameObject;
 
         //测试buff用
-        attackEffectList.Add((int)bulletType.Penetrate);
+        //attackEffectList.Add((int)bulletType.Penetrate);
     }
     private void BulletContainerInit()
     {
@@ -670,7 +670,7 @@ public class BulletUnion : BulletBase
 
                     if (CollideCheck(spwanedBullet[i], rect) == true)
                     {
-
+                        Debug.Log("Bullet Dmg "+spwanedBullet[i].damage);
                         _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[spwanedBullet[i].roomid][j],(float) spwanedBullet[i].damage, spwanedBullet[i].roomid, spwanedBullet[i].dmgSrcUID);
                         spwanedBullet[i].active = false;
                         //attackEffect逻辑层面的实现

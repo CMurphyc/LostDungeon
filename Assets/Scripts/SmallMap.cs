@@ -50,9 +50,10 @@ public class SmallMap : MonoBehaviour
     void Start()
     {
         canvas = GameObject.Find("Canvas").gameObject;
-        background = Instantiate(BackGround);
-        background.transform.SetParent(canvas.transform);
-        background.GetComponent<RectTransform>().position = 2 * canvas.GetComponent<RectTransform>().position;
+        background = Instantiate(BackGround, canvas.transform);
+        //background.transform.SetParent(canvas.transform);
+        background.GetComponent<RectTransform>().anchoredPosition = 
+        canvas.GetComponent<RectTransform>().position+ new Vector3( canvas.GetComponent<RectTransform>().rect.width/2, canvas.GetComponent<RectTransform>().rect.height / 2);
         // test();
 
         int playerNum = sys._model._RoomModule.GetPlayerSize();
