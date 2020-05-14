@@ -39,7 +39,7 @@ public class HeroSelectUIEvent : MonoBehaviour
         HeroImage.sprite = HeroImageArray[0];
         which = CharacterType.Enginner;
         HeroName.text = "Engineer";
-        HeroDescription.text = "HP:7 Attack:3 MoveSpeed:5 AttackSpeed:0.7 ";
+        HeroDescription.text = "HP:100 \n\nAttack:10 \n\nMoveSpeed:0.8 \n\nAttackSpeed:2.5 ";
         HeroSkills.text = "ZLP50 Self-propelled Fort:Unleash a turret and be able to automatically aim at the enemy.\n\nFD71 Missile:Release a missile, causing damage and slowing down the enemy";
         
     }
@@ -52,7 +52,7 @@ public class HeroSelectUIEvent : MonoBehaviour
         which = CharacterType.Enginner;
         HeroImage.sprite = HeroImageArray[0];
         HeroName.text = "Engineer";
-        HeroDescription.text = "HP:7 Attack:3 MoveSpeed:5 AttackSpeed:0.7 ";
+        HeroDescription.text = "HP:100 \n\nAttack:10 \n\nMoveSpeed:0.8 \n\nAttackSpeed:2.5 ";
         HeroSkills.text = "ZLP50 Self-propelled Fort:Unleash a turret and be able to automatically aim at the enemy.\n\nFD71 Missile:Release a missile, causing damage and slowing down the enemy";
         //main.GetComponent<GameMain>().socket.sock_c2s.ChangeCharacter(CharacterType.Enginner);
     }
@@ -61,7 +61,7 @@ public class HeroSelectUIEvent : MonoBehaviour
         which = CharacterType.Ghost;
         HeroImage.sprite = HeroImageArray[3];
         HeroName.text = "Ghost";
-        HeroDescription.text = "HP:7 Attack:3 MoveSpeed:5 AttackSpeed:0.7 ";
+        HeroDescription.text = "HP:80 \n\nAttack:20 \n\nMoveSpeed:0.8 \n\nAttackSpeed:3 ";
         HeroSkills.text = "Shadow Dance:Dash to the Target Position\n\nSilver Bullet:Increasing Attack Damage in a short period";
         //main.GetComponent<GameMain>().socket.sock_c2s.ChangeCharacter(CharacterType.Enginner);
     }
@@ -70,8 +70,8 @@ public class HeroSelectUIEvent : MonoBehaviour
         which = CharacterType.Warrior;
         HeroImage.sprite = HeroImageArray[1];
         HeroName.text = "Warrior";
-        HeroDescription.text = "HP:11 Attack:5 MoveSpeed:4 AttackSpeed:1.2 ";
-        HeroSkills.text = "Heimdall's Guardian: Blocking enemy skills facing you.\n\nSkadi's Grave: slows down and damages enemies facing in the direction.";
+        HeroDescription.text = "HP:150 \n\nAttack:10 \n\nMoveSpeed:0.4 \n\nAttackSpeed:2 ";
+        HeroSkills.text = "Heimdall's Guardian: Blocking enemy skills facing you.\n\nSkadi's Grave: do much damages enemies facing in the direction.";
         //main.GetComponent<GameMain>().socket.sock_c2s.ChangeCharacter(CharacterType.Warrior);
         
 
@@ -82,7 +82,7 @@ public class HeroSelectUIEvent : MonoBehaviour
         which = CharacterType.Magician;
         HeroImage.sprite = HeroImageArray[2];
         HeroName.text = "Magician";
-        HeroDescription.text = "HP:9 Attack:3 MoveSpeed:6 AttackSpeed:0.4 ";
+        HeroDescription.text = "HP:100 \n\nAttack:10 \n\nMoveSpeed:0.4 \n\nAttackSpeed:3 ";
         HeroSkills.text = "Sigh of Jortonheim: Releasing ice on an area will freeze the enemy.\n\nShirtel's Anger: releasing fire on an area.";
         //main.GetComponent<GameMain>().socket.sock_c2s.ChangeCharacter(CharacterType.Magician);
     }
