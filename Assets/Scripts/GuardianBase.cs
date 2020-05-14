@@ -145,14 +145,9 @@ public class GuardianBase
 
         shield.Add(new Tuple<GameObject,int>(p, frame + (int)(timeSkilll1 * 1000 / Global.FrameRate)));
 
-        if (gifted[1] == 1)
-        {
-            return (int)(1000 / Global.FrameRate * (countdownSkill1 - 1));
-        }
-        else
-        {
+  
             return (int)(1000 / Global.FrameRate * (countdownSkill1));
-        }
+        
     }
 
     public int Skill2Logic(int frame, int RoomID, List<int> gifted, Vector3 pos,Vector3 dir, int dmgSrc)
@@ -168,14 +163,9 @@ public class GuardianBase
         gy.Add(new Tuple<int, FixVector2,int,int>(frame + (int)(800 / Global.FrameRate)
             ,new FixVector2((Fix64)(pos.x + 3.0f * dir.x), (Fix64)(pos.y + 3.0f * dir.y)), RoomID, dmgSrc));
 
-        if (gifted[2] == 1)
-        {
-            return (int)(1000 / Global.FrameRate * (countdownSkill2 - 2));
-        }
-        else
-        {
+    
             return (int)(1000 / Global.FrameRate * (countdownSkill2));
-        }
+        
     }
 
 
@@ -184,14 +174,9 @@ public class GuardianBase
         p.transform.GetChild(2).gameObject.SetActive(true);
         hg.Add(new Tuple<GameObject, int>(p,0));
 
-        if (gifted[2] == 1)
-        {
-            return (int)(1000 / Global.FrameRate * (countdownSkill3 - 2));
-        }
-        else
-        {
+     
             return (int)(1000 / Global.FrameRate * (countdownSkill3));
-        }
+        
     }
     public void updateLogic(int frame)
     {

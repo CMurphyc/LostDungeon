@@ -273,14 +273,9 @@ public class EngineerBase
                 break;
         }
 
-        if (gifted[3] == 1)
-        {
-            return (int)(1000 / Global.FrameRate * (countdownSkill2 - 2));
-        }
-        else
-        {
+
             return (int)(1000 / Global.FrameRate * (countdownSkill2));
-        }
+        
     }
 
 
@@ -298,14 +293,9 @@ public class EngineerBase
             );
         Rocket.Add(p);
 
-        if (gifted[3] == 1)
-        {
-            return (int)(1000 / Global.FrameRate * (countdownSkill3 - 2));
-        }
-        else
-        {
+
             return (int)(1000 / Global.FrameRate * (countdownSkill3));
-        }
+        
     }
 
     public void updateLogic(int frame)
