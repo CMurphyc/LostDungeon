@@ -122,7 +122,7 @@ public class Bullet
         this.sputterPrefab = Resources.Load("Effects/Prefab/sputter") as GameObject;
 
         //测试buff用
-        attackEffectList.Add((int)bulletType.Sputtering);
+        //attackEffectList.Add((int)bulletType.Sputtering);
     }
     private void BulletContainerInit()
     {
@@ -238,6 +238,10 @@ public class PVPBulletUnion : BulletBase
                 //在溅射范围内
                 if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position) <= 5)
                 {
+                    GameObject sp = GameObject.Instantiate(bullet.sputterPrefab);
+                    sp.transform.parent = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform;
+                    sp.transform.position = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position;
+                    UnityEngine.Object.Destroy(sp, 1f);
                     _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj, (int)bullet.damage, bullet.roomid);
                 }
             }
@@ -250,6 +254,10 @@ public class PVPBulletUnion : BulletBase
                 //在溅射范围内
                 if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position) <= 5)
                 {
+                    GameObject sp = GameObject.Instantiate(bullet.sputterPrefab);
+                    sp.transform.parent = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform;
+                    sp.transform.position = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position;
+                    UnityEngine.Object.Destroy(sp, 1f);
                     _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj, (int)bullet.damage, bullet.roomid);
                 }
             }
@@ -447,7 +455,7 @@ public class PVPBulletUnion : BulletBase
                         //Debug.Log("玩家受到攻击");
                         _pvp._pvpplayer.BeAttacked(spwanedBullet[i].dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[j]].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
                         spwanedBullet[i].active = false;
-                        spwanedBullet[j].isHit.Add(j);
+                        spwanedBullet[i].isHit.Add(j);
 
                         SolveEffect(spwanedBullet[i]);
 
