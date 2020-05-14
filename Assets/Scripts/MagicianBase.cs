@@ -176,7 +176,7 @@ public class MagicianBase
 
         for(float i=0;i<=lastTimeSkill1;i+=0.5f)
         {
-            SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), 
+            SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)3.2f, (int)(tc * 1000 / Global.FrameRate), 
                 frame+(int)(i*1000/Global.FrameRate), dmgSrc);
             switch(_sys._model._RoomListModule.roomType)
             {
@@ -228,7 +228,7 @@ public class MagicianBase
             tr *= 1.5f;
         }
 
-        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)tr, (int)(tc * 1000 / Global.FrameRate), frame, dmgSrc);
+        SkillBase tmp = new SkillBase(0, tda, new FixVector2((Fix64)pos.x, (Fix64)pos.y), (Fix64)3.2f, (int)(tc * 1000 / Global.FrameRate), frame, dmgSrc);
 
         switch (_sys._model._RoomListModule.roomType)
         {

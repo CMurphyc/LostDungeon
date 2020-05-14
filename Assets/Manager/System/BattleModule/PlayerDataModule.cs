@@ -720,7 +720,7 @@ public class PlayerDataModule
 
 
 
-        UpdateHP();
+        //UpdateHP();
 
         UpdateBuff();
 
@@ -740,6 +740,7 @@ public class PlayerDataModule
     //obj = 受击OBJECT , dmg = 伤害
     public void BeAttacked(GameObject obj, int dmg,int roomid)
     {
+        dmg = 0;
         if (obj.GetComponent<PlayerModel_Component>().GetMuteki() != 0) return;
 
         if (obj.GetComponent<PlayerModel_Component>().GetHealthPoint()<=0)

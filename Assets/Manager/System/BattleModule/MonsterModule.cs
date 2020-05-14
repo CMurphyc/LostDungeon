@@ -631,7 +631,8 @@ public class MonsterModule
                         if (TargetUID!=-1)
                         {
                             Polygon Poly = new Polygon(PolygonType.Rectangle);
-                            Poly.InitRectangle(ToPosition, FixVector2.Zero, (Fix64)Boss.GetComponent<BoxCollider2D>().size.x, (Fix64)Boss.GetComponent<BoxCollider2D>().size.y);
+                            BoxCollider2D Rect = Boss.GetComponent<BoxCollider2D>();
+                            Poly.InitRectangle(ToPosition, FixVector2.Zero, (Fix64)Rect.size.x, (Fix64)Rect.size.y);
 
 
                            

@@ -142,8 +142,8 @@ public class RoomCreate : MonoBehaviour
 
                 if (!sys._model._BagModule.PlayerBag.ContainsKey(PlayerList[i].uid))
                 {
-                    if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
-                    tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+                    //if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                    //tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
                     continue;
                 }
 
@@ -162,8 +162,8 @@ public class RoomCreate : MonoBehaviour
 
                     //Debug.Log("bbbbbbb" + x.ItemID);
                 }
-                if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
-                tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
+                //if (!sys._model._BagModule.PlayerHP.ContainsKey(PlayerList[i].uid)) continue;
+                //tplayer.GetComponent<PlayerModel_Component>().SetHealthPoint(sys._model._BagModule.PlayerHP[PlayerList[i].uid]);
 
 
 

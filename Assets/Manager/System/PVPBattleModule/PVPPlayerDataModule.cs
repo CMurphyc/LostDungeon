@@ -691,7 +691,7 @@ public class PVPPlayerDataModule
 
 
 
-        UpdateHP();
+        //UpdateHP();
 
         UpdateBuff();
 

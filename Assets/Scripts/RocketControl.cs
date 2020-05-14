@@ -51,7 +51,7 @@ public class RocketControl : MonoBehaviour
                 {
                     Fix64 dist = FixVector2.Distance(pos,
                         new FixVector2(x.GetComponent<MonsterModel_Component>().position.x, x.GetComponent<MonsterModel_Component>().position.y));
-                    if (dist <= (Fix64)0.3f)
+                    if (dist <= (Fix64)0.8f)
                     {
                         SkillBase tmp = new SkillBase(0, damage, pos, radius, 0, frame + 1, userID);
                         _parentManager._skill.Add(tmp, roomID);
@@ -72,7 +72,7 @@ public class RocketControl : MonoBehaviour
                     {
                         FixVector2 plerpos = _parentManager.sys._pvpbattle._pvpplayer.FindPlayerObjByUID(x).GetComponent<PlayerModel_Component>().playerPosition;
                         Fix64 dist = FixVector2.Distance(pos, plerpos);
-                        if (dist <= (Fix64)0.3f)
+                        if (dist <= (Fix64)0.8f)
                         {
                             SkillBase tmp = new SkillBase(0, damage, pos, radius, 0, frame + 1, userID);
                             _parentManager.sys._pvpbattle._pvpskill.Add(tmp, roomID);
