@@ -117,7 +117,7 @@ public class Bullet
         this.penetratePrefab = Resources.Load("Effects/Prefab/penetrate") as GameObject;
 
         //测试buff用
-        //attackEffectList.Add((int)bulletType.Penetrate);
+        // attackEffectList.Add((int)bulletType.Penetrate);
     }
     private void BulletContainerInit()
     {
@@ -140,7 +140,7 @@ public class Bullet
 
     public int GetSplitNum()
     {
-        // return 3;
+        return 1;
         return splitEffectList.Count;
     }
 }
@@ -889,7 +889,7 @@ class Converter
         Fix64 length = Fix64.Sqrt(v.x * v.x + v.y * v.y);
         Fix64 originAngle = Fix64.Atan2(v.y , v.x);
 
-        if(v.x < Fix64.Zero) originAngle += Fix64.PI;
+        // if(v.x < Fix64.Zero) originAngle += Fix64.PI;
         
         FixVector2 rotateVector = new FixVector2(length * Fix64.Cos(originAngle + DegreeToRadian(rotateAngle)), length * Fix64.Sin(originAngle + DegreeToRadian(rotateAngle)));
 
