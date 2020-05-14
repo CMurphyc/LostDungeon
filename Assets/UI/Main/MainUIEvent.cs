@@ -52,9 +52,4 @@ public class MainUIEvent : MonoBehaviour
         main.GetComponent<GameMain>().socket.sock_c2s.GetRoomList(roomType);
         print("Select PVP and GetRoomList Request Send");
     }
-
-    public void OnBtnReturn()
-    {
-        // main.GetComponent<GameMain>().WorldSystem._map.SwitchScene("LoginPanel");
-    }
 }
