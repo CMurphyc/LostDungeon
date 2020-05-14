@@ -118,7 +118,7 @@ public class Bullet
         this.penetratePrefab = Resources.Load("Effects/Prefab/penetrate") as GameObject;
 
         //测试buff用
-        // attackEffectList.Add((int)bulletType.Penetrate);
+        attackEffectList.Add((int)bulletType.Penetrate);
     }
     private void BulletContainerInit()
     {
@@ -324,6 +324,33 @@ public class PVPBulletUnion : BulletBase
         if(rect.horizon > rect.vertical) bullet.toward = new FixVector2(bullet.toward.x, -bullet.toward.y);
     }
 
+    private void PenetrateEffect(Bullet bullet, GameObject obj)
+    {
+        GameObject penetrate = GameObject.Instantiate(bullet.penetratePrefab);
+        penetrate.transform.parent = obj.transform;
+        penetrate.transform.position = obj.transform.position;
+        UnityEngine.Object.Destroy(penetrate, 0.5f);
+    }
+
+    private void SolveEffect(Bullet bullet)
+    {
+        foreach (var effect in bullet.attackEffectList)
+        {
+            switch (effect)
+            {
+                case (int)bulletType.Penetrate:
+                    Penetrate(bullet);
+                    break;
+                // case (int)bulletType.Sputtering:
+                //     Sputtering(bullet);
+                //     break;
+                // case (int)bulletType.LightningChain:
+                //     LightningChain(bullet);
+                //     break;
+            }
+        }
+    }
+
     public override void LogicUpdate()
     {
 
@@ -331,16 +358,23 @@ public class PVPBulletUnion : BulletBase
         {
             if (spwanedBullet[i].tag == "BlueTeam")
             {
-                foreach (var item in _pvp._pvpplayer.RedTeam)
+                for(int j = 0; j < _pvp._pvpplayer.RedTeam.Count; ++j)
                 {
-                    PlayerModel_Component PlayerComp = _pvp._pvpplayer.playerToPlayer[item].obj.GetComponent<PlayerModel_Component>();
+                    if(spwanedBullet[i].isHit.Contains(j)) continue;
+                    PlayerModel_Component PlayerComp = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[j]].obj.GetComponent<PlayerModel_Component>();
                     CollideDetecter collideDetecter = new CollideDetecter();
                     Rectangle rect = new Rectangle(new FixVector2((Fix64)PlayerComp.GetPlayerPosition().x, (Fix64)PlayerComp.GetPlayerPosition().y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
                         //Debug.Log("玩家受到攻击");
-                        _pvp._pvpplayer.BeAttacked(spwanedBullet[i].dmgSrcUID,_pvp._pvpplayer.playerToPlayer[item].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
+                        _pvp._pvpplayer.BeAttacked(spwanedBullet[i].dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[j]].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
                         spwanedBullet[i].active = false;
+                        spwanedBullet[i].isHit.Add(j);
+
+                        SolveEffect(spwanedBullet[i]);
+
+                        if(spwanedBullet[i].active == true) PenetrateEffect(spwanedBullet[i], _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[j]].obj);
+
                         //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，且可能吃buff穿越怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历，但必须判
                         if (spwanedBullet[i].active == false) break;
                     }
@@ -348,16 +382,23 @@ public class PVPBulletUnion : BulletBase
             }
             else
             {
-                foreach (var item in _pvp._pvpplayer.BlueTeam)
+                for(int j = 0; j < _pvp._pvpplayer.BlueTeam.Count; ++j)
                 {
-                    PlayerModel_Component PlayerComp = _pvp._pvpplayer.playerToPlayer[item].obj.GetComponent<PlayerModel_Component>();
+                    if(spwanedBullet[i].isHit.Contains(j)) continue;
+                    PlayerModel_Component PlayerComp = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[j]].obj.GetComponent<PlayerModel_Component>();
                     CollideDetecter collideDetecter = new CollideDetecter();
                     Rectangle rect = new Rectangle(new FixVector2((Fix64)PlayerComp.GetPlayerPosition().x, (Fix64)PlayerComp.GetPlayerPosition().y), new FixVector2((Fix64)1, (Fix64)1), (Fix64)1, (Fix64)1);
                     if (collideDetecter.PointInRectangle(spwanedBullet[i].anchor, rect) == true)
                     {
                         //Debug.Log("玩家受到攻击");
-                        _pvp._pvpplayer.BeAttacked(spwanedBullet[i].dmgSrcUID,_pvp._pvpplayer.playerToPlayer[item].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
+                        _pvp._pvpplayer.BeAttacked(spwanedBullet[i].dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[j]].obj, (int)spwanedBullet[i].damage, spwanedBullet[i].roomid);
                         spwanedBullet[i].active = false;
+                        spwanedBullet[j].isHit.Add(j);
+
+                        SolveEffect(spwanedBullet[i]);
+
+                        if(spwanedBullet[i].active == true) PenetrateEffect(spwanedBullet[i], _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[j]].obj);
+
                         //理论上一个子弹（不考虑穿刺）只可能击中一个怪物，且可能吃buff穿越怪物，所以特判穿刺之外的其他情况在找到一个碰撞的就可以停止遍历，但必须判
                         if (spwanedBullet[i].active == false) break;
                     }

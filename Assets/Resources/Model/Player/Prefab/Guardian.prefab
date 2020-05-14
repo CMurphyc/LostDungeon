@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2028834293
   m_SortingLayer: 5
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 76603d2288ba1f643b4313fe5cf79ddd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -228,7 +228,7 @@ PrefabInstance:
     - target: {fileID: 5260321392085956587, guid: c47ec240af7db2c42bf8af7b2c8292b2,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c47ec240af7db2c42bf8af7b2c8292b2, type: 3}
@@ -245,6 +245,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8933406564166489348}
     m_Modifications:
+    - target: {fileID: 2927376103950514334, guid: b5cc88828b0ca7944839f6e5675782c3,
+        type: 3}
+      propertyPath: m_Name
+      value: weapons3_23_0
+      objectReference: {fileID: 0}
     - target: {fileID: 2166738875454500080, guid: b5cc88828b0ca7944839f6e5675782c3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -310,11 +315,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2927376103950514334, guid: b5cc88828b0ca7944839f6e5675782c3,
-        type: 3}
-      propertyPath: m_Name
-      value: weapons3_23_0
-      objectReference: {fileID: 0}
     - target: {fileID: 3026231621001179913, guid: b5cc88828b0ca7944839f6e5675782c3,
         type: 3}
       propertyPath: m_SortingLayerID
@@ -328,7 +328,7 @@ PrefabInstance:
     - target: {fileID: 3026231621001179913, guid: b5cc88828b0ca7944839f6e5675782c3,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3026231621001179913, guid: b5cc88828b0ca7944839f6e5675782c3,
         type: 3}
@@ -350,6 +350,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8933406564166489348}
     m_Modifications:
+    - target: {fileID: 1083325244583928285, guid: 3e81c37a3b31e3343985a686edcdb146,
+        type: 3}
+      propertyPath: m_Name
+      value: skill_effect_priest_cast_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083325244583928285, guid: 3e81c37a3b31e3343985a686edcdb146,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7446171462402687781, guid: 3e81c37a3b31e3343985a686edcdb146,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -415,16 +425,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 1083325244583928285, guid: 3e81c37a3b31e3343985a686edcdb146,
-        type: 3}
-      propertyPath: m_Name
-      value: skill_effect_priest_cast_0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1083325244583928285, guid: 3e81c37a3b31e3343985a686edcdb146,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1413851728391054464, guid: 3e81c37a3b31e3343985a686edcdb146,
         type: 3}
       propertyPath: m_Color.a
@@ -455,6 +455,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8933406564166489348}
     m_Modifications:
+    - target: {fileID: 6687477177638323884, guid: c83950fb4e1dfa3479d5d117f73e713f,
+        type: 3}
+      propertyPath: m_Name
+      value: bottom_circle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687477177638323884, guid: c83950fb4e1dfa3479d5d117f73e713f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 801063838398850449, guid: c83950fb4e1dfa3479d5d117f73e713f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -518,16 +528,6 @@ PrefabInstance:
     - target: {fileID: 801063838398850449, guid: c83950fb4e1dfa3479d5d117f73e713f,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6687477177638323884, guid: c83950fb4e1dfa3479d5d117f73e713f,
-        type: 3}
-      propertyPath: m_Name
-      value: bottom_circle
-      objectReference: {fileID: 0}
-    - target: {fileID: 6687477177638323884, guid: c83950fb4e1dfa3479d5d117f73e713f,
-        type: 3}
-      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3693841280204068528, guid: c83950fb4e1dfa3479d5d117f73e713f,

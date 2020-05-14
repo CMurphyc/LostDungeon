@@ -31,7 +31,7 @@ namespace Pathfinding {
 		/// <summary>Cached gui style</summary>
 		static GUIStyle gridPivotSelectButton;
 
-		static readonly float standardIsometric = 90-Mathf.Atan(1/Mathf.Sqrt(2))*Mathf.Rad2Deg;
+		static readonly float standardIsometric = 90-Mathf.Atan2(1, Mathf.Sqrt(2))*Mathf.Rad2Deg;
 		static readonly float standardDimetric = Mathf.Acos(1/2f)*Mathf.Rad2Deg;
 
 		/// <summary>Rounds a vector's components to multiples of 0.5 (i.e 0.5, 1.0, 1.5, etc.) if very close to them</summary>

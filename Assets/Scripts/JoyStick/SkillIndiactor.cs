@@ -187,12 +187,12 @@ public class SkillIndiactor : MonoBehaviour
                     //Debug.Log("Degree : "+Mathf.Atan(v.y / v.x) * 180f / Mathf.PI);
                     if (v.x >= 0)
                     {
-                        indiactor[areaType].GetChild(0).eulerAngles = new Vector3(0, 0, Mathf.Atan(v.y / v.x) * 180f / Mathf.PI - 90);
+                        indiactor[areaType].GetChild(0).eulerAngles = new Vector3(0, 0, Mathf.Atan2(v.y , v.x) * 180f / Mathf.PI - 90);
 
                     }
                     else
                     {
-                        indiactor[areaType].GetChild(0).eulerAngles = new Vector3(0, 0, Mathf.Atan(v.y / v.x) * 180f / Mathf.PI + 90);
+                        indiactor[areaType].GetChild(0).eulerAngles = new Vector3(0, 0, Mathf.Atan2(v.y , v.x) * 180f / Mathf.PI -90);
                     }
                        // new Quaternion(0, 0, Mathf.Atan(v.y / v.x),0);
                         

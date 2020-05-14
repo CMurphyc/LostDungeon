@@ -10,13 +10,13 @@ public class PVPBattleManager
 
     public PVPPlayerDataModule _pvpplayer;
     public SummonModule _summon;
-    public ChestModule _chest;
+    public PVPChestModule _chest;
     public PVPSkillModule _pvpskill;
     public PVPTerrainModule _pvpterrain;
     public TextJumpModule _textjump;
     public ScoreModule _score;
 
-    public int Seed;
+    public int Seed=114514;
     public int SeverFrame;
 
     public PVPBattleManager(SystemManager system)
@@ -30,6 +30,7 @@ public class PVPBattleManager
         _pvpterrain = new PVPTerrainModule(this);
         _textjump = new TextJumpModule();
         _score = new ScoreModule(this);
+        _chest = new PVPChestModule(this);
 
     }
 
@@ -48,6 +49,7 @@ public class PVPBattleManager
         _pvpskill.UpdateLogic(local_frame);
         _pvpterrain.UpdateLogic(local_frame);
         _score.UpdateLogic(local_frame);
+        _chest.UpdateLogic(local_frame);
         local_frame++;
     }
 
@@ -59,6 +61,7 @@ public class PVPBattleManager
         _pvpterrain.UpdateView();
         _textjump.UpdateView();
         _score.UpdateView();
+        _chest.UpdateView();
     }
 
     public void ReleaseMemory()
@@ -69,5 +72,6 @@ public class PVPBattleManager
         _pvpterrain.Free();
         _textjump.Free();
         _score.Free();
+        _chest.Free();
     }
 }
