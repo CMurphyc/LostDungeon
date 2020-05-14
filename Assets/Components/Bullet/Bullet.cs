@@ -75,6 +75,7 @@ public class Bullet
     public GameObject bulletPrefab;
     public GameObject lightningPrefab;
     public GameObject penetratePrefab;
+    public GameObject sputterPrefab;
     public List<bulletType> itemList;
     public List<int> splitEffectList;
     public List<int> attackEffectList;
@@ -117,8 +118,11 @@ public class Bullet
         //预载穿刺prefab
         this.penetratePrefab = Resources.Load("Effects/Prefab/penetrate") as GameObject;
 
+        //预载溅射prefab
+        this.sputterPrefab = Resources.Load("Effects/Prefab/sputter") as GameObject;
+
         //测试buff用
-        //attackEffectList.Add((int)bulletType.Penetrate);
+        attackEffectList.Add((int)bulletType.Sputtering);
     }
     private void BulletContainerInit()
     {
@@ -635,6 +639,11 @@ public class BulletUnion : BulletBase
             //在溅射范围内
             if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position) <= 5)
             {
+                GameObject sp = GameObject.Instantiate(bullet.sputterPrefab);
+                sp.transform.parent = _parentManager._monster.RoomToMonster[bullet.roomid][i].transform;
+                sp.transform.position = _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position;
+                UnityEngine.Object.Destroy(sp, 1f);
+
                 _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid, bullet.dmgSrcUID);
             }
         }
