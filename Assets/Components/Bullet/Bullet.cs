@@ -224,58 +224,108 @@ public class PVPBulletUnion : BulletBase
     }
 
     //溅射
-    /*
     private void Sputtering(Bullet bullet)
     {
-        for (int i = 0; i < _pvp._pvpplayer.EnemyTeam[bullet.roomid].Count; ++i)
+        if(bullet.tag == "BlueTeam")
         {
-            //获取真实的敌对单位位置的接口，待对接
-            //在溅射范围内
-            if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position) <= 20)
+            for (int i = 0; i < _pvp._pvpplayer.RedTeam.Count; ++i)
             {
-                _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid,bullet.dmgSrcUID);
+                //获取真实的敌对单位位置的接口，待对接
+                //在溅射范围内
+                if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position) <= 20)
+                {
+                    _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj, (int)bullet.damage, bullet.roomid);
+                }
+            }
+        }
+        else 
+        {
+            for (int i = 0; i < _pvp._pvpplayer.BlueTeam.Count; ++i)
+            {
+                //获取真实的敌对单位位置的接口，待对接
+                //在溅射范围内
+                if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position) <= 20)
+                {
+                    _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj, (int)bullet.damage, bullet.roomid);
+                }
             }
         }
     }
-    */
+    
     //闪电链
-    /*
+    
     private void LightningChain(Bullet bullet)
     {
         List<Fix64> enemyDistance = new List<Fix64>();
-        for (int i = 0; i < _parentManager._monster.RoomToMonster[bullet.roomid].Count; ++i)
+        
+        if(bullet.tag == "RedTeam")
         {
-            //获取真实的敌对单位位置的接口，待对接
-            enemyDistance.Add(FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)));
-        }
-
-        enemyDistance.Sort();
-
-        List<Fix64> beLightnedEnemy = new List<Fix64>();
-        for(int i = 0; i < Mathf.Min(3, enemyDistance.Count); ++i) beLightnedEnemy.Add(enemyDistance[i]);
-
-
-        for (int i = 0; i < _parentManager._monster.RoomToMonster[bullet.roomid].Count; ++i)
-        {
-            foreach(var it in beLightnedEnemy)
+            for (int i = 0; i < _pvp._pvpplayer.BlueTeam.Count; ++i)
             {
-                //获取真实的敌对单位位置
-                if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position)) == it)
+                //获取真实的敌对单位位置的接口，待对接
+                enemyDistance.Add(FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position)));
+            }
+
+            enemyDistance.Sort();
+
+            List<Fix64> beLightnedEnemy = new List<Fix64>();
+            for(int i = 0; i < Mathf.Min(3, enemyDistance.Count); ++i) beLightnedEnemy.Add(enemyDistance[i]);
+
+
+            for (int i = 0; i < _pvp._pvpplayer.BlueTeam.Count; ++i)
+            {
+                foreach(var it in beLightnedEnemy)
                 {
+                    //获取真实的敌对单位位置
+                    if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position)) == it)
+                    {
 
-                    GameObject lightning = GameObject.Instantiate(bullet.lightningPrefab);
-                    lightning.transform.parent = _parentManager._monster.RoomToMonster[bullet.roomid][i].transform;
-                    lightning.transform.position = _parentManager._monster.RoomToMonster[bullet.roomid][i].transform.position;
-                    UnityEngine.Object.Destroy(lightning, 1f);
+                        GameObject lightning = GameObject.Instantiate(bullet.lightningPrefab);
+                        lightning.transform.parent = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform;
+                        lightning.transform.position = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position;
+                        UnityEngine.Object.Destroy(lightning, 1f);
 
-                    _parentManager._monster.BeAttacked(_parentManager._monster.RoomToMonster[bullet.roomid][i], 1f, bullet.roomid, bullet.dmgSrcUID);
+                         _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj, (int)bullet.damage, bullet.roomid);
 
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _pvp._pvpplayer.RedTeam.Count; ++i)
+            {
+                //获取真实的敌对单位位置的接口，待对接
+                enemyDistance.Add(FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position)));
+            }
+
+            enemyDistance.Sort();
+
+            List<Fix64> beLightnedEnemy = new List<Fix64>();
+            for(int i = 0; i < Mathf.Min(3, enemyDistance.Count); ++i) beLightnedEnemy.Add(enemyDistance[i]);
+
+
+            for (int i = 0; i < _pvp._pvpplayer.RedTeam.Count; ++i)
+            {
+                foreach(var it in beLightnedEnemy)
+                {
+                    //获取真实的敌对单位位置
+                    if (FixVector2.Distance(bullet.anchor, Converter.Vector2ToFixVector2(_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position)) == it)
+                    {
+
+                        GameObject lightning = GameObject.Instantiate(bullet.lightningPrefab);
+                        lightning.transform.parent = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform;
+                        lightning.transform.position = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position;
+                        UnityEngine.Object.Destroy(lightning, 1f);
+
+                         _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj, (int)bullet.damage, bullet.roomid);
+
+                    }
                 }
             }
         }
 
     }
-    */
     //穿透
     private void Penetrate(Bullet bullet)
     {
@@ -341,12 +391,12 @@ public class PVPBulletUnion : BulletBase
                 case (int)bulletType.Penetrate:
                     Penetrate(bullet);
                     break;
-                // case (int)bulletType.Sputtering:
-                //     Sputtering(bullet);
-                //     break;
-                // case (int)bulletType.LightningChain:
-                //     LightningChain(bullet);
-                //     break;
+                case (int)bulletType.Sputtering:
+                    Sputtering(bullet);
+                    break;
+                case (int)bulletType.LightningChain:
+                    LightningChain(bullet);
+                    break;
             }
         }
     }
