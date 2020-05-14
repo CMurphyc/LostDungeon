@@ -805,11 +805,11 @@ public class PlayerDataModule
                 //工程师
                 if (frameInfo[i].AttackType == (int)AttackType.BasicAttack)
                 {
-                    if (_parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid) == CharacterType.Enginner)
+                    if (_parentManager.sys._model._RoomModule.GetCharacterType(frameInfo[i].Uid) != CharacterType.Magician)
                     {
                         Vector2 GunToward = new Vector2(frameInfo[i].AttackDirectionX, frameInfo[i].AttackDirectionY).normalized;
                         GameObject player = playerToPlayer[frameInfo[i].Uid].obj;
-                        GameObject Gun = player.transform.Find("weapon").gameObject;
+                        GameObject Gun = player.transform.GetChild(0).gameObject;
                         float degree = Mathf.Atan2(GunToward.y, GunToward.x) * 180f / Mathf.PI;
 
                         if (degree != 0)

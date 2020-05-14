@@ -244,7 +244,7 @@ public class TerrainModule
                 Debug.Log(FixVector2.Distance(pos, doorAnchor));
                 Debug.Log("-------------------");
                 */
-                if (FixVector2.Distance(pos, doorAnchor) <= (Fix64)0.8f && _parentManager._monster.GetMonsterNumber(RoomId) == 0)//这里加一个monstermodule的是否没怪
+                if (FixVector2.Distance(pos, doorAnchor) <= (Fix64)1.2f && _parentManager._monster.GetMonsterNumber(RoomId) == 0)//这里加一个monstermodule的是否没怪
                 {
                     //&& ( _parentManager._monster.GetMonsterNumber(RoomId))==0
 
