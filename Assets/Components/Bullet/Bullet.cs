@@ -239,8 +239,8 @@ public class PVPBulletUnion : BulletBase
                 if (Vector2.Distance(Converter.FixVector2ToVector2(bullet.anchor), _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position) <= 5)
                 {
                     GameObject sp = GameObject.Instantiate(bullet.sputterPrefab);
-                    sp.transform.parent = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform;
-                    sp.transform.position = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.BlueTeam[i]].obj.transform.position;
+                    sp.transform.parent = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform;
+                    sp.transform.position = _pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj.transform.position;
                     UnityEngine.Object.Destroy(sp, 1f);
                     _pvp._pvpplayer.BeAttacked(bullet.dmgSrcUID,_pvp._pvpplayer.playerToPlayer[_pvp._pvpplayer.RedTeam[i]].obj, (int)bullet.damage, bullet.roomid);
                 }
