@@ -61,7 +61,7 @@ LostDungeon is a dungeon game inspired by "Soul Knight" and "The Binding of Isaa
 
 - PvE GameOver(PvP is similar)
 
-![PvEGameOver](https://lpzssw.sn.files.1drv.com/y4m0KpXlDG9X0_VJ35TcOPOhsFxr00RNFAbvHe3yikwJvo1Oia3VGjgWbskqWulxvvQ3uSYOAvHCq7DzbDN0S8zoUy_XQbzNJLtqP-tnzW2sZWTzBZ_ifGJrU-sPSuC3hemRpu_616elLVn2GqVWpqanPDzulAAV_DqkGoWLRgpYGqw82R4vdbRZI9ViNjanK8PPA8XahvxyAbq0Ex2HBAMxg?width=1276&height=602&cropmode=none "PvE GameOver")
+![PvEGameOver](https://raw.githubusercontent.com/CMurphyc/LostDungeon/czh/ScreemShots/pve_ch_select.gif)
 
 ## References
 - [**Soul Knight**](http://www.chillyroom.com/zh)
