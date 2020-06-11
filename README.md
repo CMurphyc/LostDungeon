@@ -1,26 +1,65 @@
-# 迷失地牢
+![icon](https://l5zssw.sn.files.1drv.com/y4muBp3E03bbj97LMn2R4GzeAqQBs3UVZ0px2K1My30s3ts4SjBS59haTWlVz155Um6lwBkLyRAdK1F5kvk2zRPxRbQGId_3Y2TTaeE_blviF1zOaYLV5XHX06gOtjiZjiNbw8VHseW8aYwk-GhMQSwHDIsQVlF1PqjqtkY2d9Ck3se8pD5wIZQbldyAaGFMbHdEVlUJJPvHFbAqoq-wxCAZw?width=256&height=256&cropmode=none "icon")
+# LostDungeon
 
-#### 软件架构
-软件架构说明
-采取ECS基本架构，系统管理对象，对象挂Component组件。 
+## About
+LostDungeon is a dungeon game inspired by "Soul Knight" and "The Binding of Isaac" and support multiplayer play together.All resources that relevant to "Soul Knight" and "The Binding of Isaac" has been removed from this repo.
 
-Components ---玩家/NPC/BOSS挂的组件
+## Architectural Pattern
 
-EventHandler ---事件统一接受处理地方
+**Basic ECS architectural pattern**
+
+- Components ---component of Player/NPC/BOSS
+
+- EventHandler ---where events are accepted and handled uniformly
  
-Manager ---系统模块 
+- Manager ---system module
  
-ModelList  ---初始化模块，当前玩家姓名，玩家背包信息，房间信息等等需要缓存的信息。
+- ModelList  ---initial module, player_name, player_item_info, room_info and more...
  
-Network --网络模块, 网络的收发处理统一管理
+- Network --network module, unified management of network transceiver
  
-Resources --资源库，放预制体，音乐文件，各种需要加载的资源存放的地方
+- Resources --where to store various resources that need to be loaded
  
-Scenes --有可能切换的场景， eg: 登录界面，登录后主界面， 组队界面，房间列表界面， 以及战斗界面
+- Scenes --scene library
  
-UI -- 所有界面对应的 相应事件， 一个界面一个分支
+- UI -- events of unified interface
  
-Utils ---经常被全局调用的函数以及库文件， 比如定点数库，和定点数和浮点数的转化， int 转Byte 和byte转int
+- Utils ---functions and library files that are often used, for example fixed-point number library and collide_detect_module
  
-GameMain.cs  ---游戏主入口， 初始化所有模块
- 
+- GameMain.cs  ---entrance of game
+
+## Project status
+**Implemented:**
+- [X] MultiPlayer Online(base on room system)
+- [X] Basic UI
+- [X] Exclusive skills of four unique heros with cool effects
+- [X] Three challenging Boss with different attack mode
+- [X] Interesting monsters
+- [X] Dungeon random generation
+- [X] Monster random generation
+- [X] Props random generation
+- [X] Mini map with Fog of War
+- [X] GamePoint settlement
+- [X] Various of BulletType
+- [X] Resurrection teammate
+- [X] PvP(similar to Capture The Flag)
+- [X] PvE
+
+**Not implemented:**
+- [ ] Tutorial
+- [ ] Props bag(In this version all props will be used instantly when it is picked up)
+- [ ] Teammate location display
+
+## ScreenShots
+- Login interface
+
+![Login](https://m5zssw.sn.files.1drv.com/y4m4zb7vrV0GLqwqqP8v4yIuxQqs-p-T9V9_qB83KQOtU5v73PjDbT1l78xTWDjHRGcq36YN8MgHiYizSaoKQX4yFg1bH29ahfLs0wCDPWCNWpz5WJSwtPMLgzFfcvcG-XXk8YuamhLpB1ZPlidj-pjph0eqMMJOFKqsw-7tv5_27Rl-bngD4GepsUCGDRLeISRekJqXgacbGQ-CW7p8j8myg?width=1276&height=594&cropmode=none "Login")
+
+- PvE Character Select
+
+![PvE](https://njzssw.sn.files.1drv.com/y4mhtoVWaA621Oo2YXfx2hQuoy1JG0wFJH3OsboFzfCRudrp7Qapl0vjbGCwTcbyB4hRQwD6u4k67ByKSsFfH5ddPa96FvOwW8o5dvu3KC31vlMFAfcJmh7xpuBdqTZbbIqX1qJ8M4OMvqQKj5_cUprFCu5SvMbDYdhLQoGUT5byx4lCncp6tmfMgwqjRwhH1Ex2rRu81A-BndotEb_UmOgew?width=1280&height=600&cropmode=none "PvE")
+
+## References
+- [**Soul Knight**](http://www.chillyroom.com/zh)
+- [**The Binding of Isaac**](https://bindingofisaac.com/)
+- [**Darkest Dungeon**](http://www.darkestdungeon.com/)
