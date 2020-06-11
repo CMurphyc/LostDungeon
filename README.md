@@ -57,11 +57,11 @@ LostDungeon is a dungeon game inspired by "Soul Knight" and "The Binding of Isaa
 
 - PvE Character Select
 
-![PvE](https://njzssw.sn.files.1drv.com/y4mhtoVWaA621Oo2YXfx2hQuoy1JG0wFJH3OsboFzfCRudrp7Qapl0vjbGCwTcbyB4hRQwD6u4k67ByKSsFfH5ddPa96FvOwW8o5dvu3KC31vlMFAfcJmh7xpuBdqTZbbIqX1qJ8M4OMvqQKj5_cUprFCu5SvMbDYdhLQoGUT5byx4lCncp6tmfMgwqjRwhH1Ex2rRu81A-BndotEb_UmOgew?width=1280&height=600&cropmode=none "PvE")
+![PvE](https://raw.githubusercontent.com/CMurphyc/LostDungeon/czh/ScreemShots/pve_ch_select.gif)
 
 - PvE GameOver(PvP is similar)
 
-![PvEGameOver](https://raw.githubusercontent.com/CMurphyc/LostDungeon/czh/ScreemShots/pve_ch_select.gif)
+![PvEGameOver](https://lpzssw.sn.files.1drv.com/y4m0KpXlDG9X0_VJ35TcOPOhsFxr00RNFAbvHe3yikwJvo1Oia3VGjgWbskqWulxvvQ3uSYOAvHCq7DzbDN0S8zoUy_XQbzNJLtqP-tnzW2sZWTzBZ_ifGJrU-sPSuC3hemRpu_616elLVn2GqVWpqanPDzulAAV_DqkGoWLRgpYGqw82R4vdbRZI9ViNjanK8PPA8XahvxyAbq0Ex2HBAMxg?width=1276&height=602&cropmode=none)
 
 ## References
 - [**Soul Knight**](http://www.chillyroom.com/zh)
